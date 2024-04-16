@@ -7,7 +7,7 @@ import opt_einsum
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 class SSM:
-    def __init__(self, A, B, C, phi=None, init=None, bias=None):
+    def __init__(self, A, B, C, phi=None, init=None, bias=None, device=DEVICE):
         self.A = A
         self.B = B
         self.C = C
@@ -16,15 +16,15 @@ class SSM:
         Y, X4 = self.C.shape
         assert X == X2 == X3 == X4
         if bias is None:
-            self.bias = torch.zeros(Y)
+            self.bias = torch.zeros(Y, device=device)
         else:
             self.bias = bias
         if phi is None:
-            self.phi = torch.eye(Y)
+            self.phi = torch.eye(Y, device=device)
         else:
             self.phi = phi
         if init is None:
-            self.init = torch.eye(X)[0]
+            self.init = torch.eye(X, device=device)[0]
         else:
             self.init = init
 
@@ -43,10 +43,10 @@ class SSM:
             x = self.A @ x + self.B @ self.phi[symbol]
         return score
 
-def train(K, S, data, print_every=1000, **kwds):
-    A_diag = torch.randn(K, requires_grad=True)
-    B = torch.randn(K, S, requires_grad=True)
-    C = torch.randn(S, K, requires_grad=True)
+def train(K, S, data, print_every=1000, device=DEVICE, **kwds):
+    A_diag = torch.randn(K, requires_grad=True, device=device)
+    B = torch.randn(K, S, requires_grad=True, device=device)
+    C = torch.randn(S, K, requires_grad=True, device=device)
     opt = torch.optim.AdamW(params=[A_diag, B, C], **kwds)
     for i, xs in enumerate(data):
         opt.zero_grad()
@@ -83,6 +83,12 @@ def random_star_ab(S=3, T=4):
         s = [random.choice(range(3)) for _ in range(T)]
         if not any(x == 0 and y == 1 for x, y in zip(s, s[1:])):
              return s
+
+def random_and():
+    V1 = random.choice([0,1])
+    V2 = random.choice([0,1])
+    V3 = 1 if V1 and V2 else random.choice([0,1])
+    return [V1, V2, V3]
 
 def random_tiptup():
     C1 = random.choice([0,1])
