@@ -104,7 +104,7 @@ def evaluate_and(model):
     bad = [
         [1,1,0],
     ]
-    return evaluate_model(model, good, bad)
+    return evaluate_model_unpaired(model, good, bad)
 
 def evaluate_tiptup(model):
     good = [
@@ -119,9 +119,10 @@ def evaluate_tiptup(model):
         [1,3,1],
         [0,3,0]
     ]
-    return evaluate_model(model, good, bad)
+    return evaluate_model_unpaired(model, good, bad)
 
-def evaluate_model(model, good_strings, bad_strings):
+def evaluate_model_unpaired(model, good_strings, bad_strings):
+    """ Do a pairwise comparison of log likelihood for all good and bad strings. """
     def gen():
         for good in good_strings:
             for bad in bad_strings:
