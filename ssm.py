@@ -2,6 +2,7 @@
 import random
 
 import torch
+import pandas as pd
 import opt_einsum
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -89,6 +90,46 @@ def random_and():
     V2 = random.choice([0,1])
     V3 = 1 if V1 and V2 else random.choice([0,1])
     return [V1, V2, V3]
+
+def evaluate_and(model):
+    good = [
+        [0,0,0],
+        [0,0,1],
+        [0,1,0],
+        [0,1,1],
+        [1,0,0],
+        [1,0,1],
+        [1,1,1],
+    ]
+    bad = [
+        [1,1,0],
+    ]
+    return evaluate_model(model, good, bad)
+
+def evaluate_tiptup(model):
+    good = [
+        [0,2,0],
+        [1,2,1],
+        [0,3,1],
+        [1,3,0],
+    ]
+    bad = [
+        [1,2,0],
+        [0,2,1],
+        [1,3,1],
+        [0,3,0]
+    ]
+    return evaluate_model(model, good, bad)
+
+def evaluate_model(model, good_strings, bad_strings):
+    def gen():
+        for good in good_strings:
+            for bad in bad_strings:
+                yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
+    df = pd.DataFrame(list(gen()))
+    df.columns = ['good', 'bad', 'good_score', 'bad_score']
+    df['diff'] = df['good_score'] - df['bad_score']
+    return df
 
 def random_tiptup():
     C1 = random.choice([0,1])
