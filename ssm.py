@@ -78,7 +78,22 @@ def anbn_ssm():
         [0, 0],
     ])
     return SSM(A, B, C, init=torch.zeros(2))
-        
+
+# TSL
+# dimension bounded by length of  
+# SL: A=0, B=1
+# SP: A=1, B=1
+# TSL: A(x) = 1 - pi(x), B=pi
+
+# A = [0,
+#      0] # 1; 
+# B 
+
+# SL 
+# SP 
+
+
+
 def random_star_ab(S=3, T=4):
     while True:
         s = [random.choice(range(3)) for _ in range(T)]
@@ -151,9 +166,7 @@ def random_anbn(p_halt=1/2, start=1):
             T += 1
     return [1]*T + [2]*T + [0]
             
-    
-        
-            
-            
-        
 
+
+
+# run -> training -> evaluate 
