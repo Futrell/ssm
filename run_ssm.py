@@ -10,7 +10,7 @@ PRINT_EVERY = 100  # How often to print during training
 LEARNING_RATE = 0.01  # Learning rate for the optimizer
 K = 2  # Dimensionality of state space
 S = 3  # Dimensionality of observation space
-TRAINING_DATA = [random_anbn() for _ in range(NUM_TRAINING_SAMPLES)]  # Generate training data
+TRAINING_DATA = [random_anbn() for _ in range(NUM_TRAINING_SAMPLES)]  # TODO Generate training data 
 
 # Train a new state-space model using training data
 print("Training SSM model with random_anbn data...")
