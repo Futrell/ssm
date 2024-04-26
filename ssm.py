@@ -6,13 +6,21 @@ import pandas as pd
 import opt_einsum
 
 # DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-DEVICE = 'cpu'
+DEVICE = 'cpu'    
 
+class BooleanSemiring:
+    def mv(self, A, x):
+        return torch.any(A & x[None, :], -1)
+    
+class RealSemiring:
+    def mv(self, A, x):
+        return A @ x
+    
 class SSM:
-    def __init__(self, A, B, C, phi=None, init=None, bias=None, device=DEVICE):
+    def __init__(self, A, B, C, init=None, bias=None, device=DEVICE):
         """
         A: state matrix (K x K): determines contribution of state at previous 
-           time to state at curret time
+           time to state at current time
         B: input matrix (K x S): determines contribution of input at current 
            time to state at current time
         C: output matrix (S x K): maps states to output space
@@ -31,20 +39,26 @@ class SSM:
         Y, X4 = self.C.shape
         assert X == X2 == X3 == X4
 
+        if self.A.dtype == torch.bool:
+            self.semiring = BooleanSemiring()
+            self.phi = torch.eye(U, dtype=torch.bool)
+        else:
+            self.semiring = RealSemiring()
+            self.phi = torch.eye(U)
+
         if bias is None:
             self.bias = torch.zeros(Y, device=device)
         else:
             self.bias = bias
-        if phi is None:
-            self.phi = torch.eye(Y, device=device)
-        else:
-            self.phi = phi
+            
+        # NOTE: Consider the logic of the initial state, and its type.
         if init is None:
             self.init = torch.eye(X, device=device)[0]
         else:
             self.init = init
 
-    def impulse_response(self, K):
+
+    def impulse_response(self, K): # cool stuff to calculate Log Likelihood fast
         return torch.stack([
             self.C @ torch.matrix_power(self.A, k) @ self.B
             for k in reversed(range(K))
@@ -58,27 +72,33 @@ class SSM:
         score = 0.0
         for symbol in sequence:
             # Get output vector given current state
-            y = self.phi @ self.C @ x + self.bias
+            y = self.C @ x + self.bias
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
             # Update state
-            x = self.A @ x + self.B @ self.phi[symbol]
+            x = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, self.phi[symbol])
         return score
 
-def train(K, S, data, print_every=1000, device=DEVICE, **kwds):
+
+
+def train(K, S, data, A_diag=None, B=None, print_every=1000, device=DEVICE, **kwds):
     '''
     Fit model to a dataset
     K: dimension of state space vector
     S: dimension of input vector
     '''
-    A_diag = torch.randn(K, requires_grad=True, device=device)
-    B = torch.randn(K, S, requires_grad=True, device=device)
+    if A_diag is None:     # TODO for future capacity of training A_diag
+        A_diag = torch.randn(K, requires_grad=True, device=device)
+    if B is None:
+        B = torch.randn(K, S, requires_grad=True, device=device)
     C = torch.randn(S, K, requires_grad=True, device=device)
+    
     opt = torch.optim.AdamW(params=[A_diag, B, C], **kwds)
+    
     for i, xs in enumerate(data):
         opt.zero_grad()
-        A = torch.diag(A_diag)
+        A = torch.diag(A_diag) # convert the vector A to diagonal matrix if 
         model = SSM(A, B, C)
         loss = -model.log_likelihood(xs)
         loss.backward()
@@ -87,9 +107,17 @@ def train(K, S, data, print_every=1000, device=DEVICE, **kwds):
             print(i, loss.item())
     return SSM(A, B, C)
 
+def sl_matrices(S):
+    """ A and B matrices for 2-SL """
+    return torch.zeros(S, S), torch.eye(S)
+
+def sp_matrices(S):
+    """ A and B matrices for 2-SP """
+    return torch.eye(S, dtype=torch.bool), torch.eye(S, dtype=torch.bool)
+
 def anbn_ssm():
     """ SSM for a^n b^n. a = 1, b = 2, halt = 0.
-    For every length N, the highest-probaiblity string is a^{(N-1)/2} b^{(N-1)/2} #
+    For every length N, the highest-probability string is a^{(N-1)/2} b^{(N-1)/2} #
     """
     A = torch.diag(torch.Tensor([
         1, # dimension for count of a's
@@ -110,8 +138,7 @@ def sl2_ssm():
     '''
     sl2_ssm that prohibits substrings of aa or bb
     '''
-    A = torch.zeros(2, 2)
-    B = torch.eye(2)
+    A, B = sl_matrices(2)
     C = torch.Tensor([
         [-10, 0], # a -- not allowed if a seen
         [0, -10] # b -- not allowed if b seen
@@ -122,8 +149,7 @@ def sp2_ssm():
     '''
     sl2_ssm that prohibits subsequences of aa
     '''
-    A = torch.eye(2)
-    B = torch.eye(2)
+    A, B = sp_matrices(2)
     C = torch.Tensor([
         [-10, 0], # a -- not allowed if a seen
         [0, 0] # b -- always fine
@@ -239,3 +265,12 @@ if __name__ == "__main__":
     model = sl2_ssm()
     results = evaluate_no_aa_bb(model)
     print(results)
+    
+    
+    
+    # Evaluation: 
+    # 1. SL example that cannot be captured in SP
+    # no bb \Sigma*bb\Sigma*
+    # vs.  no b...b \Sigma*b\Sigma*b\Sigma*
+ 
+
