@@ -95,7 +95,7 @@ def anbn_ssm():
         1, # dimension for count of a's
         1, # dimension for whether we have seen b
     ]))
-    B = torch.Tensor([
+    B = torch.Tensor([ 
         [0, 1, -1],  # increment for a, decrement for b
         [0, 0, 10],   # increase for each b
     ])
