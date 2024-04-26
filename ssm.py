@@ -57,7 +57,6 @@ class SSM:
         else:
             self.init = init
 
-
     def impulse_response(self, K): # cool stuff to calculate Log Likelihood fast
         return torch.stack([
             self.C @ torch.matrix_power(self.A, k) @ self.B
