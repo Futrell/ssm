@@ -5,17 +5,32 @@ import torch
 import pandas as pd
 import opt_einsum
 
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+# DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+DEVICE = 'cpu'
 
 class SSM:
     def __init__(self, A, B, C, phi=None, init=None, bias=None, device=DEVICE):
+        """
+        A: state matrix (K x K): determines contribution of state at previous 
+           time to state at curret time
+        B: input matrix (K x S): determines contribution of input at current 
+           time to state at current time
+        C: output matrix (S x K): maps states to output space
+        phi: matrix (Y x S): maps segments to vector representation
+        init: initialization vector (K)
+        bias: bias term
+        device: train on GPU ('cuda') or CPU ('cpu')
+        """ 
         self.A = A
         self.B = B
         self.C = C
+
+        # Confirm that A,B,C have correct dimensions
         X, X2 = self.A.shape
         X3, U = self.B.shape
         Y, X4 = self.C.shape
         assert X == X2 == X3 == X4
+
         if bias is None:
             self.bias = torch.zeros(Y, device=device)
         else:
@@ -36,15 +51,27 @@ class SSM:
         ])
 
     def log_likelihood(self, sequence):
+        '''
+        calculate log likelihood of sequence under this model
+        '''
         x = self.init
         score = 0.0
         for symbol in sequence:
+            # Get output vector given current state
             y = self.phi @ self.C @ x + self.bias
+            # Get log probability distribution over output symbols
+            # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
+            # Update state
             x = self.A @ x + self.B @ self.phi[symbol]
         return score
 
 def train(K, S, data, print_every=1000, device=DEVICE, **kwds):
+    '''
+    Fit model to a dataset
+    K: dimension of state space vector
+    S: dimension of input vector
+    '''
     A_diag = torch.randn(K, requires_grad=True, device=device)
     B = torch.randn(K, S, requires_grad=True, device=device)
     C = torch.randn(S, K, requires_grad=True, device=device)
@@ -79,19 +106,29 @@ def anbn_ssm():
     ])
     return SSM(A, B, C, init=torch.zeros(2))
 
-# TSL
-# dimension bounded by length of  
-# SL: A=0, B=1
-# SP: A=1, B=1
-# TSL: A(x) = 1 - pi(x), B=pi
+def sl2_ssm():
+    '''
+    sl2_ssm that prohibits substrings of aa or bb
+    '''
+    A = torch.zeros(2, 2)
+    B = torch.eye(2)
+    C = torch.Tensor([
+        [-10, 0], # a -- not allowed if a seen
+        [0, -10] # b -- not allowed if b seen
+    ])
+    return SSM(A, B, C, init=torch.zeros(2))
 
-# A = [0,
-#      0] # 1; 
-# B 
-
-# SL 
-# SP 
-
+def sp2_ssm():
+    '''
+    sl2_ssm that prohibits subsequences of aa
+    '''
+    A = torch.eye(2)
+    B = torch.eye(2)
+    C = torch.Tensor([
+        [-10, 0], # a -- not allowed if a seen
+        [0, 0] # b -- always fine
+    ])
+    return SSM(A, B, C, init=torch.zeros(2))
 
 
 def random_star_ab(S=3, T=4):
@@ -136,6 +173,37 @@ def evaluate_tiptup(model):
     ]
     return evaluate_model_unpaired(model, good, bad)
 
+def evaluate_no_aa_bb(model):
+    good = [
+        [0],
+        [1]
+    ] + [
+        [0, 1] * x for x in range(1,5)
+    ] + [
+        [1, 0] * x for x in range(1, 5)
+    ]
+
+    bad = [
+        [0, 0],
+        [1, 1],
+        [0, 1, 1],
+        [1, 0, 0],
+        [0, 0, 0],
+        [1, 1, 1],
+        [1, 1, 1, 1],
+        [0, 0, 0, 0],
+        [0, 0, 1, 1],
+        [1, 1, 0, 0],
+        [1, 0, 0, 1],
+        [0, 1, 1, 0],
+        [1, 1, 1, 0],
+        [0, 1, 1, 1],
+        [0, 0, 0, 1],
+        [1, 0, 0, 0]
+    ]
+
+    return evaluate_model_unpaired(model, good, bad)
+
 def evaluate_model_unpaired(model, good_strings, bad_strings):
     """ Do a pairwise comparison of log likelihood for all good and bad strings. """
     def gen():
@@ -167,6 +235,7 @@ def random_anbn(p_halt=1/2, start=1):
     return [1]*T + [2]*T + [0]
             
 
-
-
-# run -> training -> evaluate 
+if __name__ == "__main__":
+    model = sl2_ssm()
+    results = evaluate_no_aa_bb(model)
+    print(results)
