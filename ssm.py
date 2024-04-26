@@ -80,7 +80,6 @@ class SSM:
         return score
 
 
-
 def train(K, S, data, A_diag=None, B=None, print_every=1000, device=DEVICE, **kwds):
     '''
     Fit model to a dataset
