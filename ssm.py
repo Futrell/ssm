@@ -101,6 +101,7 @@ def train(K, S, data, A=None, B=None, C=None, init=None, print_every=1000, devic
         opt.step()
         if i % print_every == 0:
             print(i, loss.item())
+            
     return SSM(A, B, C, init)
 
 def whole_dataset(data, num_epochs=None):
@@ -112,7 +113,7 @@ def single_datapoints(data, num_epochs=None):
 def batch(iterable, n=1):
     l = len(iterable)
     for i in range(0, l, n):
-        yield iterable[i : min(ndx+n, l)]
+        yield iterable[i : min(i+n, l)]
 
 def minibatches(data, batch_size=1, num_epochs=None):
     """
@@ -134,6 +135,13 @@ def train_sp(S, data, **kwds):
     A, B, init = sp_matrices(S)
     return train(S+1, S, data, A=A, B=B, init=init, **kwds)
 
+def sl_sp_matrices(S):
+    X = S + 1
+    A = torch.block_diag(torch.zeros(X, X, dtype=torch.bool), torch.eye(X, dtype=torch.bool))
+    B = torch.cat([torch.eye(X, dtype=torch.bool), torch.eye(X, dtype=torch.bool)])
+    init = torch.cat([torch.eye(X, dtype=torch.bool)[:, 1:], torch.eye(X, dtype=torch.bool)[:, 1:]])
+    return A, B, init
+
 def sl_matrices(S):
     """ A and B matrices for 2-SL """
     # S+1 to account for the initial state
@@ -142,6 +150,7 @@ def sl_matrices(S):
 def sp_matrices(S):
     """ A and B matrices for 2-SP """
     # S+1 to account for the initial state
+    # TODO: should SP preserve the initial state or not?
     return torch.eye(S+1, dtype=torch.bool), torch.eye(S+1, dtype=torch.bool)[:, 1:], torch.eye(S+1, dtype=torch.bool)[0]
 
 def anbn_ssm():
