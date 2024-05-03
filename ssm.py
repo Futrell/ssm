@@ -21,8 +21,9 @@ Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'mv'])
 RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul)
 BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv)
 
+
 class SSM:
-    def __init__(self, A, B, C, init=None, bias=None, phi=None, device=DEVICE):
+    def __init__(self, A, B, C, init=None, phi=None, device=DEVICE):
         """
         A: state matrix (K x K): determines contribution of state at previous 
            time to state at current time
@@ -31,7 +32,6 @@ class SSM:
         C: output matrix (S x K): maps states to output space
         phi: matrix (Y x S): maps segments to vector representation
         init: initialization vector (K); if unspecified, [0, 0, 0, ..., 0, 1] by default.
-        bias: bias term
         device: train on GPU ('cuda') or CPU ('cpu')
         """ 
         self.A = A
@@ -47,7 +47,6 @@ class SSM:
         self.semiring = BooleanSemiring if self.A.dtype is torch.bool else RealSemiring
         self.phi = torch.eye(U, dtype=self.A.dtype, device=device) if phi is None else phi
         self.init = torch.eye(X, dtype=self.A.dtype, device=device)[0] if init is None else init
-        self.bias = torch.zeros(Y, device=device) if bias is None else bias
             
     def impulse_response(self, K): # cool stuff to calculate Log Likelihood fast
         return torch.stack([
@@ -63,7 +62,7 @@ class SSM:
         score = 0.0
         for symbol in sequence:
             # Get output vector given current state
-            y = self.C @ x + self.bias
+            y = self.C @ x 
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
@@ -71,8 +70,14 @@ class SSM:
             x = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, self.phi[symbol])
         return score
 
+def product(a: SSM, b: SSM) -> SSM:
+    A = torch.block_diag(a.A, b.A) 
+    B = torch.cat([a.B, b.B])
+    C = torch.cat([a.C, b.C])
+    init = torch.cat([a.init, b.init])
+    return SSM(A, B, C, init)
 
-def train(K, S, data, A=None, B=None, init=None, print_every=1000, device=DEVICE, **kwds):
+def train(K, S, data, A=None, B=None, C=None, init=None, print_every=1000, device=DEVICE, **kwds):
     '''
     Fit model to a dataset
     K: dimension of state space vector
@@ -80,23 +85,23 @@ def train(K, S, data, A=None, B=None, init=None, print_every=1000, device=DEVICE
 
     data: An iterable of batches of data.
     '''
-    if A is None:
-        A = torch.randn(K, K, requires_grad=True, device=device)
-    if B is None:
-        B = torch.randn(K, S, requires_grad=True, device=device)
-    C = torch.randn(S, K, requires_grad=True, device=device)
-    
+    A = torch.randn(K, K, requires_grad=True, device=device) if A is None else A.to(device)
+    B = torch.randn(K, S, requires_grad=True, device=device) if B is None else B.to(device)
+    C = torch.randn(S, K, requires_grad=True, device=device) if C is None else C.to(device)
+    if init is not None:
+        init = init.to(device)
+        
     opt = torch.optim.AdamW(params=[A, B, C], **kwds)
     
     for i, xs in enumerate(data):
         opt.zero_grad()
-        model = SSM(A, B, C, init=init)
+        model = SSM(A, B, C, init)
         loss = -torch.stack([model.log_likelihood(x) for x in xs]).sum()
         loss.backward()
         opt.step()
         if i % print_every == 0:
             print(i, loss.item())
-    return SSM(A, B, C)
+    return SSM(A, B, C, init)
 
 def whole_dataset(data, num_epochs=None):
     return minibatches(data, len(data), num_epochs=num_epochs)
@@ -117,7 +122,6 @@ def minibatches(data, batch_size=1, num_epochs=None):
     """
     data = list(data)
     def gen_epoch():
-        random.shuffle(data)
         return batch(data, batch_size)
     stream = iter(lambda: gen_epoch(), None)
     return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
