@@ -48,12 +48,6 @@ class SSM:
         self.phi = torch.eye(U, dtype=self.A.dtype, device=device) if phi is None else phi
         self.init = torch.eye(X, dtype=self.A.dtype, device=device)[0] if init is None else init
             
-    def impulse_response(self, K): # cool stuff to calculate Log Likelihood fast
-        return torch.stack([
-            self.C @ torch.matrix_power(self.A, k) @ self.B
-            for k in reversed(range(K))
-        ])
-
     def log_likelihood(self, sequence):
         '''
         calculate log likelihood of sequence under this model
@@ -62,7 +56,7 @@ class SSM:
         score = 0.0
         for symbol in sequence:
             # Get output vector given current state
-            y = self.C @ x 
+            y = self.C @ x.float() 
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
@@ -129,29 +123,50 @@ def minibatches(data, batch_size=1, num_epochs=None):
 
 def train_sl(S, data, **kwds):
     A, B, init = sl_matrices(S)
-    return train(S+1, S, data, A=A, B=B, init=init, **kwds)
+    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
 
 def train_sp(S, data, **kwds):
     A, B, init = sp_matrices(S)
-    return train(S+1, S, data, A=A, B=B, init=init, **kwds)
+    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
+
+def train_sl_sp(S, data, **kwds):
+    A, B, init = sl_sp_matrices(S)
+    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
 
 def sl_sp_matrices(S):
     X = S + 1
-    A = torch.block_diag(torch.zeros(X, X, dtype=torch.bool), torch.eye(X, dtype=torch.bool))
-    B = torch.cat([torch.eye(X, dtype=torch.bool), torch.eye(X, dtype=torch.bool)])
-    init = torch.cat([torch.eye(X, dtype=torch.bool)[:, 1:], torch.eye(X, dtype=torch.bool)[:, 1:]])
+    A = torch.block_diag(
+        torch.zeros(X, X, dtype=torch.bool),  # SL
+        torch.eye(X, dtype=torch.bool), # SP
+    )
+    B = torch.cat([
+        torch.eye(X, dtype=torch.bool)[:, 1:], # SL, S -> S + 1
+        torch.eye(X, dtype=torch.bool)[:, 1:] # SP, S -> S
+    ])
+    init = torch.cat([
+        torch.eye(X, dtype=torch.bool)[0],
+        torch.eye(X, dtype=torch.bool)[0],
+    ])
     return A, B, init
 
 def sl_matrices(S):
     """ A and B matrices for 2-SL """
     # S+1 to account for the initial state
-    return torch.zeros(S+1, S+1), torch.eye(S+1)[:, 1:], torch.eye(S+1)[0]
+    # TODO: also need a constant state dimension for bias?
+    X = S + 1
+    A = torch.zeros(X, X)
+    B = torch.eye(X)[:, 1:]
+    init = torch.eye(X)[0]
+    return torch.zeros(X, X), torch.eye(X)[:, 1:], torch.eye(X)[0]
 
 def sp_matrices(S):
     """ A and B matrices for 2-SP """
-    # S+1 to account for the initial state
-    # TODO: should SP preserve the initial state or not?
-    return torch.eye(S+1, dtype=torch.bool), torch.eye(S+1, dtype=torch.bool)[:, 1:], torch.eye(S+1, dtype=torch.bool)[0]
+    # S+1 to account for the initial state, which is persistent
+    X = S + 1
+    A = torch.eye(X, dtype=torch.bool)
+    B = torch.eye(X, dtype=torch.bool)[:, 1:]
+    init = torch.eye(X, dtype=torch.bool)[0]
+    return A, B, init
 
 def anbn_ssm():
     """ SSM for a^n b^n. a = 1, b = 2, halt = 0.
@@ -193,7 +208,6 @@ def sp2_ssm():
         [0, 0] # b -- always fine
     ])
     return SSM(A, B, C, init=torch.zeros(2))
-
 
 def random_star_ab(S=3, T=4):
     while True:
@@ -266,7 +280,7 @@ def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
         [1, 0, 0, 0]
     ]
 
-    model = train_sl(2, whole_dataset(good, num_epochs=num_epochs), **kwds)
+    model = train_sl_sp(2, whole_dataset(good, num_epochs=num_epochs), **kwds)
 
     return evaluate_model_unpaired(model, good, bad)
 
