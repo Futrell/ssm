@@ -284,6 +284,15 @@ def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
 
     return evaluate_model_unpaired(model, good, bad)
 
+def evaluate_model_paired(model, good_strings, bad_strings):
+    def gen():
+        for good, bad in zip(good_strings, bad_strings):
+            yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
+    df = pd.DataFrame(list(gen()))
+    df.columns = ['good', 'bad', 'good_score', 'bad_score']
+    df['diff'] = df['good_score'] - df['bad_score']
+    return df    
+
 def evaluate_model_unpaired(model, good_strings, bad_strings):
     """ Do a pairwise comparison of log likelihood for all good and bad strings. """
     def gen():
