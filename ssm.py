@@ -20,7 +20,6 @@ Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'mv'])
 
 RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul)
 BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv)
-LogspaceSemiring = Semiring(-INF, 0, torch.logaddexp, operator.add, ...)
 
 class SSM:
     def __init__(self, A, B, C, init=None, bias=None, phi=None, device=DEVICE):
@@ -100,20 +99,28 @@ def train(K, S, data, A=None, B=None, init=None, print_every=1000, device=DEVICE
     return SSM(A, B, C)
 
 def whole_dataset(data, num_epochs=None):
-    if num_epochs is None:
-        return iter(lambda: data, None)
-    else:
-        return itertools.repeat(data, num_epochs)
+    return minibatches(data, len(data), num_epochs=num_epochs)
 
 def single_datapoints(data, num_epochs=None):
+    return minibatches(data, 1, num_epochs=num_epochs)
+
+def batch(iterable, n=1):
+    l = len(iterable)
+    for i in range(0, l, n):
+        yield iterable[i : min(ndx+n, l)]
+
+def minibatches(data, batch_size=1, num_epochs=None):
     """
-    A stream of n random samples from the data.
-    If n is unspecified, returns an infinite stream.
+    Generate a stream of data in minibatches of size batch_size.
+    Go through the data num_epochs times, each time in a random order.
+    If num_epochs not specified, returns an infinite stream of batches.
     """
     data = list(data)
-    while True:
+    def gen_epoch():
         random.shuffle(data)
-        yield from data
+        return batch(data, batch_size)
+    stream = iter(lambda: gen_epoch(), None)
+    return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
 
 def train_sl(S, data, **kwds):
     A, B, init = sl_matrices(S)
