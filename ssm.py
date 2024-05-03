@@ -1,21 +1,25 @@
 """ State-space sequence model """
 import random
+import operator
+from collections import namedtuple
 
 import torch
 import pandas as pd
 import opt_einsum
 
+INF = float('inf')
+
 # DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 DEVICE = 'cpu'    
 
-class BooleanSemiring:
-	def mv(self, A, x):
-		return torch.any(A & x[None, :], -1)
-	
-class RealSemiring:
-	def mv(self, A, x):
-		return A @ x
-	
+def boolean_mv(A, x):
+	return torch.any(A & x[None, :], -1)
+
+Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'mv'])
+RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul)
+BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv)
+LogspaceSemiring = Semiring(-INF, 0, torch.logaddexp, operator.add, ...)
+
 class SSM:
 	def __init__(self, A, B, C, init=None, bias=None, device=DEVICE):
 		"""
@@ -34,16 +38,17 @@ class SSM:
 		self.C = C
 
 		# Confirm that A,B,C have correct dimensions
-		X, X2 = self.A.shape
+		
+		X, X2 = self.A.shape 
 		X3, U = self.B.shape
 		Y, X4 = self.C.shape
 		assert X == X2 == X3 == X4
 
 		if self.A.dtype == torch.bool:
-			self.semiring = BooleanSemiring()
+			self.semiring = BooleanSemiring
 			self.phi = torch.eye(U, dtype=torch.bool)
 		else:
-			self.semiring = RealSemiring()
+			self.semiring = RealSemiring
 			self.phi = torch.eye(U)
 
 		if bias is None:
@@ -76,27 +81,26 @@ class SSM:
 			# Add log prob of current symbol to total
 			score += torch.log_softmax(y, -1)[symbol]
 			# Update state
-			x = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, self.phi[symbol])
+			x = self.semiring.add(self.semiring.mv(self.A, x), self.semiring.mv(self.B, self.phi[symbol]))
 		return score
 
 
-def train(K, S, data, A_diag=None, B=None, print_every=1000, device=DEVICE, **kwds):
+def train(K, S, data, A=None, B=None, print_every=1000, device=DEVICE, **kwds):
 	'''
 	Fit model to a dataset
 	K: dimension of state space vector
 	S: dimension of input vector
 	'''
-	if A_diag is None:     # TODO for future capacity of training A_diag
-		A_diag = torch.randn(K, requires_grad=True, device=device)
+	if A is None:
+		A = torch.randn(K, K, requires_grad=True, device=device)
 	if B is None:
 		B = torch.randn(K, S, requires_grad=True, device=device)
 	C = torch.randn(S, K, requires_grad=True, device=device)
 	
-	opt = torch.optim.AdamW(params=[A_diag, B, C], **kwds)
+	opt = torch.optim.AdamW(params=[A, B, C], **kwds)
 	
 	for i, xs in enumerate(data):
 		opt.zero_grad()
-		A = torch.diag(A_diag) # convert the vector A to diagonal matrix if 
 		model = SSM(A, B, C)
 		loss = -model.log_likelihood(xs)
 		loss.backward()
@@ -104,6 +108,14 @@ def train(K, S, data, A_diag=None, B=None, print_every=1000, device=DEVICE, **kw
 		if i % print_every == 0:
 			print(i, loss.item())
 	return SSM(A, B, C)
+
+def train_sl(S, data, **kwds):
+	A, B = sl_matrices(S)
+	return train(S, S, data, A=A, B=B, **kwds)
+
+def train_sp(S, data, **kwds):
+	A, B = sp_matrices(S)
+	return train(S, S, data, A=A, B=B, **kwds)
 
 def sl_matrices(S):
 	""" A and B matrices for 2-SL """
@@ -197,7 +209,7 @@ def evaluate_tiptup(model):
 	]
 	return evaluate_model_unpaired(model, good, bad)
 
-def evaluate_no_aa_bb(model):
+def evaluate_no_aa_bb(): # SL2 dataset
 	good = [
 		[0],
 		[1]
@@ -206,7 +218,7 @@ def evaluate_no_aa_bb(model):
 	] + [
 		[1, 0] * x for x in range(1, 5)
 	]
-
+	
 	bad = [
 		[0, 0],
 		[1, 1],
@@ -225,6 +237,8 @@ def evaluate_no_aa_bb(model):
 		[0, 0, 0, 1],
 		[1, 0, 0, 0]
 	]
+
+	model = train_sl(2, good)
 
 	return evaluate_model_unpaired(model, good, bad)
 
@@ -260,8 +274,7 @@ def random_anbn(p_halt=1/2, start=1):
 			
 
 if __name__ == "__main__":
-	model = sl2_ssm()
-	results = evaluate_no_aa_bb(model)
+	results = evaluate_no_aa_bb()
 	print(results)
 	
 	# Evaluation: 
