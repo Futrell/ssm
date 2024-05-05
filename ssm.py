@@ -60,7 +60,6 @@ class SSM:
         self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init
         self.pi = torch.ones(U, dtype=self.dtype, device=device) if pi is None else pi
         self.pi_diag = torch.diag(self.pi)
-        self.identity = torch.eye(X, dtype=self.dtype, device=device)
 
         # TODO: Need to distinguish between features that make a segment project, and those features which are projected?
         # Eg, "vowel" feature triggers projection of "frontness" feature.
@@ -78,6 +77,7 @@ class SSM:
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
+            
             # Update state
             u = self.phi[symbol]
             proj = self.semiring.dot(self.pi, u)
@@ -86,11 +86,13 @@ class SSM:
         return score
 
 def product(a: SSM, b: SSM) -> SSM:
+    # untested
     A = torch.block_diag(a.A, b.A) 
     B = torch.cat([a.B, b.B])
     C = torch.cat([a.C, b.C])
     init = torch.cat([a.init, b.init])
-    return SSM(A, B, C, init)
+    pi = torch.cat([a.pi, b.pi])
+    return SSM(A, B, C, init, pi=pi)
 
 def train(K, S, data, A=None, B=None, C=None, init=None, pi=None, print_every=1000, device=DEVICE, **kwds):
     '''
@@ -308,16 +310,23 @@ def random_no_axb(n=4):
 def evaluate_no_axb(num_epochs=1000, **kwds):
     dataset = [random_no_axb(n=4) for _ in range(1000)]
     good = [
+        [2,1,3],
         [2,1,0,0,0,3],
-        [1,1,2,2,0,0],
-        [1,1,2,1,3,0],
+        [0,2,0,1,0,3],
+        [0,0,2,0,0,1,0,0,3],
+        [1,1,3,0,2,0],
+        [3,3,2,1,3,0],
     ]
     bad = [
-        [2,0,0,0,0,3],
-        [1,1,2,3,0,0],
+        [2,0,3],
+        [1,2,0,0,0,3],
+        [0,1,0,2,0,3], # n-grams matched with its good pair
+        [0,0,1,0,0,2,0,0,3],
         [1,1,2,0,3,0],
+        [3,3,2,0,3,0],
     ]
     model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, 5, num_epochs=20))
+    #model = train_sl(4, minibatches(dataset, 5, num_epochs=20))
     return evaluate_model_paired(model, good, bad)
 
 def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
