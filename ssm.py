@@ -4,9 +4,10 @@ import operator
 import itertools
 from collections import namedtuple
 
+import tqdm
 import torch
 import pandas as pd
-import opt_einsum
+import einops
 
 INF = float('inf')
 
@@ -16,21 +17,29 @@ DEVICE = 'cpu'
 def boolean_mv(A, x):
     return torch.any(A & x[None, :], -1)
 
-Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'mv'])
+def boolean_mm(A, B):
+    return torch.any(A & B, -2)
 
-RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul)
-BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv)
+def boolean_vv(x, y):
+    return torch.any(x & y)
 
+Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'dot', 'mv', 'mm', 'complement'])
+
+RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, operator.matmul, operator.matmul, lambda x: 1-x)
+BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_vv, boolean_mv, boolean_mm, operator.not_)
 
 class SSM:
-    def __init__(self, A, B, C, init=None, phi=None, device=DEVICE):
+    def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
         """
         A: state matrix (K x K): determines contribution of state at previous 
            time to state at current time
         B: input matrix (K x S): determines contribution of input at current 
            time to state at current time
         C: output matrix (S x K): maps states to output space
+
+        Optional:
         phi: matrix (Y x S): maps segments to vector representation
+        pi: vector (S): projection vector for tier. Segments s with pi[s]=0 are ignored.
         init: initialization vector (K); if unspecified, [0, 0, 0, ..., 0, 1] by default.
         device: train on GPU ('cuda') or CPU ('cpu')
         """ 
@@ -44,9 +53,18 @@ class SSM:
         Y, X4 = self.C.shape
         assert X == X2 == X3 == X4
 
-        self.semiring = BooleanSemiring if self.A.dtype is torch.bool else RealSemiring
-        self.phi = torch.eye(U, dtype=self.A.dtype, device=device) if phi is None else phi
-        self.init = torch.eye(X, dtype=self.A.dtype, device=device)[0] if init is None else init
+        self.dtype = self.A.dtype
+
+        self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
+        self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi
+        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init
+        self.pi = torch.ones(U, dtype=self.dtype, device=device) if pi is None else pi
+        self.pi_diag = torch.diag(self.pi)
+        self.identity = torch.eye(X, dtype=self.dtype, device=device)
+
+        # TODO: Need to distinguish between features that make a segment project, and those features which are projected?
+        # Eg, "vowel" feature triggers projection of "frontness" feature.
+        # If these are separate, then pi and pi_diag should be separately defined.
             
     def log_likelihood(self, sequence):
         '''
@@ -61,7 +79,10 @@ class SSM:
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
             # Update state
-            x = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, self.phi[symbol])
+            u = self.phi[symbol]
+            proj = self.semiring.dot(self.pi, u)
+            x = self.semiring.complement(proj) * x + proj * self.semiring.mv(self.A, x)
+            x += self.semiring.mv(self.B, self.semiring.mv(self.pi_diag, u))
         return score
 
 def product(a: SSM, b: SSM) -> SSM:
@@ -71,7 +92,7 @@ def product(a: SSM, b: SSM) -> SSM:
     init = torch.cat([a.init, b.init])
     return SSM(A, B, C, init)
 
-def train(K, S, data, A=None, B=None, C=None, init=None, print_every=1000, device=DEVICE, **kwds):
+def train(K, S, data, A=None, B=None, C=None, init=None, pi=None, print_every=1000, device=DEVICE, **kwds):
     '''
     Fit model to a dataset
     K: dimension of state space vector
@@ -82,6 +103,8 @@ def train(K, S, data, A=None, B=None, C=None, init=None, print_every=1000, devic
     A = torch.randn(K, K, requires_grad=True, device=device) if A is None else A.to(device)
     B = torch.randn(K, S, requires_grad=True, device=device) if B is None else B.to(device)
     C = torch.randn(S, K, requires_grad=True, device=device) if C is None else C.to(device)
+    pi = torch.ones(S, device=device) if pi is None else pi.to(device)
+    
     if init is not None:
         init = init.to(device)
         
@@ -89,14 +112,14 @@ def train(K, S, data, A=None, B=None, C=None, init=None, print_every=1000, devic
     
     for i, xs in enumerate(data):
         opt.zero_grad()
-        model = SSM(A, B, C, init)
+        model = SSM(A, B, C, init, pi=pi)
         loss = -torch.stack([model.log_likelihood(x) for x in xs]).sum()
         loss.backward()
         opt.step()
         if i % print_every == 0:
             print(i, loss.item())
             
-    return SSM(A, B, C, init)
+    return SSM(A, B, C, init, pi=pi)
 
 def whole_dataset(data, num_epochs=None):
     return minibatches(data, len(data), num_epochs=num_epochs)
@@ -118,8 +141,12 @@ def minibatches(data, batch_size=1, num_epochs=None):
     data = list(data)
     def gen_epoch():
         return batch(data, batch_size)
-    stream = iter(lambda: gen_epoch(), None)
+    stream = iter(gen_epoch, None)
     return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
+
+def train_tsl(S, pi, data, **kwds):
+    A, B, init = sl_matrices(S)
+    return train(A.shape[0], S, data, A=A, B=B, init=init, pi=pi, **kwds)
 
 def train_sl(S, data, **kwds):
     A, B, init = sl_matrices(S)
@@ -251,6 +278,46 @@ def evaluate_tiptup(model):
     ]
     return evaluate_model_unpaired(model, good, bad)
 
+def has_axb(xs):
+    # contains sequence 20*3
+    for i, x in enumerate(xs):
+        if x == 2:
+            for y in xs[i+1:]:
+                if y == 0:
+                    continue
+                elif y == 1:
+                    break
+                elif y == 2:
+                    break
+                elif y == 3:
+                    return True
+    else:
+        return False
+
+def random_no_axb(n=4):
+    # no sequence 20*3
+    # 0 is not projected so should be ignored.
+    # 1 is projected so it should not be ignored: 213 is ok.
+    while True:
+        sequence = [random.choice(range(4)) for _ in range(n)]
+        if not has_axb(sequence):
+            return sequence
+
+def evaluate_no_axb(num_epochs=1000, **kwds):
+    dataset = [random_no_axb(n=4) for _ in range(1000)]
+    good = [
+        [2,1,0,0,0,3],
+        [1,1,2,2,0,0],
+        [1,1,2,1,3,0],
+    ]
+    bad = [
+        [2,0,0,0,0,3],
+        [1,1,2,3,0,0],
+        [1,1,2,0,3,0],
+    ]
+    model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, 5, num_epochs=20))
+    return evaluate_model_paired(model, good, bad)
+
 def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
     good = [
         [0],
@@ -291,7 +358,7 @@ def evaluate_model_paired(model, good_strings, bad_strings):
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
-    return df    
+    return df            
 
 def evaluate_model_unpaired(model, good_strings, bad_strings):
     """ Do a pairwise comparison of log likelihood for all good and bad strings. """
