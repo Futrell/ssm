@@ -103,10 +103,12 @@ def train(K, S, data, A=None, B=None, C=None, init=None, pi=None, print_every=10
     A = torch.randn(K, K, requires_grad=True, device=device) if A is None else A.to(device)
     B = torch.randn(K, S, requires_grad=True, device=device) if B is None else B.to(device)
     C = torch.randn(S, K, requires_grad=True, device=device) if C is None else C.to(device)
-    pi = torch.ones(S, device=device) if pi is None else pi.to(device)
     
     if init is not None:
         init = init.to(device)
+
+    if pi is not None:
+        pi = pi.to(device)
         
     opt = torch.optim.AdamW(params=[A, B, C], **kwds)
     
