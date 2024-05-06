@@ -58,6 +58,9 @@ class SSM:
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
         self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi
         self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init
+
+        # The projection matrix pi is a function from input feature i to state feature j.
+        # It says, for input feature i, whether state feature j should be sensitive to it.
         self.pi = torch.ones(X, U, dtype=self.dtype, device=device) if pi is None else pi
 
         # TODO: Need to distinguish between features that make a segment project, and those features which are projected?
