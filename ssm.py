@@ -26,7 +26,7 @@ def boolean_vv(x, y):
 Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'dot', 'mv', 'mm', 'complement'])
 
 RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, operator.matmul, operator.matmul, lambda x: 1-x)
-BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_vv, boolean_mv, boolean_mm, operator.not_)
+BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_vv, boolean_mv, boolean_mm, operator.invert)
 
 class SSM:
     def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
@@ -58,8 +58,7 @@ class SSM:
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
         self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi
         self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init
-        self.pi = torch.ones(U, dtype=self.dtype, device=device) if pi is None else pi
-        self.pi_diag = torch.diag(self.pi)
+        self.pi = torch.ones(X, U, dtype=self.dtype, device=device) if pi is None else pi
 
         # TODO: Need to distinguish between features that make a segment project, and those features which are projected?
         # Eg, "vowel" feature triggers projection of "frontness" feature.
@@ -73,16 +72,17 @@ class SSM:
         score = 0.0
         for symbol in sequence:
             # Get output vector given current state
-            y = self.C @ x.float() 
+            y = self.C @ x.float()
+            
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
             
             # Update state
             u = self.phi[symbol]
-            proj = self.semiring.dot(self.pi, u)
-            x = self.semiring.complement(proj) * x + proj * self.semiring.mv(self.A, x)
-            x += self.semiring.mv(self.B, self.semiring.mv(self.pi_diag, u))
+            proj = self.semiring.mv(self.pi, u)
+            update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u)
+            x = self.semiring.complement(proj)*x + proj*update
         return score
 
 def product(a: SSM, b: SSM) -> SSM:
@@ -92,7 +92,8 @@ def product(a: SSM, b: SSM) -> SSM:
     C = torch.cat([a.C, b.C])
     init = torch.cat([a.init, b.init])
     pi = torch.cat([a.pi, b.pi])
-    return SSM(A, B, C, init, pi=pi)
+    phi = torch.cat([a.phi, b.phi])
+    return SSM(A, B, C, init, pi=pi, phi=phi)
 
 def train(K, S, data, A=None, B=None, C=None, init=None, pi=None, print_every=1000, device=DEVICE, **kwds):
     '''
@@ -148,8 +149,9 @@ def minibatches(data, batch_size=1, num_epochs=None):
     stream = iter(gen_epoch, None)
     return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
 
-def train_tsl(S, pi, data, **kwds):
+def train_tsl(S, projection, data, **kwds):
     A, B, init = sl_matrices(S)
+    pi = projection.unsqueeze(0).expand(A.shape[0], -1)
     return train(A.shape[0], S, data, A=A, B=B, init=init, pi=pi, **kwds)
 
 def train_sl(S, data, **kwds):
@@ -307,26 +309,33 @@ def random_no_axb(n=4):
         if not has_axb(sequence):
             return sequence
 
-def evaluate_no_axb(num_epochs=1000, **kwds):
-    dataset = [random_no_axb(n=4) for _ in range(1000)]
+def evaluate_no_axb(num_epochs=1000, batch_size=5, n=4, model_type='tsl', **kwds):
+    dataset = [random_no_axb(n=n) for _ in range(1000)]
     good = [
-        [2,1,3],
-        [2,1,0,0,0,3],
-        [0,2,0,1,0,3],
-        [0,0,2,0,0,1,0,0,3],
+        [0,2,0,1,0,3], # matched on SL factors
+        [0,0,2,0,0,1,0,0,3], # matched on SL factors
+        [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
         [1,1,3,0,2,0],
         [3,3,2,1,3,0],
     ]
     bad = [
-        [2,0,3],
-        [1,2,0,0,0,3],
-        [0,1,0,2,0,3], # n-grams matched with its good pair
+        [0,1,0,2,0,3], 
         [0,0,1,0,0,2,0,0,3],
+        [0,2,0,1,0,1,0,2,0,3],
         [1,1,2,0,3,0],
         [3,3,2,0,3,0],
     ]
-    model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, 5, num_epochs=20))
-    #model = train_sl(4, minibatches(dataset, 5, num_epochs=20))
+    if model_type == 'tsl':
+        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, 5, num_epochs=20))
+    elif model_type == 'sl':
+        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=20))
+    elif model_type == 'sp':
+        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=20))
+    elif model_type == 'sl_sp':
+        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=20))
+    else:
+        raise TypeError("Unknown model type %s" % model_type)
+
     return evaluate_model_paired(model, good, bad)
 
 def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
@@ -358,7 +367,7 @@ def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
         [1, 0, 0, 0]
     ]
 
-    model = train_sl_sp(2, whole_dataset(good, num_epochs=num_epochs), **kwds)
+    model = train_sl(2, whole_dataset(good, num_epochs=num_epochs), **kwds)
 
     return evaluate_model_unpaired(model, good, bad)
 
