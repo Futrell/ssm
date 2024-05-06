@@ -1,5 +1,6 @@
 """ State-space sequence model """
 import random
+from typing import *
 import operator
 import itertools
 from collections import namedtuple
@@ -61,12 +62,9 @@ class SSM:
 
         # The projection matrix pi is a function from input feature i to state feature j.
         # It says, for input feature i, whether state feature j should be sensitive to it.
+        # By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
         self.pi = torch.ones(X, U, dtype=self.dtype, device=device) if pi is None else pi
 
-        # TODO: Need to distinguish between features that make a segment project, and those features which are projected?
-        # Eg, "vowel" feature triggers projection of "frontness" feature.
-        # If these are separate, then pi and pi_diag should be separately defined.
-            
     def log_likelihood(self, sequence):
         '''
         calculate log likelihood of sequence under this model
@@ -74,16 +72,18 @@ class SSM:
         x = self.init
         score = 0.0
         for symbol in sequence:
+            u = self.phi[symbol]
+            proj = self.semiring.mv(self.pi, u)
+            
             # Get output vector given current state
-            y = self.C @ x.float()
+            y = self.C @ (proj * x).float()
+            energy = self.phi @ y
             
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
-            score += torch.log_softmax(y, -1)[symbol]
+            score += torch.log_softmax(energy, -1)[symbol]
             
             # Update state
-            u = self.phi[symbol]
-            proj = self.semiring.mv(self.pi, u)
             update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u)
             x = self.semiring.complement(proj)*x + proj*update
         return score
@@ -98,7 +98,17 @@ def product(a: SSM, b: SSM) -> SSM:
     phi = torch.cat([a.phi, b.phi])
     return SSM(A, B, C, init, pi=pi, phi=phi)
 
-def train(K, S, data, A=None, B=None, C=None, init=None, pi=None, print_every=1000, device=DEVICE, **kwds):
+def train(K: int,
+          S: int,
+          data: Iterable[Iterable[int]],
+          A: Optional[torch.Tensor]=None,
+          B: Optional[torch.Tensor]=None,
+          C: Optional[torch.Tensor]=None,
+          init: Optional[torch.Tensor]=None,
+          pi: Optional[torch.Tensor]=None,
+          print_every: int=1000,
+          device: str=DEVICE,
+          **kwds) -> SSM:
     '''
     Fit model to a dataset
     K: dimension of state space vector
