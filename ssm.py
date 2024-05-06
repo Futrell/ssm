@@ -312,8 +312,10 @@ def random_no_axb(n=4):
         if not has_axb(sequence):
             return sequence
 
-def evaluate_no_axb(num_epochs=1000, batch_size=5, n=4, model_type='tsl', **kwds):
+def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', **kwds):
     dataset = [random_no_axb(n=n) for _ in range(1000)]
+    # the first two of these comparisons will be exactly zero for SL
+    # the third comparison will be exactly zero for SL and SP
     good = [
         [0,2,0,1,0,3], # matched on SL factors
         [0,0,2,0,0,1,0,0,3], # matched on SL factors
@@ -329,13 +331,13 @@ def evaluate_no_axb(num_epochs=1000, batch_size=5, n=4, model_type='tsl', **kwds
         [3,3,2,0,3,0],
     ]
     if model_type == 'tsl':
-        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, 5, num_epochs=20))
+        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sl':
-        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=20))
+        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sp':
-        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=20))
+        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sl_sp':
-        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=20))
+        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     else:
         raise TypeError("Unknown model type %s" % model_type)
 
