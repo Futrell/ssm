@@ -75,13 +75,15 @@ class SSM:
             u = self.phi[symbol]
             proj = self.semiring.mv(self.pi, u)
             
-            # Get output vector given current state
+            # Get output vector given current state.
+            # TODO: Is this right for non-one-hot-representations?
             y = self.C @ (proj * x).float()
-            energy = self.phi @ y
+
+            # TODO: below is only correct for one-hot feature representation
             
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
-            score += torch.log_softmax(energy, -1)[symbol]
+            score += torch.log_softmax(y, -1)[symbol]
             
             # Update state
             update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u)
