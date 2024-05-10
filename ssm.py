@@ -92,7 +92,7 @@ class SSM:
 
 def product(a: SSM, b: SSM) -> SSM:
     # untested
-    A = torch.block_diag(a.A, b.A) 
+    A = torch.block_diag(a.A, b.A)
     B = torch.cat([a.B, b.B])
     C = torch.cat([a.C, b.C])
     init = torch.cat([a.init, b.init])
@@ -141,18 +141,20 @@ def train(K: int,
             
     return SSM(A, B, C, init, pi=pi)
 
-def whole_dataset(data, num_epochs=None):
+def whole_dataset(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
     return minibatches(data, len(data), num_epochs=num_epochs)
 
-def single_datapoints(data, num_epochs=None):
+def single_datapoints(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
     return minibatches(data, 1, num_epochs=num_epochs)
 
-def batch(iterable, n=1):
+def batch(iterable: Sequence, n: int=1) -> Iterator[Sequence]:
     l = len(iterable)
     for i in range(0, l, n):
         yield iterable[i : min(i+n, l)]
 
-def minibatches(data, batch_size=1, num_epochs=None):
+def minibatches(data: Iterable,
+                batch_size: int=1,
+                num_epochs: Optional[int]=None) -> Iterator[Sequence]:
     """
     Generate a stream of data in minibatches of size batch_size.
     Go through the data num_epochs times, each time in a random order.
@@ -160,6 +162,7 @@ def minibatches(data, batch_size=1, num_epochs=None):
     """
     data = list(data)
     def gen_epoch():
+        random.shuffle(data)
         return batch(data, batch_size)
     stream = iter(gen_epoch, None)
     return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
@@ -325,6 +328,7 @@ def random_no_axb(n=4):
             return sequence
 
 def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', **kwds):
+    """ Evaluation for 2-TSL """
     dataset = [random_no_axb(n=n) for _ in range(1000)]
     # the first two of these comparisons will be exactly zero for SL
     # the third comparison will be exactly zero for SL and SP
