@@ -8,7 +8,6 @@ from collections import namedtuple
 import tqdm
 import torch
 import pandas as pd
-import einops
 
 INF = float('inf')
 
@@ -28,6 +27,8 @@ Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'dot', 'mv', 'mm
 
 RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, operator.matmul, operator.matmul, lambda x: 1-x)
 BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_vv, boolean_mv, boolean_mm, operator.invert)
+
+SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
 
 class SSM:
     def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
@@ -63,13 +64,22 @@ class SSM:
         # The projection matrix pi is a function from input feature i to state feature j.
         # It says, for input feature i, whether state feature j should be sensitive to it.
         # By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
-        self.pi = torch.ones(X, U, dtype=self.dtype, device=device) if pi is None else pi
+        if pi is None:
+            self.pi = torch.ones(X, U, dtype=self.dtype, device=device)
+        else:
+            self.pi = pi
+            assert self.pi.shape[0] == X
+            assert self.pi.shape[1] == U
 
-    def log_likelihood(self, sequence):
+    def log_likelihood(self, sequence, init=None):
         '''
         calculate log likelihood of sequence under this model
         '''
-        x = self.init
+        if init is None:
+            x = self.init
+        else:
+            x = init
+            
         score = 0.0
         for symbol in sequence:
             u = self.phi[symbol]
@@ -90,9 +100,31 @@ class SSM:
             x = self.semiring.complement(proj)*x + proj*update
         return score
 
+    def output_sequence(self, input, init=None, debug=False):
+        T = len(input)
+        u = self.phi[input]
+        proj = self.semiring.mm(self.pi, u.T).T # einsum("xu,tu->tx", self.pi, u)
+        x = torch.zeros(T + 1, self.A.shape[0], dtype=self.dtype)
+        x[0] = self.init if init is None else init        
+        for t in range(T):
+            update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
+            x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
+            if debug:
+                breakpoint()
+        y = torch.einsum("yx,tx->ty", self.C, (proj * x[:-1]).float())
+        return SSMOutput(u, proj, x, y)
+
+    def log_likelihood2(self, sequence, init=None):
+        # Alternative implementation
+        logits = self.output_sequence(sequence, init).y
+        return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
+
 def product(a: SSM, b: SSM) -> SSM:
     # untested
+    # A: from shape XX and YY, get shape (X+Y)(X+Y).
     A = torch.block_diag(a.A, b.A)
+
+    # B: from shape 
     B = torch.cat([a.B, b.B])
     C = torch.cat([a.C, b.C])
     init = torch.cat([a.init, b.init])
@@ -138,7 +170,7 @@ def train(K: int,
         opt.step()
         if i % print_every == 0:
             print(i, loss.item())
-            
+
     return SSM(A, B, C, init, pi=pi)
 
 def whole_dataset(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
@@ -302,34 +334,71 @@ def evaluate_tiptup(model):
     ]
     return evaluate_model_unpaired(model, good, bad)
 
-def has_axb(xs):
-    # contains sequence 20*3
-    for i, x in enumerate(xs):
-        if x == 2:
-            for y in xs[i+1:]:
-                if y == 0:
-                    continue
-                elif y == 1:
-                    break
-                elif y == 2:
-                    break
-                elif y == 3:
-                    return True
-    else:
-        return False
-
 def random_no_axb(n=4):
     # no sequence 20*3
     # 0 is not projected so should be ignored.
     # 1 is projected so it should not be ignored: 213 is ok.
     while True:
         sequence = [random.choice(range(4)) for _ in range(n)]
-        if not has_axb(sequence):
+        tier = [x for x in sequence if x != 0]
+        if not any(x == 2 and y == 3 for x, y in pairs(tier)):
             return sequence
 
-def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', **kwds):
+def pairs(xs):
+    return zip(xs, xs[1:])
+
+def random_two_tiers(n=6):
+    # two independent tiers, {012} and {345}.
+    # Prohibit *01 and *34 on each tier.
+    p1 = {0,1,2}
+    p2 = {3,4,5}
+    while True:
+        sequence = [random.choice(range(2*3)) for _ in range(n)]
+        tier1 = [x for x in sequence if x in p1]
+        tier2 = [x for x in sequence if x in p2]
+        if (not any(x == 0 and y == 1 for x, y in pairs(tier1))
+            and not any(x == 3 and y == 4 for x, y in pairs(tier2))):
+            return sequence
+
+def evaluate_two_tiers(num_epochs=20, batch_size=5, n=6, num_samples=1000, **kwds):
+    """ Evaluation for 2-TSL x 2-TSL with disjoint tiers """
+    dataset = [random_two_tiers(n=n) for _ in range(num_samples)]
+    S = 6
+    X = S + 2
+    # first two states are inits
+    init = torch.zeros(X)
+    init[0] = 1
+    init[1] = 1
+    A = torch.zeros(X, X)
+    B = torch.eye(X)[:, 2:]
+    pi = torch.Tensor([
+        [1,0,1,1,1,0,0,0],
+        [1,0,1,1,1,0,0,0],
+        [1,0,1,1,1,0,0,0],
+        [0,1,0,0,0,1,1,1],
+        [0,1,0,0,0,1,1,1],
+        [0,1,0,0,0,1,1,1],
+    ]).T
+    data = minibatches(dataset, batch_size=batch_size, num_epochs=num_epochs)
+    model = train(X, S, data, A=A, B=B, init=init, pi=pi, **kwds)
+    good = [
+        [0,2,1,3,5,4],
+        [0,2,1,3,5,4],
+        [0,3,2,5,1],
+        [0,5,2,4,1,3],
+    ]
+    bad = [
+        [0,1,2,3,4,5],
+        [0,1,4,3,5,2],
+        [0,3,4,5,1],
+        [0,5,4,3,1,2], 
+    ]
+    
+    return model, evaluate_model_paired(model, good, bad)
+
+def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samples=1000, **kwds):
     """ Evaluation for 2-TSL """
-    dataset = [random_no_axb(n=n) for _ in range(1000)]
+    dataset = [random_no_axb(n=n) for _ in range(num_samples)]
     # the first two of these comparisons will be exactly zero for SL
     # the third comparison will be exactly zero for SL and SP
     good = [
