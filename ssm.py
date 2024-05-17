@@ -15,12 +15,15 @@ INF = float('inf')
 DEVICE = 'cpu'    
 
 def boolean_mv(A, x):
+    """ Boolean matrix-vector multiplication. """
     return torch.any(A & x[None, :], -1)
 
 def boolean_mm(A, B):
+    """ Boolean matrix-matrix multiplication. """
     return torch.any(A & B, -2)
 
 def boolean_vv(x, y):
+    """ Boolean vector-vector inner product. """
     return torch.any(x & y)
 
 Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'dot', 'mv', 'mm', 'complement'])
@@ -121,11 +124,10 @@ class SSM:
 
 def product(a: SSM, b: SSM) -> SSM:
     # untested
-    # A: from shape XX and YY, get shape (X+Y)(X+Y).
     A = torch.block_diag(a.A, b.A)
+    B = torch.block_diag(a.B, b.B)
+    pi = torch.block_diag(a.pi, b.pi)
 
-    # B: from shape 
-    B = torch.cat([a.B, b.B])
     C = torch.cat([a.C, b.C])
     init = torch.cat([a.init, b.init])
     pi = torch.cat([a.pi, b.pi])
