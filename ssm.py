@@ -428,9 +428,10 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
     else:
         raise TypeError("Unknown model type %s" % model_type)
 
+    breakpoint()
     return evaluate_model_paired(model, good, bad)
 
-def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
+def evaluate_no_aa_bb(num_epochs=10000, n=2, model_type='tsl', **kwds): # SL2 dataset
     good = [
         [0],
         [1]
@@ -459,8 +460,19 @@ def evaluate_no_aa_bb(num_epochs=10000, **kwds): # SL2 dataset
         [1, 0, 0, 0]
     ]
 
-    model = train_sl(2, whole_dataset(good, num_epochs=num_epochs), **kwds)
+    if model_type == 'tsl':
+        model = train_tsl(2, torch.Tensor([1,1]), whole_dataset(good, num_epochs=num_epochs))
+    elif model_type == 'sl':
+        model = train_sl(2, whole_dataset(good, num_epochs=num_epochs))
+    elif model_type == 'sp':
+        model = train_sp(2, whole_dataset(good, num_epochs=num_epochs))
+    elif model_type == 'sl_sp':
+        model = train_sl_sp(2, whole_dataset(good, num_epochs=num_epochs))
+    else:
+        raise TypeError("Unknown model type %s" % model_type)
 
+    breakpoint()
+    
     return evaluate_model_unpaired(model, good, bad)
 
 def evaluate_model_paired(model, good_strings, bad_strings):
@@ -504,9 +516,20 @@ def random_anbn(p_halt=1/2, start=1):
             
 
 if __name__ == "__main__":
-    results = evaluate_no_aa_bb()
-    print(results)
+    results_sp = evaluate_no_aa_bb(model_type = 'sp')
+    print(results_sp)
+
+    results_sl = evaluate_no_aa_bb(model_type = 'sl')
+    print(results_sp)
+
+    results_tsl = evaluate_no_aa_bb(model_type = 'tsl')
+    print(results_sp)
+
+    breakpoint()
     
+    # results2 = evaluate_no_axb(model_type='sl')
+    # print(results2)
+
     # Evaluation: 
     # 1. SL example that cannot be captured in SP
     # no bb \Sigma*bb\Sigma*
