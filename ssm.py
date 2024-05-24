@@ -8,6 +8,7 @@ from collections import namedtuple
 import tqdm
 import torch
 import pandas as pd
+import numpy as np
 
 INF = float('inf')
 
@@ -345,8 +346,41 @@ def random_no_axb(n=4):
         tier = [x for x in sequence if x != 0]
         if not any(x == 2 and y == 3 for x, y in pairs(tier)):
             return sequence
+        
 
-def pairs(xs):
+def has_subsequence(seq, subseq):
+    """Check if subseq is a subsequence of seq."""
+    it = iter(seq)
+    return all(any(c == ch for c in it) for ch in subseq)
+
+def random_no_ab_subsequence(n=4):
+    while True:
+        sequence = [random.choice(range(4)) for _ in range(n)]
+        if not has_subsequence(sequence, [2, 3]):
+            return sequence
+
+# def random_no_ab(n=4):
+#     # No substring 23
+#     while True:
+#         sequence = [random.choice(range(4)) for _ in range(n)]
+#         if not any(x == 2 and y == 3 for x, y in pairs(sequence)):
+#             return sequence
+
+        
+def random_no_ab(n=4):
+    # No subsequence 23
+    while True:
+        sequence = [random.choice(range(4)) for _ in range(n)]
+        bad = False
+        for i, sym1 in enumerate(sequence):
+            if sym1 == 2:
+                for j, sym2 in enumerate(sequence[i+1:]):
+                    if sym2 == 3:
+                        bad = True
+        if not bad:
+            return sequence
+
+def pairs(xs): # contiguous substrings
     return zip(xs, xs[1:])
 
 def random_two_tiers(n=6):
@@ -403,20 +437,22 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
     dataset = [random_no_axb(n=n) for _ in range(num_samples)]
     # the first two of these comparisons will be exactly zero for SL
     # the third comparison will be exactly zero for SL and SP
-    good = [
+    good = [ # no 23 on the tier {1, 2, 3}
         [0,2,0,1,0,3], # matched on SL factors
         [0,0,2,0,0,1,0,0,3], # matched on SL factors
         [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
         [1,1,3,0,2,0],
         [3,3,2,1,3,0],
     ]
+
     bad = [
         [0,1,0,2,0,3], 
         [0,0,1,0,0,2,0,0,3],
-        [0,2,0,1,0,1,0,2,0,3],
+        [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
         [1,1,2,0,3,0],
         [3,3,2,0,3,0],
     ]
+    
     if model_type == 'tsl':
         model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sl':
@@ -428,52 +464,81 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
     else:
         raise TypeError("Unknown model type %s" % model_type)
 
-    breakpoint()
+    # breakpoint()
     return evaluate_model_paired(model, good, bad)
 
-def evaluate_no_aa_bb(num_epochs=10000, n=2, model_type='tsl', **kwds): # SL2 dataset
+def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_samples=1000, **kwds): # SL2 dataset
+    dataset = [random_no_ab(n=n) for _ in range(num_samples)]
+
     good = [
-        [0],
-        [1]
-    ] + [
-        [0, 1] * x for x in range(1,5)
-    ] + [
-        [1, 0] * x for x in range(1, 5)
+        [0, 2, 1, 3, 2, 2], # matched on 2-SP factors
+        [2, 0, 3, 1, 3, 2], # TSL model will fail
+        [3, 2, 1, 0, 1, 3],
+        [1, 3, 2, 0, 3, 1], # TSL model will fail
+        [0, 1, 2, 1, 3, 2]
     ]
-    
     bad = [
-        [0, 0],
-        [1, 1],
-        [0, 1, 1],
-        [1, 0, 0],
-        [0, 0, 0],
-        [1, 1, 1],
-        [1, 1, 1, 1],
-        [0, 0, 0, 0],
-        [0, 0, 1, 1],
-        [1, 1, 0, 0],
-        [1, 0, 0, 1],
-        [0, 1, 1, 0],
-        [1, 1, 1, 0],
-        [0, 1, 1, 1],
-        [0, 0, 0, 1],
-        [1, 0, 0, 0]
+        [0, 2, 1, 2, 3, 2], # matched on 2-SP factors
+        [2, 3, 0, 1, 3, 2],
+        [3, 2, 1, 0, 2, 3],
+        [1, 3, 2, 3, 0, 1], 
+        [0, 1, 2, 3, 1, 2]
     ]
 
     if model_type == 'tsl':
-        model = train_tsl(2, torch.Tensor([1,1]), whole_dataset(good, num_epochs=num_epochs))
+        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sl':
-        model = train_sl(2, whole_dataset(good, num_epochs=num_epochs))
+        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sp':
-        model = train_sp(2, whole_dataset(good, num_epochs=num_epochs))
+        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sl_sp':
-        model = train_sl_sp(2, whole_dataset(good, num_epochs=num_epochs))
+        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     else:
         raise TypeError("Unknown model type %s" % model_type)
 
-    breakpoint()
-    
     return evaluate_model_unpaired(model, good, bad)
+
+    # 2-SP language *a-a
+    # 2-TSL language: *a-a, Tier = {a, b, c, d}
+
+    # For a string like aba
+    # - this is prohibited by SP but allowed by TSL
+    # but for Tier = {a} then no 
+
+def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_samples=1000, **kwds):
+    """ Evaluation for 2-SP """
+    dataset = [random_no_ab_subsequence(n=n) for _ in range(num_samples)]
+    # the first two of these comparisons will be exactly zero for SL
+    # the third comparison will be exactly zero for SL and SP
+    good = [ # no 23 on the tier {1, 2, 3}
+        [0,2,0,1,0,3], # matched on SL factors
+        [0,0,2,0,0,1,0,0,3], # matched on SL factors
+        [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
+        [1,1,3,0,2,0],
+        [3,3,2,1,3,0],
+    ]
+
+    bad = [
+        [0,1,0,2,0,3], 
+        [0,0,1,0,0,2,0,0,3],
+        [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
+        [1,1,2,0,3,0],
+        [3,3,2,0,3,0],
+    ]
+    
+    if model_type == 'tsl':
+        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
+    elif model_type == 'sl':
+        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+    elif model_type == 'sp':
+        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+    elif model_type == 'sl_sp':
+        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+    else:
+        raise TypeError("Unknown model type %s" % model_type)
+
+    # breakpoint()
+    return evaluate_model_paired(model, good, bad)
 
 def evaluate_model_paired(model, good_strings, bad_strings):
     def gen():
@@ -516,17 +581,38 @@ def random_anbn(p_halt=1/2, start=1):
             
 
 if __name__ == "__main__":
-    results_sp = evaluate_no_aa_bb(model_type = 'sp')
-    print(results_sp)
+    results_sp_no_ab = evaluate_no_ab(model_type = 'sp')
+    results_sl_no_ab = evaluate_no_ab(model_type = 'sl')
+    results_tsl_no_ab = evaluate_no_ab(model_type = 'tsl')
 
-    results_sl = evaluate_no_aa_bb(model_type = 'sl')
-    print(results_sp)
+    sp_no_ab_mean = np.mean(results_sp_no_ab['diff'])
+    sl_no_ab_mean = np.mean(results_sl_no_ab['diff'])
+    tsl_no_ab_mean = np.mean(results_tsl_no_ab['diff'])
 
-    results_tsl = evaluate_no_aa_bb(model_type = 'tsl')
-    print(results_sp)
-
-    breakpoint()
+    print("SL datatset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
+        sl_no_ab_mean, sp_no_ab_mean, tsl_no_ab_mean 
+    ))
     
+    results_sp = evaluate_no_axb(model_type = 'sp')
+    results_sl = evaluate_no_axb(model_type = 'sl')
+    results_tsl = evaluate_no_axb(model_type = 'tsl')
+
+    sl_mean = np.mean(results_sl['diff'])
+    tsl_mean = np.mean(results_tsl['diff'])
+    sp_mean = np.mean(results_sp['diff'])
+
+    print("TSL dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
+        sl_mean, sp_mean, tsl_mean
+    ))
+    
+            # SSM-SL SSM-SP SSM-TSL
+    # SL-2    11.51   5.15    9.84
+    # TSL   0.06    0.49    4.39
+    # SP    
+    # XOR
+    # ...
+
+
     # results2 = evaluate_no_axb(model_type='sl')
     # print(results2)
 
@@ -535,3 +621,38 @@ if __name__ == "__main__":
     # no bb \Sigma*bb\Sigma*
     # vs.  no b...b \Sigma*b\Sigma*b\Sigma*
     # Parity 
+
+
+
+# SP but not captured by SL
+# *a…b
+# *acccb
+# *abbbb
+
+# # SP but not captured by TSL
+# *a…b, if tier is {a, b}, 
+# *acccb TSL
+# *abbbb TSL
+# *acacb TSL
+# *
+
+# But yes ab on
+
+# abbaccca
+
+# 3-SP language *a-b-c
+# 3-TSL language: *a-b-c, Tier = {a, b, c}
+
+# For a string like abbc
+# - this is prohibited by SP but allowed by TSL
+# this cannot work for any tier
+
+
+# 2-SP language *a-a
+# 2-TSL language: *a-a, Tier = {a, b, c, d}
+
+# For a string like aba
+# - this is prohibited by SP but allowed by TSL
+# but for Tier = {a} then no 
+
+print(has_subsequence("231", [2,3]))
