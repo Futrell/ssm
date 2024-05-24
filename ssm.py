@@ -13,19 +13,19 @@ import numpy as np
 INF = float('inf')
 
 # DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-DEVICE = 'cpu'    
+DEVICE = 'cpu'	
 
 def boolean_mv(A, x):
-    """ Boolean matrix-vector multiplication. """
-    return torch.any(A & x[None, :], -1)
+	""" Boolean matrix-vector multiplication. """
+	return torch.any(A & x[None, :], -1)
 
 def boolean_mm(A, B):
-    """ Boolean matrix-matrix multiplication. """
-    return torch.any(A & B, -2)
+	""" Boolean matrix-matrix multiplication. """
+	return torch.any(A & B, -2)
 
 def boolean_vv(x, y):
-    """ Boolean vector-vector inner product. """
-    return torch.any(x & y)
+	""" Boolean vector-vector inner product. """
+	return torch.any(x & y)
 
 Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'dot', 'mv', 'mm', 'complement'])
 
@@ -35,632 +35,616 @@ BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_vv,
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
 
 class SSM:
-    def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
-        """
-        A: state matrix (K x K): determines contribution of state at previous 
-           time to state at current time
-        B: input matrix (K x S): determines contribution of input at current 
-           time to state at current time
-        C: output matrix (S x K): maps states to output space
+	def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
+		"""
+		A: state matrix (K x K): determines contribution of state at previous 
+		   time to state at current time
+		B: input matrix (K x S): determines contribution of input at current 
+		   time to state at current time
+		C: output matrix (S x K): maps states to output space
 
-        Optional:
-        phi: matrix (Y x S): maps segments to vector representation
-        pi: vector (S): projection vector for tier. Segments s with pi[s]=0 are ignored.
-        init: initialization vector (K); if unspecified, [0, 0, 0, ..., 0, 1] by default.
-        device: train on GPU ('cuda') or CPU ('cpu')
-        """ 
-        self.A = A
-        self.B = B
-        self.C = C
+		Optional:
+		phi: matrix (Y x S): maps segments to vector representation
+		pi: vector (S): projection vector for tier. Segments s with pi[s]=0 are ignored.
+		init: initialization vector (K); if unspecified, [0, 0, 0, ..., 0, 1] by default.
+		device: train on GPU ('cuda') or CPU ('cpu')
+		""" 
+		self.A = A
+		self.B = B
+		self.C = C
 
-        # Confirm that A,B,C have correct dimensions
-        X, X2 = self.A.shape 
-        X3, U = self.B.shape
-        Y, X4 = self.C.shape
-        assert X == X2 == X3 == X4
+		# Confirm that A,B,C have correct dimensions
+		X, X2 = self.A.shape 
+		X3, U = self.B.shape
+		Y, X4 = self.C.shape
+		assert X == X2 == X3 == X4
 
-        self.dtype = self.A.dtype
+		self.dtype = self.A.dtype
 
-        self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
-        self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi
-        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init
+		self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
+		self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi
+		self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init
 
-        # The projection matrix pi is a function from input feature i to state feature j.
-        # It says, for input feature i, whether state feature j should be sensitive to it.
-        # By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
-        if pi is None:
-            self.pi = torch.ones(X, U, dtype=self.dtype, device=device)
-        else:
-            self.pi = pi
-            assert self.pi.shape[0] == X
-            assert self.pi.shape[1] == U
+		# The projection matrix pi is a function from input feature i to state feature j.
+		# It says, for input feature i, whether state feature j should be sensitive to it.
+		# By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
+		if pi is None:
+			self.pi = torch.ones(X, U, dtype=self.dtype, device=device)
+		else:
+			self.pi = pi
+			assert self.pi.shape[0] == X
+			assert self.pi.shape[1] == U
 
-    def log_likelihood(self, sequence, init=None):
-        '''
-        calculate log likelihood of sequence under this model
-        '''
-        if init is None:
-            x = self.init
-        else:
-            x = init
-            
-        score = 0.0
-        for symbol in sequence:
-            u = self.phi[symbol]
-            proj = self.semiring.mv(self.pi, u)
-            
-            # Get output vector given current state.
-            # TODO: Is this right for non-one-hot-representations?
-            y = self.C @ (proj * x).float()
+	def log_likelihood(self, sequence, init=None):
+		'''
+		calculate log likelihood of sequence under this model
+		'''
+		if init is None:
+			x = self.init
+		else:
+			x = init
+			
+		score = 0.0
+		for symbol in sequence:
+			u = self.phi[symbol]
+			proj = self.semiring.mv(self.pi, u)
+			
+			# Get output vector given current state.
+			# TODO: Is this right for non-one-hot-representations?
+			y = self.C @ (proj * x).float()
 
-            # TODO: below is only correct for one-hot feature representation
-            
-            # Get log probability distribution over output symbols
-            # Add log prob of current symbol to total
-            score += torch.log_softmax(y, -1)[symbol]
-            
-            # Update state
-            update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u)
-            x = self.semiring.complement(proj)*x + proj*update
-        return score
+			# TODO: below is only correct for one-hot feature representation
+			
+			# Get log probability distribution over output symbols
+			# Add log prob of current symbol to total
+			score += torch.log_softmax(y, -1)[symbol]
+			
+			# Update state
+			update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u)
+			x = self.semiring.complement(proj)*x + proj*update
+		return score
 
-    def output_sequence(self, input, init=None, debug=False):
-        T = len(input)
-        u = self.phi[input]
-        proj = self.semiring.mm(self.pi, u.T).T # einsum("xu,tu->tx", self.pi, u)
-        x = torch.zeros(T + 1, self.A.shape[0], dtype=self.dtype)
-        x[0] = self.init if init is None else init        
-        for t in range(T):
-            update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
-            x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
-            if debug:
-                breakpoint()
-        y = torch.einsum("yx,tx->ty", self.C, (proj * x[:-1]).float())
-        return SSMOutput(u, proj, x, y)
+	def output_sequence(self, input, init=None, debug=False):
+		T = len(input)
+		u = self.phi[input]
+		proj = self.semiring.mm(self.pi, u.T).T # einsum("xu,tu->tx", self.pi, u)
+		x = torch.zeros(T + 1, self.A.shape[0], dtype=self.dtype)
+		x[0] = self.init if init is None else init		
+		for t in range(T):
+			update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
+			x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
+			if debug:
+				breakpoint()
+		y = torch.einsum("yx,tx->ty", self.C, (proj * x[:-1]).float())
+		return SSMOutput(u, proj, x, y)
 
-    def log_likelihood2(self, sequence, init=None):
-        # Alternative implementation
-        logits = self.output_sequence(sequence, init).y
-        return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
+	def log_likelihood2(self, sequence, init=None):
+		# Alternative implementation
+		logits = self.output_sequence(sequence, init).y
+		return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
 
 def product(a: SSM, b: SSM) -> SSM:
-    # untested
-    A = torch.block_diag(a.A, b.A)
-    B = torch.block_diag(a.B, b.B)
-    pi = torch.block_diag(a.pi, b.pi)
+	# untested
+	A = torch.block_diag(a.A, b.A)
+	B = torch.block_diag(a.B, b.B)
+	pi = torch.block_diag(a.pi, b.pi)
 
-    C = torch.cat([a.C, b.C])
-    init = torch.cat([a.init, b.init])
-    pi = torch.cat([a.pi, b.pi])
-    phi = torch.cat([a.phi, b.phi])
-    return SSM(A, B, C, init, pi=pi, phi=phi)
+	C = torch.cat([a.C, b.C])
+	init = torch.cat([a.init, b.init])
+	pi = torch.cat([a.pi, b.pi])
+	phi = torch.cat([a.phi, b.phi])
+	return SSM(A, B, C, init, pi=pi, phi=phi)
 
 def train(K: int,
-          S: int,
-          data: Iterable[Iterable[int]],
-          A: Optional[torch.Tensor]=None,
-          B: Optional[torch.Tensor]=None,
-          C: Optional[torch.Tensor]=None,
-          init: Optional[torch.Tensor]=None,
-          pi: Optional[torch.Tensor]=None,
-          print_every: int=1000,
-          device: str=DEVICE,
-          **kwds) -> SSM:
-    '''
-    Fit model to a dataset
-    K: dimension of state space vector
-    S: dimension of input vector
+		  S: int,
+		  data: Iterable[Iterable[int]],
+		  A: Optional[torch.Tensor]=None,
+		  B: Optional[torch.Tensor]=None,
+		  C: Optional[torch.Tensor]=None,
+		  init: Optional[torch.Tensor]=None,
+		  pi: Optional[torch.Tensor]=None,
+		  print_every: int=1000,
+		  device: str=DEVICE,
+		  **kwds) -> SSM:
+	'''
+	Fit model to a dataset
+	K: dimension of state space vector
+	S: dimension of input vector
 
-    data: An iterable of batches of data.
-    '''
-    A = torch.randn(K, K, requires_grad=True, device=device) if A is None else A.to(device)
-    B = torch.randn(K, S, requires_grad=True, device=device) if B is None else B.to(device)
-    C = torch.randn(S, K, requires_grad=True, device=device) if C is None else C.to(device)
-    
-    if init is not None:
-        init = init.to(device)
+	data: An iterable of batches of data.
+	'''
+	A = torch.randn(K, K, requires_grad=True, device=device) if A is None else A.to(device)
+	B = torch.randn(K, S, requires_grad=True, device=device) if B is None else B.to(device)
+	C = torch.randn(S, K, requires_grad=True, device=device) if C is None else C.to(device)
+	
+	if init is not None:
+		init = init.to(device)
 
-    if pi is not None:
-        pi = pi.to(device)
-        
-    opt = torch.optim.AdamW(params=[A, B, C], **kwds)
-    
-    for i, xs in enumerate(data):
-        opt.zero_grad()
-        model = SSM(A, B, C, init, pi=pi)
-        loss = -torch.stack([model.log_likelihood(x) for x in xs]).sum()
-        loss.backward()
-        opt.step()
-        if i % print_every == 0:
-            print(i, loss.item())
+	if pi is not None:
+		pi = pi.to(device)
+		
+	opt = torch.optim.AdamW(params=[A, B, C], **kwds)
+	
+	for i, xs in enumerate(data):
+		opt.zero_grad()
+		model = SSM(A, B, C, init, pi=pi)
+		loss = -torch.stack([model.log_likelihood(x) for x in xs]).sum()
+		loss.backward()
+		opt.step()
+		if i % print_every == 0:
+			print(i, loss.item())
 
-    return SSM(A, B, C, init, pi=pi)
+	return SSM(A, B, C, init, pi=pi)
 
 def whole_dataset(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
-    return minibatches(data, len(data), num_epochs=num_epochs)
+	return minibatches(data, len(data), num_epochs=num_epochs)
 
 def single_datapoints(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
-    return minibatches(data, 1, num_epochs=num_epochs)
+	return minibatches(data, 1, num_epochs=num_epochs)
 
 def batch(iterable: Sequence, n: int=1) -> Iterator[Sequence]:
-    l = len(iterable)
-    for i in range(0, l, n):
-        yield iterable[i : min(i+n, l)]
+	l = len(iterable)
+	for i in range(0, l, n):
+		yield iterable[i : min(i+n, l)]
 
 def minibatches(data: Iterable,
-                batch_size: int=1,
-                num_epochs: Optional[int]=None) -> Iterator[Sequence]:
-    """
-    Generate a stream of data in minibatches of size batch_size.
-    Go through the data num_epochs times, each time in a random order.
-    If num_epochs not specified, returns an infinite stream of batches.
-    """
-    data = list(data)
-    def gen_epoch():
-        random.shuffle(data)
-        return batch(data, batch_size)
-    stream = iter(gen_epoch, None)
-    return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
+				batch_size: int=1,
+				num_epochs: Optional[int]=None) -> Iterator[Sequence]:
+	"""
+	Generate a stream of data in minibatches of size batch_size.
+	Go through the data num_epochs times, each time in a random order.
+	If num_epochs not specified, returns an infinite stream of batches.
+	"""
+	data = list(data)
+	def gen_epoch():
+		random.shuffle(data)
+		return batch(data, batch_size)
+	stream = iter(gen_epoch, None)
+	return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
 
 def train_tsl(S, projection, data, **kwds):
-    A, B, init = sl_matrices(S)
-    pi = projection.unsqueeze(0).expand(A.shape[0], -1)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, pi=pi, **kwds)
+	A, B, init = sl_matrices(S)
+	pi = projection.unsqueeze(0).expand(A.shape[0], -1)
+	return train(A.shape[0], S, data, A=A, B=B, init=init, pi=pi, **kwds)
 
 def train_sl(S, data, **kwds):
-    A, B, init = sl_matrices(S)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
+	A, B, init = sl_matrices(S)
+	return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
 
 def train_sp(S, data, **kwds):
-    A, B, init = sp_matrices(S)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
+	A, B, init = sp_matrices(S)
+	return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
 
 def train_sl_sp(S, data, **kwds):
-    A, B, init = sl_sp_matrices(S)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
+	A, B, init = sl_sp_matrices(S)
+	return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
 
 def sl_sp_matrices(S):
-    X = S + 1
-    A = torch.block_diag(
-        torch.zeros(X, X, dtype=torch.bool),  # SL
-        torch.eye(X, dtype=torch.bool), # SP
-    )
-    B = torch.cat([
-        torch.eye(X, dtype=torch.bool)[:, 1:], # SL, S -> S + 1
-        torch.eye(X, dtype=torch.bool)[:, 1:] # SP, S -> S
-    ])
-    init = torch.cat([
-        torch.eye(X, dtype=torch.bool)[0],
-        torch.eye(X, dtype=torch.bool)[0],
-    ])
-    return A, B, init
+	X = S + 1
+	A = torch.block_diag(
+		torch.zeros(X, X, dtype=torch.bool),  # SL
+		torch.eye(X, dtype=torch.bool), # SP
+	)
+	B = torch.cat([
+		torch.eye(X, dtype=torch.bool)[:, 1:], # SL, S -> S + 1
+		torch.eye(X, dtype=torch.bool)[:, 1:] # SP, S -> S
+	])
+	init = torch.cat([
+		torch.eye(X, dtype=torch.bool)[0],
+		torch.eye(X, dtype=torch.bool)[0],
+	])
+	return A, B, init
 
 def sl_matrices(S):
-    """ A and B matrices for 2-SL """
-    # S+1 to account for the initial state
-    # TODO: also need a constant state dimension for bias?
-    X = S + 1
-    A = torch.zeros(X, X)
-    B = torch.eye(X)[:, 1:]
-    init = torch.eye(X)[0]
-    return torch.zeros(X, X), torch.eye(X)[:, 1:], torch.eye(X)[0]
+	""" A and B matrices for 2-SL """
+	# S+1 to account for the initial state
+	# TODO: also need a constant state dimension for bias?
+	X = S + 1
+	A = torch.zeros(X, X)
+	B = torch.eye(X)[:, 1:]
+	init = torch.eye(X)[0]
+	return torch.zeros(X, X), torch.eye(X)[:, 1:], torch.eye(X)[0]
 
 def sp_matrices(S):
-    """ A and B matrices for 2-SP """
-    # S+1 to account for the initial state, which is persistent
-    X = S + 1
-    A = torch.eye(X, dtype=torch.bool)
-    B = torch.eye(X, dtype=torch.bool)[:, 1:]
-    init = torch.eye(X, dtype=torch.bool)[0]
-    return A, B, init
+	""" A and B matrices for 2-SP """
+	# S+1 to account for the initial state, which is persistent
+	X = S + 1
+	A = torch.eye(X, dtype=torch.bool)
+	B = torch.eye(X, dtype=torch.bool)[:, 1:]
+	init = torch.eye(X, dtype=torch.bool)[0]
+	return A, B, init
 
 def anbn_ssm():
-    """ SSM for a^n b^n. a = 1, b = 2, halt = 0.
-    For every length N, the highest-probability string is a^{(N-1)/2} b^{(N-1)/2} #
-    """
-    A = torch.diag(torch.Tensor([
-        1, # dimension for count of a's
-        1, # dimension for whether we have seen b
-    ]))
-    B = torch.Tensor([ 
-        [0, 1, -1],  # increment for a, decrement for b
-        [0, 0, 10],   # increase for each b
-    ])
-    C = torch.Tensor([
-        [-10, 0], # halt -- only if no outstanding a's.
-        [0, -10], # a -- not allowed if b seen.
-        [0, 0],
-    ])
-    return SSM(A, B, C, init=torch.zeros(2))
+	""" SSM for a^n b^n. a = 1, b = 2, halt = 0.
+	For every length N, the highest-probability string is a^{(N-1)/2} b^{(N-1)/2} #
+	"""
+	A = torch.diag(torch.Tensor([
+		1, # dimension for count of a's
+		1, # dimension for whether we have seen b
+	]))
+	B = torch.Tensor([ 
+		[0, 1, -1],  # increment for a, decrement for b
+		[0, 0, 10],   # increase for each b
+	])
+	C = torch.Tensor([
+		[-10, 0], # halt -- only if no outstanding a's.
+		[0, -10], # a -- not allowed if b seen.
+		[0, 0],
+	])
+	return SSM(A, B, C, init=torch.zeros(2))
 
 def sl2_ssm():
-    '''
-    sl2_ssm that prohibits substrings of aa or bb
-    '''
-    A, B = sl_matrices(2)
-    C = torch.Tensor([
-        [-10, 0], # a -- not allowed if a seen
-        [0, -10] # b -- not allowed if b seen
-    ])
-    return SSM(A, B, C, init=torch.zeros(2))
+	'''
+	sl2_ssm that prohibits substrings of aa or bb
+	'''
+	A, B = sl_matrices(2)
+	C = torch.Tensor([
+		[-10, 0], # a -- not allowed if a seen
+		[0, -10] # b -- not allowed if b seen
+	])
+	return SSM(A, B, C, init=torch.zeros(2))
 
 def sp2_ssm():
-    '''
-    sl2_ssm that prohibits subsequences of aa
-    '''
-    A, B = sp_matrices(2)
-    C = torch.Tensor([
-        [-10, 0], # a -- not allowed if a seen
-        [0, 0] # b -- always fine
-    ])
-    return SSM(A, B, C, init=torch.zeros(2))
+	'''
+	sl2_ssm that prohibits subsequences of aa
+	'''
+	A, B = sp_matrices(2)
+	C = torch.Tensor([
+		[-10, 0], # a -- not allowed if a seen
+		[0, 0] # b -- always fine
+	])
+	return SSM(A, B, C, init=torch.zeros(2))
 
 def random_star_ab(S=3, T=4):
-    while True:
-        s = [random.choice(range(3)) for _ in range(T)]
-        if not any(x == 0 and y == 1 for x, y in zip(s, s[1:])):
-             return s
+	while True:
+		s = [random.choice(range(3)) for _ in range(T)]
+		if not any(x == 0 and y == 1 for x, y in zip(s, s[1:])):
+			 return s
 
 def random_and():
-    V1 = random.choice([0,1])
-    V2 = random.choice([0,1])
-    V3 = 1 if V1 and V2 else random.choice([0,1])
-    return [V1, V2, V3]
+	V1 = random.choice([0,1])
+	V2 = random.choice([0,1])
+	V3 = 1 if V1 and V2 else random.choice([0,1])
+	return [V1, V2, V3]
 
 def evaluate_and(model):
-    good = [
-        [0,0,0],
-        [0,0,1],
-        [0,1,0],
-        [0,1,1],
-        [1,0,0],
-        [1,0,1],
-        [1,1,1],
-    ]
-    bad = [
-        [1,1,0],
-    ]
-    return evaluate_model_unpaired(model, good, bad)
+	good = [
+		[0,0,0],
+		[0,0,1],
+		[0,1,0],
+		[0,1,1],
+		[1,0,0],
+		[1,0,1],
+		[1,1,1],
+	]
+	bad = [
+		[1,1,0],
+	]
+	return evaluate_model_unpaired(model, good, bad)
 
 def evaluate_tiptup(model):
-    good = [
-        [0,2,0],
-        [1,2,1],
-        [0,3,1],
-        [1,3,0],
-    ]
-    bad = [
-        [1,2,0],
-        [0,2,1],
-        [1,3,1],
-        [0,3,0]
-    ]
-    return evaluate_model_unpaired(model, good, bad)
+	good = [
+		[0,2,0],
+		[1,2,1],
+		[0,3,1],
+		[1,3,0],
+	]
+	bad = [
+		[1,2,0],
+		[0,2,1],
+		[1,3,1],
+		[0,3,0]
+	]
+	return evaluate_model_unpaired(model, good, bad)
 
 def random_no_axb(n=4, neg=False):
-    # no sequence 20*3
-    # 0 is not projected so should be ignored.
-    # 1 is projected so it should not be ignored: 213 is ok.
-    while True:
-        sequence = [random.choice(range(4)) for _ in range(n)]
-        tier = [x for x in sequence if x != 0]
-        if any(x == 2 and y == 3 for x, y in pairs(tier)) == neg:
-            return sequence
-        
+	# no sequence 20*3
+	# 0 is not projected so should be ignored.
+	# 1 is projected so it should not be ignored: 213 is ok.
+	while True:
+		sequence = [random.choice(range(4)) for _ in range(n)]
+		tier = [x for x in sequence if x != 0]
+		if any(x == 2 and y == 3 for x, y in pairs(tier)) == neg:
+			return sequence
 
-# def has_subsequence(seq, subseq):
-#     """Check if subseq is a subsequence of seq."""
-#     # This doesn't quite work
-#     it = iter(seq)
-#     return all(any(c == ch for c in it) for ch in subseq)
+def has_subsequence(seq, subseq):
+	"""Check if subseq is a subsequence of seq."""
+	it = iter(seq)
 
-# def random_no_ab_subsequence(n=4, neg=False):
-#     while True:
-#         sequence = [random.choice(range(4)) for _ in range(n)]
-#         if has_subsequence(sequence, [2, 3]) == neg:
-#             return sequence
+	return all(elem in it for elem in subseq)
+
+def generate_sequence(length, valid_range):
+	"""Generate a random sequence of given length from the valid range."""
+	return [random.choice(valid_range) for _ in range(length)]
+
+def random_no_aa_subseq(n=4):
+	while True:
+		sequence = generate_sequence(n, range(1, 5))
+		if not has_subsequence(sequence, [2, 2]):
+			return sequence
 
 def random_no_ab(n=4, neg=False):
-    # No substring 23
-    while True:
-        sequence = [random.choice(range(4)) for _ in range(n)]
-        if any(x == 2 and y == 3 for x, y in pairs(sequence)) == neg:
-            return sequence
+	# No substring 23
+	while True:
+		sequence = [random.choice(range(4)) for _ in range(n)]
+		if any(x == 2 and y == 3 for x, y in pairs(sequence)) == neg:
+			return sequence
 
-        
 def random_no_ab_subsequence(n=4, neg=False):
-    # No subsequence 23
-    while True:
-        sequence = [random.choice(range(4)) for _ in range(n)]
-        bad = False
-        for i, sym1 in enumerate(sequence):
-            if sym1 == 2:
-                for j, sym2 in enumerate(sequence[i+1:]):
-                    if sym2 == 3:
-                        bad = True
-        if not neg and not bad:
-            return sequence
-        elif neg and bad:
-            return sequence
+	# No subsequence 23
+	while True:
+		sequence = [random.choice(range(4)) for _ in range(n)]
+		bad = False
+		for i, sym1 in enumerate(sequence):
+			if sym1 == 2:
+				for j, sym2 in enumerate(sequence[i+1:]):
+					if sym2 == 3:
+						bad = True
+		if not neg and not bad:
+			return sequence
+		elif neg and bad:
+			return sequence
 
 def pairs(xs): # contiguous substrings
-    return zip(xs, xs[1:])
+	return zip(xs, xs[1:])
 
 def random_two_tiers(n=6):
-    # two independent tiers, {012} and {345}.
-    # Prohibit *01 and *34 on each tier.
-    p1 = {0,1,2}
-    p2 = {3,4,5}
-    while True:
-        sequence = [random.choice(range(2*3)) for _ in range(n)]
-        tier1 = [x for x in sequence if x in p1]
-        tier2 = [x for x in sequence if x in p2]
-        if (not any(x == 0 and y == 1 for x, y in pairs(tier1))
-            and not any(x == 3 and y == 4 for x, y in pairs(tier2))):
-            return sequence
+	# two independent tiers, {012} and {345}.
+	# Prohibit *01 and *34 on each tier.
+	p1 = {0,1,2}
+	p2 = {3,4,5}
+	while True:
+		sequence = [random.choice(range(2*3)) for _ in range(n)]
+		tier1 = [x for x in sequence if x in p1]
+		tier2 = [x for x in sequence if x in p2]
+		if (not any(x == 0 and y == 1 for x, y in pairs(tier1))
+			and not any(x == 3 and y == 4 for x, y in pairs(tier2))):
+			return sequence
 
 def evaluate_two_tiers(num_epochs=20, batch_size=5, n=6, num_samples=1000, **kwds):
-    """ Evaluation for 2-TSL x 2-TSL with disjoint tiers """
-    dataset = [random_two_tiers(n=n) for _ in range(num_samples)]
-    S = 6
-    X = S + 2
-    # first two states are inits
-    init = torch.zeros(X)
-    init[0] = 1
-    init[1] = 1
-    A = torch.zeros(X, X)
-    B = torch.eye(X)[:, 2:]
-    pi = torch.Tensor([
-        [1,0,1,1,1,0,0,0],
-        [1,0,1,1,1,0,0,0],
-        [1,0,1,1,1,0,0,0],
-        [0,1,0,0,0,1,1,1],
-        [0,1,0,0,0,1,1,1],
-        [0,1,0,0,0,1,1,1],
-    ]).T
-    data = minibatches(dataset, batch_size=batch_size, num_epochs=num_epochs)
-    model = train(X, S, data, A=A, B=B, init=init, pi=pi, **kwds)
-    good = [
-        [0,2,1,3,5,4],
-        [0,2,1,3,5,4],
-        [0,3,2,5,1],
-        [0,5,2,4,1,3],
-    ]
-    bad = [
-        [0,1,2,3,4,5],
-        [0,1,4,3,5,2],
-        [0,3,4,5,1],
-        [0,5,4,3,1,2], 
-    ]
-    
-    return model, evaluate_model_paired(model, good, bad)
+	""" Evaluation for 2-TSL x 2-TSL with disjoint tiers """
+	dataset = [random_two_tiers(n=n) for _ in range(num_samples)]
+	S = 6
+	X = S + 2
+	# first two states are inits
+	init = torch.zeros(X)
+	init[0] = 1
+	init[1] = 1
+	A = torch.zeros(X, X)
+	B = torch.eye(X)[:, 2:]
+	pi = torch.Tensor([
+		[1,0,1,1,1,0,0,0],
+		[1,0,1,1,1,0,0,0],
+		[1,0,1,1,1,0,0,0],
+		[0,1,0,0,0,1,1,1],
+		[0,1,0,0,0,1,1,1],
+		[0,1,0,0,0,1,1,1],
+	]).T
+	data = minibatches(dataset, batch_size=batch_size, num_epochs=num_epochs)
+	model = train(X, S, data, A=A, B=B, init=init, pi=pi, **kwds)
+	good = [
+		[0,2,1,3,5,4],
+		[0,2,1,3,5,4],
+		[0,3,2,5,1],
+		[0,5,2,4,1,3],
+	]
+	bad = [
+		[0,1,2,3,4,5],
+		[0,1,4,3,5,2],
+		[0,3,4,5,1],
+		[0,5,4,3,1,2], 
+	]
+	
+	return model, evaluate_model_paired(model, good, bad)
 
 def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samples=1000, num_test=100, **kwds):
-    """ Evaluation for 2-TSL """
-    dataset = [random_no_axb(n=n) for _ in range(num_samples)]
-    # the first two of these comparisons will be exactly zero for SL
-    # the third comparison will be exactly zero for SL and SP
-    # good = [ # no 23 on the tier {1, 2, 3}
-    #     [0,2,0,1,0,3], # matched on SL factors
-    #     [0,0,2,0,0,1,0,0,3], # matched on SL factors
-    #     [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
-    #     [1,1,3,0,2,0],
-    #     [3,3,2,1,3,0],
-    # ]
+	""" Evaluation for 2-TSL """
+	dataset = [random_no_axb(n=n) for _ in range(num_samples)]
+	# the first two of these comparisons will be exactly zero for SL
+	# the third comparison will be exactly zero for SL and SP
+	# good = [ # no 23 on the tier {1, 2, 3}
+	#	 [0,2,0,1,0,3], # matched on SL factors
+	#	 [0,0,2,0,0,1,0,0,3], # matched on SL factors
+	#	 [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
+	#	 [1,1,3,0,2,0],
+	#	 [3,3,2,1,3,0],
+	# ]
 
-    # bad = [
-    #     [0,1,0,2,0,3], 
-    #     [0,0,1,0,0,2,0,0,3],
-    #     [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
-    #     [1,1,2,0,3,0],
-    #     [3,3,2,0,3,0],
-    # ]
-    good = [random_no_axb(n=n+1) for _ in range(num_test)]
-    bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
+	# bad = [
+	#	 [0,1,0,2,0,3], 
+	#	 [0,0,1,0,0,2,0,0,3],
+	#	 [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
+	#	 [1,1,2,0,3,0],
+	#	 [3,3,2,0,3,0],
+	# ]
+	good = [random_no_axb(n=n+1) for _ in range(num_test)]
+	bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
 
-    if model_type == 'tsl':
-        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl':
-        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sp':
-        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl_sp':
-        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    else:
-        raise TypeError("Unknown model type %s" % model_type)
+	if model_type == 'tsl':
+		model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sl':
+		model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sp':
+		model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sl_sp':
+		model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	else:
+		raise TypeError("Unknown model type %s" % model_type)
 
-    return evaluate_model_unpaired(model, good, bad)
+	return evaluate_model_unpaired(model, good, bad)
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_samples=1000, num_test=100, **kwds): # SL2 dataset
-    dataset = [random_no_ab(n=n) for _ in range(num_samples)]
+	dataset = [random_no_ab(n=n) for _ in range(num_samples)]
 
-    # good = [
-    #     [0, 2, 1, 3, 2, 2], # matched on 2-SP factors
-    #     [2, 0, 3, 1, 3, 2], # TSL model will fail
-    #     [3, 2, 1, 0, 1, 3],
-    #     [1, 3, 2, 0, 3, 1], # TSL model will fail
-    #     [0, 1, 2, 1, 3, 2]
-    # ]
-    # bad = [
-    #     [0, 2, 1, 2, 3, 2], # matched on 2-SP factors
-    #     [2, 3, 0, 1, 3, 2],
-    #     [3, 2, 1, 0, 2, 3],
-    #     [1, 3, 2, 3, 0, 1], 
-    #     [0, 1, 2, 3, 1, 2]
-    # ]
-    good = [random_no_ab(n=n+1) for _ in range(num_test)]
-    bad = [random_no_ab(n=n+1, neg=True) for _ in range(num_test)]
+	# good = [
+	#	 [0, 2, 1, 3, 2, 2], # matched on 2-SP factors
+	#	 [2, 0, 3, 1, 3, 2], # TSL model will fail
+	#	 [3, 2, 1, 0, 1, 3],
+	#	 [1, 3, 2, 0, 3, 1], # TSL model will fail
+	#	 [0, 1, 2, 1, 3, 2]
+	# ]
+	# bad = [
+	#	 [0, 2, 1, 2, 3, 2], # matched on 2-SP factors
+	#	 [2, 3, 0, 1, 3, 2],
+	#	 [3, 2, 1, 0, 2, 3],
+	#	 [1, 3, 2, 3, 0, 1], 
+	#	 [0, 1, 2, 3, 1, 2]
+	# ]
+	good = [random_no_ab(n=n+1) for _ in range(num_test)]
+	bad = [random_no_ab(n=n+1, neg=True) for _ in range(num_test)]
 
-    if model_type == 'tsl':
-        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl':
-        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sp':
-        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl_sp':
-        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    else:
-        raise TypeError("Unknown model type %s" % model_type)
+	if model_type == 'tsl':
+		model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sl':
+		model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sp':
+		model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sl_sp':
+		model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	else:
+		raise TypeError("Unknown model type %s" % model_type)
 
-    return evaluate_model_unpaired(model, good, bad)
+	return evaluate_model_unpaired(model, good, bad)
 
-    # 2-SP language *a-a
-    # 2-TSL language: *a-a, Tier = {a, b, c, d}
+	# 2-SP language *a-a
+	# 2-TSL language: *a-a, Tier = {a, b, c, d}
 
-    # For a string like aba
-    # - this is prohibited by SP but allowed by TSL
-    # but for Tier = {a} then no 
+	# For a string like aba
+	# - this is prohibited by SP but allowed by TSL
+	# but for Tier = {a} then no 
 
 def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_samples=1000, num_test=100, **kwds):
-    """ Evaluation for 2-SP """
-    dataset = [random_no_ab_subsequence(n=n) for _ in range(num_samples)]
-    # the first two of these comparisons will be exactly zero for SL
-    # the third comparison will be exactly zero for SL and SP
-    # good = [ # no 23 on the tier {1, 2, 3}
-    #     [0,2,0,1,0,3], # matched on SL factors
-    #     [0,0,2,0,0,1,0,0,3], # matched on SL factors
-    #     [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
-    #     [1,1,3,0,2,0],
-    #     [3,3,2,1,3,0],
-    # ]
+	""" Evaluation for 2-SP """
+	dataset = [random_no_ab_subsequence(n=n) for _ in range(num_samples)]
+	# the first two of these comparisons will be exactly zero for SL
+	# the third comparison will be exactly zero for SL and SP
+	# good = [ # no 23 on the tier {1, 2, 3}
+	#	 [0,2,0,1,0,3], # matched on SL factors
+	#	 [0,0,2,0,0,1,0,0,3], # matched on SL factors
+	#	 [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
+	#	 [1,1,3,0,2,0],
+	#	 [3,3,2,1,3,0],
+	# ]
 
-    # bad = [
-    #     [0,1,0,2,0,3], 
-    #     [0,0,1,0,0,2,0,0,3],
-    #     [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
-    #     [1,1,2,0,3,0],
-    #     [3,3,2,0,3,0],
-    # ]
-    good = [random_no_ab_subsequence(n=n+1) for _ in range(num_test)]
-    bad = [random_no_ab_subsequence(n=n+1, neg=True) for _ in range(num_test)]
-    
-    if model_type == 'tsl':
-        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl':
-        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sp':
-        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl_sp':
-        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    else:
-        raise TypeError("Unknown model type %s" % model_type)
+	# bad = [
+	#	 [0,1,0,2,0,3], 
+	#	 [0,0,1,0,0,2,0,0,3],
+	#	 [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
+	#	 [1,1,2,0,3,0],
+	#	 [3,3,2,0,3,0],
+	# ]
+	good = [random_no_ab_subsequence(n=n+1) for _ in range(num_test)]
+	bad = [random_no_ab_subsequence(n=n+1, neg=True) for _ in range(num_test)]
+	
+	if model_type == 'tsl':
+		model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sl':
+		model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sp':
+		model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	elif model_type == 'sl_sp':
+		model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+	else:
+		raise TypeError("Unknown model type %s" % model_type)
 
-    # breakpoint()
-    return evaluate_model_unpaired(model, good, bad)
+	# breakpoint()
+	return evaluate_model_unpaired(model, good, bad)
 
 def evaluate_model_paired(model, good_strings, bad_strings):
-    def gen():
-        for good, bad in zip(good_strings, bad_strings):
-            yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
-    df = pd.DataFrame(list(gen()))
-    df.columns = ['good', 'bad', 'good_score', 'bad_score']
-    df['diff'] = df['good_score'] - df['bad_score']
-    return df            
+	def gen():
+		for good, bad in zip(good_strings, bad_strings):
+			yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
+	df = pd.DataFrame(list(gen()))
+	df.columns = ['good', 'bad', 'good_score', 'bad_score']
+	df['diff'] = df['good_score'] - df['bad_score']
+	return df			
 
 def evaluate_model_unpaired(model, good_strings, bad_strings):
-    """ Do a pairwise comparison of log likelihood for all good and bad strings. """
-    def gen():
-        for good in good_strings:
-            for bad in bad_strings:
-                yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
-    df = pd.DataFrame(list(gen()))
-    df.columns = ['good', 'bad', 'good_score', 'bad_score']
-    df['diff'] = df['good_score'] - df['bad_score']
-    return df
+	""" Do a pairwise comparison of log likelihood for all good and bad strings. """
+	def gen():
+		for good in good_strings:
+			for bad in bad_strings:
+				yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
+	df = pd.DataFrame(list(gen()))
+	df.columns = ['good', 'bad', 'good_score', 'bad_score']
+	df['diff'] = df['good_score'] - df['bad_score']
+	return df
 
 def evaluate_model_simple(model, good_strings, bad_strings):
-    df_list = []
-    for good in good_strings:
-        df_list.append([good, 'good', model.log_likelihood(good).item()])
-    for bad in bad_strings:
-        df_list.append([bad, 'bad', model.log_likelihood(bad).item()])
-    df = pd.DataFrame(df_list)
-    df.columns = ['string', 'grammatical', 'score']
-    return df
+	df_list = []
+	for good in good_strings:
+		df_list.append([good, 'good', model.log_likelihood(good).item()])
+	for bad in bad_strings:
+		df_list.append([bad, 'bad', model.log_likelihood(bad).item()])
+	df = pd.DataFrame(df_list)
+	df.columns = ['string', 'grammatical', 'score']
+	return df
 
 def random_tiptup():
-    C1 = random.choice([0,1])
-    C2 = random.choice([0,1])
-    V = 2 + C1 ^ C2 
-    return [C1, V, C2]
+	C1 = random.choice([0,1])
+	C2 = random.choice([0,1])
+	V = 2 + C1 ^ C2 
+	return [C1, V, C2]
 
 def random_xor():
-    two = [random.choice(range(2)) for _ in range(2)]
-    return two + [two[0] ^ two[1]]
-             
+	two = [random.choice(range(2)) for _ in range(2)]
+	return two + [two[0] ^ two[1]]
+			 
 def random_anbn(p_halt=1/2, start=1):
-    T = start
-    while True:
-        if random.random() < p_halt:
-            break
-        else:
-            T += 1
-    return [1]*T + [2]*T + [0]
-            
+	T = start
+	while True:
+		if random.random() < p_halt:
+			break
+		else:
+			T += 1
+	return [1]*T + [2]*T + [0]
+			
 
 if __name__ == "__main__":
-    # print("Training SP model on SL data")
-    # results_sp_no_ab = evaluate_no_ab(model_type = 'sp')
-    # print("Training SL model on SL data")
-    # results_sl_no_ab = evaluate_no_ab(model_type = 'sl')
-    # print("Training TSL model on SL data")
-    # results_tsl_no_ab = evaluate_no_ab(model_type = 'tsl')
+	print("Training SP model on SL data")
+	results_sp_no_ab = evaluate_no_ab(model_type = 'sp')
+	print("Training SL model on SL data")
+	results_sl_no_ab = evaluate_no_ab(model_type = 'sl')
+	print("Training TSL model on SL data")
+	results_tsl_no_ab = evaluate_no_ab(model_type = 'tsl')
 
-    # sp_no_ab_mean = np.mean(results_sp_no_ab['diff'])
-    # sl_no_ab_mean = np.mean(results_sl_no_ab['diff'])
-    # tsl_no_ab_mean = np.mean(results_tsl_no_ab['diff'])
+	sp_no_ab_mean = np.mean(results_sp_no_ab['diff'])
+	sl_no_ab_mean = np.mean(results_sl_no_ab['diff'])
+	tsl_no_ab_mean = np.mean(results_tsl_no_ab['diff'])
 
-    # print("SL datatset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
-    #     sl_no_ab_mean, sp_no_ab_mean, tsl_no_ab_mean 
-    # ))
-    
-    # print("Training SP model on TSL data")
-    # results_sp_no_axb = evaluate_no_axb(model_type = 'sp')
-    # print("Training SL model on TSL data")
-    # results_sl_no_axb = evaluate_no_axb(model_type = 'sl')
-    # print("Training TSL model on TSL data")
-    # results_tsl_no_axb = evaluate_no_axb(model_type = 'tsl')
+	print("SL datatset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
+		sl_no_ab_mean, sp_no_ab_mean, tsl_no_ab_mean 
+	))
+	
+	# print("Training SP model on TSL data")
+	# results_sp_no_axb = evaluate_no_axb(model_type = 'sp')
+	# print("Training SL model on TSL data")
+	# results_sl_no_axb = evaluate_no_axb(model_type = 'sl')
+	# print("Training TSL model on TSL data")
+	# results_tsl_no_axb = evaluate_no_axb(model_type = 'tsl')
 
-    # sl_no_axb_mean = np.mean(results_sl_no_axb['diff'])
-    # tsl_no_axb_mean = np.mean(results_tsl_no_axb['diff'])
-    # sp_no_axb_mean = np.mean(results_sp_no_axb['diff'])
+	# sl_no_axb_mean = np.mean(results_sl_no_axb['diff'])
+	# tsl_no_axb_mean = np.mean(results_tsl_no_axb['diff'])
+	# sp_no_axb_mean = np.mean(results_sp_no_axb['diff'])
 
-    # print("TSL dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
-    #     sl_no_axb_mean, sp_no_axb_mean, tsl_no_axb_mean
-    # ))
-    
-    print("Training SP model on SP data")
-    results_sp_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'sp')
-    print("Training SL model on SP data")
-    results_sl_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'sl')
-    print("Training TSL model on SP data")
-    results_tsl_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'tsl')
+	# print("TSL dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
+	# 	sl_no_axb_mean, sp_no_axb_mean, tsl_no_axb_mean
+	# ))
+	
+	# print("Training SP model on SP data")
+	# results_sp_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'sp')
+	# print("Training SL model on SP data")
+	# results_sl_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'sl')
+	# print("Training TSL model on SP data")
+	# results_tsl_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'tsl')
 
-    sl_no_ab_subsequence_mean = np.mean(results_sl_no_ab_subsequence['diff'])
-    tsl_no_ab_subsequence_mean = np.mean(results_tsl_no_ab_subsequence['diff'])
-    sp_no_ab_subsequence_mean = np.mean(results_sp_no_ab_subsequence['diff'])
+	# sl_no_ab_subsequence_mean = np.mean(results_sl_no_ab_subsequence['diff'])
+	# tsl_no_ab_subsequence_mean = np.mean(results_tsl_no_ab_subsequence['diff'])
+	# sp_no_ab_subsequence_mean = np.mean(results_sp_no_ab_subsequence['diff'])
 
-    print("SP dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
-        sl_no_ab_subsequence_mean, sp_no_ab_subsequence_mean, tsl_no_ab_subsequence_mean
-    ))
-
-            # SSM-SL SSM-SP SSM-TSL
-    # SL-2    11.51   5.15    9.84
-    # TSL   0.06    0.49    4.39
-    # SP    
-    # XOR
-    # ...
-
-
-    # results2 = evaluate_no_axb(model_type='sl')
-    # print(results2)
-
-    # Evaluation: 
-    # 1. SL example that cannot be captured in SP
-    # no bb \Sigma*bb\Sigma*
-    # vs.  no b...b \Sigma*b\Sigma*b\Sigma*
-    # Parity 
-
+	# print("SP dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
+	# 	sl_no_ab_subsequence_mean, sp_no_ab_subsequence_mean, tsl_no_ab_subsequence_mean
+	# ))
 
 
 # SP but not captured by SL
@@ -692,6 +676,4 @@ if __name__ == "__main__":
 
 # For a string like aba
 # - this is prohibited by SP but allowed by TSL
-# but for Tier = {a} then no 
-
-print(has_subsequence("231", [2,3]))
+# but for Tier = {a} then no
