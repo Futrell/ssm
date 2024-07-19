@@ -153,7 +153,6 @@ class PhonotacticsModel:
             reporting_window.append(loss.detach())
             if i % print_every == 0:
                 print(i, np.mean(reporting_window))
-        return self
 
 class Factor2(PhonotacticsModel):
     """ Phonotactics model whose probabilies are determined by factors of 2 segments """
@@ -179,7 +178,7 @@ class Factor2(PhonotacticsModel):
 
 class SL2(Factor2):
     @classmethod
-    def init_matrices(self, d, device=DEVICE):
+    def init_matrices(cls, d, device=DEVICE):
         A = torch.zeros(d, d, device=device) # X x X
         B = torch.eye(d, device=device)[:, 1:] # X x S
         init = torch.eye(d, device=device)[0]
@@ -187,14 +186,15 @@ class SL2(Factor2):
 
 class SP2(Factor2):
     @classmethod
-    def init_matrices(self, d, device=DEVICE):
+    def init_matrices(cls, d, device=DEVICE):
         A = torch.eye(d, d, dtype=bool, device=device)
         B = torch.eye(d, dtype=bool, device=device)[:, 1:]
         init = torch.eye(d, dtype=bool, device=device)[0]
         return A, B, init
 
 class SL_SP2(Factor2):
-    def init_matrices(self, d, device=DEVICE):
+    @classmethod
+    def init_matrices(cls, d, device=DEVICE):
         A = torch.block_diag(
             torch.zeros(d, d, dtype=torch.bool, device=device),  # SL
             torch.eye(d, dtype=torch.bool, device=device), # SP
@@ -465,8 +465,9 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
         model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
     else:
         model = model_type.initialize(4)
-        
-    model.train(minibatches(dataset, batch_size, num_epochs=num_epochs))
+
+    data = minibatches(dataset, batch_size, num_epochs=num_epochs)
+    model.train(data, **kwds)
     return evaluate_model_paired(model.ssm, good, bad)
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples=1000, num_test=100, **kwds): # SL2 dataset
@@ -493,8 +494,9 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples
         model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
     else:
         model = model_type.initialize(4)
-
-    model.train(minibatches(dataset, batch_size, num_epochs=num_epochs))        
+        
+    data = minibatches(dataset, batch_size, num_epochs=num_epochs)
+    model.train(data, **kwds)
     return evaluate_model_unpaired(model.ssm, good, bad)
 
     # 2-SP language *a-a
@@ -532,7 +534,8 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2,
     else:
         model = model_type.initialize(4)
 
-    model.train(minibatches(dataset, batch_size, num_epochs=num_epochs))        
+    data = minibatches(dataset, batch_size, num_epochs=num_epochs)
+    model.train(data, **kwds)
     return evaluate_model_unpaired(model.ssm, good, bad)
 
 def evaluate_model_paired(model, good_strings, bad_strings):
@@ -583,7 +586,6 @@ def random_anbn(p_halt=1/2, start=1):
         else:
             T += 1
     return [1]*T + [2]*T + [0]
-            
 
 if __name__ == "__main__":
     print("Training SP model on SL data")
