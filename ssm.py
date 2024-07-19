@@ -92,7 +92,7 @@ class SSM:
 			
 			# Get output vector given current state.
 			# TODO: Is this right for non-one-hot-representations?
-			y = self.C @ (proj * x).float()
+			y = (self.C * self.pi.T) @ x.float()
 
 			# TODO: below is only correct for one-hot feature representation
 			
@@ -147,6 +147,7 @@ def train(K: int,
 		  C: Optional[torch.Tensor]=None,
 		  init: Optional[torch.Tensor]=None,
 		  pi: Optional[torch.Tensor]=None,
+                  learn_pi: bool=False,
 		  print_every: int=1000,
 		  device: str=DEVICE,
 		  **kwds) -> SSM:
@@ -160,17 +161,24 @@ def train(K: int,
 	A = torch.randn(K, K, requires_grad=True, device=device) if A is None else A.to(device)
 	B = torch.randn(K, S, requires_grad=True, device=device) if B is None else B.to(device)
 	C = torch.randn(S, K, requires_grad=True, device=device) if C is None else C.to(device)
-	
+
+	params = [A, B, C]
+
 	if init is not None:
 		init = init.to(device)
 
 	if pi is not None:
 		pi = pi.to(device)
-		
-	opt = torch.optim.AdamW(params=[A, B, C], **kwds)
+        elif learn_pi:
+                underlying_pi = torch.randn(K, S, requires_grad=True, device=device)
+                params.append(underlying_pi)
+
+	opt = torch.optim.AdamW(params=params, **kwds)        
 	
 	for i, xs in enumerate(data):
 		opt.zero_grad()
+                if learn_pi:
+                        pi = torch.sigmoid(underlying_pi)
 		model = SSM(A, B, C, init, pi=pi)
 		loss = -torch.stack([model.log_likelihood(x) for x in xs]).sum()
 		loss.backward()
@@ -210,6 +218,10 @@ def train_tsl(S, projection, data, **kwds):
 	A, B, init = sl_matrices(S)
 	pi = projection.unsqueeze(0).expand(A.shape[0], -1)
 	return train(A.shape[0], S, data, A=A, B=B, init=init, pi=pi, **kwds)
+
+def train_soft_tsl(S, data, **kwds):
+        A, B, init = sl_matrices(S)
+        return train(A.shape[0], S, data, A=A, B=B, init=init, learn_pi=True, **kwds)
 
 def train_sl(S, data, **kwds):
 	A, B, init = sl_matrices(S)
@@ -446,26 +458,28 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
 	dataset = [random_no_axb(n=n) for _ in range(num_samples)]
 	# the first two of these comparisons will be exactly zero for SL
 	# the third comparison will be exactly zero for SL and SP
-	# good = [ # no 23 on the tier {1, 2, 3}
-	#	 [0,2,0,1,0,3], # matched on SL factors
-	#	 [0,0,2,0,0,1,0,0,3], # matched on SL factors
-	#	 [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
-	#	 [1,1,3,0,2,0],
-	#	 [3,3,2,1,3,0],
-	# ]
+	good = [ # no 23 on the tier {1, 2, 3}
+		 [0,2,0,1,0,3], # matched on SL factors
+		 [0,0,2,0,0,1,0,0,3], # matched on SL factors
+		 [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
+		 [1,1,3,0,2,0],
+		 [3,3,2,1,3,0],
+	]
 
-	# bad = [
-	#	 [0,1,0,2,0,3], 
-	#	 [0,0,1,0,0,2,0,0,3],
-	#	 [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
-	#	 [1,1,2,0,3,0],
-	#	 [3,3,2,0,3,0],
-	# ]
-	good = [random_no_axb(n=n+1) for _ in range(num_test)]
-	bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
+	bad = [
+		[0,1,0,2,0,3], 
+		[0,0,1,0,0,2,0,0,3],
+		[0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
+		[1,1,2,0,3,0],
+		[3,3,2,0,3,0],
+	]
+	#good = [random_no_axb(n=n+1) for _ in range(num_test)]
+	#bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
 
 	if model_type == 'tsl':
 		model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
+        if model_type == 'soft_tsl':
+                model = train_soft_tsl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
 	elif model_type == 'sl':
 		model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
 	elif model_type == 'sp':
@@ -475,7 +489,7 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
 	else:
 		raise TypeError("Unknown model type %s" % model_type)
 
-	return evaluate_model_unpaired(model, good, bad)
+	return evaluate_model_paired(model, good, bad)
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_samples=1000, num_test=100, **kwds): # SL2 dataset
 	dataset = [random_no_ab(n=n) for _ in range(num_samples)]
