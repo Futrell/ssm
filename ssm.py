@@ -62,32 +62,33 @@ class SSM:
 		self.dtype = self.A.dtype
 
 		self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
-		self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi
-		self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init
+		
+		self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
+		self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
 
 		# The projection matrix pi is a function from input feature i to state feature j.
 		# It says, for input feature i, whether state feature j should be sensitive to it.
 		# By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
 		if pi is None:
-			self.pi = torch.ones(X, U, dtype=self.dtype, device=device)
+			self.pi = torch.ones(X, U, dtype=self.dtype, device=device) # default [[1, 1, 1, ...], ...]
 		else:
 			self.pi = pi
 			assert self.pi.shape[0] == X
 			assert self.pi.shape[1] == U
 
-	def log_likelihood(self, sequence, init=None):
+	def log_likelihood(self, sequence, init=None, debug=False):
 		'''
 		calculate log likelihood of sequence under this model
 		'''
 		if init is None:
-			x = self.init
+			x = self.init # shape X
 		else:
-			x = init
+			x = init # shape X
 			
 		score = 0.0
 		for symbol in sequence:
-			u = self.phi[symbol]
-			proj = self.semiring.mv(self.pi, u)
+			u = self.phi[symbol]  # for example, input 2  -> vector [0, 0, 1, 0, ...], shape U
+			proj = self.semiring.mv(self.pi, u) # pi @ u, shape X
 			
 			# Get output vector given current state.
 			# TODO: Is this right for non-one-hot-representations?
@@ -102,6 +103,9 @@ class SSM:
 			# Update state
 			update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u)
 			x = self.semiring.complement(proj)*x + proj*update
+
+			if debug:
+				breakpoint()
 		return score
 
 	def output_sequence(self, input, init=None, debug=False):
