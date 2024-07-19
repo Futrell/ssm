@@ -23,14 +23,10 @@ def boolean_mm(A, B):
     """ Boolean matrix-matrix multiplication. """
     return torch.any(A & B, -2)
 
-def boolean_vv(x, y):
-    """ Boolean vector-vector inner product. """
-    return torch.any(x & y)
-
 Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'dot', 'mv', 'mm', 'complement'])
 
-RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, operator.matmul, operator.matmul, lambda x: 1-x)
-BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_vv, boolean_mv, boolean_mm, operator.invert)
+RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, operator.matmul, lambda x: 1-x)
+BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv, boolean_mm, operator.invert)
 
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
 
@@ -126,18 +122,17 @@ class SSM:
         logits = self.output_sequence(sequence, init).y
         return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
 
-def product(a: SSM, b: SSM) -> SSM:
-    # untested
-    A = torch.block_diag(a.A, b.A)
-    B = torch.block_diag(a.B, b.B)
-    pi = torch.block_diag(a.pi, b.pi)
+    def __mul__(self: SSM, other: SSM) -> SSM:
+        # untested
+        A = torch.block_diag(self.A, other.A)
+        B = torch.block_diag(self.B, other.B)
+        pi = torch.block_diag(self.pi, other.pi)
 
-    C = torch.cat([a.C, b.C])
-    init = torch.cat([a.init, b.init])
-    pi = torch.cat([a.pi, b.pi])
-    phi = torch.cat([a.phi, b.phi])
-    return SSM(A, B, C, init, pi=pi, phi=phi)
-
+        C = torch.cat([self.C, other.C])
+        init = torch.cat([self.init, other.init])
+        pi = torch.cat([self.pi, other.pi])
+        phi = torch.cat([self.phi, other.phi])
+        return SSM(A, B, C, init, pi=pi, phi=phi)
 
 # Classes for trainable phonotactics models
 
@@ -276,7 +271,6 @@ class TSP2(TierBased, SP2):
 
 class SoftTSL2(SoftTierBased, SL2):
     pass
-
 
 # Data handling
     
