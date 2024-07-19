@@ -142,12 +142,39 @@ def product(a: SSM, b: SSM) -> SSM:
 # Classes for trainable phonotactics models
 
 class PhonotacticsModel:
+    def __init__(self, A, B, C, init=None, pi=None):
+        self.A = A
+        self.B = B
+        self.C = C
+        self.init = init
+        self.pi = pi
+
+    @classmethod
+    def initialize(cls, X, S, requires_grad=True, device=DEVICE):
+        self.A = torch.randn(X, X, requires_grad=requires_grad, device=device)
+        self.B = torch.randn(X, S, requires_grad=requires_grad, device=device)
+        self.C = torch.randn(S, X, requires_grad=requires_grad, device=device)
+        return cls(A, B, C)
+
+    def parameters(self):
+        params = [self.A, self.B, self.C]
+        if self.init is not None:
+            params.append(self.init)
+        if self.pi is not None:
+            params.append(self.pi)
+        return params
+
+    @property
+    def ssm(self):
+        return SSM(A, B, C, init=self.init, pi=self.pi)
+        
     def train(self, data, print_every: int=1000, device: str=DEVICE, debug: bool=False, reporting_window_size: int=100, **kwds):
         opt = torch.optim.AdamW(params=self.parameters(), **kwds)
         reporting_window = deque(maxlen=reporting_window_size)
         for i, xs in enumerate(data):
             opt.zero_grad()
-            loss = -torch.stack([self.ssm.log_likelihood(x, debug=debug) for x in xs]).sum()
+            model = self.ssm
+            loss = -torch.stack([model.log_likelihood(x, debug=debug) for x in xs]).sum()
             loss.backward()
             opt.step()
             reporting_window.append(loss.detach())
