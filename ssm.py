@@ -164,16 +164,15 @@ class PhonotacticsModel:
             params.append(self.pi)
         return params
 
-    @property
     def ssm(self):
         return SSM(A, B, C, init=self.init, pi=self.pi)
         
     def train(self, data, print_every: int=1000, device: str=DEVICE, debug: bool=False, reporting_window_size: int=100, **kwds):
         opt = torch.optim.AdamW(params=self.parameters(), **kwds)
         reporting_window = deque(maxlen=reporting_window_size)
-        for i, xs in enumerate(data):
+        for i, xs in enumerate(data, 1):
             opt.zero_grad()
-            model = self.ssm
+            model = self.ssm()
             loss = -torch.stack([model.log_likelihood(x, debug=debug) for x in xs]).sum()
             loss.backward()
             opt.step()
@@ -183,10 +182,10 @@ class PhonotacticsModel:
 
 class Factor2(PhonotacticsModel):
     """ Phonotactics model whose probabilies are determined by factors of 2 segments """
-    def __init__(self, factors, device=DEVICE):
+    def __init__(self, factors):
         S, X = factors.shape
         self.factors = factors
-        self.A, self.B, self.init = self.init_matrices(X, device=device)
+        self.A, self.B, self.init = self.init_matrices(X, device=factors.device)
 
     def init_matrices(self, d):
         raise NotImplementedError
@@ -199,7 +198,6 @@ class Factor2(PhonotacticsModel):
         factors = torch.randn(S, S+1, requires_grad=requires_grad, device=device)
         return cls(factors)
 
-    @property
     def ssm(self):
         return SSM(self.A, self.B, self.factors, init=self.init)
 
@@ -237,27 +235,26 @@ class SL_SP2(Factor2):
         return A, B, init
     
 class TierBased(Factor2):
-    def __init__(self, factors, projection, device=DEVICE):
+    def __init__(self, factors, projection):
         S, X = factors.shape
         self.factors = factors
         self.projection = projection     
-        self.A, self.B, self.init = self.init_matrices(X, device=device)
+        self.A, self.B, self.init = self.init_matrices(X, device=factors.device)
 
     @classmethod
     def initialize(cls, S, projection, requires_grad: bool=True, device: str=DEVICE):
         factors = torch.randn(S, S + 1, requires_grad=requires_grad, device=device)
         return cls(factors, projection)
 
-    @property
     def ssm(self):
         return SSM(self.A, self.B, self.factors, init=self.init, pi=self.projection.unsqueeze(0))
 
 class SoftTierBased(Factor2):
-    def __init__(self, factors, projection, device=DEVICE):
+    def __init__(self, factors, projection):
         S, X = factors.shape
         self.factors = factors
         self.projection = projection     
-        self.A, self.B, self.init = self.init_matrices(X, device=device)
+        self.A, self.B, self.init = self.init_matrices(X, device=factors.device)
         
     @classmethod
     def initialize(cls, S, requires_grad: bool=True, device: str=DEVICE):
@@ -268,7 +265,6 @@ class SoftTierBased(Factor2):
     def parameters(self):
         return [self.factors, self.projection]
 
-    @property
     def ssm(self):
         return SSM(self.A, self.B, self.factors, init=self.init, pi=torch.sigmoid(self.projection.unsqueeze(0)))
 
@@ -495,7 +491,7 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
 
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, **kwds)
-    return evaluate_model_paired(model.ssm, good, bad)
+    return evaluate_model_paired(model.ssm(), good, bad)
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples=1000, num_test=100, **kwds): # SL2 dataset
     dataset = [random_no_ab(n=n) for _ in range(num_samples)]
@@ -524,7 +520,7 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples
         
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, **kwds)
-    return evaluate_model_unpaired(model.ssm, good, bad)
+    return evaluate_model_unpaired(model.ssm(), good, bad)
 
     # 2-SP language *a-a
     # 2-TSL language: *a-a, Tier = {a, b, c, d}
@@ -563,7 +559,7 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2,
 
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, **kwds)
-    return evaluate_model_unpaired(model.ssm, good, bad)
+    return evaluate_model_unpaired(model.ssm(), good, bad)
 
 def evaluate_model_paired(model, good_strings, bad_strings):
     def gen():
