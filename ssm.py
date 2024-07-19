@@ -233,7 +233,7 @@ class SL_SP2(Factor2):
             torch.eye(d, dtype=torch.bool, device=device)[0],
         ])
         return A, B, init
-    
+
 class TierBased(Factor2):
     def __init__(self, factors, projection):
         S, X = factors.shape
