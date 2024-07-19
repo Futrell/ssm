@@ -73,7 +73,7 @@ class SSM:
             self.pi = torch.ones(X, U, dtype=self.dtype, device=device) # default [[1, 1, 1, ...], ...]
         else:
             self.pi = pi
-            assert self.pi.shape[0] == X
+            #assert self.pi.shape[0] == X
             assert self.pi.shape[1] == U
 
     def log_likelihood(self, sequence, init=None, debug=False):
@@ -147,7 +147,7 @@ def train(K: int,
           C: Optional[torch.Tensor]=None,
           init: Optional[torch.Tensor]=None,
           pi: Optional[torch.Tensor]=None,
-                  learn_pi: bool=False,
+          learn_pi: bool=False,
           print_every: int=1000,
           device: str=DEVICE,
           **kwds) -> SSM:
@@ -170,7 +170,7 @@ def train(K: int,
     if pi is not None:
         pi = pi.to(device)
     elif learn_pi:
-            underlying_pi = torch.randn(K, S, requires_grad=True, device=device)
+            underlying_pi = torch.randn(1, S, requires_grad=True, device=device)
             params.append(underlying_pi)
 
     opt = torch.optim.AdamW(params=params, **kwds)        
@@ -478,8 +478,8 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
 
     if model_type == 'tsl':
         model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-        if model_type == 'soft_tsl':
-                model = train_soft_tsl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+    elif model_type == 'soft_tsl':
+        model = train_soft_tsl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sl':
         model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sp':
@@ -575,6 +575,7 @@ def evaluate_model_paired(model, good_strings, bad_strings):
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
+    breakpoint()
     return df            
 
 def evaluate_model_unpaired(model, good_strings, bad_strings):
