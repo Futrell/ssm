@@ -23,7 +23,7 @@ def boolean_mm(A, B):
     """ Boolean matrix-matrix multiplication. """
     return torch.any(A & B, -2)
 
-Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'dot', 'mv', 'mm', 'complement'])
+Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'mv', 'mm', 'complement'])
 
 RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, operator.matmul, lambda x: 1-x)
 BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv, boolean_mm, operator.invert)
