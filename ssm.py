@@ -3,7 +3,7 @@ import random
 from typing import *
 import operator
 import itertools
-from collections import namedtuple
+from collections import namedtuple, deque
 
 import tqdm
 import torch
@@ -33,6 +33,9 @@ RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, opera
 BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_vv, boolean_mv, boolean_mm, operator.invert)
 
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
+
+
+# Core SSM logic
 
 class SSM:
     def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
@@ -70,10 +73,9 @@ class SSM:
         # It says, for input feature i, whether state feature j should be sensitive to it.
         # By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
         if pi is None:
-            self.pi = torch.ones(X, U, dtype=self.dtype, device=device) # default [[1, 1, 1, ...], ...]
+            self.pi = torch.ones(1, U, dtype=self.dtype, device=device) # default [[1, 1, 1, ...]]
         else:
             self.pi = pi
-            #assert self.pi.shape[0] == X
             assert self.pi.shape[1] == U
 
     def log_likelihood(self, sequence, init=None, debug=False):
@@ -91,11 +93,8 @@ class SSM:
             proj = self.semiring.mv(self.pi, u) # pi @ u, shape X
             
             # Get output vector given current state.
-            # TODO: Is this right for non-one-hot-representations?
             y = (self.C * self.pi.T) @ x.float()
 
-            # TODO: below is only correct for one-hot feature representation
-            
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
@@ -119,7 +118,7 @@ class SSM:
             x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
             if debug:
                 breakpoint()
-        y = torch.einsum("yx,tx->ty", self.C, (proj * x[:-1]).float())
+        y = torch.einsum("yx,tx->ty", (self.C * self.pi.T), x[:-1].float())
         return SSMOutput(u, proj, x, y)
 
     def log_likelihood2(self, sequence, init=None):
@@ -139,55 +138,125 @@ def product(a: SSM, b: SSM) -> SSM:
     phi = torch.cat([a.phi, b.phi])
     return SSM(A, B, C, init, pi=pi, phi=phi)
 
-def train(K: int,
-          S: int,
-          data: Iterable[Iterable[int]],
-          A: Optional[torch.Tensor]=None,
-          B: Optional[torch.Tensor]=None,
-          C: Optional[torch.Tensor]=None,
-          init: Optional[torch.Tensor]=None,
-          pi: Optional[torch.Tensor]=None,
-          learn_pi: bool=False,
-          print_every: int=1000,
-          device: str=DEVICE,
-          **kwds) -> SSM:
-    '''
-    Fit model to a dataset
-    K: dimension of state space vector
-    S: dimension of input vector
 
-    data: An iterable of batches of data.
-    '''
-    A = torch.randn(K, K, requires_grad=True, device=device) if A is None else A.to(device)
-    B = torch.randn(K, S, requires_grad=True, device=device) if B is None else B.to(device)
-    C = torch.randn(S, K, requires_grad=True, device=device) if C is None else C.to(device)
+# Classes for trainable phonotactics models
 
-    params = [A, B, C]
+class PhonotacticsModel:
+    def train(self, data, print_every: int=1000, device: str=DEVICE, debug: bool=False, reporting_window_size: int=100, **kwds):
+        opt = torch.optim.AdamW(params=self.parameters(), **kwds)
+        reporting_window = deque(maxlen=reporting_window_size)
+        for i, xs in enumerate(data):
+            opt.zero_grad()
+            loss = -torch.stack([self.ssm.log_likelihood(x, debug=debug) for x in xs]).sum()
+            loss.backward()
+            opt.step()
+            reporting_window.append(loss.detach())
+            if i % print_every == 0:
+                print(i, np.mean(reporting_window))
+        return self
 
-    if init is not None:
-        init = init.to(device)
+class Factor2(PhonotacticsModel):
+    """ Phonotactics model whose probabilies are determined by factors of 2 segments """
+    def __init__(self, factors, device=DEVICE):
+        S, X = factors.shape
+        self.factors = factors
+        self.A, self.B, self.init = self.init_matrices(X, device=device)
 
-    if pi is not None:
-        pi = pi.to(device)
-    elif learn_pi:
-            underlying_pi = torch.randn(1, S, requires_grad=True, device=device)
-            params.append(underlying_pi)
+    def init_matrices(self, d):
+        raise NotImplementedError
 
-    opt = torch.optim.AdamW(params=params, **kwds)        
+    def parameters(self):
+        return [self.factors]
+
+    @classmethod
+    def initialize(cls, S, requires_grad: bool=True, device: str=DEVICE):
+        factors = torch.randn(S, S+1, requires_grad=requires_grad, device=device)
+        return cls(factors)
+
+    @property
+    def ssm(self):
+        return SSM(self.A, self.B, self.factors, init=self.init)
+
+class SL2(Factor2):
+    @classmethod
+    def init_matrices(self, d, device=DEVICE):
+        A = torch.zeros(d, d, device=device) # X x X
+        B = torch.eye(d, device=device)[:, 1:] # X x S
+        init = torch.eye(d, device=device)[0]
+        return A, B, init
+
+class SP2(Factor2):
+    @classmethod
+    def init_matrices(self, d, device=DEVICE):
+        A = torch.eye(d, d, dtype=bool, device=device)
+        B = torch.eye(d, dtype=bool, device=device)[:, 1:]
+        init = torch.eye(d, dtype=bool, device=device)[0]
+        return A, B, init
+
+class SL_SP2(Factor2):
+    def init_matrices(self, d, device=DEVICE):
+        A = torch.block_diag(
+            torch.zeros(d, d, dtype=torch.bool, device=device),  # SL
+            torch.eye(d, dtype=torch.bool, device=device), # SP
+        )
+        B = torch.cat([
+            torch.eye(d, dtype=torch.bool, device=device)[:, 1:], 
+            torch.eye(d, dtype=torch.bool, device=device)[:, 1:] 
+        ])
+        init = torch.cat([
+            torch.eye(d, dtype=torch.bool, device=device)[0],
+            torch.eye(d, dtype=torch.bool, device=device)[0],
+        ])
+        return A, B, init
     
-    for i, xs in enumerate(data):
-        opt.zero_grad()
-        if learn_pi:
-                pi = torch.sigmoid(underlying_pi)
-        model = SSM(A, B, C, init, pi=pi)
-        loss = -torch.stack([model.log_likelihood(x) for x in xs]).sum()
-        loss.backward()
-        opt.step()
-        if i % print_every == 0:
-            print(i, loss.item())
+class TierBased(Factor2):
+    def __init__(self, factors, projection, device=DEVICE):
+        S, X = factors.shape
+        self.factors = factors
+        self.projection = projection     
+        self.A, self.B, self.init = self.init_matrices(X, device=device)
 
-    return SSM(A, B, C, init, pi=pi)
+    @classmethod
+    def initialize(cls, S, projection, requires_grad: bool=True, device: str=DEVICE):
+        factors = torch.randn(S, S + 1, requires_grad=requires_grad, device=device)
+        return cls(factors, projection)
 
+    @property
+    def ssm(self):
+        return SSM(self.A, self.B, self.factors, init=self.init, pi=self.projection.unsqueeze(0))
+
+class SoftTierBased(Factor2):
+    def __init__(self, factors, projection, device=DEVICE):
+        S, X = factors.shape
+        self.factors = factors
+        self.projection = projection     
+        self.A, self.B, self.init = self.init_matrices(X, device=device)
+        
+    @classmethod
+    def initialize(cls, S, requires_grad: bool=True, device: str=DEVICE):
+        factors = torch.randn(S, S + 1, requires_grad=requires_grad, device=device)
+        projection = torch.randn(S, requires_grad=requires_grad, device=device)
+        return cls(factors, projection)
+
+    def parameters(self):
+        return [self.factors, self.projection]
+
+    @property
+    def ssm(self):
+        return SSM(self.A, self.B, self.factors, init=self.init, pi=torch.sigmoid(self.projection.unsqueeze(0)))
+
+class TSL2(TierBased, SL2):
+    pass
+
+class TSP2(TierBased, SP2):
+    pass
+
+class SoftTSL2(SoftTierBased, SL2):
+    pass
+
+
+# Data handling
+    
 def whole_dataset(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
     return minibatches(data, len(data), num_epochs=num_epochs)
 
@@ -214,61 +283,7 @@ def minibatches(data: Iterable,
     stream = iter(gen_epoch, None)
     return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
 
-def train_tsl(S, projection, data, **kwds):
-    A, B, init = sl_matrices(S)
-    pi = projection.unsqueeze(0).expand(A.shape[0], -1)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, pi=pi, **kwds)
-
-def train_soft_tsl(S, data, **kwds):
-        A, B, init = sl_matrices(S)
-        return train(A.shape[0], S, data, A=A, B=B, init=init, learn_pi=True, **kwds)
-
-def train_sl(S, data, **kwds):
-    A, B, init = sl_matrices(S)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
-
-def train_sp(S, data, **kwds):
-    A, B, init = sp_matrices(S)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
-
-def train_sl_sp(S, data, **kwds):
-    A, B, init = sl_sp_matrices(S)
-    return train(A.shape[0], S, data, A=A, B=B, init=init, **kwds)
-
-def sl_sp_matrices(S):
-    X = S + 1
-    A = torch.block_diag(
-        torch.zeros(X, X, dtype=torch.bool),  # SL
-        torch.eye(X, dtype=torch.bool), # SP
-    )
-    B = torch.cat([
-        torch.eye(X, dtype=torch.bool)[:, 1:], # SL, S -> S + 1
-        torch.eye(X, dtype=torch.bool)[:, 1:] # SP, S -> S
-    ])
-    init = torch.cat([
-        torch.eye(X, dtype=torch.bool)[0],
-        torch.eye(X, dtype=torch.bool)[0],
-    ])
-    return A, B, init
-
-def sl_matrices(S):
-    """ A and B matrices for 2-SL """
-    # S+1 to account for the initial state
-    # TODO: also need a constant state dimension for bias?
-    X = S + 1
-    A = torch.zeros(X, X)
-    B = torch.eye(X)[:, 1:]
-    init = torch.eye(X)[0]
-    return torch.zeros(X, X), torch.eye(X)[:, 1:], torch.eye(X)[0]
-
-def sp_matrices(S):
-    """ A and B matrices for 2-SP """
-    # S+1 to account for the initial state, which is persistent
-    X = S + 1
-    A = torch.eye(X, dtype=torch.bool)
-    B = torch.eye(X, dtype=torch.bool)[:, 1:]
-    init = torch.eye(X, dtype=torch.bool)[0]
-    return A, B, init
+# Example SSMs
 
 def anbn_ssm():
     """ SSM for a^n b^n. a = 1, b = 2, halt = 0.
@@ -311,6 +326,9 @@ def sp2_ssm():
     ])
     return SSM(A, B, C, init=torch.zeros(2))
 
+
+# Generating random samples from languages of interest
+
 def random_star_ab(S=3, T=4):
     while True:
         s = [random.choice(range(3)) for _ in range(T)]
@@ -322,36 +340,6 @@ def random_and():
     V2 = random.choice([0,1])
     V3 = 1 if V1 and V2 else random.choice([0,1])
     return [V1, V2, V3]
-
-def evaluate_and(model):
-    good = [
-        [0,0,0],
-        [0,0,1],
-        [0,1,0],
-        [0,1,1],
-        [1,0,0],
-        [1,0,1],
-        [1,1,1],
-    ]
-    bad = [
-        [1,1,0],
-    ]
-    return evaluate_model_unpaired(model, good, bad)
-
-def evaluate_tiptup(model):
-    good = [
-        [0,2,0],
-        [1,2,1],
-        [0,3,1],
-        [1,3,0],
-    ]
-    bad = [
-        [1,2,0],
-        [0,2,1],
-        [1,3,1],
-        [0,3,0]
-    ]
-    return evaluate_model_unpaired(model, good, bad)
 
 def random_no_axb(n=4, neg=False):
     # no sequence 20*3
@@ -417,43 +405,40 @@ def random_two_tiers(n=6):
             and not any(x == 3 and y == 4 for x, y in pairs(tier2))):
             return sequence
 
-def evaluate_two_tiers(num_epochs=20, batch_size=5, n=6, num_samples=1000, **kwds):
-    """ Evaluation for 2-TSL x 2-TSL with disjoint tiers """
-    dataset = [random_two_tiers(n=n) for _ in range(num_samples)]
-    S = 6
-    X = S + 2
-    # first two states are inits
-    init = torch.zeros(X)
-    init[0] = 1
-    init[1] = 1
-    A = torch.zeros(X, X)
-    B = torch.eye(X)[:, 2:]
-    pi = torch.Tensor([
-        [1,0,1,1,1,0,0,0],
-        [1,0,1,1,1,0,0,0],
-        [1,0,1,1,1,0,0,0],
-        [0,1,0,0,0,1,1,1],
-        [0,1,0,0,0,1,1,1],
-        [0,1,0,0,0,1,1,1],
-    ]).T
-    data = minibatches(dataset, batch_size=batch_size, num_epochs=num_epochs)
-    model = train(X, S, data, A=A, B=B, init=init, pi=pi, **kwds)
+
+# Evaluation functions
+
+def evaluate_and(model):
     good = [
-        [0,2,1,3,5,4],
-        [0,2,1,3,5,4],
-        [0,3,2,5,1],
-        [0,5,2,4,1,3],
+        [0,0,0],
+        [0,0,1],
+        [0,1,0],
+        [0,1,1],
+        [1,0,0],
+        [1,0,1],
+        [1,1,1],
     ]
     bad = [
-        [0,1,2,3,4,5],
-        [0,1,4,3,5,2],
-        [0,3,4,5,1],
-        [0,5,4,3,1,2], 
+        [1,1,0],
     ]
-    
-    return model, evaluate_model_paired(model, good, bad)
+    return evaluate_model_unpaired(model, good, bad)
 
-def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samples=1000, num_test=100, **kwds):
+def evaluate_tiptup(model):
+    good = [
+        [0,2,0],
+        [1,2,1],
+        [0,3,1],
+        [1,3,0],
+    ]
+    bad = [
+        [1,2,0],
+        [0,2,1],
+        [1,3,1],
+        [0,3,0]
+    ]
+    return evaluate_model_unpaired(model, good, bad)
+
+def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_samples=1000, num_test=100, **kwds):
     """ Evaluation for 2-TSL """
     dataset = [random_no_axb(n=n) for _ in range(num_samples)]
     # the first two of these comparisons will be exactly zero for SL
@@ -476,22 +461,15 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
     #good = [random_no_axb(n=n+1) for _ in range(num_test)]
     #bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
 
-    if model_type == 'tsl':
-        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'soft_tsl':
-        model = train_soft_tsl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl':
-        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sp':
-        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl_sp':
-        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+    if issubclass(model_type, TierBased):
+        model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
     else:
-        raise TypeError("Unknown model type %s" % model_type)
+        model = model_type.initialize(4)
+        
+    model.train(minibatches(dataset, batch_size, num_epochs=num_epochs))
+    return evaluate_model_paired(model.ssm, good, bad)
 
-    return evaluate_model_paired(model, good, bad)
-
-def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_samples=1000, num_test=100, **kwds): # SL2 dataset
+def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples=1000, num_test=100, **kwds): # SL2 dataset
     dataset = [random_no_ab(n=n) for _ in range(num_samples)]
 
     # good = [
@@ -499,30 +477,25 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_sampl
     #     [2, 0, 3, 1, 3, 2], # TSL model will fail
     #     [3, 2, 1, 0, 1, 3],
     #     [1, 3, 2, 0, 3, 1], # TSL model will fail
-    #     [0, 1, 2, 1, 3, 2]
+    #     [0, 1, 2, 1, 3, 2],
     # ]
     # bad = [
     #     [0, 2, 1, 2, 3, 2], # matched on 2-SP factors
     #     [2, 3, 0, 1, 3, 2],
     #     [3, 2, 1, 0, 2, 3],
     #     [1, 3, 2, 3, 0, 1], 
-    #     [0, 1, 2, 3, 1, 2]
+    #     [0, 1, 2, 3, 1, 2],
     # ]
     good = [random_no_ab(n=n+1) for _ in range(num_test)]
     bad = [random_no_ab(n=n+1, neg=True) for _ in range(num_test)]
 
-    if model_type == 'tsl':
-        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl':
-        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sp':
-        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl_sp':
-        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+    if issubclass(model_type, TierBased):
+        model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
     else:
-        raise TypeError("Unknown model type %s" % model_type)
+        model = model_type.initialize(4)
 
-    return evaluate_model_unpaired(model, good, bad)
+    model.train(minibatches(dataset, batch_size, num_epochs=num_epochs))        
+    return evaluate_model_unpaired(model.ssm, good, bad)
 
     # 2-SP language *a-a
     # 2-TSL language: *a-a, Tier = {a, b, c, d}
@@ -531,7 +504,7 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_sampl
     # - this is prohibited by SP but allowed by TSL
     # but for Tier = {a} then no 
 
-def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type="tsl", num_samples=1000, num_test=100, **kwds):
+def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2, num_samples=1000, num_test=100, **kwds):
     """ Evaluation for 2-SP """
     dataset = [random_no_ab_subsequence(n=n) for _ in range(num_samples)]
     # the first two of these comparisons will be exactly zero for SL
@@ -553,20 +526,14 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type="tsl
     # ]
     good = [random_no_ab_subsequence(n=n+1) for _ in range(num_test)]
     bad = [random_no_ab_subsequence(n=n+1, neg=True) for _ in range(num_test)]
-    
-    if model_type == 'tsl':
-        model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl':
-        model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sp':
-        model = train_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    elif model_type == 'sl_sp':
-        model = train_sl_sp(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
-    else:
-        raise TypeError("Unknown model type %s" % model_type)
 
-    # breakpoint()
-    return evaluate_model_unpaired(model, good, bad)
+    if issubclass(model_type, TierBased):
+        model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
+    else:
+        model = model_type.initialize(4)
+
+    model.train(minibatches(dataset, batch_size, num_epochs=num_epochs))        
+    return evaluate_model_unpaired(model.ssm, good, bad)
 
 def evaluate_model_paired(model, good_strings, bad_strings):
     def gen():
@@ -575,7 +542,6 @@ def evaluate_model_paired(model, good_strings, bad_strings):
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
-    breakpoint()
     return df            
 
 def evaluate_model_unpaired(model, good_strings, bad_strings):
@@ -621,11 +587,11 @@ def random_anbn(p_halt=1/2, start=1):
 
 if __name__ == "__main__":
     print("Training SP model on SL data")
-    results_sp_no_ab = evaluate_no_ab(model_type = 'sp')
+    results_sp_no_ab = evaluate_no_ab(model_type = SP2)
     print("Training SL model on SL data")
-    results_sl_no_ab = evaluate_no_ab(model_type = 'sl')
+    results_sl_no_ab = evaluate_no_ab(model_type = SL2)
     print("Training TSL model on SL data")
-    results_tsl_no_ab = evaluate_no_ab(model_type = 'tsl')
+    results_tsl_no_ab = evaluate_no_ab(model_type = TSL2)
 
     sp_no_ab_mean = np.mean(results_sp_no_ab['diff'])
     sl_no_ab_mean = np.mean(results_sl_no_ab['diff'])
