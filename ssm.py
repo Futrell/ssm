@@ -1,4 +1,6 @@
 """ State-space sequence model """
+import sys
+import csv
 import random
 from typing import *
 import operator
@@ -69,9 +71,10 @@ class SSM:
         # It says, for input feature i, whether state feature j should be sensitive to it.
         # By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
         if pi is None:
-            self.pi = torch.ones(1, U, dtype=self.dtype, device=device) # default [[1, 1, 1, ...]]
+            self.pi = torch.ones(X, U, dtype=self.dtype, device=device) # default [[1, 1, ...], ...]
         else:
             self.pi = pi
+            assert self.pi.shape[0] == X
             assert self.pi.shape[1] == U
 
     def log_likelihood(self, sequence, init=None, debug=False):
@@ -122,7 +125,7 @@ class SSM:
         logits = self.output_sequence(sequence, init).y
         return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
 
-    def __mul__(self: SSM, other: SSM) -> SSM:
+    def __plus__(self: SSM, other: SSM) -> SSM:
         # untested
         A = torch.block_diag(self.A, other.A)
         B = torch.block_diag(self.B, other.B)
@@ -152,49 +155,80 @@ class PhonotacticsModel:
         return cls(A, B, C)
 
     def parameters(self):
-        params = [self.A, self.B, self.C]
-        if self.init is not None:
-            params.append(self.init)
-        if self.pi is not None:
-            params.append(self.pi)
-        return params
-
+        return [self.A, self.B, self.C]
+    
     def ssm(self):
-        return SSM(A, B, C, init=self.init, pi=self.pi)
+        return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
+
+    def __add__(self, other):
+        return CompoundModel(self, other)    
         
-    def train(self, data, print_every: int=1000, device: str=DEVICE, debug: bool=False, reporting_window_size: int=100, **kwds):
+    def train(self,
+              data: Iterable[Iterable[int]],
+              report_every: int=1000,
+              device: str=DEVICE,
+              debug: bool=False,
+              reporting_window_size: int=100,
+              **kwds):
         opt = torch.optim.AdamW(params=self.parameters(), **kwds)
         reporting_window = deque(maxlen=reporting_window_size)
+        diagnostics = []
+        writer = csv.DictWriter(sys.stderr, "step mean_loss".split())
+        writer.writeheader()
         for i, xs in enumerate(data, 1):
             opt.zero_grad()
             model = self.ssm()
-            loss = -torch.stack([model.log_likelihood(x, debug=debug) for x in xs]).sum()
+            loss = -torch.stack([model.log_likelihood(x, debug=debug) for x in xs]).mean()
             loss.backward()
             opt.step()
             reporting_window.append(loss.detach())
-            if i % print_every == 0:
-                print(i, np.mean(reporting_window))
+            if i % report_every == 0:
+                diagnostic = {
+                    'step': i,
+                    'mean_loss': np.mean(reporting_window),
+                }
+                writer.writerow(diagnostic)                
+                diagnostics.append(diagnostic)
+        return diagnostics
+
+class CompoundModel(PhonotacticsModel):
+    def __init__(self, *models):
+        self.models = models
+
+    def parameters(self):
+        params = []
+        for model in self.models:
+            params.extend(model.parameters())
+        return params
+
+    def ssm(self):
+        ssms = [m.ssm() for m in self.models]
+        return SSM(
+            A=torch.block_diag(*[m.A for m in ssms]),
+            B=torch.cat([m.B for m in ssms]),
+            C=torch.cat([m.C for m in ssms], dim=-1),
+            init=torch.cat([m.init for m in ssms]),
+            pi=torch.cat([m.pi for m in ssms]),
+        )
 
 class Factor2(PhonotacticsModel):
     """ Phonotactics model whose probabilies are determined by factors of 2 segments """
-    def __init__(self, factors):
+    @classmethod
+    def from_factors(cls, factors, projection=None):
         S, X = factors.shape
-        self.factors = factors
-        self.A, self.B, self.init = self.init_matrices(X, device=factors.device)
+        A, B, init = cls.init_matrices(X, device=factors.device)
+        return cls(A, B, factors, init=init, pi=projection)
+
+    def parameters(self):
+        return [self.C]
 
     def init_matrices(self, d):
         raise NotImplementedError
 
-    def parameters(self):
-        return [self.factors]
-
     @classmethod
-    def initialize(cls, S, requires_grad: bool=True, device: str=DEVICE):
+    def initialize(cls, S, projection=None, requires_grad: bool=True, device: str=DEVICE):
         factors = torch.randn(S, S+1, requires_grad=requires_grad, device=device)
-        return cls(factors)
-
-    def ssm(self):
-        return SSM(self.A, self.B, self.factors, init=self.init)
+        return cls.from_factors(factors, projection=projection)
 
 class SL2(Factor2):
     @classmethod
@@ -230,46 +264,41 @@ class SL_SP2(Factor2):
         return A, B, init
 
 class TierBased(Factor2):
-    def __init__(self, factors, projection):
-        S, X = factors.shape
-        self.factors = factors
-        self.projection = projection     
-        self.A, self.B, self.init = self.init_matrices(X, device=factors.device)
-
-    @classmethod
-    def initialize(cls, S, projection, requires_grad: bool=True, device: str=DEVICE):
-        factors = torch.randn(S, S + 1, requires_grad=requires_grad, device=device)
-        return cls(factors, projection)
-
     def ssm(self):
-        return SSM(self.A, self.B, self.factors, init=self.init, pi=self.projection.unsqueeze(0))
+        return SSM(
+            self.A,
+            self.B,
+            self.C,
+            init=self.init,
+            pi=self.pi.unsqueeze(0).expand(*self.B.shape),
+        )
 
 class SoftTierBased(Factor2):
-    def __init__(self, factors, projection):
-        S, X = factors.shape
-        self.factors = factors
-        self.projection = projection     
-        self.A, self.B, self.init = self.init_matrices(X, device=factors.device)
-        
+    def parameters(self):
+        return [self.C, self.pi]
+    
     @classmethod
     def initialize(cls, S, requires_grad: bool=True, device: str=DEVICE):
         factors = torch.randn(S, S + 1, requires_grad=requires_grad, device=device)
         projection = torch.randn(S, requires_grad=requires_grad, device=device)
-        return cls(factors, projection)
-
-    def parameters(self):
-        return [self.factors, self.projection]
+        return cls.from_factors(factors, projection)
 
     def ssm(self):
-        return SSM(self.A, self.B, self.factors, init=self.init, pi=torch.sigmoid(self.projection.unsqueeze(0)))
+        return SSM(
+            self.A,
+            self.B,
+            self.C,
+            init=self.init,
+            pi=torch.sigmoid(self.pi.unsqueeze(0).expand(*self.B.shape)),
+        )
 
-class TSL2(TierBased, SL2):
+class TSL2(SL2, TierBased):
     pass
 
-class TSP2(TierBased, SP2):
+class TSP2(SP2, TierBased):
     pass
 
-class SoftTSL2(SoftTierBased, SL2):
+class SoftTSL2(SL2, SoftTierBased):
     pass
 
 # Data handling
@@ -485,7 +514,7 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
 
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, **kwds)
-    return evaluate_model_paired(model.ssm(), good, bad)
+    return evaluate_model_paired(model.ssm(), good, bad), model
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples=1000, num_test=100, **kwds): # SL2 dataset
     dataset = [random_no_ab(n=n) for _ in range(num_samples)]
