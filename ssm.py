@@ -125,18 +125,6 @@ class SSM:
         logits = self.output_sequence(sequence, init).y
         return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
 
-    def __plus__(self: SSM, other: SSM) -> SSM:
-        # untested
-        A = torch.block_diag(self.A, other.A)
-        B = torch.block_diag(self.B, other.B)
-        pi = torch.block_diag(self.pi, other.pi)
-
-        C = torch.cat([self.C, other.C])
-        init = torch.cat([self.init, other.init])
-        pi = torch.cat([self.pi, other.pi])
-        phi = torch.cat([self.phi, other.phi])
-        return SSM(A, B, C, init, pi=pi, phi=phi)
-
 # Classes for trainable phonotactics models
 
 class PhonotacticsModel:
