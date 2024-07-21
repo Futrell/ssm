@@ -11,6 +11,7 @@ import tqdm
 import torch
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 INF = float('inf')
 
@@ -31,6 +32,39 @@ RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, opera
 BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv, boolean_mm, operator.invert)
 
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
+
+def plot_ssm_output(x: SSMOutput, pi=None, cmap='viridis'):
+    fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+
+    # Plot each array using imshow
+    axs[0].imshow(x.u.detach().numpy().T, cmap=cmap)
+    axs[0].set_title('Input')
+    axs[0].set_xlabel('Time')
+    axs[0].set_ylabel('Input dimension')
+    
+    axs[1].imshow(x.x.detach().numpy().T, cmap=cmap)
+    axs[1].set_title('State')
+    axs[1].set_xlabel('Time')
+    axs[1].set_ylabel('State dimension')
+
+    if x.x.shape[-1] == x.u.shape[-1] + 1:
+        x_coord, y_coord = np.where(x.u == 1)
+        if pi is not None:
+            indices = list((x.u.long() @ torch.arange(x.u.shape[-1])).numpy())
+            colors = list(torch.sigmoid(pi)[indices].detach().numpy())
+            axs[1].scatter(x_coord, y_coord+1, c=colors, cmap='plasma', marker='o')
+        else:
+            axs[1].scatter(x_coord, y_coord+1, color='red', marker='o')            
+    
+    axs[2].imshow(x.proj.detach().numpy().T, cmap=cmap)
+    axs[2].set_title('Projection Probability')
+    axs[2].set_xlabel('Time')
+    axs[2].set_ylabel('State dimension')
+
+    # Display the plot
+    plt.tight_layout()
+    plt.show()
+    
 
 
 # Core SSM logic
@@ -91,15 +125,15 @@ class SSM:
             u = self.phi[symbol]  # for example, input 2  -> vector [0, 0, 1, 0, ...], shape U
             proj = self.semiring.mv(self.pi, u) # pi @ u, shape X
             
-            # Get output vector given current state.
+            # Get output vector given current state. Uniform probability for things not projected.
             y = (self.C * self.pi.T) @ x.float()
 
             # Get log probability distribution over output symbols
             # Add log prob of current symbol to total
             score += torch.log_softmax(y, -1)[symbol]
             
-            # Update state
-            update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u)
+            # Update state. If input not projected, state remains unchanged.
+            update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u) # could also be (self.B * self.pi) @ u?
             x = self.semiring.complement(proj)*x + proj*update
 
             if debug:
