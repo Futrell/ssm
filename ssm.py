@@ -63,9 +63,7 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
 
     # Display the plot
     plt.tight_layout()
-    plt.show()
-    
-
+    plt.show()    
 
 # Core SSM logic
 
@@ -191,11 +189,14 @@ class PhonotacticsModel:
               device: str=DEVICE,
               debug: bool=False,
               reporting_window_size: int=100,
+              diagnostic_fns: Optional[Dict[str, Callable[[SSM], Any]]]=None,
               **kwds):
         opt = torch.optim.AdamW(params=self.parameters(), **kwds)
         reporting_window = deque(maxlen=reporting_window_size)
+        if diagnostic_fns is None:
+            diagnostic_fns = {}
         diagnostics = []
-        writer = csv.DictWriter(sys.stderr, "step mean_loss".split())
+        writer = csv.DictWriter(sys.stderr, "step mean_loss".split() + list(diagnostic_fns))
         writer.writeheader()
         for i, xs in enumerate(data, 1):
             opt.zero_grad()
@@ -209,6 +210,7 @@ class PhonotacticsModel:
                     'step': i,
                     'mean_loss': np.mean(reporting_window),
                 }
+                diagnostic |= {label : fn(model) for label, fn in diagnostic_fns.items()}
                 writer.writerow(diagnostic)                
                 diagnostics.append(diagnostic)
         return diagnostics
@@ -236,9 +238,9 @@ class CompoundModel(PhonotacticsModel):
 class Factor2(PhonotacticsModel):
     """ Phonotactics model whose probabilies are determined by factors of 2 segments """
     @classmethod
-    def from_factors(cls, factors, projection=None):
+    def from_factors(cls, factors, projection=None, bias=False):
         S, X = factors.shape
-        A, B, init = cls.init_matrices(X, device=factors.device)
+        A, B, init = cls.init_matrices(X, bias=bias, device=factors.device)
         return cls(A, B, factors, init=init, pi=projection)
 
     def parameters(self):
@@ -254,15 +256,18 @@ class Factor2(PhonotacticsModel):
 
 class SL2(Factor2):
     @classmethod
-    def init_matrices(cls, d, device=DEVICE):
-        A = torch.zeros(d, d, device=device) # X x X
-        B = torch.eye(d, device=device)[:, 1:] # X x S
-        init = torch.eye(d, device=device)[0]
+    def init_matrices(cls, d, bias=False, device=DEVICE):
+        A = torch.zeros(d+bias, d+bias, device=device) # X x X
+        B = torch.eye(d+bias, device=device)[:, (1+bias):] # X x S
+        init = torch.eye(d+bias, device=device)[0]
+        if bias:
+            A[0,0] = 1
+            init[0,1] = 1
         return A, B, init
 
 class SP2(Factor2):
     @classmethod
-    def init_matrices(cls, d, device=DEVICE):
+    def init_matrices(cls, d, bias=False, device=DEVICE):
         A = torch.eye(d, d, dtype=bool, device=device)
         B = torch.eye(d, dtype=bool, device=device)[:, 1:]
         init = torch.eye(d, dtype=bool, device=device)[0]
@@ -325,10 +330,10 @@ class SoftTSL2(SL2, SoftTierBased):
 
 # Data handling
     
-def whole_dataset(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
+def whole_dataset(data: Iterable, num_epochs: int=1) -> Iterator[Sequence]:
     return minibatches(data, len(data), num_epochs=num_epochs)
 
-def single_datapoints(data: Iterable, num_epochs: Optional[int]=None) -> Iterator[Sequence]:
+def single_datapoints(data: Iterable, num_epochs: int=1) -> Iterator[Sequence]:
     return minibatches(data, 1, num_epochs=num_epochs)
 
 def batch(iterable: Sequence, n: int=1) -> Iterator[Sequence]:
@@ -338,7 +343,7 @@ def batch(iterable: Sequence, n: int=1) -> Iterator[Sequence]:
 
 def minibatches(data: Iterable,
                 batch_size: int=1,
-                num_epochs: Optional[int]=None) -> Iterator[Sequence]:
+                num_epochs: int=1) -> Iterator[Sequence]:
     """
     Generate a stream of data in minibatches of size batch_size.
     Go through the data num_epochs times, each time in a random order.
@@ -372,28 +377,6 @@ def anbn_ssm():
     ])
     return SSM(A, B, C, init=torch.zeros(2))
 
-def sl2_ssm():
-    '''
-    sl2_ssm that prohibits substrings of aa or bb
-    '''
-    A, B = sl_matrices(2)
-    C = torch.Tensor([
-        [-10, 0], # a -- not allowed if a seen
-        [0, -10] # b -- not allowed if b seen
-    ])
-    return SSM(A, B, C, init=torch.zeros(2))
-
-def sp2_ssm():
-    '''
-    sl2_ssm that prohibits subsequences of aa
-    '''
-    A, B = sp_matrices(2)
-    C = torch.Tensor([
-        [-10, 0], # a -- not allowed if a seen
-        [0, 0] # b -- always fine
-    ])
-    return SSM(A, B, C, init=torch.zeros(2))
-
 
 # Generating random samples from languages of interest
 
@@ -419,22 +402,6 @@ def random_no_axb(n=4, neg=False):
         if any(x == 2 and y == 3 for x, y in pairs(tier)) == neg:
             return sequence
 
-def has_subsequence(seq, subseq):
-    """Check if subseq is a subsequence of seq."""
-    it = iter(seq)
-
-    return all(elem in it for elem in subseq)
-
-def generate_sequence(length, valid_range):
-    """Generate a random sequence of given length from the valid range."""
-    return [random.choice(valid_range) for _ in range(length)]
-
-def random_no_aa_subseq(n=4):
-    while True:
-        sequence = generate_sequence(n, range(1, 5))
-        if not has_subsequence(sequence, [2, 2]):
-            return sequence
-
 def random_no_ab(n=4, neg=False):
     # No substring 23
     while True:
@@ -457,7 +424,7 @@ def random_no_ab_subsequence(n=4, neg=False):
         elif neg and bad:
             return sequence
 
-def pairs(xs): # contiguous substrings
+def pairs(xs): # contiguous substrings of length 2
     return zip(xs, xs[1:])
 
 def random_two_tiers(n=6):
@@ -472,6 +439,25 @@ def random_two_tiers(n=6):
         if (not any(x == 0 and y == 1 for x, y in pairs(tier1))
             and not any(x == 3 and y == 4 for x, y in pairs(tier2))):
             return sequence
+
+def random_tiptup():
+    C1 = random.choice([0,1])
+    C2 = random.choice([0,1])
+    V = 2 + C1 ^ C2 
+    return [C1, V, C2]
+
+def random_xor():
+    two = [random.choice(range(2)) for _ in range(2)]
+    return two + [two[0] ^ two[1]]
+             
+def random_anbn(p_halt=1/2, start=1):
+    T = start
+    while True:
+        if random.random() < p_halt:
+            break
+        else:
+            T += 1
+    return [1]*T + [2]*T + [0]
 
 
 # Evaluation functions
@@ -534,8 +520,9 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
     else:
         model = model_type.initialize(4)
 
+    diagnostics = {'good_bad_diff': lambda m: evaluate_model_paired(m, good, bad)['diff'].sum()}
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
-    model.train(data, **kwds)
+    model.train(data, diagnostic_fns=diagnostics, **kwds)
     return evaluate_model_paired(model.ssm(), good, bad), model
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples=1000, num_test=100, **kwds): # SL2 dataset
@@ -635,25 +622,6 @@ def evaluate_model_simple(model, good_strings, bad_strings):
     df = pd.DataFrame(df_list)
     df.columns = ['string', 'grammatical', 'score']
     return df
-
-def random_tiptup():
-    C1 = random.choice([0,1])
-    C2 = random.choice([0,1])
-    V = 2 + C1 ^ C2 
-    return [C1, V, C2]
-
-def random_xor():
-    two = [random.choice(range(2)) for _ in range(2)]
-    return two + [two[0] ^ two[1]]
-             
-def random_anbn(p_halt=1/2, start=1):
-    T = start
-    while True:
-        if random.random() < p_halt:
-            break
-        else:
-            T += 1
-    return [1]*T + [2]*T + [0]
 
 if __name__ == "__main__":
     print("Training SP model on SL data")
