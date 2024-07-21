@@ -33,7 +33,7 @@ BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv,
 
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
 
-def plot_ssm_output(x: SSMOutput, pi=None, cmap='viridis'):
+def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis'):
     fig, axs = plt.subplots(1, 3, figsize=(15, 5))
 
     # Plot each array using imshow
