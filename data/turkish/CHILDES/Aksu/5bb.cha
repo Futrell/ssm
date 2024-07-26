@@ -1,0 +1,2737 @@
+@UTF8
+@PID:	11312/c-00027971-1
+@Begin
+@Languages:	tur
+@Participants:	CHI Burçak Target_Child , EXP Alev Investigator , FAT Father
+@Options:	multi
+@ID:	tur|Aksu|CHI|2;08.||||Target_Child|||
+@ID:	tur|Aksu|EXP|||||Investigator|||
+@ID:	tur|Aksu|FAT||male|||Father|||
+@Types:	cross, toyplay, TD
+*FAT:	Burçak bunu tamir etmek istermisin ? 
+%mor:	noun|Burçak&ComNeut-Nom pron|bu-Dem-Acc-S3 noun|tamir&ComNeut-Nom verb|et-Vnoun-Perf-Ind-Pres-Pos verb|iste-Inf-Hab-Ind-2-Pres-Pos ?
+%gra:	1|5|NSUBJ 2|3|OBJ 3|5|XCOMP 4|3|COMPOUND-LVC 5|5|ROOT 6|5|PUNCT
+*EXP:	bu araba vapuru . 
+%com:	the child makes an affirmative gesture
+%mor:	det|bu-Def noun|araba&ComNeut-Nom noun|vapur&ComNeut-Nom .
+%gra:	1|2|DET 2|3|NMOD-POSS 3|3|ROOT 4|3|PUNCT
+*EXP:	sen benim ne yapmamı istemiştin ? 
+%mor:	pron|sen-Prs-Nom-S2 pron|ben-Prs-Gen-S1 pron|ne-Int-Nom-S3 verb|yap-Vnoun-Perf-Ind-Pres-Pos verb|iste-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|5|NSUBJ 2|4|NSUBJ 3|4|OBJ 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*EXP:	arabaları . 
+%mor:	noun|araba&ComNeut-Plur-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	içine koymamı mı istemiştin ? 
+%mor:	adj|iç-Pos-Dat-S-3 verb|koy-Vnoun-Perf-Ind-Pres-Pos aux|mi-Inf-Perf-Ind-3-Pres verb|iste-Inf-Perf-Ind-2-Pqp-Pos ?
+%gra:	1|2|OBL 2|4|OBJ 3|2|AUX 4|4|ROOT 5|4|PUNCT
+*EXP:	hangi arabaları ? 
+%mor:	det|hangi-Def noun|araba&ComNeut-Plur-Acc ?
+%gra:	1|2|AMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	o arabaları kosana [= koysana] . 
+%mor:	det|o-Def noun|araba&ComNeut-Plur-Acc verb|kos-Inf-Perf-Opt-3-Pres-Pos .
+%gra:	1|2|DET 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	arabalar var . 
+%mor:	noun|araba&ComNeut-Plur-Nom adj|var-Pos-S-1 .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	bunlar mı ? 
+%mor:	pron|bu-Dem-Nom-P3 aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|ROOT 2|1|AUX-Q 3|1|PUNCT
+*CHI:	hı . 
+%com:	an affirmative sound gesture
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nasıl komak [= koymak] lazım ? 
+%mor:	adv|nasıl noun|komak&ComNeut-Nom adj|lazım-Pos-S-1 ?
+%gra:	1|2|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	kapısını açacan [= açacaksın] . 
+%mor:	noun|kapı&ComNeut-Acc verb|aç-Inf-Perf-Ind-2-Pres-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	hangi tarafa ? 
+%mor:	det|hangi-Def noun|tarafa&ComNeut-Dat ?
+%gra:	1|2|AMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	orasını . 
+%mor:	pron|ora-Int-Acc-S3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	orasını aç . 
+%mor:	pron|ora-Int-Acc-S3 verb|aç-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	burasını mı ? 
+%mor:	pron|bura-Int-Acc-S3 aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|ROOT 2|1|AUX-Q 3|1|PUNCT
+*CHI:	ha , orasını . 
+%mor:	intj|ha cm|cm pron|ora-Int-Acc-S3 .
+%gra:	1|3|DISCOURSE 2|3|PUNCT 3|3|ROOT 4|3|PUNCT
+*EXP:	böyle mi açayım , böyle mi açayım ? 
+%mor:	adv|böyle aux|mi-Inf-Perf-Ind-3-Pres verb|aç-Inf-Perf-Opt-1-Pres-Pos cm|cm adv|böyle aux|mi-Inf-Perf-Ind-3-Pres verb|aç-Inf-Perf-Opt-1-Pres-Pos ?
+%gra:	1|3|ADVMOD 2|1|AUX-Q 3|7|ROOT 4|7|PUNCT 5|7|ADVMOD 6|5|AUX-Q 7|3|CONJ 8|3|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	içe doğru mu ? 
+%mor:	adj|iç-Pos-Dat-S-3 adp|doğru aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|3|ROOT 2|1|CASE 3|1|AUX-Q 4|1|PUNCT
+*EXP:	peki [= pekiyi] , bunu ne yapayım ? 
+%mor:	adv|peki cm|cm pron|bu-Dem-Acc-S3 pron|ne-Int-Nom-S3 verb|yap-Inf-Perf-Opt-1-Pres-Pos ?
+%gra:	1|5|DISCOURSE 2|5|PUNCT 3|5|OBJ 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*CHI:	aç onu da . 
+%mor:	verb|aç-Inf-Perf-Imp-2-Pres-Pos pron|o-Prs-Acc-S3 cconj|da .
+%gra:	1|3|ROOT 2|1|OBJ 3|2|ADVMOD-EMPH 4|1|PUNCT
+*EXP:	ne tarafa açayım ? 
+%mor:	pron|ne-Int-Nom-S3 noun|tarafa&ComNeut-Dat verb|aç-Inf-Perf-Opt-1-Pres-Pos ?
+%gra:	1|2|NMOD 2|3|OBL 3|3|ROOT 4|3|PUNCT
+*CHI:	bu tarafa . 
+%mor:	det|bu-Def noun|tarafa&ComNeut-Dat .
+%gra:	1|2|DET 2|2|ROOT 3|2|PUNCT
+*EXP:	peki [= pekiyi] . 
+%mor:	adv|peki .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	şimdi arabaları koy . 
+%mor:	adv|şimdi noun|araba&ComNeut-Plur-Acc verb|koy-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	neresine koyayım ? 
+%mor:	pron|nere-Int-Dat-S3 verb|koy-Inf-Perf-Opt-1-Pres-Pos ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	kapısına koy . 
+%mor:	noun|kapı&ComNeut-Dat verb|koy-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	kapısından buraya . 
+%mor:	noun|kapı&ComNeut-Abl pron|bura-Int-Dat-S3 .
+%gra:	1|2|NMOD 2|2|ROOT 3|2|PUNCT
+*EXP:	nasıl yani ? 
+%mor:	adv|nasıl cconj|yani ?
+%gra:	1|2|ROOT 2|1|DISCOURSE 3|1|PUNCT
+*EXP:	üstüne mi koyayım , altına mı koyayım ? 
+%mor:	adj|üst-Pos-Dat-S-3 aux|mi-Inf-Perf-Ind-3-Pres verb|koy-Inf-Perf-Opt-1-Pres-Pos cm|cm adj|alt-Pos-Dat-S-3 aux|mi-Inf-Perf-Ind-3-Pres verb|koy-Inf-Perf-Opt-1-Pres-Pos ?
+%gra:	1|3|OBL 2|1|AUX-Q 3|7|ROOT 4|3|PUNCT 5|7|OBL 6|5|AUX-Q 7|3|CONJ 8|3|PUNCT
+*CHI:	altına . 
+%mor:	adj|alt-Pos-Dat-S-3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	böyle mi yani ? 
+%mor:	adv|böyle aux|mi-Inf-Perf-Ind-3-Pres cconj|yani ?
+%gra:	1|3|ROOT 2|1|AUX-Q 3|1|CONJ 4|1|PUNCT
+*CHI:	ah ah , içeriye . 
+%com:	ah ah: sound gesture for a negative response
+%mor:	intj|ah intj|ah cm|cm noun|içeri&ComNeut-Dat .
+%gra:	1|4|DISCOURSE 2|4|DISCOURSE 3|2|PUNCT 4|4|ROOT 5|4|PUNCT
+*FAT:	Burçak , şimdi ne yapacağız bunlan [= bunla] ? 
+%mor:	noun|Burçak&ComNeut-Nom cm|cm adv|şimdi pron|ne-Int-Nom-S3 verb|yap-Inf-Plur-Perf-Ind-1-Fut-Pos pron|bu-Dem-Nom-P3 ?
+%gra:	1|5|VOCATIVE 2|5|PUNCT 3|5|ADVMOD 4|5|OBJ 5|6|ROOT 6|5|NSUBJ 7|5|PUNCT
+*CHI:	bunu koyalım . 
+%mor:	pron|bu-Dem-Acc-S3 verb|koy-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	nereye koyayım , burası güzel mi ? 
+%mor:	pron|nere-Int-Dat-S3 verb|koy-Inf-Perf-Opt-1-Pres-Pos cm|cm pron|bura-Int-Nom-S3 adj|güzel-Pos-S-1 aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|6|ROOT 2|1|COMPOUND 3|5|PUNCT 4|5|NSUBJ 5|1|CONJ 6|5|AUX-Q 7|1|PUNCT
+*CHI:	orası güzel . 
+%mor:	pron|ora-Int-Nom-S3 adj|güzel-Pos-S-1 .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	göstersene Burçak . 
+%mor:	verb|göster-Inf-Perf-Ind-3-Pres-Pos noun|Burçak&ComNeut-Nom .
+%gra:	1|2|ROOT 2|1|NSUBJ 3|1|PUNCT
+*CHI:	baksana . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	böyle içeriye giriyor . 
+%mor:	adj|böyle-Pos-S-1 noun|içeri&ComNeut-Dat verb|gir-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|AMOD 2|3|ROOT 3|2|COMPOUND 4|2|PUNCT
+*EXP:	evet . 
+%mor:	noun|evet&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	içeriye giriyor . 
+%mor:	noun|içeri&ComNeut-Dat verb|gir-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ROOT 2|1|COMPOUND 3|1|PUNCT
+*CHI:	onu da içeriye koyayım ver . 
+%mor:	pron|o-Prs-Acc-S3 cconj|da noun|içeri&ComNeut-Dat verb|koy-Inf-Perf-Opt-1-Pres-Pos verb|ver-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|3|OBJ 2|1|ADVMOD-EMPH 3|5|ROOT 4|3|COMPOUND 5|3|COMPOUND 6|3|PUNCT
+*CHI:	bu da böyle . 
+%mor:	pron|bu-Dem-Nom-S3 cconj|da adv|böyle .
+%gra:	1|3|NSUBJ 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*EXP:	şimdi ne yapacağız ? 
+%mor:	adv|şimdi pron|ne-Int-Nom-S3 verb|yap-Inf-Plur-Perf-Ind-1-Fut-Pos ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	bunları koyacaz . 
+%mor:	pron|bu-Dem-Acc-P3 verb|koy-Inf-Hab-Ind-3-Pres-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	o arabaları . 
+%mor:	det|o-Def noun|araba&ComNeut-Plur-Acc .
+%gra:	1|2|DET 2|2|ROOT 3|2|PUNCT
+*CHI:	o arabaları da biz koyacaz [= koyacağız] . 
+%mor:	det|o-Def noun|araba&ComNeut-Plur-Acc cconj|da pron|biz-Prs-Nom-P1 verb|koy-Inf-Hab-Ind-1-Pres-Pos .
+%gra:	1|2|DET 2|5|OBJ 3|2|ADVMOD-EMPH 4|5|NSUBJ 5|5|ROOT 6|5|PUNCT
+*EXP:	evet . 
+%mor:	noun|evet&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	gitmiyor . 
+%mor:	verb|git-Inf-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak , içeriye giriyorlar . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos cm|cm noun|içeri&ComNeut-Dat verb|gir-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBL 4|4|ROOT 5|4|PUNCT
+*CHI:	girdiler . 
+%mor:	verb|gir-Inf-Plur-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	işte girdiler . 
+%mor:	adv|işte verb|gir-Inf-Plur-Perf-Ind-3-Past-Pos .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*EXP:	ha canım . 
+%mor:	intj|ha noun|can&ComNeut-Nom .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*CHI:	orada var . 
+%mor:	pron|ora-Int-Loc-S3 adj|var-Pos-S-1 .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	o arabayı da ver . 
+%mor:	det|o-Def noun|araba&ComNeut-Acc cconj|da verb|ver-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|DET 2|4|OBJ 3|2|ADVMOD-EMPH 4|4|ROOT 5|4|PUNCT
+*EXP:	al . 
+%mor:	verb|al-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ne duydun ? 
+%mor:	pron|ne-Int-Nom-S3 verb|duy-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	O'zcanı duydum . 
+%mor:	noun|O'zcanı&ComNeut-Acc verb|duy-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	O'zcan'ı duydunmu sen ? 
+%com:	now everybody is playing pantomime: he is doing mime , talking without making a sound and the father is playing with him .
+%mor:	noun|O'zcan&ComNeut-Acc verb|duy-Inf-Hab-Ind-1-Past-Pos pron|sen-Prs-Nom-S2 ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*EXP:	ne konuştu , ne diyor O'zcan ? 
+%mor:	pron|ne-Int-Nom-S3 verb|konuş-Inf-Perf-Ind-3-Past-Pos cm|cm pron|ne-Int-Nom-S3 verb|de-Inf-Prog-Ind-3-Pres-Pos-Infm noun|O'zcan&ComNeut-Nom ?
+%gra:	1|2|OBL 2|5|CCOMP 3|2|PUNCT 4|5|OBJ 5|6|ROOT 6|5|NSUBJ 7|5|PUNCT
+*EXP:	duydunmu hala ? 
+%mor:	verb|duy-Inf-Perf-Ind-1-Past-Pos adv|hala ?
+%gra:	1|2|ROOT 2|1|ADVMOD 3|1|PUNCT
+*CHI:	O'zcan . 
+%mor:	noun|O'zcan&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	efendim . 
+%mor:	noun|efendi&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	ben duydum . 
+%mor:	pron|ben-Prs-Nom-S1 verb|duy-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	ne dedi ki , ne anlattı ? 
+%mor:	pron|ne-Int-Nom-S3 verb|de-Inf-Perf-Ind-3-Past-Pos cconj|ki cm|cm pron|ne-Int-Nom-S3 verb|anlat-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|OBL 2|6|ROOT 3|6|CC 4|2|PUNCT 5|6|OBJ 6|2|CONJ 7|2|PUNCT
+*EXP:	ben anlamadım . 
+%com:	the child laughs
+%mor:	pron|ben-Prs-Nom-S1 verb|anla-Inf-Perf-Ind-1-Past-Neg .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	O'zcan , anladım ben . 
+%mor:	noun|O'zcan&ComNeut-Nom cm|cm verb|anla-Inf-Perf-Ind-1-Past-Pos pron|ben-Prs-Nom-S1 .
+%gra:	1|3|DISCOURSE 2|3|PUNCT 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*EXP:	anladınmı ? 
+%mor:	verb|anla-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	bana da anlatsana . 
+%mor:	pron|ben-Prs-Dat-S1 cconj|da verb|anlat-Inf-Perf-Imp-3-Pres-Pos .
+%gra:	1|3|OBL 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*FAT:	kulaklarımı açtım artık söyle . 
+%mor:	noun|kulak&ComNeut-Plur-Acc verb|aç-Inf-Perf-Ind-1-Past-Pos adv|artık verb|söyle-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|OBJ 2|4|ROOT 3|4|ADVMOD 4|2|CONJ 5|2|PUNCT
+*EXP:	a , bu pek güzelmiş bu , kim verdi onu ? 
+%com:	referring to Burçak's ID bracelet on his arm
+%mor:	intj|a cm|cm pron|bu-Dem-Nom-S3 adv|pek verb|güzel-Inf-Perf-Ind-3-Past-Pos pron|bu-Dem-Nom-S3 cm|cm pron|kim-Int-Nom-S3 verb|ver-Inf-Perf-Ind-3-Past-Pos pron|o-Prs-Acc-S3 ?
+%gra:	1|5|DISCOURSE 2|5|PUNCT 3|5|NSUBJ 4|5|ADVMOD 5|10|ROOT 6|5|NSUBJ 7|5|PUNCT 8|9|NSUBJ 9|5|CONJ 10|9|OBJ 11|5|PUNCT
+*EXP:	pek beyendim bunu , yeni mi ? 
+%mor:	adv|pek verb|beye-Inf-Perf-Ind-1-Past-Pos pron|bu-Dem-Acc-S3 cm|cm adj|yeni-Pos-S-1 aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|ADVMOD 2|6|ROOT 3|2|OBJ 4|2|PUNCT 5|2|ADVMOD 6|5|AUX-Q 7|2|PUNCT
+*CHI:	yeni . 
+%mor:	adj|yeni-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	pek güzel , kim aldı ? 
+%mor:	adv|pek adj|güzel-Pos-S-1 cm|cm pron|kim-Int-Nom-S3 verb|al-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|ADVMOD 2|5|ADVMOD 3|5|PUNCT 4|5|NSUBJ 5|5|ROOT 6|5|PUNCT
+*CHI:	annem aldı . 
+%mor:	noun|anne&ComNeut-Nom verb|al-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	nereden almış acaba ? 
+%mor:	pron|nere-Int-Abl-S3 verb|al-Inf-Perf-Ind-3-Past-Pos adv|acaba ?
+%gra:	1|2|OBL 2|3|ROOT 3|2|ADVMOD 4|2|PUNCT
+*CHI:	bilezikçiden . 
+%mor:	noun|bilezikçi&ComNeut-Abl .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	orda bilezikcı var . 
+%mor:	pron|ora-Int-Loc-S3 noun|bilezikcı&ComNeut-Nom adj|var-Pos-S-1 .
+%gra:	1|3|OBL 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	altın mı ? 
+%mor:	adj|altın-Pos-S-1 aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|ROOT 2|1|AUX-Q 3|1|PUNCT
+*CHI:	ha . 
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bir tane daha burama alacak . 
+%mor:	det|bir-Ind-Art noun|tane&ComNeut-Nom adv|daha pron|bura-Int-Dat-S3 verb|al-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|2|DET 2|4|AMOD 3|2|ADVMOD-EMPH 4|5|OBL 5|5|ROOT 6|5|PUNCT
+*EXP:	öyle mi ? 
+%mor:	adv|öyle aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|ROOT 2|1|AUX-Q 3|1|PUNCT
+*CHI:	o bileziği de orama takacak . 
+%mor:	det|o-Def noun|bilezik&ComNeut-Acc cconj|de noun|oram&ComNeut-Dat verb|tak-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|2|DET 2|5|OBJ 3|2|MARK 4|5|OBL 5|5|ROOT 6|5|PUNCT
+*EXP:	aninoya da mı alacak bir tane ? 
+%mor:	noun|anino&ComNeut-Nom cconj|da aux|mi-Inf-Perf-Ind-3-Pres verb|al-Inf-Perf-Ind-3-Fut-Pos det|bir-Ind-Art noun|tane&ComNeut-Nom ?
+%gra:	1|4|NSUBJ 2|1|ADVMOD-EMPH 3|1|AUX-Q 4|6|ROOT 5|6|DET 6|4|OBJ 7|4|PUNCT
+*CHI:	var onun . 
+%mor:	adj|var-Pos-S-1 pron|o-Prs-Gen-S3 .
+%gra:	1|2|ROOT 2|1|NMOD-POSS 3|1|PUNCT
+*EXP:	o saat ama bilezik değil ki . 
+%mor:	det|o-Def noun|saat&ComNeut-Nom cconj|ama noun|bilezik&ComNeut-Nom verb|değil-Inf-Perf-Ind-3-Pres-Neg cconj|ki .
+%gra:	1|2|DET 2|6|ROOT 3|4|CC 4|2|CONJ 5|4|COP 6|4|ADVMOD-EMPH 7|2|PUNCT
+*EXP:	saat mi , bilezik mi aninonunki ? 
+%mor:	noun|saat&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres cm|cm noun|bilezik&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres noun|an&ComNeut-Gen~adp|ki ?
+%gra:	1|7|ROOT 2|1|AUX-Q 3|4|PUNCT 4|1|CONJ 5|4|AUX-Q 6|1|CONJ 7|6|CASE 8|1|PUNCT
+*CHI:	saati var . 
+%mor:	noun|saat&ComNeut-Nom adj|var-Pos-S-1 .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	senin saatin varmı ? 
+%mor:	pron|sen-Prs-Gen-S2 noun|saat&ComNeut-Nom verb|var-Inf-Perf-Imp-2-Pres-Pos ?
+%gra:	1|2|NMOD-POSS 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	saatim var . 
+%mor:	noun|saat&ComNeut-Nom adj|var-Pos-S-1 .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	kaç saatin şekerim ? 
+%mor:	num|kaç noun|saat&ComNeut-Gen noun|şeker&ComNeut-Nom ?
+%gra:	1|2|AMOD 2|3|NMOD-POSS 3|3|ROOT 4|3|PUNCT
+*CHI:	burada da var . 
+%mor:	pron|bura-Int-Loc-S3 cconj|da adj|var-Pos-S-1 .
+%gra:	1|3|OBL 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*CHI:	burada da var . 
+%mor:	pron|bura-Int-Loc-S3 cconj|da adj|var-Pos-S-1 .
+%gra:	1|3|OBL 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*EXP:	pek beyendim onu , ne yapıyorsun onu şimdi ? 
+%mor:	adv|pek verb|beye-Inf-Perf-Ind-1-Past-Pos pron|o-Prs-Acc-S3 cm|cm pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm pron|o-Prs-Acc-S3 adv|şimdi ?
+%gra:	1|2|ADVMOD 2|8|ROOT 3|2|OBJ 4|2|PUNCT 5|6|OBJ 6|2|CONJ 7|6|OBJ 8|6|ADVMOD 9|2|PUNCT
+*CHI:	kapıyorum . 
+%mor:	verb|kapı-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	neyi kapıyorsun ? 
+%mor:	pron|ne-Int-Acc-S3 verb|kapı-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	kapıları . 
+%mor:	noun|kapı&ComNeut-Plur-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	sen de onları kapat , o kapıları . 
+%mor:	pron|sen-Prs-Nom-S2 cconj|de pron|o-Prs-Acc-P3 verb|kapa-Inf-Perf-Imp-2-Pres-Pos cm|cm det|o-Def noun|kapı&ComNeut-Plur-Acc .
+%gra:	1|4|NSUBJ 2|1|ADVMOD-EMPH 3|4|OBJ 4|7|ROOT 5|4|PUNCT 6|7|DET 7|4|OBJ 8|4|PUNCT
+*FAT:	peki niçin kapıları kapıyorsun oğlum ? 
+%mor:	adv|peki adv|niçin noun|kapı&ComNeut-Plur-Acc verb|kapı-Inf-Prog-Ind-2-Pres-Pos-Infm noun|oğul&ComNeut-Nom ?
+%gra:	1|4|ADVMOD 2|4|ADVMOD 3|4|OBJ 4|5|ROOT 5|4|CONJ 6|4|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kapaman lazım mıymış ? 
+%mor:	verb|kapa-Vnoun-Perf-Ind-Pres-Pos adj|lazım-Pos-S-1 aux|mi-Inf-Perf-Ind-3-Past ?
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|AUX-Q 4|2|PUNCT
+*CHI:	hı . 
+%com:	an affirmative sound gesture
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	neden ? 
+%mor:	pron|ne-Int-Abl-S3 ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	arabalar düşerler belki . 
+%mor:	noun|araba&ComNeut-Plur-Nom verb|düş-Inf-Plur-Hab-Ind-3-Pres-Pos adv|belki .
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|ADVMOD 4|2|PUNCT
+*CHI:	kapamazsan düşerler . 
+%mor:	verb|kapa-Inf-Hab-Cnd-2-Pres-Pos verb|düş-Inf-Plur-Hab-Ind-3-Pres-Pos .
+%gra:	1|2|ADVCL 2|2|ROOT 3|2|PUNCT
+*EXP:	burda kim oturuyor ? 
+%com:	referring to a captain's deck
+%mor:	pron|bura-Int-Loc-S3 pron|kim-Int-Nom-S3 verb|otur-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|OBL 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	orada hiçkimse yok . 
+%mor:	pron|ora-Int-Loc-S3 adv|hiçkimse adj|yok-Pos-S-1 .
+%gra:	1|3|OBL 2|3|ADVMOD 3|3|ROOT 4|3|PUNCT
+*EXP:	burada birisi oturuyormu ? 
+%mor:	pron|bura-Int-Loc-S3 pron|biri-Ind-Nom-S3 verb|otur-Inf-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|3|OBL 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	oturmuyor . 
+%mor:	verb|otur-Inf-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	neresi burası geminin ? 
+%mor:	pron|nere-Int-Nom-S3 pron|bura-Int-Nom-S3 noun|gemin&ComNeut-Gen ?
+%gra:	1|3|NSUBJ 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	bir tane daha vapur var , onu da getireceğim ben . 
+%mor:	num|bir noun|tane&ComNeut-Nom adv|daha noun|vapur&ComNeut-Nom verb|var-Inf-Perf-Imp-2-Pres-Pos cm|cm pron|o-Prs-Acc-S3 cconj|da verb|getir-Inf-Perf-Ind-1-Fut-Pos pron|ben-Prs-Nom-S1 .
+%gra:	1|5|ADVCL 2|1|COMPOUND 3|4|ADVMOD 4|5|NSUBJ 5|10|ROOT 6|9|PUNCT 7|9|OBJ 8|7|ADVMOD-EMPH 9|5|CONJ 10|9|NSUBJ 11|5|PUNCT
+*EXP:	peki [= pekiyi] , ama sen bana söyle , bu vapurun burasında birileri . 
+%mor:	adv|peki cm|cm cconj|ama pron|sen-Prs-Nom-S2 pron|ben-Prs-Dat-S1 verb|söyle-Inf-Perf-Imp-2-Pres-Pos cm|cm det|bu-Def noun|vapur&ComNeut-Gen pron|bura-Int-Loc-S3 pron|biri-Ind-Nom-P3 .
+%gra:	1|11|ROOT 2|6|PUNCT 3|6|CC 4|6|NSUBJ 5|6|OBL 6|1|CONJ 7|6|PUNCT 8|9|DET 9|10|NMOD-POSS 10|11|NMOD 11|1|CONJ 12|1|PUNCT
+*EXP:	oturmuyormu ? 
+%mor:	verb|otur-Inf-Prog-Ind-1-Pres-Neg-Infm ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	oturmuyor . 
+%mor:	verb|otur-Inf-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	peki [= pekiyi] , bu geminin kaptanı nerde oturuyor ? 
+%com:	no response
+%mor:	adv|peki cm|cm det|bu-Def noun|gemin&ComNeut-Gen noun|kaptan&ComNeut-Nom pron|nere-Int-Loc-S3 verb|otur-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|7|DISCOURSE 2|7|PUNCT 3|4|DET 4|5|NMOD-POSS 5|7|NSUBJ 6|7|OBL 7|7|ROOT 8|7|PUNCT
+*EXP:	kaptanı varmı bu geminin ? 
+%mor:	noun|kaptan&ComNeut-Nom verb|var-Inf-Perf-Imp-2-Pres-Pos det|bu-Def noun|gemin&ComNeut-Gen ?
+%gra:	1|2|NSUBJ 2|4|ROOT 3|4|DET 4|2|NSUBJ 5|2|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	şöförü varmı bu geminin ? 
+%mor:	noun|şöför&ComNeut-Nom verb|var-Inf-Perf-Imp-3-Pres-Pos det|bu-Def noun|gemin&ComNeut-Gen ?
+%gra:	1|2|NSUBJ 2|4|ROOT 3|4|DET 4|2|NSUBJ 5|2|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kim götürüyor bu gemiyi ? 
+%mor:	pron|kim-Int-Nom-S3 verb|götür-Inf-Prog-Ind-3-Pres-Pos-Infm det|bu-Def noun|gemi&ComNeut-Acc ?
+%gra:	1|2|NSUBJ 2|4|ROOT 3|4|DET 4|2|OBJ 5|2|PUNCT
+*FAT:	a sen bağırıyorsun ya hani , motoru çalıştır , pervaneyi diye . 
+%mor:	intj|a pron|sen-Prs-Nom-S2 verb|bağır-Inf-Prog-Ind-2-Pres-Pos-Infm cconj|ya intj|hani cm|cm noun|motor&ComNeut-Acc verb|çalış-Inf-Perf-Imp-2-Pres-Pos cm|cm noun|pervane&ComNeut-Acc adp|diye .
+%gra:	1|3|DISCOURSE 2|3|NSUBJ 3|11|ROOT 4|3|ADVMOD-EMPH 5|3|DISCOURSE 6|5|PUNCT 7|8|OBJ 8|3|CONJ 9|10|PUNCT 10|8|CONJ 11|8|CASE 12|3|PUNCT
+*FAT:	kime bağırıyorsun ? 
+%mor:	pron|kim-Int-Dat-S3 verb|bağır-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*FAT:	ne diyorsun sen , kime bağırıyorsun Burçak ? 
+%com:	no response
+%mor:	pron|ne-Int-Nom-S3 verb|de-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 cm|cm pron|kim-Int-Dat-S3 verb|bağır-Inf-Prog-Ind-2-Pres-Pos-Infm noun|Burçak&ComNeut-Nom ?
+%gra:	1|2|OBL 2|7|ROOT 3|2|NSUBJ 4|2|PUNCT 5|6|OBL 6|2|CONJ 7|6|NSUBJ 8|2|PUNCT
+*EXP:	geminin buraları boş kalmış değilmi ? 
+%mor:	noun|gemin&ComNeut-Gen pron|bura-Ind-Nom-P3 adj|boş-Pos-S-1 verb|kal-Inf-Perf-Ind-3-Past-Pos aux|değil-Inf-Perf-Ind-1-Pres-Neg ?
+%gra:	1|2|NMOD-POSS 2|3|NSUBJ 3|5|ROOT 4|3|COMPOUND 5|3|COP 6|3|PUNCT
+*CHI:	niye ? 
+%mor:	adv|niye ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	bilmem niye . 
+%mor:	verb|bil-Inf-Hab-Ind-1-Pres-Neg adv|niye .
+%gra:	1|2|ROOT 2|1|ADVMOD 3|1|PUNCT
+*EXP:	sen boş bırakmıssın anlaşılan . 
+%mor:	pron|sen-Prs-Nom-S2 adj|boş-Pos-S-1 verb|bırak-Inf-Hab-Pot-2-Pres-Pos verb|anlaş-Part-Perf-Ind-Pres-Pos .
+%gra:	1|2|NSUBJ 2|4|ADVMOD 3|2|COMPOUND 4|4|ROOT 5|4|PUNCT
+*CHI:	ya . 
+%mor:	cconj|ya .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ya ne yapsak . 
+%mor:	cconj|ya pron|ne-Int-Nom-S3 verb|yap-Inf-Plur-Perf-Cnd-1-Pres-Pos .
+%gra:	1|3|CC 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	doldur istersen . 
+%mor:	verb|dol-Inf-Perf-Imp-2-Pres-Pos verb|iste-Inf-Hab-Cnd-2-Pres-Pos .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*CHI:	niye doldurayım ? 
+%mor:	adv|niye verb|dol-Inf-Perf-Opt-1-Pres-Pos ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*EXP:	eh , sonra geminin burası ağır basar , böyle gider gemi diymi [=? değilmi] ? 
+%mor:	intj|eh cm|cm adv|sonra noun|gemin&ComNeut-Gen pron|bura-Int-Nom-S3 adj|ağır-Pos-S-1 verb|bas-Inf-Hab-Ind-3-Pres-Pos cm|cm adv|böyle verb|gider-Inf-Hab-Ind-3-Pres-Pos noun|gemi&ComNeut-Nom verb|de-Inf-Hab-Ind-3-Past-Pos ?
+%gra:	1|6|DISCOURSE 2|12|PUNCT 3|6|ADVMOD 4|5|NMOD-POSS 5|6|NSUBJ 6|12|ADVMOD 7|6|COMPOUND 8|12|PUNCT 9|10|ADVMOD 10|12|ADVCL 11|10|OBJ 12|12|ROOT 13|12|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	nerden getireyim ben ? 
+%mor:	pron|nere-Int-Abl-S3 verb|getir-Inf-Perf-Opt-1-Pres-Pos pron|ben-Prs-Nom-S1 ?
+%gra:	1|2|OBL 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*EXP:	getir istersen . 
+%mor:	verb|getir-Inf-Perf-Imp-2-Pres-Pos verb|iste-Inf-Hab-Cnd-2-Pres-Pos .
+%gra:	1|2|PARATAXIS 2|2|ROOT 3|2|PUNCT
+*FAT:	Burçak , senin odana gidelimmi , oyuncaklarını göster . 
+%mor:	noun|Burçak&ComNeut-Nom cm|cm pron|sen-Prs-Gen-S2 pron|o-Int-Dat-S2 verb|git-Inf-Perf-Ind-1-Pres-Pos cm|cm noun|oyuncak&ComNeut-Plur-Acc verb|göster-Inf-Plur-Perf-Imp-2-Pres-Pos .
+%gra:	1|5|NSUBJ 2|5|PUNCT 3|4|NMOD-POSS 4|5|OBL 5|8|ROOT 6|8|PUNCT 7|8|OBJ 8|5|CONJ 9|5|PUNCT
+*EXP:	ama benim arabalarım da var , onları da koyabiliriz . 
+%mor:	cconj|ama pron|ben-Prs-Gen-S1 noun|araba&ComNeut-Plur-Nom cconj|da verb|var-Inf-Perf-Imp-2-Pres-Pos cm|cm pron|o-Prs-Acc-P3 cconj|da verb|koy-Inf-Plur-Hab-Pot-1-Pres-Pos .
+%gra:	1|5|CC 2|3|NMOD-POSS 3|5|NSUBJ 4|3|ADVMOD-EMPH 5|9|ROOT 6|9|PUNCT 7|9|OBJ 8|7|ADVMOD-EMPH 9|5|CONJ 10|5|PUNCT
+*EXP:	hah işte onları da koyabilirsin . 
+%mor:	intj|hah adv|işte pron|o-Prs-Acc-P3 cconj|da verb|koy-Inf-Hab-Ind-2-Pres-Pos .
+%gra:	1|5|DISCOURSE 2|5|ADVMOD 3|5|OBJ 4|3|ADVMOD-EMPH 5|5|ROOT 6|5|PUNCT
+*CHI:	bu ne , bu ne , bu ne ? 
+%mor:	pron|bu-Dem-Nom-S3 pron|ne-Int-Nom-S3 cm|cm pron|bu-Dem-Nom-S3 pron|ne-Int-Nom-S3 cm|cm pron|bu-Dem-Nom-S3 cconj|ne ?
+%gra:	1|2|DET 2|8|ROOT 3|4|PUNCT 4|5|NSUBJ 5|2|CONJ 6|5|PUNCT 7|5|NSUBJ 8|7|ADVMOD-EMPH 9|2|PUNCT
+*CHI:	bu ne böyle ? 
+%mor:	pron|bu-Dem-Nom-S3 pron|ne-Int-Nom-S3 adv|böyle ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	traktör . 
+%mor:	noun|traktör&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	ha . 
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	bu ne Burçak ? 
+%mor:	pron|bu-Dem-Nom-S3 cconj|ne noun|Burçak&ComNeut-Nom ?
+%gra:	1|3|NSUBJ 2|3|CC 3|3|ROOT 4|3|PUNCT
+*CHI:	acıdı . 
+%mor:	verb|acı-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	istersen bu da vapurun kaptanı olsun . 
+%com:	giving him a toy .
+%mor:	verb|iste-Inf-Hab-Cnd-2-Pres-Pos pron|bu-Dem-Nom-S3 cconj|da noun|vapur&ComNeut-Gen noun|kaptan&ComNeut-Nom verb|ol-Inf-Perf-Imp-3-Pres-Pos .
+%gra:	1|6|ADVCL 2|6|NSUBJ 3|2|ADVMOD-EMPH 4|5|NMOD-POSS 5|6|OBJ 6|6|ROOT 7|6|PUNCT
+*CHI:	koma [= koyma] . 
+%mor:	noun|koma&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	oraya koymayalım . 
+%mor:	pron|ora-Int-Dat-S3 verb|koy-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*EXP:	peki [= pekiyi] . 
+%mor:	adv|peki .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak yürümüyor . 
+%com:	referring to a toy tractor
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos verb|yürü-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|DISCOURSE 2|2|ROOT 3|2|PUNCT
+*CHI:	yürüdü işte . 
+%mor:	verb|yürü-Inf-Perf-Ind-3-Past-Pos adv|işte .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*EXP:	bak bunlar konabilir böyle yanyana , bu da polis oldu . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos pron|bu-Dem-Nom-P3 verb|kon-Inf-Hab-Pot-3-Pres-Pos adj|böyle-Pos-S-1 adj|yanya-Pos-Dat-S-3 cm|cm pron|bu-Dem-Nom-S3 cconj|da noun|polis&ComNeut-Nom verb|ol-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|3|DISCOURSE 2|3|NSUBJ 3|10|ROOT 4|5|AMOD 5|3|OBL 6|3|PUNCT 7|10|NSUBJ 8|7|ADVMOD-EMPH 9|10|OBJ 10|3|CONJ 11|3|PUNCT
+*FAT:	bak nasıl girecek araba vapuruna , biletçi burda , sen göster . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos adv|nasıl verb|gir-Inf-Perf-Ind-3-Fut-Pos noun|araba&ComNeut-Nom noun|vapur&ComNeut-Dat cm|cm noun|biletçi&ComNeut-Nom pron|bura-Int-Loc-S3 cm|cm pron|sen-Prs-Nom-S2 verb|göster-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|3|DISCOURSE 2|3|ADVMOD 3|11|ROOT 4|3|OBJ 5|3|OBL 6|3|PUNCT 7|3|CONJ 8|3|OBL 9|3|PUNCT 10|11|NSUBJ 11|1|CONJ 12|3|PUNCT
+*FAT:	bakalım . 
+%mor:	verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak işte arabalar . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos adv|işte noun|araba&ComNeut-Plur-Nom .
+%gra:	1|3|ROOT 2|3|DISCOURSE 3|1|CONJ 4|1|PUNCT
+*CHI:	benimki de var . 
+%mor:	pron|ben-Prs-Gen-S1~adp|ki cconj|de adj|var-Pos-S-1 .
+%gra:	1|4|NSUBJ 2|1|CASE 3|1|ADVMOD-EMPH 4|4|ROOT 5|4|PUNCT
+*FAT:	sen şimdi araba vapuruna nasıl sokacaksın arabaları , göster . 
+%mor:	pron|sen-Prs-Nom-S2 adv|şimdi noun|araba&ComNeut-Nom noun|vapur&ComNeut-Dat adv|nasıl verb|sok-Inf-Hab-Ind-2-Past-Pos noun|araba&ComNeut-Plur-Acc cm|cm verb|göster-Inf-Plur-Perf-Imp-2-Pres-Pos .
+%gra:	1|6|NSUBJ 2|6|ADVMOD 3|4|NMOD-POSS 4|5|NMOD 5|6|ADVMOD 6|9|ROOT 7|6|OBJ 8|6|PUNCT 9|6|CONJ 10|6|PUNCT
+*FAT:	bakalım . 
+%mor:	verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	sok bakalım burdan , nasıl sokacaksın ? 
+%mor:	verb|sok-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos adv|burdan cm|cm adv|nasıl verb|sok-Inf-Hab-Ind-2-Pres-Pos ?
+%gra:	1|6|ADVCL 2|1|CONJ 3|1|ADVMOD 4|1|PUNCT 5|6|ADVMOD 6|6|ROOT 7|6|PUNCT
+*CHI:	bilmiyorum . 
+%mor:	verb|bil-Inf-Prog-Ind-1-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	düt . 
+%com:	düt: sound imitation of a car's horn
+%mor:	noun|düt&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bilmiyorum ki . 
+%mor:	verb|bil-Inf-Prog-Ind-1-Pres-Neg-Infm cconj|ki .
+%gra:	1|2|ROOT 2|1|ADVMOD-EMPH 3|1|PUNCT
+*FAT:	araba vapuruna nasıl sokuyordun sen arabaları ? 
+%mor:	noun|araba&ComNeut-Nom noun|vapur&ComNeut-Dat adv|nasıl verb|sok-Inf-Perf-Ind-2-Past-Pos pron|sen-Prs-Nom-S2 noun|araba&ComNeut-Plur-Acc ?
+%gra:	1|2|NMOD-POSS 2|4|OBL 3|4|ADVMOD 4|6|ROOT 5|4|NSUBJ 6|4|OBJ 7|4|PUNCT
+*EXP:	en iyisi ben biletçi olayım , biletçiyi konuşturayım; dan dan . 
+%mor:	adv|en adj|iyi-Pos-Nom-S-3 pron|ben-Prs-Nom-S1 noun|biletçi&ComNeut-Nom verb|ol-Inf-Perf-Opt-1-Pres-Pos cm|cm noun|biletçi&ComNeut-Acc verb|konuş-Inf-Perf-Opt-1-Pres-Pos noun|dan&ComNeut-Abl noun|dan&ComNeut-Abl .
+%gra:	1|2|ADVMOD 2|5|AMOD 3|5|NSUBJ 4|5|OBJ 5|10|ROOT 6|8|PUNCT 7|8|OBJ 8|5|CONJ 9|8|OBL 10|8|PUNCT 11|5|PUNCT
+*EXP:	dan , dan dan dan . 
+%mor:	noun|dan&ComNeut-Abl cm|cm noun|dan&ComNeut-Abl noun|dan&ComNeut-Abl noun|dan&ComNeut-Abl .
+%gra:	1|5|OBL 2|5|PUNCT 3|5|NMOD 4|5|NMOD 5|5|ROOT 6|5|PUNCT
+*EXP:	kapıları açalım değilmi , açtık kapıları , ondan sonra gelin , gelin , gelin , gelin , çabuk çabuk . 
+%mor:	noun|kapı&ComNeut-Plur-Acc verb|aç-Inf-Plur-Perf-Opt-1-Pres-Pos aux|değil-Inf-Perf-Ind-1-Pres-Neg cm|cm verb|aç-Inf-Plur-Perf-Ind-1-Past-Pos noun|kapı&ComNeut-Plur-Acc cm|cm pron|o-Prs-Abl-S3 adv|sonra verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos cm|cm verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos cm|cm verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos cm|cm noun|gel&ComNeut-Nom cm|cm adj|çabuk-Pos-S-1 adv|çabuk .
+%gra:	1|2|OBJ 2|19|ROOT 3|2|COP 4|5|PUNCT 5|2|CONJ 6|5|OBJ 7|6|PUNCT 8|10|OBL 9|10|ADVMOD 10|2|CONJ 11|12|PUNCT 12|2|CONJ 13|14|PUNCT 14|2|CONJ 15|16|PUNCT 16|2|CONJ 17|18|PUNCT 18|19|AMOD 19|2|CONJ 20|2|PUNCT
+*CHI:	kimler gelecek ? 
+%mor:	pron|kim-Int-Nom-P3 verb|gel-Inf-Perf-Ind-3-Fut-Pos ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	arabalara gelin diyor . 
+%mor:	noun|araba&ComNeut-Plur-Dat verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos verb|de-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBL 2|3|CCOMP 3|3|ROOT 4|3|PUNCT
+*EXP:	arabalar sıraya girsin arka arkaya , gelin . 
+%mor:	noun|araba&ComNeut-Plur-Nom noun|sıra&ComNeut-Dat verb|gir-Inf-Perf-Imp-3-Pres-Pos adj|arka-Pos-S-1 adj|arka-Pos-Dat-S-3 cm|cm verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos .
+%gra:	1|3|NSUBJ 2|3|OBL 3|7|ROOT 4|5|AMOD 5|3|ADVMOD 6|3|PUNCT 7|3|CONJ 8|3|PUNCT
+*EXP:	çabuk çabuk . 
+%mor:	adv|çabuk adv|çabuk .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	a bu , a bu . 
+%mor:	intj|a pron|bu-Dem-Nom-S3 cm|cm intj|a pron|bu-Dem-Nom-S3 .
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|5|PUNCT 4|5|DISCOURSE 5|5|ROOT 6|5|PUNCT
+*CHI:	bu buraya . 
+%mor:	pron|bu-Dem-Nom-S3 pron|bura-Int-Dat-S3 .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	bu içeriye . 
+%mor:	det|bu-Def noun|içeri&ComNeut-Dat .
+%gra:	1|2|DET 2|2|ROOT 3|2|PUNCT
+*EXP:	gelin gelin çabuk , gemi kalkıyor , vutt vutttttt . 
+%com:	vutt vuttttt: she is imitating the sound of a ship's (ferry's) horn
+%mor:	verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos adv|çabuk cm|cm noun|gemi&ComNeut-Nom verb|kalk-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm noun|vutt&ComNeut-Nom verb|vutttt-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|DISCOURSE 2|6|PARATAXIS 3|2|ADVMOD 4|2|PUNCT 5|6|NSUBJ 6|9|ROOT 7|9|PUNCT 8|9|NSUBJ 9|6|CONJ 10|6|PUNCT
+*CHI:	öyle demiyor . 
+%mor:	adv|öyle verb|de-Inf-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	buuuu . 
+%com:	buuuu: that's the child's version of the sound the ferry makes
+%mor:	noun|buuuu&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	buu diyor değilmi , biletçi de çan çalıyor , ca'n çan ca'n ca'n . 
+%mor:	intj|buu verb|de-Inf-Prog-Ind-3-Pres-Pos-Infm aux|değil-Inf-Perf-Ind-1-Pres-Neg cm|cm noun|biletçi&ComNeut-Nom cconj|de noun|çan&ComNeut-Nom verb|çal-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm noun|ca&ComNeut-Nom noun|çan&ComNeut-Nom noun|ca&ComNeut-Nom noun|ca&ComNeut-Nom .
+%gra:	1|2|DISCOURSE 2|13|ROOT 3|2|DISCOURSE 4|3|PUNCT 5|8|NSUBJ 6|5|ADVMOD-EMPH 7|8|NSUBJ 8|2|CONJ 9|8|PUNCT 10|8|NSUBJ 11|10|COMPOUND 12|10|COMPOUND 13|10|NMOD 14|2|PUNCT
+*EXP:	hadi gelin diyor , gelsinler . 
+%mor:	intj|hadi verb|gel-Inf-Plur-Perf-Imp-2-Pres-Pos verb|de-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm verb|gel-Inf-Plur-Perf-Imp-3-Pres-Pos .
+%gra:	1|3|DISCOURSE 2|3|CCOMP 3|5|ROOT 4|5|PUNCT 5|3|CONJ 6|3|PUNCT
+*CHI:	denize bakıyor . 
+%com:	he is referring to a doll
+%mor:	noun|deniz&ComNeut-Dat verb|bak-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*EXP:	bu gemi gidecek ama . 
+%mor:	det|bu-Def noun|gemi&ComNeut-Nom verb|git-Inf-Perf-Ind-3-Fut-Pos cconj|ama .
+%gra:	1|2|DET 2|3|NSUBJ 3|4|ROOT 4|3|CONJ 5|3|PUNCT
+*EXP:	gitsin bari gemi . 
+%mor:	verb|git-Inf-Perf-Imp-3-Pres-Pos adv|bari noun|gemi&ComNeut-Nom .
+%gra:	1|3|ROOT 2|1|ADVMOD 3|1|NSUBJ 4|1|PUNCT
+*FAT:	nasıl sokuyordun sen Burçak ? 
+%mor:	adv|nasıl verb|sok-Inf-Prog-Ind-2-Past-Pos-Infm pron|sen-Prs-Nom-S2 noun|Burçak&ComNeut-Nom ?
+%gra:	1|2|ADVMOD 2|4|ROOT 3|2|NSUBJ 4|2|NSUBJ 5|2|PUNCT
+*CHI:	bu vapuru da getirdim . 
+%com:	brings another ship .
+%mor:	det|bu-Def noun|vapur&ComNeut-Acc cconj|da verb|getir-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|DET 2|4|OBJ 3|2|ADVMOD-EMPH 4|4|ROOT 5|4|PUNCT
+*CHI:	işte vapur da getirdim . 
+%mor:	adv|işte noun|vapur&ComNeut-Nom cconj|da verb|getir-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|4|ADVMOD 2|4|OBJ 3|2|ADVMOD-EMPH 4|4|ROOT 5|4|PUNCT
+*CHI:	o da vapur . 
+%mor:	pron|o-Prs-Nom-S3 cconj|da noun|vapur&ComNeut-Nom .
+%gra:	1|3|NSUBJ 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*CHI:	buraya da kaptan oturur , kaptan . 
+%mor:	pron|bura-Int-Dat-S3 cconj|da noun|kaptan&ComNeut-Nom verb|otur-Inf-Hab-Ind-3-Pres-Pos cm|cm noun|kaptan&ComNeut-Nom .
+%gra:	1|4|OBL 2|1|ADVMOD-EMPH 3|4|OBL 4|6|ROOT 5|6|PUNCT 6|4|CONJ 7|4|PUNCT
+*EXP:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	o ne ? 
+%mor:	pron|o-Dem-Nom-S3 pron|ne-Int-Nom-S3 ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	kaptan . 
+%mor:	noun|kaptan&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	nereye oturttun ? 
+%mor:	pron|nere-Int-Dat-S3 verb|otur-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	buraya ? 
+%mor:	pron|bura-Int-Dat-S3 ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak , ne yapacam [= yapacağım] şimdi ben . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos cm|cm pron|ne-Int-Nom-S3 verb|yap-Inf-Hab-Ind-1-Pres-Pos adv|şimdi pron|ben-Prs-Nom-S1 .
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBJ 4|6|ROOT 5|4|ADVMOD 6|4|NSUBJ 7|4|PUNCT
+*CHI:	tüfek . 
+%mor:	noun|tüfek&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ne tüfeği ? 
+%mor:	pron|ne-Int-Nom-S3 noun|tüfek&ComNeut-Acc ?
+%gra:	1|2|NMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	tüfek . 
+%mor:	noun|tüfek&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ne işe yarıyor tüfek ? 
+%mor:	adj|ne-Pos-S-1 noun|iş&ComNeut-Dat verb|yar-Inf-Prog-Ind-3-Pres-Pos-Infm noun|tüfek&ComNeut-Nom ?
+%gra:	1|4|ROOT 2|1|COMPOUND 3|1|COMPOUND 4|1|COMPOUND 5|1|PUNCT
+*CHI:	bum diye korkutuyor hep . 
+%com:	bum: sound imitation of a rifle
+%mor:	noun|bum&ComNeut-Nom adp|diye verb|korkut-Inf-Prog-Ind-3-Pres-Pos-Infm adv|hep .
+%gra:	1|3|ADVMOD 2|1|CASE 3|4|ROOT 4|3|ADVMOD 5|3|PUNCT
+*EXP:	kuşlar filan da korkuyormu ? 
+%mor:	noun|kuş&ComNeut-Plur-Nom adv|filan cconj|da verb|kork-Inf-Prog-Ind-3-Pres-Neg-Infm ?
+%gra:	1|4|NSUBJ 2|4|ADVMOD 3|2|ADVMOD-EMPH 4|4|ROOT 5|4|PUNCT
+*CHI:	kuşlar . 
+%mor:	noun|kuş&ComNeut-Plur-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	sokağa çıkıcam [= çıkacağım] ben aninoylan [= aninoyla] . 
+%mor:	noun|sokak&ComNeut-Dat verb|çık-Inf-Perf-Ind-1-Pres-Pos pron|ben-Prs-Nom-S1 noun|aninoy&ComNeut-Nom .
+%gra:	1|2|OBL 2|4|ROOT 3|2|NSUBJ 4|2|OBJ 5|2|PUNCT
+*CHI:	bum diye kuşları korkutacam [= korkutacağım] . 
+%mor:	noun|bum&ComNeut-Nom adp|diye noun|kuş&ComNeut-Plur-Acc verb|korkut-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|4|ADVMOD 2|1|CASE 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*EXP:	hi , kaçacakmı kuşlar ? 
+%mor:	noun|hi&ComNeut-Nom cm|cm verb|kaç-Inf-Perf-Ind-1-Pres-Pos noun|kuş&ComNeut-Plur-Nom ?
+%gra:	1|3|DISCOURSE 2|3|PUNCT 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	kaçacak . 
+%mor:	verb|kaç-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nereye kaçıyorlar kuşlar ? 
+%mor:	pron|nere-Int-Dat-S3 verb|kaç-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm noun|kuş&ComNeut-Plur-Nom ?
+%gra:	1|2|OBL 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	evine gidiyorlar . 
+%com:	the above sentence is not correct; correct form: evlerine gid xxx .
+%mor:	noun|ev&ComNeut-Dat verb|git-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*EXP:	deme ! 
+%mor:	verb|de-Inf-Perf-Imp-2-Pres-Neg !
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nerede oturuyorlar kuşlar ? 
+%mor:	pron|nere-Int-Loc-S3 verb|otur-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm noun|kuş&ComNeut-Plur-Nom ?
+%gra:	1|2|OBL 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*EXP:	nerede evleri ? 
+%com:	no response
+%mor:	pron|nere-Int-Loc-S3 noun|ev&ComNeut-Plur-Nom ?
+%gra:	1|2|NMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	çek bakalım tüfeği . 
+%mor:	noun|çek&ComNeut-Nom verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos noun|tüfek&ComNeut-Nom .
+%gra:	1|3|ROOT 2|1|COMPOUND 3|1|NSUBJ 4|1|PUNCT
+*CHI:	niye ? 
+%mor:	adv|niye ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kuvvetin gelmişmi bakalım . 
+%mor:	noun|kuvvet&ComNeut-Gen verb|gel-Inf-Perf-Ind-3-Past-Pos verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*CHI:	bak geldi . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos verb|gel-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*CHI:	geldi , vallahi billahi . 
+%mor:	verb|gel-Inf-Perf-Ind-3-Past-Pos cm|cm intj|vallahi noun|billahi&ComNeut-Nom .
+%gra:	1|4|ROOT 2|3|PUNCT 3|1|DISCOURSE 4|1|CONJ 5|1|PUNCT
+*CHI:	a seni vurdum ben . 
+%com:	pulls the trigger
+%mor:	intj|a pron|sen-Prs-Acc-S2 verb|vur-Inf-Perf-Ind-1-Past-Pos pron|ben-Prs-Nom-S1 .
+%gra:	1|3|DISCOURSE 2|3|OBJ 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	seni de be vurdum . 
+%mor:	pron|sen-Prs-Acc-S2 cconj|de intj|be verb|vur-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|4|OBJ 2|1|ADVMOD-EMPH 3|1|DISCOURSE 4|4|ROOT 5|4|PUNCT
+*EXP:	ay yapma , yapma , korkarım , çok korkarım . 
+%mor:	noun|ay&ComNeut-Nom verb|yap-Inf-Perf-Imp-2-Pres-Neg cm|cm verb|yap-Inf-Perf-Imp-2-Pres-Neg cm|cm verb|kork-Inf-Hab-Ind-1-Pres-Pos cm|cm adv|çok verb|kork-Inf-Hab-Ind-1-Pres-Pos .
+%gra:	1|2|NSUBJ 2|9|ROOT 3|4|PUNCT 4|2|CONJ 5|4|PUNCT 6|2|CONJ 7|9|PUNCT 8|9|ADVMOD 9|2|CONJ 10|2|PUNCT
+*FAT:	korkuttun Burçak , kuvvetin gelmiş degılmi ? 
+%mor:	verb|korkut-Inf-Perf-Ind-2-Past-Pos noun|Burçak&ComNeut-Nom cm|cm noun|kuvvet&ComNeut-Gen verb|gel-Inf-Perf-Ind-3-Past-Pos verb|degıl-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|6|ROOT 2|1|NSUBJ 3|1|PUNCT 4|5|NSUBJ 5|1|CONJ 6|5|COMPOUND 7|1|PUNCT
+*FAT:	Burçak xxx uçagını göstersene , dütdürüt yapıyormusun ? 
+%mor:	noun|Burçak&ComNeut-Nom noun|uçag&ComNeut-Acc verb|göster-Inf-Perf-Cnd-2-Pres-Pos cm|cm noun|dütdürüt&ComNeut-Nom verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|6|ADVCL 4|3|PUNCT 5|6|OBJ 6|6|ROOT 7|6|PUNCT
+*CHI:	ha . 
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	ne ? 
+%mor:	pron|ne-Int-Nom-S3 ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	askerler nasıl geçiyor söyle bakayım . 
+%mor:	noun|asker&ComNeut-Plur-Nom adv|nasıl verb|geç-Inf-Prog-Ind-3-Pres-Pos-Infm verb|söyle-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Perf-Opt-1-Pres-Pos .
+%gra:	1|3|NSUBJ 2|3|ADVMOD 3|5|ROOT 4|3|CONJ 5|4|CONJ 6|3|PUNCT
+*CHI:	bunu böyle takıyor . 
+%com:	puts gun on his shoulder
+%mor:	pron|bu-Dem-Acc-S3 adv|böyle verb|tak-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|OBJ 2|3|ADVMOD 3|3|ROOT 4|3|PUNCT
+*EXP:	sonra ? 
+%mor:	adv|sonra ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bunun kapısını açacam [= açacağım] . 
+%mor:	pron|bu-Dem-Gen-S3 noun|kapı&ComNeut-Acc verb|aç-Inf-Hab-Ind-1-Pres-Pos .
+%gra:	1|2|NMOD-POSS 2|3|ROOT 3|2|COMPOUND 4|2|PUNCT
+*CHI:	soktum böyle . 
+%mor:	verb|sok-Inf-Perf-Ind-1-Past-Pos adv|böyle .
+%gra:	1|2|ROOT 2|1|ADVMOD 3|1|PUNCT
+*CHI:	O'zcan , bunu niye böyle soktun ? 
+%mor:	noun|O'zcan&ComNeut-Nom cm|cm pron|bu-Dem-Acc-S3 adv|niye adv|böyle verb|sok-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|6|NSUBJ 2|6|PUNCT 3|6|OBJ 4|6|ADVMOD 5|6|ADVMOD 6|6|ROOT 7|6|PUNCT
+*FAT:	çikaralımmı ? 
+%mor:	verb|çikar-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	çikaralım . 
+%mor:	verb|çikar-Inf-Perf-Opt-1-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	hah , cıktı . 
+%mor:	intj|hah cm|cm verb|cık-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|3|DISCOURSE 2|3|PUNCT 3|3|ROOT 4|3|PUNCT
+*EXP:	dur bakalım , ver bunu Burçak . 
+%mor:	aux|i-Inf-Perf-Gen-3-Pres verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos cm|cm verb|ver-Inf-Perf-Imp-2-Pres-Pos pron|bu-Dem-Acc-S3 noun|Burçak&ComNeut-Nom .
+%gra:	1|6|ROOT 2|1|CONJ 3|4|PUNCT 4|1|CONJ 5|4|OBJ 6|4|NSUBJ 7|1|PUNCT
+*CHI:	ne yapacan [= yapacaksın] ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Perf-Ind-2-Fut-Pos ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	dursun böyle , oynayacağız . 
+%mor:	verb|dur-Inf-Perf-Imp-2-Pres-Pos adv|böyle cm|cm verb|oyna-Inf-Plur-Perf-Ind-1-Fut-Pos .
+%gra:	1|4|ROOT 2|1|ADVMOD 3|1|PUNCT 4|1|CONJ 5|1|PUNCT
+*EXP:	bunlan [= bunla] oyna sen şimdi . 
+%com:	father takes the toy gun away
+%mor:	pron|bu-Dem-Acc-P3 verb|oyna-Inf-Perf-Imp-2-Pres-Pos pron|sen-Prs-Nom-S2 adv|şimdi .
+%gra:	1|2|OBJ 2|4|ROOT 3|2|NSUBJ 4|2|ADVMOD 5|2|PUNCT
+*FAT:	Burçak , kurtak yapalımmı senlen [= senle] ? 
+%com:	assembling a toy plane
+%mor:	noun|Burçak&ComNeut-Nom cm|cm noun|kurtak&ComNeut-Nom verb|yap-Inf-Perf-Ind-1-Past-Pos verb|senle-Inf-Perf-Imp-2-Pres-Pos ?
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBJ 4|5|ROOT 5|4|CONJ 6|4|PUNCT
+*CHI:	yapalım . 
+%mor:	verb|yap-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	hadi , montaj yaptık uçağı , bu nesi ? 
+%mor:	intj|hadi cm|cm noun|montaj&ComNeut-Nom verb|yap-Inf-Plur-Perf-Ind-1-Past-Pos noun|uçak&ComNeut-Acc cm|cm pron|bu-Dem-Nom-S3 pron|ne-Int-Acc-S3 ?
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBJ 4|8|ROOT 5|4|OBJ 6|4|PUNCT 7|4|NSUBJ 8|3|DISLOCATED 9|4|PUNCT
+*CHI:	pervanesi . 
+%mor:	noun|pervane&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	pervanesi döndü . 
+%mor:	noun|pervane&ComNeut-Nom verb|dön-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	gelecek . 
+%com:	singing
+%mor:	verb|gel-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	düştü . 
+%mor:	verb|düş-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	düştü değilmi ? 
+%mor:	verb|düş-Inf-Perf-Ind-3-Past-Pos verb|değil-Inf-Perf-Ind-1-Pres-Neg ?
+%gra:	1|2|ROOT 2|1|COP 3|1|PUNCT
+*CHI:	niye durmuyor bu . 
+%mor:	adv|niye verb|dur-Inf-Prog-Ind-3-Pres-Pos-Infm pron|bu-Dem-Nom-S3 .
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	bu ne ? 
+%mor:	pron|bu-Dem-Nom-S3 pron|ne-Int-Nom-S3 ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	traktör . 
+%mor:	noun|traktör&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	hımm . 
+%com:	sound gesture . he plays with the tractor
+%mor:	noun|hımm&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	Burçak , sen kimle oynuyorsun sabahları ? 
+%com:	no response
+%mor:	noun|Burçak&ComNeut-Nom cm|cm pron|sen-Prs-Nom-S2 pron|kimle-Int-Ins-S3 verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm noun|sabah&ComNeut-Acc ?
+%gra:	1|5|VOCATIVE 2|5|PUNCT 3|5|NSUBJ 4|5|OBL 5|6|ROOT 6|5|OBJ 7|5|PUNCT
+*FAT:	Burçak , hani kaşı yarılmış kimle oynuyorsun sen karşıda ? 
+%com:	the child continues to play with the tractor
+%mor:	noun|Burçak&ComNeut-Nom cm|cm intj|hani noun|kaşı&ComNeut-Nom verb|yar-Inf-Perf-Ind-3-Past-Pos pron|kimle-Int-Ins-S3 verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 adj|karşı-Pos-Loc-S-3 ?
+%gra:	1|7|VOCATIVE 2|7|PUNCT 3|7|DISCOURSE 4|7|NSUBJ 5|4|COMPOUND 6|7|OBL 7|9|ROOT 8|7|NSUBJ 9|7|OBL 10|7|PUNCT
+*FAT:	Burçak sen sabahları hani deniz kenarına gidip kimlen oynuyorsun . 
+%com:	no response
+%mor:	noun|Burçak&ComNeut-Nom pron|sen-Prs-Nom-S2 noun|sabah&ComNeut-Acc adv|hani noun|deniz&ComNeut-Nom adj|kenar-Pos-Dat-S-3 verb|git-Conv-Perf-Ind-Pres-Pos pron|kim-Prs-Abl-S2 verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm .
+%gra:	1|9|NSUBJ 2|9|NSUBJ 3|9|OBJ 4|9|ADVMOD 5|6|NMOD-POSS 6|7|OBL 7|9|ADVCL 8|9|OBL 9|9|ROOT 10|9|PUNCT
+*FAT:	ha ? 
+%mor:	intj|ha ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	balıklarla . 
+%mor:	adj|balık-Pos-Ins-P-3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	hayır , hani karşıda bir çocuk var , kimle oynuyorsun ? 
+%com:	no response
+%mor:	noun|hayır&ComNeut-Nom cm|cm adv|hani adj|karşı-Pos-Loc-S-3 det|bir-Ind-Art noun|çocuk&ComNeut-Nom verb|var-Inf-Perf-Imp-2-Pres-Pos cm|cm pron|kimle-Int-Ins-S3 verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|7|DISCOURSE 2|7|PUNCT 3|7|ADVMOD 4|7|AMOD 5|6|DET 6|7|NSUBJ 7|10|ROOT 8|10|PUNCT 9|10|OBL 10|7|CONJ 11|7|PUNCT
+*FAT:	adı ne kimlen oynuyorsun ? 
+%com:	still silent
+%mor:	noun|ad&ComNeut-Nom pron|ne-Int-Nom-S3 noun|kimlen&ComNeut-Nom verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|4|NSUBJ 2|3|NMOD 3|4|OBL 4|4|ROOT 5|4|PUNCT
+*FAT:	çok ayıp , söyle bakayım , kimlen oynuyorsun ? 
+%mor:	adv|çok verb|ayıp-Inf-Perf-Imp-2-Pres-Pos cm|cm verb|söyle-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Perf-Opt-1-Pres-Pos cm|cm adv|kimlen verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|8|ROOT 3|4|PUNCT 4|2|CONJ 5|4|ADVCL 6|5|PUNCT 7|8|ADVMOD 8|2|CONJ 9|2|PUNCT
+*CHI:	Muratlan [= Muratla] . 
+%mor:	noun|murat&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki , ne oynuyorsun sen Murat'lan Burçak ? 
+%mor:	adv|peki cm|cm pron|ne-Int-Nom-S3 verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 noun|Murat&ComNeut-Nom noun|Burçak&ComNeut-Nom ?
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBL 4|7|ROOT 5|4|NSUBJ 6|4|NSUBJ 7|6|COMPOUND 8|4|PUNCT
+*CHI:	koşmuş , koşmuş Murat . 
+%mor:	verb|koş-Inf-Perf-Ind-3-Past-Pos cm|cm verb|koş-Inf-Perf-Ind-3-Past-Pos noun|Murat&ComNeut-Nom .
+%gra:	1|4|ROOT 2|3|PUNCT 3|1|CONJ 4|3|NSUBJ 5|1|PUNCT
+*CHI:	kaşı patlamış . 
+%mor:	adj|kaşı-Pos-Nom-S-3 verb|patla-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	düşmüsmü ? 
+%mor:	verb|düş-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	nasıl düşmuş ? 
+%mor:	adv|nasıl verb|düş-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	kaşı patlamış . 
+%mor:	adj|kaşı-Pos-Nom-S-3 verb|patla-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	e , ne yaptılar sonra ? 
+%mor:	intj|e cm|cm pron|ne-Int-Nom-S3 verb|yap-Inf-Plur-Perf-Ind-3-Past-Pos adv|sonra ?
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBJ 4|5|ROOT 5|4|ADVMOD 6|4|PUNCT
+*CHI:	dikmişler . 
+%mor:	verb|dik-Inf-Plur-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	kim dikmiş , annesi mi ? 
+%mor:	pron|kim-Int-Nom-S3 verb|dik-Inf-Perf-Ind-3-Past-Pos cm|cm noun|anne&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|NSUBJ 2|5|ROOT 3|2|PUNCT 4|1|APPOS 5|4|AUX-Q 6|2|PUNCT
+*CHI:	diktirmişler . 
+%mor:	verb|dik-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	nerde diktirmişler canım ? 
+%mor:	pron|nere-Int-Loc-S3 verb|dik-Inf-Plur-Hab-Ind-3-Past-Pos noun|can&ComNeut-Nom ?
+%gra:	1|2|OBL 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*CHI:	hastanede . 
+%mor:	noun|hastane&ComNeut-Loc .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	kim varmiş hastanede acaba ? 
+%mor:	pron|kim-Int-Nom-S3 verb|var-Inf-Perf-Ind-3-Past-Pos noun|hastane&ComNeut-Loc adv|acaba ?
+%gra:	1|2|NSUBJ 2|4|ROOT 3|2|OBL 4|2|ADVMOD 5|2|PUNCT
+*CHI:	amca varmiş , o dikmiş . 
+%mor:	noun|amca&ComNeut-Nom verb|var-Inf-Perf-Ind-3-Past-Pos cm|cm pron|o-Prs-Nom-S3 verb|dik-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|NSUBJ 2|5|ROOT 3|5|PUNCT 4|5|NSUBJ 5|2|CONJ 6|2|PUNCT
+*FAT:	acımişmı ? 
+%mor:	verb|acı-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	acımamiş . 
+%mor:	verb|acı-Inf-Perf-Ind-3-Past-Neg .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ilaç koymuşlarmıydi . 
+%mor:	noun|ilaç&ComNeut-Nom verb|koy-Inf-Perf-Ind-1-Pres-Pos~aux|i-Inf-Perf-Ind-3-Past .
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|COP 4|2|PUNCT
+*CHI:	bant koymuşlar . 
+%mor:	noun|bant&ComNeut-Nom verb|koy-Inf-Plur-Perf-Ind-3-Past-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	duruyormu bant yerinde ? 
+%mor:	verb|dur-Inf-Prog-Ind-1-Pres-Pos-Infm noun|bant&ComNeut-Nom noun|yer&ComNeut-Loc ?
+%gra:	1|3|ROOT 2|3|NMOD-POSS 3|1|OBL 4|1|PUNCT
+*CHI:	hı . 
+%com:	affirmative sound gesture
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki Burçak , sen Murat'lan [= Murat'la] ne oynuyorsun ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom cm|cm pron|sen-Prs-Nom-S2 noun|Murat&ComNeut-Nom pron|ne-Int-Nom-S3 verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|7|DISCOURSE 2|7|NSUBJ 3|7|PUNCT 4|7|NSUBJ 5|7|NSUBJ 6|7|OBJ 7|7|ROOT 8|7|PUNCT
+*CHI:	koşmuş , koşmuş . 
+%mor:	verb|koş-Inf-Perf-Ind-3-Past-Pos cm|cm verb|koş-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*CHI:	ondan sonra cumbadak diye düşmuş . 
+%com:	cumbadak: imitative sound for falling
+%mor:	pron|o-Prs-Abl-S3 adv|sonra adj|cumbadak-Pos-S-1 adp|diye verb|düş-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|5|OBL 2|1|COMPOUND 3|5|ADVMOD 4|3|CASE 5|5|ROOT 6|5|PUNCT
+*FAT:	peki Burçak sen Murat'lan [= Murat'la] ne zaman oynuyorsun ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom pron|sen-Prs-Nom-S2 noun|Murat&ComNeut-Nom pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|oyna-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|7|DISCOURSE 2|7|NSUBJ 3|7|NSUBJ 4|7|NSUBJ 5|6|NMOD 6|7|OBL 7|7|ROOT 8|7|PUNCT
+*CHI:	kapattım kapisını . 
+%mor:	verb|kapa-Inf-Perf-Ind-1-Past-Pos noun|kapi&ComNeut-Acc .
+%gra:	1|2|ROOT 2|1|OBJ 3|1|PUNCT
+*CHI:	gen açtım . 
+%mor:	noun|gen&ComNeut-Nom verb|aç-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	gene . 
+%mor:	adv|gene .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	Burçakcım , sen çarşıya kimlen [= kimle] gitmiştin dün ? 
+%mor:	noun|burçakcım&ComNeut-Nom cm|cm pron|sen-Prs-Nom-S2 noun|çarşı&ComNeut-Dat adv|kimlen verb|git-Inf-Perf-Ind-2-Past-Pos noun|dün&ComNeut-Nom ?
+%gra:	1|6|DISCOURSE 2|6|PUNCT 3|6|NSUBJ 4|6|OBL 5|6|ADVMOD 6|7|ROOT 7|6|OBL 8|6|PUNCT
+*FAT:	kimlen gittin ? 
+%mor:	pron|kim-Int-Abl-S3 verb|git-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*FAT:	Arı Pastahanesıne kimlen gittin ? 
+%mor:	noun|arı&ComNeut-Nom noun|pastahane&ComNeut-Dat noun|kimlen&ComNeut-Nom verb|git-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|2|NMOD-POSS 2|4|OBL 3|4|OBL 4|4|ROOT 5|4|PUNCT
+*CHI:	aninoyla . 
+%mor:	noun|an&ComNeut-Ins .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	anneyle . 
+%mor:	noun|anne&ComNeut-Ins .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne yapıyorsun Arı Pastahanesınde ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm adj|arı-Pos-Nom-S-3 noun|pastahane&ComNeut-Loc ?
+%gra:	1|2|OBJ 2|4|ROOT 3|2|ADVMOD 4|3|FLAT 5|2|PUNCT
+*CHI:	al bak . 
+%mor:	verb|al-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*CHI:	bak . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki Burçak biz sabahları nereye gidiyoruz ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom pron|biz-Prs-Nom-P1 noun|sabah&ComNeut-Acc pron|nere-Int-Dat-S3 verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|6|DISCOURSE 2|6|NSUBJ 3|6|NSUBJ 4|6|OBJ 5|6|OBL 6|6|ROOT 7|6|PUNCT
+*CHI:	kulübe . 
+%mor:	noun|kulübe&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne yapıyoruz kulüpte ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|kulüp&ComNeut-Loc ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|OBL 4|2|PUNCT
+*EXP:	ne kulübü o ? 
+%mor:	pron|ne-Int-Nom-S3 noun|kulüp&ComNeut-Acc pron|o-Prs-Nom-S3 ?
+%gra:	1|2|NMOD 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	kulübü işte . 
+%mor:	noun|kulüp&ComNeut-Nom adv|işte .
+%gra:	1|2|ROOT 2|1|ADVMOD 3|1|PUNCT
+*EXP:	ne kulübü , ama nasıl kulüp ? 
+%mor:	pron|ne-Int-Nom-S3 noun|kulüp&ComNeut-Acc cm|cm cconj|ama adv|nasıl noun|kulüp&ComNeut-Nom ?
+%gra:	1|2|NMOD 2|6|ROOT 3|6|PUNCT 4|6|CC 5|6|ADVMOD 6|2|CONJ 7|2|PUNCT
+*CHI:	kulüp . 
+%mor:	noun|kulüp&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	yüzmek için mi kulüp ? 
+%mor:	verb|yüz-Vnoun-Perf-Ind-Pres-Pos adp|için aux|mi-Inf-Perf-Ind-3-Pres noun|kulüp&ComNeut-Nom ?
+%gra:	1|4|NMOD 2|1|CASE 3|1|AUX-Q 4|4|ROOT 5|4|PUNCT
+*CHI:	hı . 
+%com:	an affirmative sound gesture
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	yüzebiliyormusun sen ? 
+%mor:	verb|yüz-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 ?
+%gra:	1|2|ROOT 2|1|NSUBJ 3|1|PUNCT
+*CHI:	yüzebiliyorum . 
+%mor:	verb|yüz-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	simidin varmı ? 
+%mor:	noun|simit&ComNeut-Nom adj|varmı-Pos-S-1 ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	simitsiz mi yüzüyorsun ? 
+%mor:	adj|simitsiz-Pos-S-1 aux|mi-Inf-Perf-Ind-3-Pres verb|yüz-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|1|AUX-Q 3|3|ROOT 4|3|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kendi başına mı yüzüyorsun ? 
+%mor:	pron|kendi-Int-Nom-S3 noun|baş&ComNeut-Dat aux|mi-Inf-Perf-Ind-3-Pres verb|yüz-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|4|OBL 2|1|COMPOUND 3|1|AUX-Q 4|4|ROOT 5|4|PUNCT
+*CHI:	hı . 
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nasıl yüzüyorsun , göster bana . 
+%mor:	adv|nasıl verb|yüz-Inf-Prog-Ind-2-Pres-Pos-Infm cm|cm verb|göster-Inf-Plur-Perf-Imp-2-Pres-Pos pron|ben-Prs-Dat-S1 .
+%gra:	1|2|ADVMOD 2|5|ROOT 3|4|PUNCT 4|2|CONJ 5|4|OBJ 6|2|PUNCT
+*CHI:	simitsiz yüzüyorum . 
+%mor:	adj|simitsiz-Pos-S-1 verb|yüz-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*EXP:	simitsiz yüzüyorsun , nasıl y'züyorsun göster bana . 
+%mor:	adj|simitsiz-Pos-S-1 verb|yüz-Inf-Prog-Ind-2-Pres-Pos-Infm cm|cm adv|nasıl verb|y'ze-Inf-Prog-Ind-2-Pres-Pos-Infm verb|göster-Inf-Perf-Imp-2-Pres-Pos pron|ben-Prs-Dat-S1 .
+%gra:	1|2|AMOD 2|7|ROOT 3|5|PUNCT 4|5|ADVMOD 5|2|CONJ 6|2|CONJ 7|6|OBJ 8|2|PUNCT
+*EXP:	deniz topun varmı ? 
+%mor:	noun|deniz&ComNeut-Nom noun|topun&ComNeut-Gen adj|varmı-Pos-S-1 ?
+%gra:	1|2|NMOD-POSS 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	e sana bir deniz topu alalım . 
+%mor:	intj|e pron|sen-Prs-Dat-S2 det|bir-Ind-Art noun|deniz&ComNeut-Nom noun|top&ComNeut-Nom verb|al-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|6|DISCOURSE 2|6|IOBJ 3|4|DET 4|5|NMOD-POSS 5|6|OBJ 6|6|ROOT 7|6|PUNCT
+*EXP:	başka topun varmı ? 
+%mor:	adj|başka-Pos-S-1 noun|topun&ComNeut-Gen verb|var-Inf-Perf-Imp-3-Pres-Pos ?
+%gra:	1|2|AMOD 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	var . 
+%mor:	adj|var-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	nasıl yüzüyorsun Burçak anlatsana . 
+%mor:	adv|nasıl verb|yüz-Inf-Prog-Ind-2-Pres-Pos-Infm noun|Burçak&ComNeut-Nom verb|anlat-Inf-Perf-Ind-3-Pres-Pos .
+%gra:	1|2|ADVMOD 2|4|ROOT 3|4|NSUBJ 4|2|CONJ 5|2|PUNCT
+*CHI:	işte bu vapurdan . 
+%mor:	adv|işte det|bu-Def noun|vapur&ComNeut-Abl .
+%gra:	1|3|ADVMOD 2|3|DET 3|3|ROOT 4|3|PUNCT
+*CHI:	işte burda var yüzecek . 
+%mor:	adv|işte pron|bura-Int-Loc-S3 adj|var-Pos-S-1 verb|yüz-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|3|ADVMOD 2|3|OBL 3|4|ROOT 4|3|CONJ 5|3|PUNCT
+*FAT:	bu vapur nasıl yüzüyor ? 
+%mor:	det|bu-Def noun|vapur&ComNeut-Nom adv|nasıl verb|yüz-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|DET 2|4|NSUBJ 3|4|ADVMOD 4|4|ROOT 5|4|PUNCT
+*CHI:	cıpa cıpa . 
+%com:	cıpa cıpa/cıbı cıbı: sound imitation of water when swimming
+%mor:	noun|cıpa&ComNeut-Nom noun|cıpa&ComNeut-Nom .
+%gra:	1|2|NMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	yüzebiliyormu vapur ? 
+%mor:	verb|yüz-Inf-Prog-Ind-1-Pres-Pos-Infm noun|vapur&ComNeut-Nom ?
+%gra:	1|2|ROOT 2|1|NSUBJ 3|1|PUNCT
+*CHI:	vuuttttt . 
+%com:	vuutttt: sound imitation of a ship's horn
+%mor:	noun|vuuttttt&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	şu ne , şurası ne vapurun ? 
+%mor:	pron|şu-Dem-Nom-S3 pron|ne-Int-Nom-S3 cm|cm pron|şura-Ind-Nom-S3 pron|ne-Int-Nom-S3 noun|vapur&ComNeut-Gen ?
+%gra:	1|2|DET 2|6|ROOT 3|6|PUNCT 4|6|NSUBJ 5|6|OBJ 6|2|CONJ 7|2|PUNCT
+*CHI:	ordan köpük çıkarıyor . 
+%mor:	pron|o-Int-Abl-S3 noun|köpük&ComNeut-Nom verb|çıkar-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|OBL 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*FAT:	niçin ? 
+%mor:	adv|niçin ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne var vurda da köpük cıkarıyor ? 
+%mor:	pron|ne-Int-Nom-S3 adj|var-Pos-S-1 adv|vurda cconj|da noun|köpük&ComNeut-Nom verb|cıkar-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|6|ADVCL 2|6|ADVMOD 3|6|ADVMOD 4|3|ADVMOD-EMPH 5|6|OBJ 6|6|ROOT 7|6|PUNCT
+*CHI:	köp'ük . 
+%mor:	noun|köp'ük&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	vuttttt . 
+%com:	again imitating the sound of a ship's horn
+%mor:	verb|vut-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	Burçak , vapurun nesi var burda ? 
+%mor:	noun|Burçak&ComNeut-Nom cm|cm noun|vapur&ComNeut-Gen pron|ne-Int-Nom-S3 verb|var-Inf-Perf-Imp-2-Pres-Pos pron|bura-Int-Loc-S3 ?
+%gra:	1|5|NSUBJ 2|5|PUNCT 3|4|NMOD-POSS 4|5|NSUBJ 5|6|ROOT 6|5|OBL 7|5|PUNCT
+*CHI:	orda altında pervanesi var . 
+%mor:	pron|ora-Int-Loc-S3 num|altı noun|pervane&ComNeut-Nom adj|var-Pos-S-1 .
+%gra:	1|4|OBL 2|4|NMOD 3|4|NSUBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	burda . 
+%mor:	pron|bura-Int-Loc-S3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	evet , ne oluyor , pervanesi ne yapıyor ? 
+%mor:	noun|evet&ComNeut-Nom cm|cm pron|ne-Int-Nom-S3 verb|ol-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm noun|pervane&ComNeut-Nom pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|8|ROOT 2|4|PUNCT 3|4|OBJ 4|1|CONJ 5|8|PUNCT 6|8|NSUBJ 7|8|OBJ 8|1|CONJ 9|1|PUNCT
+*CHI:	kaptan çalıstırıyor . 
+%mor:	noun|kaptan&ComNeut-Nom verb|çalıs-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	açıl dedığı [?] pervane dönüyor . 
+%mor:	verb|aç-Inf-Perf-Imp-2-Pres-Pos verb|de-Part-Perf-Ind-Past-Pos noun|pervane&ComNeut-Nom verb|dön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|4|ROOT 2|3|ACL 3|4|NSUBJ 4|1|CONJ 5|1|PUNCT
+*EXP:	sonra ne oluyor ? 
+%mor:	adv|sonra pron|ne-Int-Nom-S3 verb|ol-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	vuttt . 
+%mor:	verb|vut-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	diye ses çıkarıyor . 
+%mor:	adp|diye noun|ses&ComNeut-Nom verb|çıkar-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|CASE 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	niye düdük çalar vapurlar biliyormusun ? 
+%mor:	adv|niye noun|düdük&ComNeut-Nom verb|çal-Inf-Hab-Ind-3-Pres-Pos noun|vapur&ComNeut-Plur-Nom verb|bil-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|5|ADVMOD 2|5|NSUBJ 3|2|COMPOUND 4|5|NSUBJ 5|5|ROOT 6|5|PUNCT
+*EXP:	niçin düdük çalar vapurlar ? 
+%mor:	adv|niçin noun|düdük&ComNeut-Nom verb|çal-Inf-Hab-Ind-3-Pres-Pos noun|vapur&ComNeut-Plur-Nom ?
+%gra:	1|3|ADVMOD 2|3|NSUBJ 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	vutt . 
+%mor:	noun|vutt&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	Burçakcım annen nerde ? 
+%mor:	noun|burçakcım&ComNeut-Nom noun|annen&ComNeut-Nom pron|nere-Int-Loc-S3 ?
+%gra:	1|2|NSUBJ 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	gitti . 
+%mor:	verb|git-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nereye gitti ? 
+%mor:	pron|nere-Int-Dat-S3 verb|git-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	gitti işte . 
+%mor:	verb|git-Inf-Perf-Ind-3-Past-Pos adv|işte .
+%gra:	1|2|ROOT 2|1|ADVMOD 3|1|PUNCT
+*EXP:	nereye ? 
+%mor:	pron|nere-Int-Dat-S3 ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak gitmiş . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos verb|git-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*FAT:	Burçak where is anne ? 
+%mor:	noun|Burçak&ComNeut-Nom noun|wher&ComNeut-Nom noun|is&ComNeut-Nom noun|anne&ComNeut-Nom ?
+%gra:	1|4|NSUBJ 2|1|COMPOUND 3|4|NMOD 4|4|ROOT 5|4|PUNCT
+*FAT:	where is annino ? 
+%com:	only the english version was transcribed
+%mor:	noun|wher&ComNeut-Nom noun|is&ComNeut-Nom noun|annino&ComNeut-Nom ?
+%gra:	1|3|ROOT 2|1|COMPOUND 3|1|COMPOUND 4|1|PUNCT
+*CHI:	söylemiyorum . 
+%mor:	verb|söyle-Inf-Prog-Ind-1-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	inanmıyorum ben sana . 
+%mor:	verb|inan-Inf-Prog-Ind-1-Pres-Neg-Infm pron|ben-Prs-Nom-S1 pron|sen-Prs-Dat-S2 .
+%gra:	1|3|ROOT 2|1|NSUBJ 3|1|OBJ 4|1|PUNCT
+*CHI:	ben sana inanmıyorum . 
+%mor:	pron|ben-Prs-Nom-S1 pron|sen-Prs-Dat-S2 verb|inan-Inf-Prog-Ind-1-Pres-Neg-Infm .
+%gra:	1|3|NSUBJ 2|3|IOBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	öyle mi ? 
+%mor:	adv|öyle aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|ROOT 2|1|AUX-Q 3|1|PUNCT
+*EXP:	şaka mı yapıyor baba ? 
+%mor:	noun|şaka&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm noun|baba&ComNeut-Nom ?
+%gra:	1|3|OBJ 2|1|AUX-Q 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	inanmıyorum babaya . 
+%mor:	verb|inan-Inf-Prog-Ind-1-Pres-Neg-Infm noun|baba&ComNeut-Dat .
+%gra:	1|2|ROOT 2|1|OBL 3|1|PUNCT
+*EXP:	inanmıyormusun ? 
+%mor:	verb|inan-Inf-Prog-Ind-2-Pres-Neg-Infm ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	a ah . 
+%com:	sound gesture for a negative response
+%mor:	intj|a intj|ah .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*EXP:	niçin inanmıyorsun canım ? 
+%mor:	adv|niçin verb|inan-Inf-Prog-Ind-2-Pres-Neg-Infm noun|can&ComNeut-Nom ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*CHI:	işte yalancı , ona söylüyor . 
+%mor:	adv|işte adj|yalancı-Pos-S-1 cm|cm pron|o-Prs-Dat-S3 verb|söyle-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|5|DISCOURSE 2|5|ADVMOD 3|5|PUNCT 4|5|IOBJ 5|5|ROOT 6|5|PUNCT
+*EXP:	sahi mi ? 
+%mor:	adv|sahi aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|2|ROOT 2|1|AUX-Q 3|1|PUNCT
+*CHI:	yalancı sana kimse inanmaz diyor . 
+%mor:	adj|yalancı-Pos-Nom-S-3 pron|sen-Prs-Dat-S2 noun|kimse&ComNeut-Nom verb|inan-Inf-Hab-Ind-3-Pres-Neg verb|de-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|4|NSUBJ 2|4|OBL 3|4|OBJ 4|5|CCOMP 5|5|ROOT 6|5|PUNCT
+*CHI:	inanmaz diyor . 
+%mor:	verb|inan-Inf-Hab-Ind-3-Pres-Neg verb|de-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|CCOMP 2|2|ROOT 3|2|PUNCT
+*CHI:	inanmıyorum ona ben . 
+%mor:	verb|inan-Inf-Prog-Ind-1-Pres-Neg-Infm pron|o-Prs-Dat-S3 pron|ben-Prs-Nom-S1 .
+%gra:	1|3|ROOT 2|1|OBJ 3|1|NSUBJ 4|1|PUNCT
+*EXP:	inanmıyorsun ona , habire şaka yapıyor sana , öyle mi ? 
+%mor:	verb|inan-Inf-Prog-Ind-2-Pres-Neg-Infm pron|o-Prs-Dat-S3 cm|cm adv|habire noun|şaka&ComNeut-Nom verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm pron|sen-Prs-Dat-S2 cm|cm adv|öyle aux|mi-Inf-Perf-Ind-3-Pres ?
+%gra:	1|10|ROOT 2|1|OBJ 3|1|PUNCT 4|6|ADVMOD 5|6|OBJ 6|1|CONJ 7|6|OBL 8|6|PUNCT 9|1|ADVMOD 10|9|AUX-Q 11|1|PUNCT
+*CHI:	ha . 
+%com:	affirmative sound gesture
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	benden bıktım ben . 
+%mor:	pron|ben-Prs-Abl-S1 verb|bık-Inf-Perf-Ind-1-Past-Pos pron|ben-Prs-Nom-S1 .
+%gra:	1|2|OBL 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*EXP:	sıkıldınmı ? 
+%mor:	verb|sıkıl-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	artık ben senden bıktım . 
+%com:	to the father
+%mor:	adv|artık pron|ben-Prs-Nom-S1 pron|sen-Prs-Abl-S1 verb|bık-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|4|ADVMOD 2|4|NSUBJ 3|4|OBL 4|4|ROOT 5|4|PUNCT
+*EXP:	eyvah , ne yapalım bakalım ? 
+%mor:	intj|eyvah cm|cm pron|ne-Int-Nom-S3 verb|yap-Inf-Plur-Perf-Opt-1-Pres-Pos verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos ?
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBJ 4|5|ROOT 5|4|CONJ 6|4|PUNCT
+*FAT:	ingilizce konuşuyordun hani sen Burçak , ne diyordun ? 
+%mor:	adv|ingilizce verb|konuş-Inf-Prog-Ind-2-Past-Pos-Infm intj|hani pron|sen-Prs-Nom-S2 noun|Burçak&ComNeut-Nom cm|cm pron|ne-Int-Nom-S3 verb|de-Inf-Prog-Ind-2-Past-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|8|CCOMP 3|2|DISCOURSE 4|2|NSUBJ 5|4|CONJ 6|5|PUNCT 7|8|OBJ 8|8|ROOT 9|8|PUNCT
+*FAT:	peki annen nerde , anne nereye gitti Burçak , biz anneyi nasıl . 
+%mor:	adv|peki noun|annen&ComNeut-Nom pron|nere-Int-Loc-S3 cm|cm noun|anne&ComNeut-Nom pron|nere-Int-Dat-S3 verb|git-Inf-Perf-Ind-3-Past-Pos noun|Burçak&ComNeut-Nom cm|cm pron|biz-Prs-Nom-P1 noun|anne&ComNeut-Acc adv|nasıl .
+%gra:	1|7|DISCOURSE 2|7|VOCATIVE 3|7|OBL 4|5|PUNCT 5|7|NSUBJ 6|7|OBL 7|12|ROOT 8|7|NSUBJ 9|7|PUNCT 10|12|NSUBJ 11|12|OBJ 12|7|ADVMOD 13|7|PUNCT
+*FAT:	alıyoruz Burçak , biraz söylesene , akşam olunca biz ne yapıyoruz Burçak , tabışkana [?] atladıgımız gibi nereye gidiyoruz , söylesene Alev teyzeye . 
+%mor:	verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|Burçak&ComNeut-Nom cm|cm adv|biraz verb|söyle-Inf-Perf-Cnd-2-Pres-Pos cm|cm noun|akşam&ComNeut-Nom verb|ol-Conv-Perf-Ind-Pres-Pos pron|biz-Prs-Nom-P1 pron|ne-Int-Nom-S3 verb|yap-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|Burçak&ComNeut-Nom cm|cm noun|tabışkan&ComNeut-Dat verb|atla-Part-Perf-Ind-Past-Pos adp|gibi pron|nere-Int-Dat-S3 verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm cm|cm verb|söyle-Inf-Perf-Cnd-2-Pres-Pos noun|Alev&ComNeut-Nom noun|teyze&ComNeut-Dat .
+%gra:	1|22|ROOT 2|1|OBL 3|5|PUNCT 4|5|ADVMOD 5|1|CONJ 6|5|PUNCT 7|8|OBL 8|11|ADVCL 9|11|NSUBJ 10|11|OBJ 11|1|CONJ 12|11|NSUBJ 13|12|PUNCT 14|15|OBL 15|18|ADVCL 16|15|CASE 17|18|OBL 18|1|CONJ 19|20|PUNCT 20|18|ADVCL 21|20|NSUBJ 22|20|OBL 23|1|PUNCT
+*CHI:	anneyi almaya gidiyoruz . 
+%mor:	noun|anne&ComNeut-Acc verb|al-Vnoun-Perf-Ind-Pres-Pos verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|2|OBJ 2|3|NMOD 3|3|ROOT 4|3|PUNCT
+*FAT:	nerden alıyoruz anneyi ? 
+%mor:	pron|nere-Int-Abl-S3 verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|anne&ComNeut-Acc ?
+%gra:	1|2|OBL 2|3|ROOT 3|2|OBJ 4|2|PUNCT
+*CHI:	ordan vapurdan . 
+%mor:	pron|o-Int-Abl-S3 noun|vapur&ComNeut-Abl .
+%gra:	1|2|NMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	nasıl geliyor vapur ? 
+%mor:	adv|nasıl verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm noun|vapur&ComNeut-Nom ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*FAT:	anlatsana Alev teyzeye , uzaktan nasıl geliyor . 
+%mor:	verb|anlat-Inf-Perf-Cnd-2-Pres-Pos noun|Alev&ComNeut-Nom noun|teyze&ComNeut-Dat cm|cm adj|uzak-Pos-Abl-S-3 adv|nasıl verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|7|ADVCL 2|1|OBL 3|1|OBL 4|1|PUNCT 5|7|NSUBJ 6|7|ADVMOD 7|7|ROOT 8|7|PUNCT
+*FAT:	vapur . 
+%mor:	noun|vapur&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	böyle feneri nasıl yanıyor söyle . 
+%mor:	adv|böyle noun|fener&ComNeut-Plur-Nom adv|nasıl verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm verb|söyle-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|ADVMOD 2|4|NSUBJ 3|4|ADVMOD 4|5|ROOT 5|4|CONJ 6|4|PUNCT
+*CHI:	vutttt . 
+%mor:	verb|vut-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	yanıyor sönüyor . 
+%mor:	verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*CHI:	sönüyor yanıyor . 
+%mor:	verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*CHI:	gine yanıyor sönüyor . 
+%mor:	adv|gine verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*FAT:	sonra ne oluyor ? 
+%mor:	adv|sonra pron|ne-Int-Nom-S3 verb|ol-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	yanıyor sönüyor . 
+%mor:	verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*FAT:	söndükten sonra ne oluyor ? 
+%mor:	verb|sön-Part-Perf-Ind-Past-Pos adp|sonra pron|ne-Int-Nom-S3 verb|ol-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|4|ADVCL 2|1|CASE 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*FAT:	vapur ne yapıyor ? 
+%mor:	noun|vapur&ComNeut-Nom pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	vapur geliyor . 
+%mor:	noun|vapur&ComNeut-Nom verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	vuttttt diye . 
+%mor:	verb|vut-Inf-Perf-Ind-2-Past-Pos adp|diye .
+%gra:	1|2|ROOT 2|1|CASE 3|1|PUNCT
+*EXP:	peki anne ne zaman geliyor canım ? 
+%mor:	adv|peki noun|anne&ComNeut-Nom pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm noun|can&ComNeut-Nom ?
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|4|NMOD 4|5|OBL 5|6|ROOT 6|5|CONJ 7|5|PUNCT
+*CHI:	vapurla geliyor . 
+%mor:	noun|vapur&ComNeut-Ins verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*EXP:	ama ne zaman ? 
+%mor:	cconj|ama pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom ?
+%gra:	1|3|CC 2|3|NMOD 3|3|ROOT 4|3|PUNCT
+*CHI:	birazdan . 
+%mor:	adv|birazdan .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	gece mi geliyor gündüz mü geliyor ? 
+%mor:	noun|gece&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm noun|gündüz&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|OBL 2|1|AUX-Q 3|6|ROOT 4|6|OBL 5|4|AUX-Q 6|3|CONJ 7|3|PUNCT
+*CHI:	gece . 
+%mor:	noun|gece&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	anne giderken sabah süsleniyormu ? 
+%mor:	noun|anne&ComNeut-Nom verb|git-Conv-Hab-Ind-3-Pres-Pos noun|sabah&ComNeut-Nom verb|süsle-Inf-Prog-Ind-1-Past-Pos-Infm ?
+%gra:	1|2|NSUBJ 2|4|ADVCL 3|4|OBL 4|4|ROOT 5|4|PUNCT
+*CHI:	süsleniyor . 
+%mor:	verb|süsle-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nasıl süsleniyor ? 
+%mor:	adv|nasıl verb|süsle-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	üstüste koyuyor bileziklerini . 
+%mor:	adj|üstüs-Pos-Loc-S-3 verb|koy-Inf-Prog-Ind-3-Pres-Pos-Infm noun|bilezik&ComNeut-Plur-Acc .
+%gra:	1|2|OBL 2|3|ROOT 3|2|OBJ 4|2|PUNCT
+*EXP:	evet . 
+%mor:	noun|evet&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	başka ne yapıyor ? 
+%mor:	adj|başka-Pos-S-1 pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|AMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	üstüste koymasın bir daha . 
+%mor:	noun|üstüs&ComNeut-Loc verb|koy-Inf-Perf-Imp-3-Pres-Neg det|bir-Ind-Art adv|daha .
+%gra:	1|4|ROOT 2|1|COMPOUND 3|1|ADVMOD 4|3|COMPOUND 5|1|PUNCT
+*EXP:	peki , bir daha koymasın söyleriz; yüzünü boyuyormu ? 
+%mor:	adv|peki cm|cm det|bir-Ind-Art adv|daha verb|koy-Inf-Perf-Imp-3-Pres-Neg verb|söyle-Inf-Plur-Hab-Ind-1-Pres-Pos noun|yüz&ComNeut-Acc verb|boy-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|8|ROOT 2|6|PUNCT 3|5|ADVMOD 4|3|ADVMOD 5|6|ADVCL 6|1|CONJ 7|8|OBJ 8|1|CONJ 9|1|PUNCT
+*CHI:	boyuyor . 
+%mor:	verb|boy-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nasıl boyuyor ? 
+%mor:	adv|nasıl verb|boy-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	böyle böyle . 
+%com:	with gestures
+%mor:	adv|böyle adv|böyle .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*EXP:	dudağına da birşey sürüyormu ? 
+%mor:	noun|dudak&ComNeut-Dat cconj|da noun|birşey&ComNeut-Nom verb|sür-Inf-Prog-Ind-3-Past-Neg-Infm ?
+%gra:	1|4|OBL 2|1|ADVMOD-EMPH 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	ruj sürüyor . 
+%mor:	noun|ruj&ComNeut-Nom verb|sür-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	peki ne zaman uyur anne ? 
+%mor:	adv|peki pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|uyur-Inf-Hab-Ind-3-Pres-Pos noun|anne&ComNeut-Nom ?
+%gra:	1|4|ADVMOD 2|3|NMOD 3|4|OBL 4|5|ROOT 5|4|NSUBJ 6|4|PUNCT
+*CHI:	birazdan uyuyor . 
+%mor:	adv|birazdan verb|uy-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*EXP:	peki sen ne zaman uyuyorsun ? 
+%mor:	adv|peki pron|sen-Prs-Nom-S2 pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|uy-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|4|NMOD 4|5|OBL 5|5|ROOT 6|5|PUNCT
+*CHI:	ben uyuyorum . 
+%mor:	pron|ben-Prs-Nom-S1 verb|uy-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	ne zaman ? 
+%mor:	pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom ?
+%gra:	1|2|NMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	birazdan . 
+%mor:	adv|birazdan .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	peki Burçakcım , yerleri kim temizliyor ? 
+%mor:	adv|peki noun|burçakcım&ComNeut-Nom cm|cm noun|yer&ComNeut-Plur-Acc pron|kim-Int-Nom-S3 verb|temizle-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|6|DISCOURSE 2|6|DISCOURSE 3|6|PUNCT 4|6|OBJ 5|6|NSUBJ 6|6|ROOT 7|6|PUNCT
+*CHI:	nine . 
+%mor:	noun|nin&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	adı ne ninenin ? 
+%mor:	noun|ad&ComNeut-Nom pron|ne-Int-Nom-S3 noun|nine&ComNeut-Gen ?
+%gra:	1|3|NSUBJ 2|3|NMOD 3|3|ROOT 4|3|PUNCT
+*CHI:	Remziye Güney . 
+%mor:	noun|Remziye&ComNeut-Nom noun|Güney&ComNeut-Nom .
+%gra:	1|2|ROOT 2|1|FLAT 3|1|PUNCT
+*EXP:	peki neyle temizliyor yerleri nine ? 
+%com:	no response
+%mor:	adv|peki pron|ne-Int-Ins-S3 verb|temizle-Inf-Prog-Ind-3-Pres-Pos-Infm noun|yer&ComNeut-Plur-Acc noun|nin&ComNeut-Nom ?
+%gra:	1|3|ADVMOD 2|3|OBL 3|5|ROOT 4|3|OBJ 5|3|OBJ 6|3|PUNCT
+*EXP:	ha canım ? 
+%com:	still no response
+%mor:	intj|ha noun|can&ComNeut-Nom ?
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*EXP:	neyle temizliyor çocuğum yerleri ? 
+%mor:	pron|ne-Int-Ins-S3 verb|temizle-Inf-Prog-Ind-3-Pres-Pos-Infm noun|çocuk&ComNeut-Nom noun|yer&ComNeut-Plur-Acc ?
+%gra:	1|2|OBL 2|4|ROOT 3|2|NSUBJ 4|2|OBJ 5|2|PUNCT
+*EXP:	bana söyle de ben de yerlerimi temizliyeceğim . 
+%mor:	pron|ben-Prs-Dat-S1 verb|söyle-Inf-Perf-Imp-2-Pres-Pos cconj|de pron|ben-Prs-Nom-S1 cconj|de noun|yer&ComNeut-Acc verb|temizle-Inf-Perf-Ind-1-Fut-Pos .
+%gra:	1|2|OBL 2|7|NMOD 3|2|ADVMOD-EMPH 4|7|NSUBJ 5|4|ADVMOD-EMPH 6|7|OBJ 7|7|ROOT 8|7|PUNCT
+*CHI:	nine temizliyor . 
+%mor:	noun|nin&ComNeut-Nom verb|temizle-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	evet biliyorum ama ne kullanıyor ? 
+%mor:	noun|evet&ComNeut-Nom verb|bil-Inf-Prog-Ind-1-Pres-Pos-Infm cconj|ama pron|ne-Int-Nom-S3 verb|kullan-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|DISCOURSE 2|5|ROOT 3|5|CC 4|5|OBJ 5|2|CONJ 6|2|PUNCT
+*CHI:	bezlen [= bezle] . 
+%mor:	verb|bezle-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	süpürüyormu ? 
+%mor:	verb|süpür-Inf-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	süpürüyor . 
+%mor:	verb|süpür-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	neyle süpürüyor ? 
+%mor:	pron|ne-Int-Ins-S3 verb|süpür-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	balkonu yıkadı bak . 
+%mor:	noun|balkon&ComNeut-Acc verb|yıka-Inf-Perf-Ind-3-Past-Pos verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|OBJ 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*CHI:	her tarafı yıkadı bak . 
+%mor:	det|her-Def noun|taraf&ComNeut-Acc verb|yıka-Inf-Perf-Ind-3-Past-Pos verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|DET 2|3|OBJ 3|4|ROOT 4|3|CONJ 5|3|PUNCT
+*EXP:	neyle süpürüyor ? 
+%mor:	pron|ne-Int-Ins-S3 verb|süpür-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	süpürgeylen [= süpürgeyle] . 
+%mor:	noun|süpürge&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	niçin ? 
+%mor:	adv|niçin ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	ıste , kirleniyor . 
+%mor:	verb|ıste-Inf-Perf-Imp-2-Pres-Pos cm|cm verb|kirlen-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*EXP:	kirleniyor değilmi , kim kirletiyor acaba ? 
+%mor:	verb|kirlen-Inf-Prog-Ind-3-Pres-Pos-Infm aux|değil-Inf-Perf-Ind-1-Pres-Neg cm|cm pron|kim-Int-Nom-S3 verb|kirle-Inf-Prog-Ind-3-Pres-Pos-Infm adv|acaba ?
+%gra:	1|6|ROOT 2|1|COP 3|5|PUNCT 4|5|NSUBJ 5|1|CONJ 6|5|ADVMOD 7|1|PUNCT
+*CHI:	ben kirletiyorum onu için temizliyor . 
+%mor:	pron|ben-Prs-Nom-S1 verb|kirlet-Inf-Prog-Ind-1-Pres-Pos-Infm pron|o-Prs-Acc-S3 adp|için verb|temizle-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|NSUBJ 2|5|ROOT 3|5|OBJ 4|3|CASE 5|2|CONJ 6|2|PUNCT
+*EXP:	sen nasıl kirletiyorsun yerleri , ne yapıyorsun da kirleniyor ? 
+%mor:	pron|sen-Prs-Nom-S2 adv|nasıl verb|kirlet-Inf-Prog-Ind-2-Pres-Pos-Infm noun|yer&ComNeut-Plur-Acc cm|cm pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm cconj|da verb|kirlen-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|NSUBJ 2|3|ADVMOD 3|9|ROOT 4|3|OBJ 5|3|PUNCT 6|7|OBJ 7|9|NMOD 8|7|ADVMOD-EMPH 9|3|CONJ 10|3|PUNCT
+*CHI:	böyle toz atıyorum ben , nene de siliyor böyle . 
+%mor:	adv|böyle noun|toz&ComNeut-Nom verb|at-Inf-Prog-Ind-1-Pres-Pos-Infm pron|ben-Prs-Nom-S1 cm|cm pron|ne-Int-Nom-S3 cconj|de verb|sil-Inf-Prog-Ind-3-Pres-Pos-Infm adv|böyle .
+%gra:	1|2|ADVMOD 2|3|OBJ 3|8|PARATAXIS 4|3|NSUBJ 5|3|PUNCT 6|8|NSUBJ 7|6|ADVMOD-EMPH 8|9|ROOT 9|8|ADVMOD 10|8|PUNCT
+*FAT:	Burçak , ütü yapıyormu nine ? 
+%mor:	noun|Burçak&ComNeut-Nom cm|cm noun|ütü&ComNeut-Nom verb|yap-Inf-Prog-Ind-1-Pres-Pos-Infm noun|nine&ComNeut-Nom ?
+%gra:	1|4|NSUBJ 2|4|PUNCT 3|4|OBJ 4|5|ROOT 5|4|NSUBJ 6|4|PUNCT
+*CHI:	yapıyor . 
+%mor:	verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne zaman yapıyor üt'uyü nine ? 
+%com:	no response
+%mor:	pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm noun|üt&ComNeut-Acc noun|nine&ComNeut-Nom ?
+%gra:	1|2|NMOD 2|3|OBL 3|5|ROOT 4|3|OBJ 5|3|OBJ 6|3|PUNCT
+*FAT:	ne zaman yapıyor ? 
+%mor:	pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|NMOD 2|3|OBL 3|3|ROOT 4|3|PUNCT
+*CHI:	nine ütüyü yapıyor , getiriyor , oraya getiriyor . 
+%mor:	noun|nin&ComNeut-Nom noun|ütü&ComNeut-Acc verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm verb|getir-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm pron|ora-Int-Dat-S3 verb|getir-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|NSUBJ 2|3|OBJ 3|8|ROOT 4|5|PUNCT 5|3|CONJ 6|8|PUNCT 7|8|OBL 8|3|CONJ 9|3|PUNCT
+*CHI:	ondan sonra giyiniyor . 
+%mor:	pron|o-Prs-Abl-S3 adv|sonra verb|giyin-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|OBL 2|1|CASE 3|3|ROOT 4|3|PUNCT
+*FAT:	ütü ne yapıyor ? 
+%mor:	noun|ütü&ComNeut-Nom pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	kızıyor . 
+%mor:	verb|kız-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	kızmış . 
+%mor:	verb|kız-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	lambası mı yanıyor ? 
+%mor:	noun|lamba&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|NSUBJ 2|1|AUX-Q 3|3|ROOT 4|3|PUNCT
+*CHI:	ha . 
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	nasıl lamba yanıyor , ne renk lamba yanıyor ? 
+%mor:	adv|nasıl noun|lamba&ComNeut-Nom verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm pron|ne-Int-Nom-S3 noun|renk&ComNeut-Nom noun|lamba&ComNeut-Nom verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|NSUBJ 3|8|ROOT 4|8|PUNCT 5|6|NMOD 6|7|NMOD 7|8|NSUBJ 8|3|CONJ 9|3|PUNCT
+*CHI:	kırmızı yanıyor . 
+%mor:	adj|kırmızı-Pos-S-1 verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	yanıyor , sönüyor . 
+%mor:	verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*CHI:	onun . 
+%mor:	pron|o-Prs-Gen-S3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki Burçakcım , babacık okuyormu , kitap okuyormu hiç ? 
+%mor:	adv|peki noun|burçakcım&ComNeut-Nom cm|cm noun|babacık&ComNeut-Nom verb|oku-Inf-Hab-Ind-1-Past-Pos cm|cm noun|kitap&ComNeut-Nom verb|oku-Inf-Perf-Ind-1-Past-Pos adv|hiç ?
+%gra:	1|5|DISCOURSE 2|1|COMPOUND 3|5|PUNCT 4|5|OBJ 5|9|ROOT 6|8|PUNCT 7|8|OBJ 8|1|CONJ 9|8|ADVMOD 10|5|PUNCT
+*CHI:	okumuyor . 
+%mor:	verb|oku-Inf-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	baba kitap okumuyormu hiç , yazı yazmıyormu daktiloda ? 
+%mor:	noun|baba&ComNeut-Nom noun|kitap&ComNeut-Nom verb|oku-Inf-Perf-Ind-3-Past-Pos adv|hiç cm|cm noun|yazı&ComNeut-Nom verb|yaz-Inf-Prog-Ind-3-Pres-Neg-Infm noun|daktilo&ComNeut-Loc ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|8|ROOT 4|3|ADVMOD 5|3|PUNCT 6|7|NSUBJ 7|3|CONJ 8|7|OBL 9|3|PUNCT
+*CHI:	yazmıyor . 
+%mor:	verb|yaz-Inf-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	aa , şaka yapıyorsun . 
+%mor:	intj|aa cm|cm noun|şaka&ComNeut-Nom verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm .
+%gra:	1|4|DISCOURSE 2|4|PUNCT 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*FAT:	yazıyor , ne zaman yazıyor baba yazı ? 
+%mor:	verb|yaz-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|yaz-Inf-Prog-Ind-3-Pres-Pos-Infm noun|baba&ComNeut-Nom noun|yazı&ComNeut-Nom ?
+%gra:	1|7|ROOT 2|5|PUNCT 3|4|NMOD 4|5|OBL 5|1|CONJ 6|5|NSUBJ 7|5|NSUBJ 8|1|PUNCT
+*CHI:	yarın . 
+%mor:	noun|yarın&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	şaka yapıyorsun , şaka mı yapıyorsun ? 
+%mor:	noun|şaka&ComNeut-Nom verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm cm|cm noun|şaka&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|OBJ 2|6|ROOT 3|2|PUNCT 4|6|OBJ 5|4|AUX-Q 6|2|CONJ 7|2|PUNCT
+*CHI:	tüfeklen [= tüfekle] korkutuyummu O'zcanı ? 
+%mor:	verb|tüfek-Inf-Perf-Imp-2-Pres-Pos verb|korkut-Inf-Perf-Ind-1-Past-Pos noun|O'zcanı&ComNeut-Acc ?
+%gra:	1|3|ROOT 2|1|CONJ 3|1|OBJ 4|1|PUNCT
+*FAT:	korkacaz [= korkacağız] ama , sen bir kere niye şaka yaptın ? 
+%mor:	verb|kork-Inf-Hab-Ind-3-Pres-Neg cconj|ama cm|cm pron|sen-Prs-Nom-S2 num|bir noun|kere&ComNeut-Nom adv|niye noun|şaka&ComNeut-Nom verb|yap-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|9|ROOT 2|9|CC 3|2|PUNCT 4|9|NSUBJ 5|9|NUMMOD 6|5|COMPOUND 7|9|ADVMOD 8|9|OBJ 9|1|CONJ 10|1|PUNCT
+*CHI:	bir tane ver . 
+%mor:	det|bir-Ind-Art noun|tane&ComNeut-Nom verb|ver-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|DET 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*FAT:	sen niye baba yazmıyor dedin , baba hep daktiloda yazı yazıyor ? 
+%mor:	pron|sen-Prs-Nom-S2 adv|niye noun|baba&ComNeut-Nom verb|yaz-Inf-Prog-Ind-3-Pres-Neg-Infm verb|de-Inf-Perf-Ind-2-Past-Pos cm|cm noun|baba&ComNeut-Nom adv|hep noun|daktilo&ComNeut-Loc noun|yazı&ComNeut-Nom verb|yaz-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|4|NSUBJ 2|4|ADVMOD 3|4|OBJ 4|5|CCOMP 5|11|ROOT 6|5|PUNCT 7|11|NSUBJ 8|11|ADVMOD 9|11|OBL 10|11|OBJ 11|5|CONJ 12|5|PUNCT
+*FAT:	ne yazı yazıyor baba daktiloda Burçak ? 
+%mor:	pron|ne-Int-Nom-S3 noun|yazı&ComNeut-Nom verb|yaz-Inf-Prog-Ind-3-Pres-Pos-Infm noun|baba&ComNeut-Nom noun|daktilo&ComNeut-Loc noun|Burçak&ComNeut-Nom ?
+%gra:	1|2|NMOD 2|3|OBJ 3|6|ROOT 4|5|NMOD 5|3|OBL 6|5|COMPOUND 7|3|PUNCT
+*CHI:	seni korkutacağım . 
+%mor:	pron|sen-Prs-Acc-S2 verb|korkut-Inf-Perf-Ind-1-Fut-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	aman lütfen korkutma . 
+%mor:	intj|aman adv|lütfen verb|korkut-Inf-Perf-Imp-2-Pres-Neg .
+%gra:	1|3|DISCOURSE 2|3|ADVMOD 3|3|ROOT 4|3|PUNCT
+*CHI:	niye ? 
+%mor:	adv|niye ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	çok korkuyorum aklım çıkıyor . 
+%mor:	adv|çok verb|kork-Inf-Prog-Ind-1-Pres-Pos-Infm noun|akıl&ComNeut-Nom verb|çık-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ADVMOD 2|4|ROOT 3|2|NSUBJ 4|2|CONJ 5|2|PUNCT
+*FAT:	yapma Burçak , çok korkuyorum . 
+%mor:	verb|yap-Inf-Perf-Imp-2-Pres-Neg noun|Burçak&ComNeut-Nom cm|cm adv|çok verb|kork-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|5|ROOT 2|1|NSUBJ 3|5|PUNCT 4|5|ADVMOD 5|1|CONJ 6|1|PUNCT
+*FAT:	ver onu sen , terazini göster , ne tartıcaksın bunlan şimdi ? 
+%mor:	verb|ver-Inf-Perf-Imp-2-Pres-Pos pron|o-Prs-Acc-S3 pron|sen-Prs-Nom-S2 cm|cm noun|teraz&ComNeut-Acc verb|göster-Inf-Perf-Imp-2-Pres-Pos cm|cm pron|ne-Int-Nom-S3 verb|tart-Inf-Hab-Ind-2-Pres-Pos pron|bu-Prs-Nom-P2 adv|şimdi ?
+%gra:	1|11|ROOT 2|1|OBJ 3|1|CONJ 4|3|PUNCT 5|6|OBJ 6|1|CONJ 7|9|PUNCT 8|9|OBJ 9|1|CONJ 10|1|CONJ 11|10|ADVMOD 12|1|PUNCT
+*CHI:	ne var bak . 
+%mor:	pron|ne-Int-Nom-S3 verb|var-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*FAT:	kimin var böyle terazisi ? 
+%mor:	pron|kim-Int-Nom-S3 verb|var-Inf-Perf-Imp-2-Pres-Pos adv|böyle noun|terazi&ComNeut-Nom ?
+%gra:	1|2|NSUBJ 2|4|ROOT 3|4|ADVMOD 4|2|NSUBJ 5|2|PUNCT
+*CHI:	bakkalın da böyle var . 
+%mor:	noun|bakkal&ComNeut-Gen cconj|da adv|böyle adj|var-Pos-S-1 .
+%gra:	1|4|NSUBJ 2|1|ADVMOD-EMPH 3|4|ADVMOD 4|4|ROOT 5|4|PUNCT
+*FAT:	Ramazan ne tartıyor bunlan böyle ? 
+%mor:	noun|ramazan&ComNeut-Nom pron|ne-Int-Nom-S3 verb|tart-Inf-Prog-Ind-3-Pres-Pos-Infm pron|bu-Dem-Nom-S3 adv|böyle ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|5|ROOT 4|3|NSUBJ 5|3|CONJ 6|3|PUNCT
+*CHI:	bir tane Ramazanın da var . 
+%mor:	det|bir-Ind-Art noun|tane&ComNeut-Nom noun|ramaza&ComNeut-Gen cconj|da verb|var-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|DET 2|5|OBL 3|5|NSUBJ 4|3|ADVMOD-EMPH 5|5|ROOT 6|5|PUNCT
+*FAT:	ne tartıyor Ramazan öyle ? 
+%mor:	pron|ne-Int-Nom-S3 verb|tart-Inf-Prog-Ind-3-Pres-Pos-Infm noun|ramazan&ComNeut-Nom adv|öyle ?
+%gra:	1|2|OBL 2|4|ROOT 3|2|NSUBJ 4|2|ADVMOD 5|2|PUNCT
+*CHI:	meyva . 
+%mor:	noun|meyva&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	meyva mı tartıyor , duymuyorum ki . 
+%com:	pantomime again
+%mor:	noun|meyva&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres verb|tart-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm verb|duy-Inf-Prog-Ind-1-Pres-Neg-Infm cconj|ki .
+%gra:	1|3|NSUBJ 2|1|AUX-Q 3|6|ROOT 4|5|PUNCT 5|3|CONJ 6|5|CC 7|3|PUNCT
+*FAT:	ne tartıyor Ramazan ? 
+%mor:	pron|ne-Int-Nom-S3 verb|tart-Inf-Prog-Ind-3-Pres-Pos-Infm noun|ramazan&ComNeut-Nom ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	mama . 
+%mor:	noun|mama&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki sen yiyormusun mama ? 
+%mor:	adv|peki pron|sen-Prs-Nom-S2 verb|ye-Inf-Prog-Ind-2-Pres-Pos-Infm noun|mama&ComNeut-Nom ?
+%gra:	1|3|ADVMOD 2|3|NSUBJ 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	yiyorum ben . 
+%mor:	verb|ye-Inf-Prog-Ind-1-Pres-Pos-Infm pron|ben-Prs-Nom-S1 .
+%gra:	1|2|ROOT 2|1|NSUBJ 3|1|PUNCT
+*FAT:	çok mu yiyorsun az mı yiyorsun ? 
+%mor:	adv|çok aux|mi-Inf-Perf-Ind-3-Pres verb|ye-Inf-Prog-Ind-2-Pres-Pos-Infm adv|az aux|mi-Inf-Perf-Ind-3-Pres verb|ye-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|1|NMOD 3|6|ROOT 4|6|ADVMOD 5|4|AUX-Q 6|3|CONJ 7|3|PUNCT
+*CHI:	çok yiyorum . 
+%mor:	adv|çok verb|ye-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	eskiden yiyormuydun ? 
+%mor:	adv|eskiden verb|ye-Inf-Prog-Ind-2-Past-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	yemiyordum . 
+%mor:	verb|ye-Inf-Prog-Ind-1-Past-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne zaman yiyorsun ? 
+%com:	no response
+%mor:	pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|ye-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|NMOD 2|3|OBL 3|3|ROOT 4|3|PUNCT
+*FAT:	artık mama yiyormusun ? 
+%mor:	adv|artık noun|mama&ComNeut-Nom verb|ye-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	yiyorum . 
+%mor:	verb|ye-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	söyle bakalım Burçak , nasıl söyleyeceksin ? 
+%com:	no response
+%mor:	verb|söyle-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos noun|Burçak&ComNeut-Nom cm|cm adv|nasıl verb|söyle-Inf-Perf-Ind-2-Fut-Pos ?
+%gra:	1|6|ROOT 2|1|CONJ 3|1|CONJ 4|3|PUNCT 5|6|ADVMOD 6|1|CONJ 7|1|PUNCT
+*EXP:	Burçakcım sen dışarıya kimle gidiyorsun ? 
+%com:	no response
+%mor:	noun|burçakcım&ComNeut-Nom pron|sen-Prs-Nom-S2 noun|dışarı&ComNeut-Dat pron|kimle-Int-Ins-S3 verb|git-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|5|NSUBJ 2|5|NSUBJ 3|5|OBL 4|5|OBL 5|5|ROOT 6|5|PUNCT
+*EXP:	ha canım ? 
+%mor:	intj|ha noun|can&ComNeut-Nom ?
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*EXP:	yalnız başına mı gidersin ? 
+%mor:	adv|yalnız noun|baş&ComNeut-Dat aux|mi-Inf-Perf-Ind-3-Pres verb|git-Inf-Hab-Ind-2-Pres-Pos ?
+%gra:	1|4|ADVMOD 2|1|COMPOUND 3|1|AUX-Q 4|4|ROOT 5|4|PUNCT
+*CHI:	bunlan [= bunla] giderim . 
+%mor:	pron|bu-Dem-Nom-P3 verb|git-Inf-Hab-Ind-1-Pres-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	bunlan mı gidersin , kimle gidersin ? 
+%com:	no response
+%mor:	pron|bu-Prs-Nom-P3 aux|mi-Inf-Perf-Ind-3-Pres verb|git-Inf-Hab-Ind-2-Pres-Pos cm|cm pron|kimle-Int-Ins-S3 verb|git-Inf-Hab-Ind-2-Pres-Pos ?
+%gra:	1|3|NSUBJ 2|1|AUX-Q 3|6|ROOT 4|6|PUNCT 5|6|OBL 6|3|CONJ 7|3|PUNCT
+*EXP:	aninoyla mı gidersin ? 
+%com:	no response
+%mor:	noun|an&ComNeut-Ins aux|mi-Inf-Perf-Ind-3-Pres verb|git-Inf-Hab-Ind-2-Pres-Pos ?
+%gra:	1|3|OBL 2|1|AUX-Q 3|3|ROOT 4|3|PUNCT
+*EXP:	O'zcan , Burçak resim yapıyormu bazen ? 
+%mor:	noun|O'zcan&ComNeut-Nom cm|cm noun|Burçak&ComNeut-Nom noun|resim&ComNeut-Nom verb|yap-Inf-Hab-Ind-1-Pres-Pos adv|bazen ?
+%gra:	1|5|VOCATIVE 2|5|PUNCT 3|5|NSUBJ 4|5|OBJ 5|6|ROOT 6|5|ADVMOD 7|5|PUNCT
+*FAT:	kağıt kalemlen birşeyler yapıyor bazen . 
+%mor:	adj|kağıt-Pos-Nom-S-3 adj|kalem-Pos-Nom-S-3 noun|birşey&ComNeut-Plur-Nom verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm adv|bazen .
+%gra:	1|4|AMOD 2|1|COMPOUND-REDUP 3|4|OBJ 4|5|ROOT 5|4|ADVMOD 6|4|PUNCT
+*EXP:	resim yaparmısın sen ? 
+%mor:	noun|resim&ComNeut-Nom verb|yap-Inf-Hab-Ind-2-Pres-Pos pron|sen-Prs-Nom-S2 ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*EXP:	resim yapıyormusun bazen ? 
+%mor:	noun|resim&ComNeut-Nom verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm adv|bazen ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|ADVMOD 4|2|PUNCT
+*CHI:	mektup yazıyorum . 
+%mor:	noun|mektup&ComNeut-Nom verb|yaz-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	neyle mektup yazıyorsun ? 
+%mor:	pron|ne-Int-Ins-S3 noun|mektup&ComNeut-Nom verb|yaz-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|OBL 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	mektubu postaneye atıyorum . 
+%mor:	noun|mektup&ComNeut-Acc noun|postane&ComNeut-Dat verb|at-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|3|OBJ 2|3|OBL 3|3|ROOT 4|3|PUNCT
+*EXP:	öyle mi , neyle mektup yazıyorsun sen ? 
+%mor:	adv|öyle aux|mi-Inf-Perf-Ind-3-Pres cm|cm pron|ne-Int-Ins-S3 noun|mektup&ComNeut-Nom verb|yaz-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 ?
+%gra:	1|6|ADVMOD 2|1|AUX-Q 3|6|PUNCT 4|5|NMOD 5|6|OBJ 6|7|ROOT 7|6|NSUBJ 8|6|PUNCT
+*CHI:	kalemlen . 
+%mor:	verb|kal-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	peki resim yapıyormusun ? 
+%mor:	adv|peki noun|resim&ComNeut-Nom verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	yapıyorum . 
+%mor:	verb|yap-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	resmi neylen yapıyorsun ? 
+%com:	no response
+%mor:	adj|resmi-Pos-S-1 adv|neylen verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|ADVMOD 3|3|ROOT 4|3|PUNCT
+*FAT:	veriyimmi kağıt kalem , resim yaparmısin ? 
+%mor:	noun|veriyim&ComNeut-Nom adj|kağıt-Pos-Nom-S-3 noun|kalem&ComNeut-Nom cm|cm noun|resim&ComNeut-Nom verb|yap-Inf-Hab-Ind-2-Pres-Pos ?
+%gra:	1|6|ROOT 2|1|COMPOUND 3|1|OBJ 4|1|PUNCT 5|6|OBJ 6|1|CONJ 7|1|PUNCT
+*FAT:	hadi resim yap ta Alev teyzen görsün . 
+%mor:	intj|hadi noun|resim&ComNeut-Nom verb|yap-Inf-Perf-Imp-2-Pres-Pos adv|ta noun|Alev&ComNeut-Nom noun|teyzen&ComNeut-Nom verb|gör-Inf-Perf-Imp-3-Pres-Pos .
+%gra:	1|3|DISCOURSE 2|3|OBJ 3|7|ROOT 4|3|ADVMOD 5|7|NSUBJ 6|7|OBJ 7|3|CONJ 8|3|PUNCT
+*EXP:	birşey söyle sen bana bakalım , çocuklar ne zman oynarlar ? 
+%mor:	adj|birşey-Pos-Nom-S-3 verb|söyle-Inf-Perf-Imp-2-Pres-Pos pron|sen-Prs-Nom-S2 pron|ben-Prs-Dat-S1 verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos cm|cm noun|çocuk&ComNeut-Plur-Nom pron|ne-Int-Nom-S3 noun|zman&ComNeut-Nom verb|oyna-Inf-Plur-Hab-Ind-3-Pres-Pos ?
+%gra:	1|2|OBJ 2|10|ROOT 3|5|NSUBJ 4|5|OBL 5|2|CONJ 6|5|PUNCT 7|10|NSUBJ 8|9|NMOD 9|10|OBJ 10|2|CONJ 11|2|PUNCT
+*CHI:	birazdan . 
+%mor:	adv|birazdan .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	tamam . 
+%com:	father brings paper
+%mor:	adj|tamam-Pos-Nom-S-3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	hadi yap bakalım görelilm , ne yapcaksın sımdi ? 
+%mor:	intj|hadi verb|yap-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos verb|gör-Inf-Perf-Opt-1-Pres-Pos cm|cm pron|ne-Int-Nom-S3 verb|yap-Inf-Hab-Ind-2-Pres-Pos noun|sımdi&ComNeut-Nom ?
+%gra:	1|2|DISCOURSE 2|8|ROOT 3|2|CONJ 4|2|CONJ 5|4|PUNCT 6|7|OBJ 7|2|CONJ 8|7|PUNCT 9|2|PUNCT
+*CHI:	verdi . 
+%mor:	verb|ver-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak biraz . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos adv|biraz .
+%gra:	1|2|ROOT 2|1|ADVMOD 3|1|PUNCT
+*FAT:	ne yaptın , ne bu ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Perf-Ind-2-Past-Pos cm|cm cconj|ne pron|bu-Dem-Nom-S3 ?
+%gra:	1|2|OBJ 2|5|ROOT 3|2|PUNCT 4|5|CC 5|2|CONJ 6|2|PUNCT
+*CHI:	boyadım ben . 
+%mor:	verb|boya-Inf-Perf-Ind-1-Past-Pos pron|ben-Prs-Nom-S1 .
+%gra:	1|2|ROOT 2|1|NSUBJ 3|1|PUNCT
+*FAT:	peki annenin resmini yap . 
+%mor:	adv|peki noun|anne&ComNeut-Gen noun|res&ComNeut-Acc verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|4|ADVMOD 2|3|NMOD-POSS 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	niye ? 
+%mor:	adv|niye ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki , ne istersen yap . 
+%mor:	adv|peki cm|cm pron|ne-Int-Nom-S3 verb|iste-Inf-Hab-Cnd-2-Pres-Pos verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|5|ROOT 2|5|PUNCT 3|4|OBJ 4|5|NMOD 5|1|CONJ 6|1|PUNCT
+*CHI:	resmini yaptım . 
+%mor:	noun|res&ComNeut-Acc verb|yap-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	ne yaptın ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	kimin resmi o ? 
+%mor:	pron|kim-Int-Gen-S3 noun|resmi&ComNeut-Nom pron|o-Prs-Nom-S3 ?
+%gra:	1|2|NMOD-POSS 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	O'zcanı da yapayımmı ? 
+%mor:	pron|o-Prs-Acc-S3 cconj|da verb|yap-Inf-Hab-Ind-1-Past-Pos ?
+%gra:	1|3|OBJ 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*FAT:	yap . 
+%mor:	verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	niye ? 
+%mor:	adv|niye ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	sen istiyorsun yap . 
+%mor:	pron|sen-Prs-Nom-S2 verb|iste-Inf-Prog-Ind-2-Pres-Pos-Infm verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*CHI:	istemiyeceğim . 
+%mor:	verb|iste-Inf-Perf-Pot-1-Fut-Neg .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	beni mi yaptın sen ? 
+%mor:	pron|ben-Prs-Acc-S1 aux|mi-Inf-Perf-Ind-3-Pres verb|yap-Inf-Perf-Ind-2-Past-Pos pron|sen-Prs-Nom-S2 ?
+%gra:	1|3|OBJ 2|1|AUX-Q 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	hı . 
+%com:	affirmative sound gesture
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	pek güzel olmuş . 
+%mor:	adv|pek adj|güzel-Pos-S-1 verb|ol-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|ADVMOD 2|3|AMOD 3|3|ROOT 4|3|PUNCT
+*EXP:	kulakları nerde O'zcan'ın ? 
+%mor:	noun|kulak&ComNeut-Plur-Nom pron|nere-Int-Loc-S3 noun|O'zcan&ComNeut-Gen ?
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|NMOD-POSS 4|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	burnu nerde ? 
+%mor:	noun|burun&ComNeut-Nom pron|nere-Int-Loc-S3 ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki Alev teyzeyi yap . 
+%mor:	adv|peki noun|Alev&ComNeut-Nom noun|teyze&ComNeut-Acc verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|4|DISCOURSE 2|4|NSUBJ 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	bak anne . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos noun|anne&ComNeut-Nom .
+%gra:	1|2|ROOT 2|1|NSUBJ 3|1|PUNCT
+*FAT:	Alev teyzeyi yap . 
+%mor:	noun|Alev&ComNeut-Nom noun|teyze&ComNeut-Acc verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|3|NSUBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	ah ah . 
+%com:	sound gesture for a negative response
+%mor:	intj|ah intj|ah .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*FAT:	peki Slobin amcayı yap . 
+%mor:	adv|peki noun|Slobin&ComNeut-Nom noun|amca&ComNeut-Acc verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|4|DISCOURSE 2|4|NSUBJ 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	yaptım . 
+%mor:	verb|yap-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak yapıyorum . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos verb|yap-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*CHI:	Slobin amcayı . 
+%mor:	noun|Slobin&ComNeut-Nom noun|amca&ComNeut-Acc .
+%gra:	1|2|NMOD-POSS 2|2|ROOT 3|2|PUNCT
+*FAT:	neyi yaptın ? 
+%mor:	pron|ne-Int-Acc-S3 verb|yap-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	Slobin amcayı . 
+%mor:	noun|Slobin&ComNeut-Nom noun|amca&ComNeut-Acc .
+%gra:	1|2|NMOD-POSS 2|2|ROOT 3|2|PUNCT
+*FAT:	pekiyi Alev teyzeyi de yap . 
+%mor:	noun|peki&ComNeut-Acc noun|Alev&ComNeut-Nom noun|teyze&ComNeut-Acc cconj|de verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|5|OBJ 2|3|NMOD 3|5|OBJ 4|3|ADVMOD-EMPH 5|5|ROOT 6|5|PUNCT
+*CHI:	niye ? 
+%mor:	adv|niye ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	istiyor o da , rica ediyor . 
+%mor:	verb|iste-Inf-Prog-Ind-3-Pres-Pos-Infm pron|o-Prs-Nom-S3 cconj|da cm|cm noun|rica&ComNeut-Nom verb|et-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|6|ROOT 2|1|NSUBJ 3|2|ADVMOD-EMPH 4|1|PUNCT 5|1|CONJ 6|5|COMPOUND-LVC 7|1|PUNCT
+*CHI:	bak . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	aa , ben miyim o ? 
+%mor:	intj|aa cm|cm pron|ben-Prs-Nom-S1 aux|mi-Inf-Perf-Ind-1-Pres pron|o-Prs-Nom-S3 ?
+%gra:	1|3|DISCOURSE 2|3|PUNCT 3|5|ROOT 4|3|AUX-Q 5|3|NSUBJ 6|3|PUNCT
+*CHI:	hı . 
+%com:	affirmative sound gesture
+%mor:	intj|hı .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	saçlarım nerde ? 
+%mor:	noun|saç&ComNeut-Plur-Nom pron|nere-Int-Loc-S3 ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ah ne güzelim , çok güzelmişim bayıldım . 
+%mor:	intj|ah pron|ne-Int-Nom-S3 verb|güzelim-Inf-Perf-Ind-1-Pres-Pos cm|cm adv|çok verb|güzel-Inf-Perf-Ind-1-Past-Pos verb|bayıl-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|3|DISCOURSE 2|3|OBJ 3|7|ROOT 4|6|PUNCT 5|6|ADVMOD 6|3|CONJ 7|3|CONJ 8|3|PUNCT
+*FAT:	peki burucuğun resmini yapsana sen , burucuk [= Burçak ?] . 
+%mor:	adv|peki noun|burucuk&ComNeut-Gen noun|res&ComNeut-Acc verb|yap-Inf-Perf-Imp-2-Pres-Pos pron|sen-Prs-Nom-S2 cm|cm verb|bur-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|4|ADVMOD 2|3|NMOD-POSS 3|4|OBJ 4|7|ROOT 5|4|NSUBJ 6|4|PUNCT 7|4|CONJ 8|4|PUNCT
+*CHI:	ya işte yaptım . 
+%mor:	cconj|ya adv|işte verb|yap-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|3|CC 2|3|ADVMOD 3|3|ROOT 4|3|PUNCT
+*FAT:	burucuğu anlatsana Alev teyzeye . 
+%mor:	noun|buruçuk&ComNeut-Acc verb|anlat-Inf-Perf-Cnd-3-Pres-Pos noun|Alev&ComNeut-Nom noun|teyze&ComNeut-Dat .
+%gra:	1|2|NSUBJ 2|4|ROOT 3|2|NSUBJ 4|2|OBL 5|2|PUNCT
+*CHI:	baba da yapayımmı ? 
+%mor:	noun|baba&ComNeut-Nom cconj|da verb|yap-Inf-Hab-Ind-1-Past-Pos ?
+%gra:	1|3|OBJ 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*FAT:	babacık , hadi bakalım burucuk hikayesini anlat . 
+%mor:	noun|babacık&ComNeut-Nom cm|cm intj|hadi verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos noun|burucuk&ComNeut-Nom noun|hikaye&ComNeut-Acc verb|anlat-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|7|DISCOURSE 2|3|PUNCT 3|7|DISCOURSE 4|7|ADVCL 5|6|NMOD-POSS 6|7|OBJ 7|7|ROOT 8|7|PUNCT
+*CHI:	bak . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	yaptım . 
+%mor:	verb|yap-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne yapmış burucuk ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Perf-Ind-3-Past-Pos noun|burucuk&ComNeut-Nom ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	traktör yapayımmı bir tane ? 
+%mor:	noun|traktör&ComNeut-Nom verb|yap-Inf-Perf-Ind-1-Past-Pos det|bir-Ind-Art noun|tane&ComNeut-Nom ?
+%gra:	1|2|OBJ 2|4|ROOT 3|2|ADVMOD 4|3|COMPOUND 5|2|PUNCT
+*FAT:	traktör yap . 
+%mor:	noun|traktör&ComNeut-Nom verb|yap-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	mikrofona konuşmak istermisin Burçak ? 
+%mor:	noun|mikrofon&ComNeut-Dat verb|konuş-Vnoun-Perf-Ind-Pres-Pos verb|iste-Inf-Hab-Ind-2-Pres-Pos noun|Burçak&ComNeut-Nom ?
+%gra:	1|2|OBL 2|3|XCOMP 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	ha ? 
+%com:	interrogative sound gesture
+%mor:	intj|ha ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	teybe konuşmak istermisin , yoksa böyle mi konuşacaksın ? 
+%mor:	noun|teyp&ComNeut-Dat verb|konuş-Vnoun-Perf-Ind-Pres-Pos verb|iste-Inf-Hab-Ind-2-Pres-Pos cm|cm adj|yok-Pos-Nom-S-3~aux|i-Inf-Perf-Cnd-3-Pres adv|böyle aux|mi-Inf-Perf-Ind-3-Pres verb|konuş-Inf-Perf-Ind-2-Past-Pos ?
+%gra:	1|2|OBL 2|3|XCOMP 3|9|ROOT 4|3|PUNCT 5|9|ADVCL 6|5|COP 7|9|ADVMOD 8|7|AUX-Q 9|3|CONJ 10|3|PUNCT
+*CHI:	ha ? 
+%mor:	intj|ha ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne yapıyorsun Burçak sen acaba ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm noun|Burçak&ComNeut-Nom pron|sen-Prs-Nom-S2 adv|acaba ?
+%gra:	1|2|OBJ 2|5|ROOT 3|2|OBJ 4|2|NSUBJ 5|2|ADVMOD 6|2|PUNCT
+*CHI:	ne yapıyorsun ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	şimdi ben tutucam [= tutacağım] bunu Burçak , sen bize xxx . 
+%mor:	adv|şimdi pron|ben-Prs-Nom-S1 verb|tut-Inf-Perf-Ind-1-Pres-Pos pron|bu-Dem-Acc-S3 noun|Burçak&ComNeut-Nom cm|cm pron|sen-Prs-Nom-S2 pron|biz-Prs-Dat-P1 .
+%gra:	1|3|ADVMOD 2|3|NSUBJ 3|8|ROOT 4|3|OBJ 5|3|VOCATIVE 6|3|PUNCT 7|3|NSUBJ 8|3|OBL 9|3|PUNCT
+*EXP:	mesela kedilerden bahsetsene , kediler niçin tırmalar filan . 
+%mor:	adv|mesela noun|kedi&ComNeut-Plur-Abl verb|bahset-Inf-Perf-Cnd-3-Pres-Pos cm|cm noun|kedi&ComNeut-Plur-Nom adv|niçin verb|tır-Inf-Plur-Hab-Ind-3-Pres-Pos adj|filan-Pos-S-1 .
+%gra:	1|3|ADVMOD 2|3|OBJ 3|7|PARATAXIS 4|3|PUNCT 5|7|NSUBJ 6|7|ADVMOD 7|8|ROOT 8|7|ADVMOD 9|7|PUNCT
+*CHI:	O'zcan O'zcan . 
+%mor:	noun|O'zcan&ComNeut-Nom noun|O'zcan&ComNeut-Nom .
+%gra:	1|2|ROOT 2|1|FLAT 3|1|PUNCT
+*FAT:	peki Burçak biz dün nereye gittik , aninoylan senlen; arabaya . 
+%com:	tabışkan is the toy rabbit
+%mor:	adv|peki noun|Burçak&ComNeut-Nom pron|biz-Prs-Nom-P1 noun|dün&ComNeut-Nom pron|nere-Int-Dat-S3 verb|git-Inf-Plur-Perf-Ind-1-Past-Pos cm|cm noun|aninoy&ComNeut-Nom noun|sen&ComNeut-Nom noun|araba&ComNeut-Dat .
+%gra:	1|6|DISCOURSE 2|6|NSUBJ 3|6|NSUBJ 4|6|OBL 5|6|OBL 6|10|ROOT 7|8|PUNCT 8|6|CONJ 9|8|NSUBJ 10|8|OBL 11|6|PUNCT
+*FAT:	atladık , yallah nereye gittik ha ? 
+%mor:	verb|atla-Inf-Plur-Perf-Ind-1-Past-Pos cm|cm intj|yallah pron|nere-Int-Dat-S3 verb|git-Inf-Plur-Perf-Ind-1-Past-Pos intj|ha ?
+%gra:	1|6|ROOT 2|3|PUNCT 3|1|DISCOURSE 4|5|OBL 5|1|CONJ 6|5|DISCOURSE 7|1|PUNCT
+*FAT:	nereye gittik ? 
+%mor:	pron|nere-Int-Dat-S3 verb|git-Inf-Plur-Perf-Ind-1-Past-Pos ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*FAT:	arabaylan , tabışkanla dondurma yemeğe nasıl gittik , Burçak ? 
+%mor:	noun|araba&ComNeut-Abl cm|cm noun|tabışkan&ComNeut-Ins noun|dondurma&ComNeut-Nom noun|yemek&ComNeut-Dat adv|nasıl verb|git-Inf-Plur-Perf-Ind-1-Past-Pos cm|cm noun|Burçak&ComNeut-Nom ?
+%gra:	1|7|OBL 2|3|PUNCT 3|1|CONJ 4|5|NMOD 5|7|OBL 6|7|ADVMOD 7|9|ROOT 8|7|PUNCT 9|7|CONJ 10|7|PUNCT
+*CHI:	açtımı ? 
+%com:	points recorder
+%mor:	verb|aç-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	açtı . 
+%mor:	verb|aç-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	sıssst . 
+%com:	sound gesture asking that smb . be quiet (he is whispering now)
+%mor:	noun|sıssst&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ha ? 
+%mor:	intj|ha ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne istiyorsun , ne istiyorsun Burçak ? 
+%mor:	pron|ne-Int-Nom-S3 verb|iste-Inf-Prog-Ind-2-Pres-Pos-Infm cm|cm pron|ne-Int-Nom-S3 verb|iste-Inf-Prog-Ind-2-Pres-Pos-Infm noun|Burçak&ComNeut-Nom ?
+%gra:	1|2|OBJ 2|6|ROOT 3|5|PUNCT 4|5|OBJ 5|2|CONJ 6|5|NSUBJ 7|2|PUNCT
+*FAT:	ne istiyorsun ? 
+%mor:	pron|ne-Int-Nom-S3 verb|iste-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	ne yapıyorsun sen ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*FAT:	ben senin sesini alacam [= alacağım] şimdi burdan . 
+%com:	no response
+%mor:	pron|ben-Prs-Nom-S1 pron|sen-Prs-Gen-S2 noun|ses&ComNeut-Acc verb|al-Inf-Perf-Ind-1-Past-Pos adv|şimdi adv|burdan .
+%gra:	1|4|NSUBJ 2|3|NMOD-POSS 3|4|OBJ 4|6|ROOT 5|4|ADVMOD 6|4|ADVMOD 7|4|PUNCT
+*FAT:	sen anlat . 
+%mor:	pron|sen-Prs-Nom-S2 verb|anlat-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	bakalım biz senlen akşamları Kadıköy iskelesine gidiyormuyuz tabışkanla ? 
+%mor:	verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos pron|biz-Prs-Nom-P1 noun|sen&ComNeut-Nom noun|akşam&ComNeut-Plur-Nom noun|Kadıköy&ComNeut-Nom noun|iskele&ComNeut-Dat verb|git-Inf-Plur-Hab-Ind-1-Past-Pos noun|tabışkan&ComNeut-Ins ?
+%gra:	1|7|DISCOURSE 2|7|NSUBJ 3|4|NMOD 4|7|OBL 5|6|NMOD-POSS 6|7|OBL 7|8|ROOT 8|7|OBL 9|7|PUNCT
+*FAT:	ha Burçak ? 
+%mor:	intj|ha noun|Burçak&ComNeut-Nom ?
+%gra:	1|2|DISCOURSE 2|2|ROOT 3|2|PUNCT
+*FAT:	gece olunca senlen gidiyormuyuz Kadıköy iskelesine ? 
+%mor:	noun|gece&ComNeut-Nom verb|ol-Conv-Perf-Ind-Pres-Pos verb|senle-Inf-Perf-Imp-2-Pres-Pos verb|git-Inf-Plur-Hab-Ind-2-Pres-Pos noun|Kadıköy&ComNeut-Nom noun|iskele&ComNeut-Dat ?
+%gra:	1|2|NSUBJ 2|4|ADVCL 3|4|ADVCL 4|6|ROOT 5|6|NMOD-POSS 6|4|OBL 7|4|PUNCT
+*FAT:	gidiyormuyuz , gitmiyormuyuz ? 
+%mor:	verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm cm|cm verb|git-Inf-Plur-Prog-Ind-2-Pres-Neg-Infm ?
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*CHI:	gidiyoruz . 
+%mor:	verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki nereye gidiyoruz Burçak ? 
+%mor:	adv|peki pron|nere-Int-Dat-S3 verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|Burçak&ComNeut-Nom ?
+%gra:	1|3|ADVMOD 2|3|OBL 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niye gidiyoruz ama ? 
+%mor:	adv|niye verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm cconj|ama ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*CHI:	anneyi alıyoruz işte . 
+%mor:	noun|anne&ComNeut-Acc verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm adv|işte .
+%gra:	1|2|OBJ 2|3|ROOT 3|2|ADVMOD 4|2|PUNCT
+*FAT:	anneyi alıyoruz , peki anne neylen geliyor ? 
+%mor:	noun|anne&ComNeut-Acc verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm cm|cm adv|peki noun|anne&ComNeut-Nom adv|neylen verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|OBJ 2|7|ROOT 3|2|PUNCT 4|7|ADVMOD 5|7|NSUBJ 6|7|ADVMOD 7|2|CONJ 8|2|PUNCT
+*CHI:	vapurlan [= vapurla] . 
+%mor:	noun|vapur&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki nasıl geliyor anne ? 
+%mor:	adv|peki adv|nasıl verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm noun|anne&ComNeut-Nom ?
+%gra:	1|3|ADVMOD 2|3|ADVMOD 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	vuuu yapıyor . 
+%com:	he is imitating the sound of the ferry's horn
+%mor:	noun|vuuu&ComNeut-Nom verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	vapur nasıl geliyor Burçak ? 
+%mor:	noun|vapur&ComNeut-Nom adv|nasıl verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm noun|Burçak&ComNeut-Nom ?
+%gra:	1|3|NSUBJ 2|3|ADVMOD 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	vuu yapıyor ? 
+%mor:	noun|vuu&ComNeut-Nom verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	peki niye geliyor ? 
+%mor:	adv|peki adv|niye verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|ADVMOD 3|3|ROOT 4|3|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	a işte olurmu ? 
+%mor:	intj|a adv|işte verb|ol-Inf-Hab-Ind-1-Pres-Pos ?
+%gra:	1|3|DISCOURSE 2|3|ADVMOD 3|3|ROOT 4|3|PUNCT
+*FAT:	söyle bakalım Burçakcım niçin geliyor vapur ? 
+%mor:	verb|söyle-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Plur-Perf-Opt-1-Pres-Pos noun|burçakcım&ComNeut-Nom adv|niçin verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm noun|vapur&ComNeut-Nom ?
+%gra:	1|6|ROOT 2|1|CONJ 3|5|NSUBJ 4|5|ADVMOD 5|1|CONJ 6|5|NSUBJ 7|1|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki biz anneyi niçin alıyoruz vapurdan ? 
+%mor:	adv|peki pron|biz-Prs-Nom-P1 noun|anne&ComNeut-Acc adv|niçin verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|vapur&ComNeut-Abl ?
+%gra:	1|5|ADVMOD 2|5|NSUBJ 3|5|OBJ 4|5|ADVMOD 5|6|ROOT 6|5|OBL 7|5|PUNCT
+*CHI:	alıyoruz . 
+%mor:	verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niçin alıyoruz ? 
+%mor:	adv|niçin verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	niçin alıyoruz ? 
+%mor:	adv|niçin verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	niçin alıyoruz ? 
+%mor:	adv|niçin verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	niçin alıyoruz ? 
+%mor:	adv|niçin verb|al-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	söyle sen söyle , almazsak ne olur ? 
+%mor:	verb|söyle-Inf-Perf-Imp-2-Pres-Pos pron|sen-Prs-Nom-S2 verb|söyle-Inf-Perf-Imp-2-Pres-Pos cm|cm verb|al-Inf-Plur-Perf-Cnd-1-Pres-Pos pron|ne-Int-Nom-S3 verb|ol-Inf-Hab-Ind-3-Pres-Pos ?
+%gra:	1|7|ROOT 2|3|NSUBJ 3|1|CONJ 4|3|PUNCT 5|7|ADVCL 6|7|OBJ 7|1|CONJ 8|1|PUNCT
+*CHI:	bak ne olmuş ? 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos pron|ne-Int-Nom-S3 verb|ol-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|3|DISCOURSE 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*FAT:	ne olmuş Burçak ? 
+%mor:	pron|ne-Int-Nom-S3 verb|ol-Inf-Perf-Ind-3-Past-Pos noun|Burçak&ComNeut-Nom ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*FAT:	Burçakcım bak biz arabayla giderken bize yol veriyorlarmı . 
+%mor:	noun|burçakcım&ComNeut-Nom verb|bak-Inf-Perf-Imp-2-Pres-Pos pron|biz-Prs-Nom-P1 noun|araba&ComNeut-Ins verb|git-Conv-Hab-Ind-3-Pres-Pos pron|biz-Prs-Dat-P1 noun|yol&ComNeut-Nom verb|ver-Inf-Plur-Hab-Ind-3-Past-Pos .
+%gra:	1|2|NSUBJ 2|8|ROOT 3|7|NSUBJ 4|5|OBL 5|7|ADVCL 6|7|IOBJ 7|2|CONJ 8|7|COMPOUND 9|2|PUNCT
+*FAT:	vermiyorlarmı ? 
+%mor:	verb|ver-Inf-Plur-Perf-Ind-1-Past-Neg ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	vermiyorlar . 
+%mor:	verb|ver-Inf-Plur-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niçin vermiyorlar ? 
+%mor:	adv|niçin verb|ver-Inf-Plur-Prog-Ind-3-Pres-Neg-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki Burçak biz kulübe gidiyormuyuz yüzmeye ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom pron|biz-Prs-Nom-P1 noun|kulübe&ComNeut-Nom verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos verb|yüz-Vnoun-Perf-Ind-Pres-Pos ?
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|5|NSUBJ 4|5|NSUBJ 5|6|ROOT 6|5|OBJ 7|5|PUNCT
+*FAT:	Burçak , Burçakcım . 
+%mor:	noun|Burçak&ComNeut-Nom cm|cm noun|Burçakcım&ComNeut-Nom .
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*EXP:	a konuşmayacaksan ben gideyim öyleyse . 
+%mor:	intj|a verb|konuş-Inf-Perf-Cnd-2-Pres-Pos pron|ben-Prs-Nom-S1 verb|git-Inf-Perf-Opt-1-Pres-Pos adv|öyleyse .
+%gra:	1|2|DISCOURSE 2|4|ADVCL 3|4|NSUBJ 4|5|ROOT 5|4|ADVMOD 6|4|PUNCT
+*CHI:	nereye gidiyorsun ? 
+%com:	to the examiner
+%mor:	pron|nere-Int-Dat-S3 verb|git-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*EXP:	su içecem [= içeceğim] . 
+%mor:	noun|su&ComNeut-Nom verb|iç-Inf-Hab-Ind-1-Pres-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*FAT:	su içecek olurmu oğlum; Burçakcım biz senlen konuşalım . 
+%mor:	noun|su&ComNeut-Nom noun|içecek&ComNeut-Nom verb|ol-Inf-Perf-Ind-1-Pres-Pos noun|oğul&ComNeut-Nom noun|burçakcım&ComNeut-Nom pron|biz-Prs-Nom-P1 noun|sen&ComNeut-Nom verb|konuş-Inf-Plur-Perf-Opt-1-Pres-Pos .
+%gra:	1|2|NMOD-POSS 2|3|OBJ 3|8|ROOT 4|3|VOCATIVE 5|8|NSUBJ 6|8|NSUBJ 7|8|OBL 8|3|CONJ 9|3|PUNCT
+*FAT:	Burçak biz kulübe yüzmeye gidiyormuyuz ? 
+%mor:	noun|Burçak&ComNeut-Nom pron|biz-Prs-Nom-P1 noun|kulübe&ComNeut-Nom verb|yüz-Vnoun-Perf-Ind-Pres-Pos verb|git-Inf-Plur-Hab-Ind-1-Pres-Pos ?
+%gra:	1|5|NSUBJ 2|5|NSUBJ 3|5|NSUBJ 4|5|NMOD 5|5|ROOT 6|5|PUNCT
+*CHI:	gidiyoruz . 
+%mor:	verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niçin gidiyoruz ? 
+%mor:	adv|niçin verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	niçin gidiyoruz ? 
+%mor:	adv|niçin verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	a söyle ama , niçin gidiyoruz ? 
+%mor:	intj|a verb|söyle-Inf-Perf-Imp-2-Pres-Pos cconj|ama cm|cm adv|niçin verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|DISCOURSE 2|6|ROOT 3|6|CC 4|3|PUNCT 5|6|ADVMOD 6|2|CONJ 7|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	işte değil , niçin gidiyoruz ? 
+%mor:	adv|işte cconj|değil cm|cm adv|niçin verb|git-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|5|DISCOURSE 3|5|PUNCT 4|5|ADVMOD 5|5|ROOT 6|5|PUNCT
+*CHI:	yüzücez [= yüzeceğiz] . 
+%mor:	verb|yüz-Inf-Plur-Hab-Ind-1-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki yüzerken biz senlen soyunuyormuyuz ? 
+%mor:	adv|peki verb|yüz-Conv-Hab-Ind-3-Pres-Pos pron|biz-Prs-Nom-P1 noun|sen&ComNeut-Ins verb|soyun-Inf-Plur-Hab-Ind-1-Pres-Pos ?
+%gra:	1|5|ADVMOD 2|5|ADVCL 3|5|NSUBJ 4|5|OBL 5|5|ROOT 6|5|PUNCT
+*CHI:	soyunuyoruz . 
+%mor:	verb|soyun-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	nerede soyunuyoruz ? 
+%mor:	pron|nere-Int-Loc-S3 verb|soyun-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	baylarda . 
+%mor:	noun|bay&ComNeut-Plur-Loc .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	baylarda soyunuyoruz ? 
+%mor:	noun|bay&ComNeut-Plur-Loc verb|soyun-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*FAT:	peki niçin soyunuyoruz Burçak ? 
+%mor:	adv|peki adv|niçin verb|soyun-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|Burçak&ComNeut-Nom ?
+%gra:	1|3|ADVMOD 2|3|ADVMOD 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	işte yüzmek için . 
+%mor:	adv|işte verb|yüz-Vnoun-Perf-Ind-Pres-Pos adp|için .
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|CASE 4|2|PUNCT
+*FAT:	peki yüzerken ben gözlük takıyormuyum ? 
+%mor:	adv|peki verb|yüz-Conv-Hab-Ind-3-Pres-Pos pron|ben-Prs-Nom-S1 noun|gözlük&ComNeut-Nom verb|tak-Inf-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|5|ADVMOD 2|5|ADVCL 3|5|NSUBJ 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*CHI:	takıyorsun . 
+%mor:	verb|tak-Inf-Prog-Ind-2-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niçin takıyorum ? 
+%mor:	adv|niçin verb|tak-Inf-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	işte yüzmek için . 
+%mor:	adv|işte verb|yüz-Vnoun-Perf-Ind-Pres-Pos adp|için .
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|CASE 4|2|PUNCT
+*FAT:	sen mayo giyiyormusun ? 
+%mor:	pron|sen-Prs-Nom-S2 noun|mayo&ComNeut-Nom verb|giy-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	giyiyorum . 
+%mor:	verb|git-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niçin giyiyorsun ? 
+%mor:	adv|niçin verb|giy-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	yüzmek için . 
+%mor:	verb|yüz-Vnoun-Perf-Ind-Pres-Pos adp|için .
+%gra:	1|2|ROOT 2|1|CASE 3|1|PUNCT
+*FAT:	peki . 
+%mor:	adv|peki .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	Burçak sen sütünü içiyormusun ? 
+%mor:	noun|Burçak&ComNeut-Nom pron|sen-Prs-Nom-S2 noun|süt&ComNeut-Acc verb|iç-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|4|NSUBJ 2|4|NSUBJ 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	içiyorum . 
+%mor:	verb|iç-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niçin içiyorsun ? 
+%mor:	adv|niçin verb|iç-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	tabii içiyorum . 
+%mor:	adj|tabii-Pos-S-1 verb|iç-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|2|DISCOURSE 2|2|ROOT 3|2|PUNCT
+*FAT:	niçin ? 
+%mor:	adv|niçin ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	işte kuvvetli olacam [= olacağım .] . 
+%mor:	adv|işte noun|kuvvet&ComNeut-Nom~adp|li verb|ol-Inf-Hab-Ind-1-Pres-Pos .
+%gra:	1|4|ADVMOD 2|4|AMOD 3|2|CASE 4|4|ROOT 5|4|PUNCT
+*FAT:	peki yemek yiyormusun ? 
+%mor:	adv|peki noun|yemek&ComNeut-Nom verb|ye-Inf-Prog-Ind-2-Past-Pos-Infm ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	yiyorum . 
+%mor:	verb|ye-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki Burçak sen gece ağladınmı ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom pron|sen-Prs-Nom-S2 noun|gece&ComNeut-Nom verb|ağla-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|5|NSUBJ 4|5|OBL 5|5|ROOT 6|5|PUNCT
+*CHI:	ağlamadım hiç . 
+%mor:	verb|ağla-Inf-Perf-Pot-1-Past-Neg adv|hiç .
+%gra:	1|2|ROOT 2|1|ADVMOD 3|1|PUNCT
+*FAT:	peki niçin ağlıyorsun gece sen ? 
+%mor:	adv|peki adv|niçin verb|ağla-Inf-Prog-Ind-2-Past-Pos-Infm noun|gece&ComNeut-Nom pron|sen-Prs-Nom-S2 ?
+%gra:	1|3|ADVMOD 2|3|ADVMOD 3|5|ROOT 4|3|OBL 5|3|NSUBJ 6|3|PUNCT
+*CHI:	hiç ağlamıyorum . 
+%mor:	adv|hiç verb|ağla-Inf-Prog-Ind-1-Pres-Neg-Infm .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*FAT:	peki kusuyormusun sen ? 
+%mor:	adv|peki verb|kus-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	kusuyorum . 
+%mor:	verb|kus-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niçin kusuyorsun ? 
+%mor:	adv|niçin verb|kus-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	midem , dün akşam kustum . 
+%mor:	noun|midem&ComNeut-Nom cm|cm noun|dün&ComNeut-Nom noun|akşam&ComNeut-Nom verb|kus-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|5|NSUBJ 2|5|PUNCT 3|5|OBL 4|3|COMPOUND 5|5|ROOT 6|5|PUNCT
+*FAT:	niçin ? 
+%mor:	adv|niçin ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	ne oldu ? 
+%mor:	pron|ne-Int-Nom-S3 verb|ol-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	burnum ağrıyordu , onun için kustum . 
+%mor:	noun|burnum&ComNeut-Nom verb|ağra-Inf-Prog-Ind-3-Past-Pos-Infm cm|cm pron|o-Prs-Gen-S3 adp|için verb|kus-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|NSUBJ 2|6|ROOT 3|6|PUNCT 4|6|OBL 5|4|CASE 6|2|CONJ 7|2|PUNCT
+*FAT:	peki Burçak , sen vapurda kaptan amcaya çalıstır vapuru . 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom cm|cm pron|sen-Prs-Nom-S2 noun|vapur&ComNeut-Loc noun|kaptan&ComNeut-Nom noun|amca&ComNeut-Dat verb|çalıs-Inf-Perf-Imp-2-Pres-Pos noun|vapur&ComNeut-Acc .
+%gra:	1|8|DISCOURSE 2|1|COMPOUND 3|8|PUNCT 4|8|NSUBJ 5|8|OBL 6|7|NMOD 7|8|OBL 8|9|ROOT 9|8|OBJ 10|8|PUNCT
+*FAT:	diyormusun ? 
+%mor:	verb|de-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	diyorum , çalıştırıyor . 
+%mor:	verb|de-Inf-Prog-Ind-1-Pres-Pos-Infm cm|cm verb|çalış-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*FAT:	nasıl çalısıyor vapur ? 
+%mor:	adv|nasıl verb|çal-Inf-Prog-Ind-3-Pres-Pos-Infm noun|vapur&ComNeut-Nom ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	vuuu geliyor , anne de çıkıyor vapurdan . 
+%mor:	noun|vuuu&ComNeut-Nom verb|gel-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm noun|anne&ComNeut-Nom cconj|de verb|çık-Inf-Prog-Ind-3-Pres-Pos-Infm noun|vapur&ComNeut-Abl .
+%gra:	1|2|NSUBJ 2|7|ROOT 3|6|PUNCT 4|6|NSUBJ 5|4|ADVMOD-EMPH 6|2|CONJ 7|6|OBL 8|2|PUNCT
+*CHI:	arabaya biniyor , bizim tabışkanımıza . 
+%mor:	noun|araba&ComNeut-Dat verb|bin-Inf-Prog-Ind-3-Pres-Pos-Infm cm|cm pron|biz-Prs-Gen-P1 noun|tabışkan&ComNeut-Dat .
+%gra:	1|2|OBL 2|5|ROOT 3|2|PUNCT 4|5|NMOD-POSS 5|2|OBL 6|2|PUNCT
+*FAT:	peki vapur nasıl çalışıyor Burçak ? 
+%mor:	adv|peki noun|vapur&ComNeut-Nom adv|nasıl verb|çalış-Inf-Prog-Ind-3-Pres-Pos-Infm noun|Burçak&ComNeut-Nom ?
+%gra:	1|4|ADVMOD 2|4|NSUBJ 3|4|ADVMOD 4|5|ROOT 5|4|NSUBJ 6|4|PUNCT
+*CHI:	vuut ben kaptan amcaya çalıştır diyorum . 
+%mor:	intj|vuut pron|ben-Prs-Nom-S1 noun|kaptan&ComNeut-Nom noun|amca&ComNeut-Dat verb|çalış-Inf-Perf-Imp-2-Pres-Pos verb|de-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|5|OBJ 4|5|OBL 5|6|CCOMP 6|6|ROOT 7|6|PUNCT
+*CHI:	çalıstırmıs , çalıştırıyor . 
+%mor:	verb|çalıs-Inf-Hab-Ind-3-Pres-Pos cm|cm verb|çalış-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*FAT:	peki Burçak vapurun feneri nasıl yanıyor ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom noun|vapur&ComNeut-Gen noun|fener&ComNeut-Nom adv|nasıl verb|yan-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|6|DISCOURSE 2|6|NSUBJ 3|4|NMOD-POSS 4|6|NSUBJ 5|6|ADVMOD 6|6|ROOT 7|6|PUNCT
+*CHI:	fener ? 
+%mor:	noun|fener&ComNeut-Nom ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	cıt cıt diye sönüyor . 
+%mor:	noun|cıt&ComNeut-Nom noun|cıt&ComNeut-Nom adp|diye verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|4|ADVMOD 2|4|ADVMOD 3|2|CASE 4|4|ROOT 5|4|PUNCT
+*CHI:	cıt cıt diye sönüyor . 
+%mor:	noun|cıt&ComNeut-Nom noun|cıt&ComNeut-Nom adp|diye verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|4|ADVMOD 2|4|ADVMOD 3|2|CASE 4|4|ROOT 5|4|PUNCT
+*CHI:	cıt cıt cıt cıt diye sönüyor . 
+%com:	gestures
+%mor:	verb|cıt-Inf-Perf-Imp-2-Pres-Pos x|cıt x|cıt verb|cıt-Inf-Perf-Imp-2-Pres-Pos adp|diye verb|sön-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|6|ADVCL 2|1|COMPOUND 3|2|COMPOUND-REDUP 4|1|CONJ 5|1|CASE 6|6|ROOT 7|6|PUNCT
+*FAT:	peki Burçak , Kerem niçin ağlıyor ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom cm|cm noun|Kerem&ComNeut-Nom adv|niçin verb|ağla-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|6|DISCOURSE 2|6|NSUBJ 3|6|PUNCT 4|6|NSUBJ 5|6|ADVMOD 6|6|ROOT 7|6|PUNCT
+*CHI:	eee diye ağlıyor . 
+%mor:	intj|eee adp|diye verb|ağla-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|DISCOURSE 2|1|CASE 3|3|ROOT 4|3|PUNCT
+*FAT:	nıcin ağlıyor ? 
+%mor:	noun|nıcin&ComNeut-Nom verb|ağla-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	işte süt vermiyorum ona . 
+%mor:	adv|işte noun|süt&ComNeut-Nom verb|ver-Inf-Prog-Ind-1-Pres-Neg-Infm pron|o-Prs-Dat-S3 .
+%gra:	1|3|ADVMOD 2|3|OBJ 3|4|ROOT 4|3|IOBJ 5|3|PUNCT
+*FAT:	onun için mi ağlıyor ? 
+%mor:	pron|o-Prs-Gen-S3 adp|için aux|mi-Inf-Perf-Ind-3-Pres verb|ağla-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|4|NMOD 2|1|CASE 3|1|AUX-Q 4|4|ROOT 5|4|PUNCT
+*CHI:	ha . 
+%com:	affirmative sound gesture
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki Burçak , helikopter nasıl uçuyor ? 
+%mor:	adv|peki noun|Burçak&ComNeut-Nom cm|cm noun|helikopter&ComNeut-Nom adv|nasıl verb|uç-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|6|DISCOURSE 2|6|NSUBJ 3|6|PUNCT 4|6|NSUBJ 5|6|ADVMOD 6|6|ROOT 7|6|PUNCT
+*CHI:	pıt pıt . 
+%com:	gestures
+%mor:	noun|pıt&ComNeut-Nom noun|pıt&ComNeut-Nom .
+%gra:	1|2|ROOT 2|1|COMPOUND 3|1|PUNCT
+*CHI:	gggggggm . 
+%mor:	noun|gggggggm&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	peki helikopter niçin uçuyor ? 
+%mor:	adv|peki noun|helikopter&ComNeut-Nom adv|niçin verb|uç-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|4|ADVMOD 2|4|NSUBJ 3|4|ADVMOD 4|4|ROOT 5|4|PUNCT
+*CHI:	bak . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	bak içerde bak . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos noun|içeri&ComNeut-Loc verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|3|ROOT 2|3|OBL 3|1|CONJ 4|1|PUNCT
+*FAT:	Bur'cak , baba nasıl yüzüyor denizde söylesene . 
+%mor:	intj|bur'cak cm|cm noun|baba&ComNeut-Nom adv|nasıl verb|yüz-Inf-Prog-Ind-3-Pres-Pos-Infm noun|deniz&ComNeut-Loc verb|söyle-Inf-Perf-Cnd-2-Pres-Pos .
+%gra:	1|5|DISCOURSE 2|5|PUNCT 3|5|NSUBJ 4|5|ADVMOD 5|7|ROOT 6|7|OBL 7|5|CONJ 8|5|PUNCT
+*FAT:	Burçak aaa . 
+%mor:	noun|Burçak&ComNeut-Nom intj|aaa .
+%gra:	1|2|ROOT 2|1|DISCOURSE 3|1|PUNCT
+*FAT:	konuşmadan olmaz ki . 
+%mor:	verb|konuş-Conv-Perf-Ind-Pres-Neg verb|ol-Inf-Hab-Ind-3-Pres-Neg cconj|ki .
+%gra:	1|2|ADVCL 2|3|ROOT 3|2|ADVMOD-EMPH 4|2|PUNCT
+*CHI:	bakacam [= bakacağım] . 
+%mor:	verb|bak-Inf-Perf-Ind-1-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	çok üzülürüm ama ! 
+%mor:	adv|çok verb|üz-Inf-Hab-Ind-1-Pres-Pos cconj|ama !
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*FAT:	Burçakcım bir dakika bak , açma orayı . 
+%mor:	verb|burçak-Inf-Perf-Ind-1-Past-Pos det|bir-Ind-Art noun|dakika&ComNeut-Nom verb|bak-Inf-Perf-Imp-2-Pres-Pos cm|cm verb|aç-Inf-Perf-Imp-2-Pres-Neg pron|ora-Int-Acc-S3 .
+%gra:	1|7|ROOT 2|4|DET 3|2|COMPOUND 4|1|CONJ 5|6|PUNCT 6|1|CONJ 7|6|OBJ 8|1|PUNCT
+*CHI:	açacam [= açacağım] . 
+%mor:	verb|aç-Inf-Perf-Ind-1-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	sen konuşmuyorsun benlen diye üzüldüm . 
+%mor:	pron|sen-Prs-Nom-S2 verb|konuş-Inf-Prog-Ind-2-Pres-Neg-Infm adj|benlen-Pos-S-1 adp|diye verb|üz-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|NSUBJ 2|5|ADVCL 3|2|ADVMOD 4|2|CASE 5|5|ROOT 6|5|PUNCT
+*EXP:	nerde anino ? 
+%mor:	pron|nere-Int-Loc-S3 noun|anino&ComNeut-Nom ?
+%gra:	1|2|ROOT 2|1|COMPOUND 3|1|PUNCT
+*EXP:	evde yok . 
+%mor:	noun|ev&ComNeut-Loc adj|yok-Pos-S-1 .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	gitti yok . 
+%mor:	verb|git-Inf-Perf-Ind-3-Past-Pos adj|yok-Pos-S-1 .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*EXP:	nereye gitti . 
+%mor:	pron|nere-Int-Dat-S3 verb|git-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	çarşıya gitti , mama alacak . 
+%mor:	noun|çarşı&ComNeut-Dat verb|git-Inf-Perf-Ind-3-Past-Pos cm|cm noun|mama&ComNeut-Nom verb|al-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|2|OBL 2|5|ROOT 3|5|PUNCT 4|5|OBJ 5|2|CONJ 6|2|PUNCT
+*EXP:	niçin gitti ? 
+%mor:	adv|niçin verb|git-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	işte mama alacak . 
+%mor:	adv|işte noun|mama&ComNeut-Nom verb|al-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*FAT:	nasıl alacak mamayı ? 
+%mor:	adv|nasıl verb|al-Inf-Perf-Ind-3-Fut-Pos noun|mama&ComNeut-Acc ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|OBJ 4|2|PUNCT
+*CHI:	bakkaldan alacak . 
+%mor:	noun|bakkal&ComNeut-Abl verb|al-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*EXP:	ne yemekler alacak biliyormusun ? 
+%mor:	adj|ne-Pos-S-1 noun|yemek&ComNeut-Plur-Nom verb|al-Inf-Perf-Ind-3-Fut-Pos verb|bil-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|AMOD 2|3|OBJ 3|4|ROOT 4|3|CONJ 5|3|PUNCT
+*CHI:	etler alacak . 
+%mor:	noun|et&ComNeut-Plur-Nom verb|al-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	ha , ha , ne eti ? 
+%mor:	intj|ha cm|cm intj|ha cm|cm pron|ne-Int-Nom-S3 noun|et&ComNeut-Acc ?
+%gra:	1|5|DISCOURSE 2|5|PUNCT 3|5|DISCOURSE 4|5|PUNCT 5|6|ROOT 6|5|COMPOUND 7|5|PUNCT
+*EXP:	kıyma mı , pirzola mı , biliyormusun sen ? 
+%mor:	noun|kıyma&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres cm|cm noun|pirzo&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres cm|cm verb|bil-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 ?
+%gra:	1|7|NSUBJ 2|1|AUX-Q 3|4|PUNCT 4|1|CONJ 5|4|AUX-Q 6|4|PUNCT 7|8|ROOT 8|7|NSUBJ 9|7|PUNCT
+*CHI:	evet , biliyorum . 
+%mor:	noun|evet&ComNeut-Nom cm|cm verb|bil-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|3|DISCOURSE 2|3|PUNCT 3|3|ROOT 4|3|PUNCT
+*EXP:	sen en çok hangi yemeği seviyorsun ? 
+%mor:	pron|sen-Prs-Nom-S2 adv|en adv|çok det|hangi-Def noun|yemek&ComNeut-Acc verb|sev-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|6|NSUBJ 2|3|ADVMOD 3|6|ADVMOD 4|5|AMOD 5|6|OBJ 6|6|ROOT 7|6|PUNCT
+*CHI:	pirzola alacak bak . 
+%mor:	noun|pirzo&ComNeut-Nom verb|al-Inf-Perf-Ind-3-Fut-Pos verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|OBJ 2|3|ROOT 3|2|CONJ 4|2|PUNCT
+*EXP:	öğlenleyin pirzola mı yiyecez [= yiyeceğiz] ? 
+%mor:	verb|öğle-Inf-Plur-Perf-Imp-2-Pres-Pos noun|pirzo&ComNeut-Nom aux|mi-Inf-Perf-Ind-3-Pres verb|ye-Inf-Hab-Ind-1-Pres-Pos ?
+%gra:	1|4|ROOT 2|1|OBJ 3|2|AUX-Q 4|1|CONJ 5|1|PUNCT
+*CHI:	ha . 
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	başka ? 
+%mor:	adj|başka-Pos-S-1 ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	et . 
+%mor:	verb|et-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	başka ? 
+%mor:	adj|başka-Pos-S-1 ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	dolma , dolma yiyeceğiz . 
+%mor:	noun|dolma&ComNeut-Nom cm|cm noun|dolma&ComNeut-Nom verb|ye-Inf-Plur-Perf-Ind-1-Fut-Pos .
+%gra:	1|4|ROOT 2|3|PUNCT 3|1|CONJ 4|3|COMPOUND 5|1|PUNCT
+*EXP:	ne içeceğiz ? 
+%mor:	pron|ne-Int-Nom-S3 verb|iç-Inf-Plur-Hab-Ind-1-Pres-Pos ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	su . 
+%mor:	noun|su&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	su , köpekler su içermi ? 
+%mor:	noun|su&ComNeut-Nom cm|cm noun|köpek&ComNeut-Plur-Nom noun|su&ComNeut-Nom adj|içermi-Pos-S-1 ?
+%gra:	1|5|NSUBJ 2|5|PUNCT 3|1|CONJ 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*CHI:	içmez . 
+%mor:	verb|iç-Inf-Hab-Ind-3-Pres-Neg .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kediler su içermi ? 
+%mor:	noun|kedi&ComNeut-Plur-Nom noun|su&ComNeut-Nom verb|iç-Inf-Hab-Ind-3-Pres-Pos ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	onlar da mı içmez ? 
+%com:	perhaps she meant to ask "ne yer ?" above
+%mor:	pron|o-Prs-Nom-P3 cconj|da aux|mi-Inf-Perf-Ind-3-Pres verb|iç-Inf-Hab-Ind-3-Pres-Neg ?
+%gra:	1|4|NSUBJ 2|1|ADVMOD-EMPH 3|1|AUX-Q 4|4|ROOT 5|4|PUNCT
+*EXP:	peki ne içer kediler ? 
+%mor:	adv|peki pron|ne-Int-Nom-S3 verb|iç-Inf-Hab-Ind-3-Pres-Pos noun|kedi&ComNeut-Plur-Nom ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*CHI:	hiçbırşey yemez . 
+%mor:	adv|hiçbırşey verb|ye-Inf-Hab-Ind-3-Pres-Neg .
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*EXP:	hiçbirşey yemezmi kediler ? 
+%mor:	adv|hiçbirşey verb|ye-Inf-Perf-Ind-3-Pres-Neg noun|kedi&ComNeut-Plur-Nom ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*EXP:	nıcin yemez ? 
+%mor:	noun|nıcin&ComNeut-Nom verb|ye-Inf-Hab-Ind-3-Pres-Neg ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	et yerler . 
+%mor:	noun|et&ComNeut-Nom noun|yer&ComNeut-Plur-Nom .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	o balkondan atıyoruz kedilere . 
+%mor:	pron|o-Prs-Nom-S3 noun|balkon&ComNeut-Abl verb|at-Inf-Plur-Prog-Ind-1-Pres-Pos-Infm noun|kedi&ComNeut-Plur-Dat .
+%gra:	1|3|NSUBJ 2|3|OBL 3|4|ROOT 4|3|OBL 5|3|PUNCT
+*CHI:	onlar da yiyorlar . 
+%mor:	pron|o-Prs-Nom-P3 cconj|da verb|ye-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|NSUBJ 2|1|ADVMOD-EMPH 3|3|ROOT 4|3|PUNCT
+*EXP:	niçin yiyorlar kediler biliyormusun ? 
+%mor:	adv|niçin verb|ye-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm noun|kedi&ComNeut-Plur-Nom verb|bil-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|4|CCOMP 3|4|NSUBJ 4|4|ROOT 5|4|PUNCT
+*EXP:	kediler niçin yemek yer ? 
+%mor:	noun|kedi&ComNeut-Plur-Nom adv|niçin noun|yemek&ComNeut-Nom verb|yer-Inf-Perf-Imp-2-Pres-Pos ?
+%gra:	1|4|NSUBJ 2|4|ADVMOD 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	sen nıcin yemek yiyorsun ? 
+%mor:	pron|sen-Prs-Nom-S2 noun|nıcin&ComNeut-Nom noun|yemek&ComNeut-Nom verb|ye-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|4|NSUBJ 2|4|OBL 3|4|OBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	işte kuvvetli olacam [= olacağım] . 
+%mor:	adv|işte noun|kuvvet&ComNeut-Nom~adp|li verb|ol-Inf-Hab-Ind-1-Pres-Pos .
+%gra:	1|4|ADVMOD 2|4|AMOD 3|2|CASE 4|4|ROOT 5|4|PUNCT
+*EXP:	tabii . 
+%mor:	adj|tabii-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	sen balık tutuyormusun babanla bazen ? 
+%mor:	pron|sen-Prs-Nom-S2 adj|balık-Pos-Nom-S-3 verb|tut-Inf-Prog-Ind-2-Pres-Pos-Infm noun|baba&ComNeut-Ins adv|bazen ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|5|ROOT 4|3|OBL 5|3|ADVMOD 6|3|PUNCT
+*CHI:	Zeki amcam tutuyor . 
+%mor:	adj|zeki-Pos-S-1 noun|amca&ComNeut-Nom verb|tut-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|OBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	sen seyrediyormusun ? 
+%mor:	pron|sen-Prs-Nom-S2 verb|seyret-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	evet . 
+%mor:	noun|evet&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	o balıklar denizde yüzerlermi ? 
+%mor:	det|o-Def noun|balık&ComNeut-Plur-Nom noun|deniz&ComNeut-Loc verb|yüz-Inf-Hab-Ind-1-Pres-Pos ?
+%gra:	1|2|DET 2|4|NSUBJ 3|4|OBL 4|4|ROOT 5|4|PUNCT
+*CHI:	yüzerler . 
+%mor:	verb|yüz-Inf-Plur-Hab-Ind-3-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nasıl yüzerler ? 
+%mor:	adv|nasıl verb|yüz-Inf-Plur-Hab-Ind-3-Pres-Pos ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	ayaklarını böyle böyle yaparlar . 
+%com:	describing with gestures
+%mor:	noun|ayak&ComNeut-Plur-Acc adv|böyle adv|böyle verb|yap-Inf-Plur-Hab-Ind-3-Pres-Pos .
+%gra:	1|4|OBJ 2|4|ADVMOD 3|4|ADVMOD 4|4|ROOT 5|4|PUNCT
+*EXP:	ayakları varmı baıkların ? 
+%mor:	noun|ayak&ComNeut-Plur-Nom verb|var-Inf-Perf-Imp-3-Pres-Pos noun|baık&ComNeut-Plur-Gen ?
+%gra:	1|2|NSUBJ 2|3|ROOT 3|1|NMOD-POSS 4|2|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	böyle yapıyorlar , böyle yüzüyorlar . 
+%mor:	adv|böyle verb|yap-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm cm|cm adv|böyle verb|yüz-Inf-Plur-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ADVMOD 2|5|ROOT 3|5|PUNCT 4|5|ADVMOD 5|2|CONJ 6|2|PUNCT
+*CHI:	başını sokuyor . 
+%mor:	noun|baş&ComNeut-Acc verb|sok-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	bak burda balık var . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos pron|bura-Int-Loc-S3 adj|balık-Pos-Nom-S-3 adj|var-Pos-S-1 .
+%gra:	1|4|DISCOURSE 2|4|OBL 3|4|NSUBJ 4|4|ROOT 5|4|PUNCT
+*EXP:	bu nesi balığin ? 
+%mor:	det|bu-Def pron|ne-Int-Acc-S3 adj|balığin-Pos-Gen-S-3 ?
+%gra:	1|2|DET 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	ayakları . 
+%mor:	noun|ayak&ComNeut-Plur-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	ayakları altında . 
+%mor:	noun|ayak&ComNeut-Plur-Nom adj|alt-Pos-Loc-S-3 .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	bunlar ayakları değil , yüzgeçleri bunlar; balığin ayagı . 
+%mor:	pron|bu-Dem-Nom-P3 noun|ayak&ComNeut-Plur-Nom cconj|değil cm|cm noun|yüzgeç&ComNeut-Plur-Nom pron|bu-Dem-Nom-P3 noun|balık&ComNeut-Gen noun|ayaç&ComNeut-Nom .
+%gra:	1|3|NSUBJ 2|3|NSUBJ 3|8|ROOT 4|6|PUNCT 5|6|NSUBJ 6|3|CONJ 7|8|NMOD-POSS 8|2|CONJ 9|3|PUNCT
+*EXP:	olmaz . 
+%mor:	verb|ol-Inf-Hab-Ind-3-Pres-Neg .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	bu nesi ? 
+%com:	tail
+%mor:	pron|bu-Dem-Nom-S3 pron|ne-Int-Acc-S3 ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	kanatları . 
+%mor:	noun|kanat&ComNeut-Plur-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kuyruğu . 
+%mor:	noun|kuyruk&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nasıl yüzer balık ? 
+%com:	gestures , lying on his back .
+%mor:	adv|nasıl verb|yüz-Inf-Hab-Ind-3-Pres-Pos adj|balık-Pos-Nom-S-3 ?
+%gra:	1|2|ADVMOD 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*EXP:	böyle ters mi yüzüyor balık ? 
+%mor:	adv|böyle adj|ters-Pos-S-1 aux|mi-Inf-Perf-Ind-3-Pres verb|yüz-Inf-Prog-Ind-3-Pres-Pos-Infm adj|balık-Pos-Nom-S-3 ?
+%gra:	1|4|ADVMOD 2|4|AMOD 3|2|AUX-Q 4|5|ROOT 5|4|NSUBJ 6|4|PUNCT
+*CHI:	evet . 
+%mor:	noun|evet&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	peki gemiler mi hızlı yüzer , balıklar mı hızlı yüzer ? 
+%mor:	adv|peki noun|gemi&ComNeut-Plur-Nom aux|mi-Inf-Perf-Ind-3-Pres adj|hızlı-Pos-S-1 verb|yüz-Inf-Hab-Ind-3-Pres-Pos cm|cm noun|balık&ComNeut-Plur-Nom aux|mi-Inf-Perf-Ind-3-Pres adj|hızlı-Pos-S-1 verb|yüz-Inf-Hab-Ind-3-Pres-Pos ?
+%gra:	1|5|ADVMOD 2|5|NSUBJ 3|2|AUX-Q 4|5|ADVMOD 5|10|ROOT 6|9|PUNCT 7|9|NSUBJ 8|7|AUX-Q 9|5|ADVMOD 10|9|COMPOUND 11|5|PUNCT
+*CHI:	hızlı yüzer balıklar . 
+%mor:	adj|hızlı-Pos-S-1 noun|yüzer&ComNeut-Nom adj|balık-Pos-Nom-P-3 .
+%gra:	1|2|AMOD 2|3|NMOD 3|3|ROOT 4|3|PUNCT
+*EXP:	gemilerden daha mı hızlı yüzer ? 
+%mor:	noun|gemi&ComNeut-Plur-Abl adv|daha aux|mi-Inf-Perf-Ind-3-Pres adj|hızlı-Pos-S-1 verb|yüz-Inf-Hab-Ind-3-Pres-Pos ?
+%gra:	1|5|OBL 2|4|ADVMOD 3|2|AUX-Q 4|5|ADVMOD 5|5|ROOT 6|5|PUNCT
+*CHI:	yüzmez . 
+%mor:	verb|yüz-Inf-Hab-Ind-3-Pres-Neg .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	en çabuk kim yüzer ? 
+%mor:	adv|en adv|çabuk pron|kim-Int-Nom-S3 verb|yüz-Inf-Hab-Ind-3-Pres-Pos ?
+%gra:	1|2|ADVMOD 2|4|ADVMOD 3|4|NSUBJ 4|4|ROOT 5|4|PUNCT
+*CHI:	balık . 
+%mor:	adj|balık-Pos-Nom-S-3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	sen balık gibi yüzebiliyormusun ? 
+%mor:	pron|sen-Prs-Nom-S2 adj|balık-Pos-Nom-S-3 adp|gibi verb|yüz-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|4|NSUBJ 2|4|ADVMOD 3|2|COMPOUND 4|4|ROOT 5|4|PUNCT
+*CHI:	yüzebiliyorum . 
+%mor:	verb|yüz-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	senin kuyruğun varmı ? 
+%mor:	pron|sen-Prs-Gen-S2 noun|kuyruk&ComNeut-Nom verb|var-Inf-Perf-Imp-2-Pres-Pos ?
+%gra:	1|2|NMOD-POSS 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	yüzgeçlerin varmı ? 
+%mor:	noun|yüzgeç&ComNeut-Plur-Nom adj|varmı-Pos-S-1 ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	bak var . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos adj|var-Pos-S-1 .
+%gra:	1|2|DISCOURSE 2|2|ROOT 3|2|PUNCT
+*CHI:	onlar . 
+%com:	points his legs
+%mor:	pron|o-Prs-Nom-P3 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	bak bakayım şunlar ne ? 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Perf-Opt-1-Pres-Pos pron|şu-Dem-Nom-P3 pron|ne-Int-Nom-S3 ?
+%gra:	1|4|ROOT 2|1|CONJ 3|1|NSUBJ 4|1|OBJ 5|1|PUNCT
+*CHI:	kanatları . 
+%com:	bird's wings
+%mor:	noun|kanat&ComNeut-Plur-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ne yapar kuş kanatlarını ? 
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Hab-Ind-3-Pres-Pos noun|kuş&ComNeut-Nom noun|kanat&ComNeut-Plur-Acc ?
+%gra:	1|2|OBJ 2|4|ROOT 3|4|NMOD-POSS 4|2|OBJ 5|2|PUNCT
+*EXP:	ne işe yarar ? 
+%mor:	pron|ne-Int-Nom-S3 noun|iş&ComNeut-Dat verb|yara-Inf-Hab-Ind-3-Pres-Pos ?
+%gra:	1|3|ROOT 2|1|COMPOUND 3|1|COMPOUND 4|1|PUNCT
+*EXP:	fena acımış orası değilmı; nasıl olmuş o ? 
+%com:	he has an insect bite on his arm
+%mor:	adj|fena-Pos-S-1 verb|acı-Inf-Perf-Ind-3-Past-Pos pron|ora-Int-Nom-S3 verb|değil-Inf-Perf-Ind-1-Pres-Neg adv|nasıl verb|ol-Inf-Perf-Ind-3-Past-Pos pron|o-Prs-Nom-S3 ?
+%gra:	1|4|ADVMOD 2|1|COMPOUND 3|4|NSUBJ 4|7|ROOT 5|6|ADVMOD 6|4|CONJ 7|6|NSUBJ 8|4|PUNCT
+*CHI:	yara yapmışım onu ben . 
+%mor:	noun|yara&ComNeut-Nom verb|yap-Inf-Perf-Ind-1-Past-Pos pron|o-Prs-Acc-S3 pron|ben-Prs-Nom-S1 .
+%gra:	1|2|OBJ 2|4|ROOT 3|2|OBJ 4|2|NSUBJ 5|2|PUNCT
+*EXP:	niye yara oldu ? 
+%mor:	adv|niye noun|yara&ComNeut-Nom verb|ol-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|3|ADVMOD 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	düştünmü ? 
+%mor:	verb|düş-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	düştüm onun için . 
+%mor:	verb|düş-Inf-Perf-Ind-1-Past-Pos pron|o-Prs-Gen-S3 adp|için .
+%gra:	1|3|ROOT 2|1|OBL 3|2|CASE 4|1|PUNCT
+*FAT:	sinekler yapmadımı ? 
+%mor:	noun|sinek&ComNeut-Plur-Nom verb|yap-Inf-Perf-Ind-1-Past-Neg ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	onlar ısırdı , ben de yırttım onu . 
+%mor:	pron|o-Prs-Nom-P3 verb|ısır-Inf-Perf-Ind-3-Past-Pos cm|cm pron|ben-Prs-Nom-S1 cconj|de verb|yırt-Inf-Perf-Ind-1-Past-Pos pron|o-Prs-Acc-S3 .
+%gra:	1|2|NSUBJ 2|7|ROOT 3|6|PUNCT 4|6|NSUBJ 5|4|ADVMOD-EMPH 6|2|CONJ 7|6|OBJ 8|2|PUNCT
+*EXP:	yazık . 
+%com:	the child laughs
+%mor:	noun|yazık&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kuşlar nasıl ücar Burçak ? 
+%com:	gestures
+%mor:	noun|kuş&ComNeut-Plur-Nom adv|nasıl noun|ücar&ComNeut-Nom noun|Burçak&ComNeut-Nom ?
+%gra:	1|3|NSUBJ 2|3|ADVMOD 3|4|ROOT 4|3|COMPOUND 5|3|PUNCT
+*EXP:	sen ücabiliyormusun ? 
+%mor:	pron|sen-Prs-Nom-S2 verb|üc-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	uçamıyorum . 
+%mor:	verb|uç-Inf-Prog-Ind-1-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	nıcin ? 
+%mor:	noun|nıcin&ComNeut-Nom ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	kanatlarım yok . 
+%mor:	noun|kanat&ComNeut-Plur-Nom adj|yok-Pos-S-1 .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	kanatların yok değilmi . 
+%mor:	noun|kanat&ComNeut-Plur-Gen adj|yok-Pos-S-1 aux|değil-Inf-Perf-Ind-1-Pres-Neg .
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|COP 4|2|PUNCT
+*EXP:	peki bu evde köpek varmı ? 
+%mor:	adv|peki det|bu-Def noun|ev&ComNeut-Loc noun|köpek&ComNeut-Nom adj|varmı-Pos-S-1 ?
+%gra:	1|5|ROOT 2|3|DET 3|5|OBL 4|5|NSUBJ 5|1|CONJ 6|1|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	komşunun köpegı varmı ? 
+%mor:	adj|komşu-Pos-Gen-S-3 noun|köpeç&ComNeut-Nom adj|varmı-Pos-S-1 ?
+%gra:	1|2|NMOD-POSS 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	peki sokakta köpek gezmiyormu hiç ? 
+%mor:	adv|peki noun|sokak&ComNeut-Loc noun|köpek&ComNeut-Nom verb|gez-Inf-Perf-Ind-1-Past-Pos adv|hiç ?
+%gra:	1|4|ADVMOD 2|4|OBL 3|4|NSUBJ 4|5|ROOT 5|4|ADVMOD 6|4|PUNCT
+*CHI:	geziyor . 
+%mor:	verb|gez-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	peki ne yapıyor köpek , anlat bana . 
+%mor:	adv|peki pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-3-Pres-Pos-Infm noun|köpek&ComNeut-Nom cm|cm verb|anlat-Inf-Perf-Imp-2-Pres-Pos pron|ben-Prs-Dat-S1 .
+%gra:	1|3|ADVMOD 2|3|OBJ 3|7|ROOT 4|3|NSUBJ 5|3|PUNCT 6|3|CONJ 7|6|OBJ 8|3|PUNCT
+*CHI:	hav diye havlıyor . 
+%mor:	noun|hav&ComNeut-Nom adp|diye verb|havla-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|ADVMOD 2|1|CASE 3|3|ROOT 4|3|PUNCT
+*CHI:	ben de ona , köpeğe hoşşt diyorum hoşt . 
+%mor:	pron|ben-Prs-Nom-S1 cconj|de pron|o-Prs-Dat-S3 cm|cm noun|köpek&ComNeut-Dat noun|hoşşt&ComNeut-Nom verb|de-Inf-Prog-Ind-1-Pres-Pos-Infm noun|hoşt&ComNeut-Nom .
+%gra:	1|7|NSUBJ 2|1|ADVMOD-EMPH 3|7|OBL 4|3|PUNCT 5|6|OBL 6|7|OBJ 7|8|ROOT 8|7|NSUBJ 9|7|PUNCT
+*EXP:	peki kedi varmı ? 
+%mor:	adv|peki noun|kedi&ComNeut-Nom adj|varmı-Pos-S-1 ?
+%gra:	1|3|ADVMOD 2|3|NSUBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	var , miyav diyo [= diyor] . 
+%mor:	verb|var-Inf-Perf-Imp-2-Pres-Pos cm|cm noun|miyav&ComNeut-Nom verb|de-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|4|CCOMP 2|3|PUNCT 3|1|CONJ 4|4|ROOT 5|4|PUNCT
+*CHI:	almış bağrıyor [= bağırıyor] . 
+%mor:	verb|al-Inf-Perf-Ind-3-Past-Pos verb|bağra-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|ADVCL 2|2|ROOT 3|2|PUNCT
+*CHI:	eline sopa almış çıkmış bahçeye . 
+%mor:	noun|el&ComNeut-Dat noun|sopa&ComNeut-Nom verb|al-Inf-Perf-Ind-3-Past-Pos verb|çık-Inf-Perf-Ind-3-Past-Pos noun|bahçe&ComNeut-Dat .
+%gra:	1|3|OBL 2|1|COMPOUND 3|4|ADVCL 4|5|ROOT 5|4|OBL 6|4|PUNCT
+*CHI:	kedileri dövüyor . 
+%mor:	noun|kedi&ComNeut-Plur-Acc verb|döv-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	dövmüş . 
+%mor:	verb|döv-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	dövmüş . 
+%mor:	verb|döv-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	kim dövmüş ? 
+%mor:	pron|kim-Int-Nom-S3 verb|döv-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	anino . 
+%mor:	noun|an&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	peki tırmalıyormu o kediler ? 
+%mor:	adv|peki verb|tırmala-Inf-Perf-Ind-3-Past-Pos det|o-Def noun|kedi&ComNeut-Plur-Nom ?
+%gra:	1|2|ADVMOD 2|4|ROOT 3|4|DET 4|2|NSUBJ 5|2|PUNCT
+*CHI:	tırmalıyor . 
+%mor:	verb|tır-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	niye tırmalıyor ? 
+%mor:	adv|niye verb|tır-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	sen ne yapıyorsun kedilere ? 
+%mor:	pron|sen-Prs-Nom-S2 pron|ne-Int-Nom-S3 verb|yap-Inf-Prog-Ind-2-Pres-Pos-Infm noun|kedi&ComNeut-Plur-Dat ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|4|ROOT 4|3|OBL 5|3|PUNCT
+*CHI:	seviyorum . 
+%mor:	verb|sev-Inf-Prog-Ind-1-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	sevince tırmalıyormu ? 
+%mor:	noun|sevince&ComNeut-Dat verb|tırmala-Inf-Prog-Ind-1-Past-Pos-Infm ?
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*CHI:	tırmalamıyor . 
+%mor:	verb|tırmala-Inf-Prog-Ind-3-Pres-Neg-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ne zaman tırmalıyor ? 
+%mor:	pron|ne-Int-Nom-S3 noun|zaman&ComNeut-Nom verb|tır-Inf-Prog-Ind-3-Pres-Pos-Infm ?
+%gra:	1|2|NMOD 2|3|OBL 3|3|ROOT 4|3|PUNCT
+*CHI:	kulübe bir tane kedi gelmiş . 
+%mor:	noun|kulübe&ComNeut-Nom det|bir-Ind-Art noun|tane&ComNeut-Nom noun|kedi&ComNeut-Nom verb|gel-Inf-Perf-Ind-3-Past-Pos .
+%gra:	1|5|NSUBJ 2|3|DET 3|4|NMOD 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*EXP:	kedi gelmiş , nasıl bir kediymiş ? 
+%mor:	noun|kedi&ComNeut-Nom verb|gel-Inf-Perf-Ind-3-Past-Pos cm|cm adv|nasıl det|bir-Ind-Art verb|kediy-Inf-Perf-Ind-3-Past-Pos ?
+%gra:	1|2|NSUBJ 2|6|ROOT 3|6|PUNCT 4|6|ADVMOD 5|6|ADVMOD 6|2|CONJ 7|2|PUNCT
+*CHI:	şöyle küçücük , minicik . 
+%mor:	adv|şöyle adj|küçücük-Pos-S-1 cm|cm adj|minicik-Pos-S-1 .
+%gra:	1|2|ADVMOD 2|4|ROOT 3|4|PUNCT 4|2|CONJ 5|2|PUNCT
+*EXP:	ne renk ? 
+%mor:	pron|ne-Int-Nom-S3 noun|renk&ComNeut-Nom ?
+%gra:	1|2|NMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	beyaz . 
+%mor:	adj|beyaz-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	ona su vermişlermi ? 
+%mor:	pron|o-Prs-Dat-S3 noun|su&ComNeut-Nom verb|ver-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|3|OBL 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*CHI:	vermemişler . 
+%mor:	verb|ver-Inf-Plur-Perf-Ind-3-Past-Neg .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	su içmezmi kedi ? 
+%mor:	noun|su&ComNeut-Nom verb|iç-Inf-Perf-Ind-2-Pres-Pos noun|kedi&ComNeut-Nom ?
+%gra:	1|2|NSUBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	a ah , hiçbirşey içmez . 
+%mor:	intj|a intj|ah cm|cm noun|hiçbirşey&ComNeut-Nom verb|iç-Inf-Hab-Ind-3-Pres-Neg .
+%gra:	1|5|DISCOURSE 2|5|DISCOURSE 3|5|PUNCT 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*EXP:	peki kediler niçin yemek yer ? 
+%mor:	adv|peki noun|kedi&ComNeut-Plur-Nom adv|niçin noun|yemek&ComNeut-Nom verb|yer-Inf-Perf-Imp-2-Pres-Pos ?
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|5|ADVMOD 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*CHI:	işte kuvvetli olacak . 
+%mor:	adv|işte noun|kuvvet&ComNeut-Nom~adp|li verb|ol-Inf-Perf-Ind-3-Fut-Pos .
+%gra:	1|4|ADVMOD 2|4|AMOD 3|2|CASE 4|4|ROOT 5|4|PUNCT
+*EXP:	peki sen hiç kurt gördünmü ? 
+%mor:	adv|peki pron|sen-Prs-Nom-S2 adv|hiç noun|kurt&ComNeut-Nom verb|gör-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|5|DISCOURSE 2|5|NSUBJ 3|5|ADVMOD 4|5|OBJ 5|5|ROOT 6|5|PUNCT
+*CHI:	görmedim . 
+%mor:	verb|gör-Inf-Perf-Ind-1-Past-Neg .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	bak işte bu kurt . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos adv|işte det|bu-Def noun|kurt&ComNeut-Nom .
+%gra:	1|4|ROOT 2|1|CONJ 3|4|DET 4|1|NSUBJ 5|1|PUNCT
+*EXP:	kurtlar niye ısırır sen biliyormusun ? 
+%mor:	noun|kurt&ComNeut-Plur-Nom adv|niye verb|ısır-Inf-Hab-Ind-3-Pres-Pos pron|sen-Prs-Nom-S2 verb|bil-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|3|NSUBJ 2|3|ADVMOD 3|5|ADVCL 4|3|NSUBJ 5|5|ROOT 6|5|PUNCT
+*CHI:	ne yaptın sen ? 
+%com:	to the father
+%mor:	pron|ne-Int-Nom-S3 verb|yap-Inf-Perf-Ind-2-Past-Pos pron|sen-Prs-Nom-S2 ?
+%gra:	1|2|OBJ 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*FAT:	burnunu ısırdım . 
+%mor:	noun|burun&ComNeut-Acc verb|ısır-Inf-Perf-Ind-1-Past-Pos .
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	bak bak . 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos verb|bak-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|ROOT 2|1|CONJ 3|1|PUNCT
+*FAT:	yapma kanayacak orası . 
+%com:	peeling the insect bite
+%mor:	verb|yap-Inf-Perf-Imp-2-Pres-Neg verb|kana-Inf-Perf-Ind-3-Fut-Neg pron|ora-Int-Nom-S3 .
+%gra:	1|2|PARATAXIS 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	Gökçen ne yapacak ? 
+%mor:	noun|Gökçen&ComNeut-Nom pron|ne-Int-Nom-S3 verb|yap-Inf-Perf-Ind-3-Fut-Pos ?
+%gra:	1|3|NSUBJ 2|3|OBJ 3|3|ROOT 4|3|PUNCT
+*EXP:	Gökçen bant koyacak yaralarına . 
+%mor:	noun|Gökçen&ComNeut-Nom noun|bant&ComNeut-Nom verb|koy-Part-Perf-Ind-Fut-Pos noun|yara&ComNeut-Plur-Dat .
+%gra:	1|3|NSUBJ 2|3|OBJ 3|4|ACL 4|4|ROOT 5|4|PUNCT
+*FAT:	Nişantaşı'nda varmı bant ? 
+%mor:	noun|Nişantaşı&ComNeut-Loc adj|varmı-Pos-S-1 noun|bant&ComNeut-Nom ?
+%gra:	1|2|OBL 2|3|ROOT 3|2|NSUBJ 4|2|PUNCT
+*CHI:	yok . 
+%mor:	adj|yok-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*EXP:	var . 
+%mor:	adj|var-Pos-S-1 .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	ne var ? 
+%mor:	pron|ne-Int-Nom-S3 adj|var-Pos-S-1 ?
+%gra:	1|2|OBJ 2|2|ROOT 3|2|PUNCT
+*EXP:	bant . 
+%mor:	noun|bant&ComNeut-Nom .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	burda var . 
+%mor:	pron|bura-Int-Loc-S3 adj|var-Pos-S-1 .
+%gra:	1|2|OBL 2|2|ROOT 3|2|PUNCT
+*EXP:	hani nerde ? 
+%mor:	adv|hani pron|nere-Int-Loc-S3 ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	anne gelsin . 
+%mor:	noun|anne&ComNeut-Nom verb|gel-Inf-Perf-Imp-3-Pres-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	getiriyor . 
+%mor:	verb|getir-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	kalktı , getiriyor . 
+%mor:	verb|kalk-Inf-Perf-Ind-3-Past-Pos cm|cm verb|getir-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|3|ROOT 2|3|PUNCT 3|1|CONJ 4|1|PUNCT
+*EXP:	Burçak anino nerde ? 
+%com:	no response
+%mor:	noun|Burçak&ComNeut-Nom noun|an&ComNeut-Nom pron|nere-Int-Loc-S3 ?
+%gra:	1|2|NMOD 2|3|NMOD 3|3|ROOT 4|3|PUNCT
+*EXP:	anino dün akşam uyudumu ? 
+%mor:	noun|an&ComNeut-Nom noun|dün&ComNeut-Nom noun|akşam&ComNeut-Nom verb|uyu-Inf-Perf-Ind-1-Past-Pos ?
+%gra:	1|4|NSUBJ 2|3|NMOD 3|4|OBL 4|4|ROOT 5|4|PUNCT
+*CHI:	sen ağladın uyumamış anino . 
+%mor:	pron|sen-Prs-Nom-S2 verb|ağla-Inf-Perf-Ind-2-Past-Pos verb|uyu-Inf-Perf-Ind-3-Past-Neg noun|an&ComNeut-Nom .
+%gra:	1|3|NSUBJ 2|3|PARATAXIS 3|4|ROOT 4|3|NSUBJ 5|3|PUNCT
+*FAT:	bak niye kanadı burası çok ? 
+%mor:	verb|bak-Inf-Perf-Imp-2-Pres-Pos adv|niye noun|kanat&ComNeut-Nom pron|bura-Int-Nom-S3 adv|çok ?
+%gra:	1|5|DISCOURSE 2|3|ADVMOD 3|5|NSUBJ 4|3|COMPOUND-REDUP 5|5|ROOT 6|5|PUNCT
+*CHI:	işte . 
+%mor:	adv|işte .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	niye kanadı ? 
+%mor:	adv|niye noun|kanat&ComNeut-Nom ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+*CHI:	açtım diye . 
+%mor:	verb|aç-Inf-Perf-Ind-1-Past-Pos adp|diye .
+%gra:	1|2|ROOT 2|1|CASE 3|1|PUNCT
+*FAT:	acıyormu ? 
+%mor:	verb|ac-Inf-Prog-Ind-1-Pres-Pos-Infm ?
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	acıyor . 
+%mor:	verb|ac-Inf-Prog-Ind-3-Pres-Pos-Infm .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	Burçak , denizde yüzen çocuğu hatırlıyormusun sen ? 
+%mor:	noun|Burçak&ComNeut-Nom cm|cm noun|deniz&ComNeut-Loc verb|yüz-Part-Perf-Ind-Pres-Pos noun|çocuk&ComNeut-Acc verb|hatırla-Inf-Prog-Ind-2-Pres-Pos-Infm pron|sen-Prs-Nom-S2 ?
+%gra:	1|6|NSUBJ 2|6|PUNCT 3|4|OBL 4|5|ACL 5|6|OBJ 6|7|ROOT 7|6|NSUBJ 8|6|PUNCT
+*CHI:	ha . 
+%com:	affirmative sound gesture
+%mor:	intj|ha .
+%gra:	1|1|ROOT 2|1|PUNCT
+*FAT:	söyle . 
+%mor:	verb|söyle-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|1|ROOT 2|1|PUNCT
+*CHI:	sen söyle . 
+%mor:	pron|sen-Prs-Nom-S2 verb|söyle-Inf-Perf-Imp-2-Pres-Pos .
+%gra:	1|2|NSUBJ 2|2|ROOT 3|2|PUNCT
+*CHI:	niçin kapatıyorsun ? 
+%com:	referring to the tape recorder
+%mor:	adv|niçin verb|kapa-Inf-Prog-Ind-2-Pres-Pos-Infm ?
+%gra:	1|2|ADVMOD 2|2|ROOT 3|2|PUNCT
+@End
