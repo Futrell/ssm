@@ -143,7 +143,7 @@ class SSM:
         u = self.phi[input]
         proj = self.semiring.mm(self.pi, u.T).T # einsum("xu,tu->tx", self.pi, u)
         x = torch.zeros(T + 1, self.A.shape[0], dtype=self.dtype)
-        x[0] = self.init if init is None else init        
+        x[0] = self.init if init is None else init
         for t in range(T):
             update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
             x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
@@ -159,8 +159,9 @@ class SSM:
 
 # Classes for trainable phonotactics models
 
-class PhonotacticsModel:
+class PhonotacticsModel(torch.nn.Module):
     def __init__(self, A, B, C, init=None, pi=None):
+        super().__init__()
         self.A = A
         self.B = B
         self.C = C
@@ -169,9 +170,9 @@ class PhonotacticsModel:
 
     @classmethod
     def initialize(cls, X, S, requires_grad=True, device=DEVICE):
-        self.A = torch.randn(X, X, requires_grad=requires_grad, device=device)
-        self.B = torch.randn(X, S, requires_grad=requires_grad, device=device)
-        self.C = torch.randn(S, X, requires_grad=requires_grad, device=device)
+        A = torch.randn(X, X, requires_grad=requires_grad, device=device)
+        B = torch.randn(X, S, requires_grad=requires_grad, device=device)
+        C = torch.randn(S, X, requires_grad=requires_grad, device=device)
         return cls(A, B, C)
 
     def parameters(self):
