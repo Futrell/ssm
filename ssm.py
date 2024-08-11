@@ -16,7 +16,9 @@ import matplotlib.pyplot as plt
 INF = float('inf')
 
 # DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-DEVICE = 'cpu'    
+DEVICE = 'cpu'
+
+DEFAULT_INIT_TEMPERATURE = 100
 
 def boolean_mv(A, x):
     """ Boolean matrix-vector multiplication. """
@@ -169,14 +171,26 @@ class PhonotacticsModel(torch.nn.Module):
         self.pi = pi
 
     @classmethod
-    def initialize(cls, X, S, requires_grad=True, device=DEVICE):
-        A = torch.randn(X, X, requires_grad=requires_grad, device=device)
-        B = torch.randn(X, S, requires_grad=requires_grad, device=device)
-        C = torch.randn(S, X, requires_grad=requires_grad, device=device)
-        return cls(A, B, C)
+    def initialize(
+            cls,
+            X,
+            S,
+            requires_grad=True,
+            init_T_A=DEFAULT_INIT_TEMPERATURE,
+            init_T_B=DEFAULT_INIT_TEMPERATURE,
+            init_T_C=DEFAULT_INIT_TEMPERATURE,
+            device=DEVICE):
+        A = torch.nn.Parameter((1/init_T_A)*torch.randn(X, X), requires_grad=requires_grad)
+        B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
+        C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
+        return cls(A, B, C).to(device)
 
-    def parameters(self):
-        return [self.A, self.B, self.C]
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+        ssm = self.ssm()
+        return torch.stack([ssm.log_likelihood(x, debug=debug) for x in xs]).sum()
+
+    def forward(self, xs):
+        return self.log_likelihood(xs)
     
     def ssm(self):
         return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
@@ -201,8 +215,7 @@ class PhonotacticsModel(torch.nn.Module):
         writer.writeheader()
         for i, xs in enumerate(data, 1):
             opt.zero_grad()
-            model = self.ssm()
-            loss = -torch.stack([model.log_likelihood(x, debug=debug) for x in xs]).mean()
+            loss = -self.log_likelihood(xs, debug=debug)
             loss.backward()
             opt.step()
             reporting_window.append(loss.detach())
@@ -211,23 +224,19 @@ class PhonotacticsModel(torch.nn.Module):
                     'step': i,
                     'mean_loss': np.mean(reporting_window),
                 }
-                diagnostic |= {label : fn(model) for label, fn in diagnostic_fns.items()}
+                diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
                 writer.writerow(diagnostic)                
                 diagnostics.append(diagnostic)
         return diagnostics
 
 class CompoundModel(PhonotacticsModel):
-    def __init__(self, *models):
-        self.models = models
-
-    def parameters(self):
-        params = []
-        for model in self.models:
-            params.extend(model.parameters())
-        return params
+    def __init__(self, one, two):
+        super(PhonotacticsModel, self).__init__()
+        self.one = one
+        self.two = two
 
     def ssm(self):
-        ssms = [m.ssm() for m in self.models]
+        ssms = [m.ssm() for m in self.children()]
         return SSM(
             A=torch.block_diag(*[m.A for m in ssms]),
             B=torch.cat([m.B for m in ssms]),
@@ -241,26 +250,23 @@ class Factor2(PhonotacticsModel):
     @classmethod
     def from_factors(cls, factors, projection=None, bias=False):
         S, X = factors.shape
-        A, B, init = cls.init_matrices(X, bias=bias, device=factors.device)
+        A, B, init = cls.init_matrices(X, bias=bias)
         return cls(A, B, factors, init=init, pi=projection)
-
-    def parameters(self):
-        return [self.C]
 
     def init_matrices(self, d):
         raise NotImplementedError
 
     @classmethod
-    def initialize(cls, S, projection=None, requires_grad: bool=True, device: str=DEVICE):
-        factors = torch.randn(S, S+1, requires_grad=requires_grad, device=device)
-        return cls.from_factors(factors, projection=projection)
+    def initialize(cls, S, projection=None, requires_grad: bool=True, device: str=DEVICE, init_T=DEFAULT_INIT_TEMPERATURE):
+        factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
+        return cls.from_factors(factors, projection=projection).to(device)
 
 class SL2(Factor2):
     @classmethod
-    def init_matrices(cls, d, bias=False, device=DEVICE):
-        A = torch.zeros(d+bias, d+bias, device=device) # X x X
-        B = torch.eye(d+bias, device=device)[:, (1+bias):] # X x S
-        init = torch.eye(d+bias, device=device)[0]
+    def init_matrices(cls, d, bias=False):
+        A = torch.zeros(d+bias, d+bias) # X x X
+        B = torch.eye(d+bias)[:, (1+bias):] # X x S
+        init = torch.eye(d+bias)[0]
         if bias:
             A[0,0] = 1
             init[0,1] = 1
@@ -268,26 +274,26 @@ class SL2(Factor2):
 
 class SP2(Factor2):
     @classmethod
-    def init_matrices(cls, d, bias=False, device=DEVICE):
-        A = torch.eye(d, d, dtype=bool, device=device)
-        B = torch.eye(d, dtype=bool, device=device)[:, 1:]
-        init = torch.eye(d, dtype=bool, device=device)[0]
+    def init_matrices(cls, d, bias=False):
+        A = torch.eye(d, d, dtype=bool)
+        B = torch.eye(d, dtype=bool)[:, 1:]
+        init = torch.eye(d, dtype=bool)[0]
         return A, B, init
 
 class SL_SP2(Factor2):
     @classmethod
-    def init_matrices(cls, d, device=DEVICE):
+    def init_matrices(cls, d):
         A = torch.block_diag(
-            torch.zeros(d, d, dtype=torch.bool, device=device),  # SL
-            torch.eye(d, dtype=torch.bool, device=device), # SP
+            torch.zeros(d, d, dtype=torch.bool),
+            torch.eye(d, dtype=torch.bool),
         )
         B = torch.cat([
-            torch.eye(d, dtype=torch.bool, device=device)[:, 1:], 
-            torch.eye(d, dtype=torch.bool, device=device)[:, 1:] 
+            torch.eye(d, dtype=torch.bool)[:, 1:], 
+            torch.eye(d, dtype=torch.bool)[:, 1:] 
         ])
         init = torch.cat([
-            torch.eye(d, dtype=torch.bool, device=device)[0],
-            torch.eye(d, dtype=torch.bool, device=device)[0],
+            torch.eye(d, dtype=torch.bool)[0],
+            torch.eye(d, dtype=torch.bool)[0],
         ])
         return A, B, init
 
@@ -302,14 +308,17 @@ class TierBased(Factor2):
         )
 
 class SoftTierBased(Factor2):
-    def parameters(self):
-        return [self.C, self.pi]
-    
     @classmethod
-    def initialize(cls, S, requires_grad: bool=True, device: str=DEVICE):
-        factors = torch.randn(S, S + 1, requires_grad=requires_grad, device=device)
-        projection = torch.randn(S, requires_grad=requires_grad, device=device)
-        return cls.from_factors(factors, projection)
+    def initialize(
+            cls,
+            S,
+            requires_grad: bool=True,
+            device: str=DEVICE,
+            init_T=DEFAULT_INIT_TEMPERATURE,
+            init_T_projection=DEFAULT_INIT_TEMPERATURE):
+        factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
+        projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S), requires_grad=requires_grad)
+        return cls.from_factors(factors, projection).to(device)
 
     def ssm(self):
         return SSM(
@@ -524,7 +533,7 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
     diagnostics = {'good_bad_diff': lambda m: evaluate_model_paired(m, good, bad)['diff'].sum()}
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, diagnostic_fns=diagnostics, **kwds)
-    return evaluate_model_paired(model.ssm(), good, bad), model
+    return evaluate_model_paired(model, good, bad), model
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples=1000, num_test=100, **kwds): # SL2 dataset
     dataset = [random_no_ab(n=n) for _ in range(num_samples)]
@@ -553,7 +562,7 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples
         
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, **kwds)
-    return evaluate_model_unpaired(model.ssm(), good, bad)
+    return evaluate_model_unpaired(model, good, bad)
 
     # 2-SP language *a-a
     # 2-TSL language: *a-a, Tier = {a, b, c, d}
@@ -592,12 +601,12 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2,
 
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, **kwds)
-    return evaluate_model_unpaired(model.ssm(), good, bad)
+    return evaluate_model_unpaired(model, good, bad)
 
-def evaluate_model_paired(model, good_strings, bad_strings):
+def evaluate_model_paired(model: PhonotacticsModel, good_strings, bad_strings):
     def gen():
         for good, bad in zip(good_strings, bad_strings):
-            yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
+            yield good, bad, model.log_likelihood([good]).item(), model.log_likelihood([bad]).item()
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
@@ -608,7 +617,7 @@ def evaluate_model_unpaired(model, good_strings, bad_strings):
     def gen():
         for good in good_strings:
             for bad in bad_strings:
-                yield good, bad, model.log_likelihood(good).item(), model.log_likelihood(bad).item()
+                yield good, bad, model.log_likelihood([good]).item(), model.log_likelihood([bad]).item()
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
@@ -617,9 +626,9 @@ def evaluate_model_unpaired(model, good_strings, bad_strings):
 def evaluate_model_simple(model, good_strings, bad_strings):
     df_list = []
     for good in good_strings:
-        df_list.append([good, 'good', model.log_likelihood(good).item()])
+        df_list.append([good, 'good', model.log_likelihood([good]).item()])
     for bad in bad_strings:
-        df_list.append([bad, 'bad', model.log_likelihood(bad).item()])
+        df_list.append([bad, 'bad', model.log_likelihood([bad]).item()])
     df = pd.DataFrame(df_list)
     df.columns = ['string', 'grammatical', 'score']
     return df
