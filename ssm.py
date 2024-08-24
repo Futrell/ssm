@@ -4,6 +4,7 @@ import csv
 import random
 from typing import *
 import operator
+import functools
 import itertools
 from collections import namedtuple, deque
 
@@ -19,19 +20,24 @@ INF = float('inf')
 DEVICE = 'cpu'
 
 DEFAULT_INIT_TEMPERATURE = 100
+EPSILON = 10 ** -5
 
 def boolean_mv(A, x):
     """ Boolean matrix-vector multiplication. """
     return torch.any(A & x[None, :], -1)
 
+def boolean_vv(x, y):
+    return torch.any(x & y)
+
 def boolean_mm(A, B):
     """ Boolean matrix-matrix multiplication. """
     return torch.any(A & B, -2)
 
-Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'mv', 'mm', 'complement'])
+Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'sum', 'prod', 'vv', 'mv', 'mm', 'complement'])
 
-RealSemiring = Semiring(0, 1, operator.add, operator.mul, operator.matmul, operator.matmul, lambda x: 1-x)
-BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, boolean_mv, boolean_mm, operator.invert)
+RealSemiring = Semiring(0, 1, operator.add, operator.mul, torch.sum, torch.prod, operator.matmul, operator.matmul, operator.matmul, lambda x: 1-x)
+BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, torch.any, torch.all, boolean_vv, boolean_mv, boolean_mm, operator.invert)
+#LogspaceSemiring = Semiring(-INF, 0, torch.logaddexp, operator.add, torch.logsumexp, torch.sum, logspace_vv, logspace_mv, logspace_mm, lambda x: (1-x.exp()).log())
 
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
 
@@ -67,9 +73,80 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
     plt.tight_layout()
     plt.show()    
 
-# Core SSM logic
+class WFSA(torch.nn.Module):
+    def __init__(self, A, init=None, final=None, phi=None, device=DEVICE):
+        super().__init__()
+        self.A = A
+        self.device = device
 
-class SSM:
+        X1, Y1, X2 = self.A.shape
+        assert X1 == X2
+
+        self.dtype = self.A.dtype
+        self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
+        self.phi = torch.eye(Y1, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
+        self.init = torch.eye(X1, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
+        self.final = torch.eye(X1, dtype=self.dtype, device=device)[-1] if final is None else final # default to [..., 0, 0, 1]
+
+    def forward(self, input, init=None, final=None, debug=False):
+        init = self.init if init is None else init
+        x = self.final if final is None else final
+        u = self.phi[input]
+        matrices = torch.einsum("xuy,tu->txy", self.A, u)
+        for A in reversed(matrices):
+            x = self.semiring.mv(A, x)
+        y = self.semiring.vv(init, x)
+        if debug:
+            breakpoint()
+        return y
+
+    def transition_closure(self):
+        # Code for real semiring only. Needs spectral radius of A less than 1!
+        # Use A* = (I - A)^{-1}, from Lehmann (1977: 65).
+        I = torch.eye(self.A.shape[0])
+        A = self.A.sum(-2)
+        assert spectral_radius(A) <= 1 + EPSILON
+        return torch.linalg.inv(I - A)
+
+    def pathsum(self, init=None, final=None):
+        init = self.init if init is None else init
+        final = self.final if final is None else final
+        A_star = self.transition_closure()
+        return self.semiring.vv(init, self.semiring.mv(A_star, final))
+
+def test_wfsa():
+    # pfsa for *bc
+    A = torch.Tensor([
+        # from state 0
+        [[1/3, 0], # a
+         [0, 1/3], # b
+         [1/3, 0]], # c
+        # from state 1
+        [[1/2, 0], # a
+         [1/2, 0], # b
+         [0, 0]], # c        
+    ])
+    fsa = WFSA(A, init=torch.eye(2)[0], final=torch.ones(2))
+    assert fsa([1,2,0]) == 0
+    assert fsa([1,0,2]) > 0
+
+    # wfsa for *bc
+    A = torch.Tensor([
+        # from state 0
+        [[1, 0], # a
+         [0, 1], # b
+         [1, 0]], # c
+        # from state 1
+        [[1, 0], # a
+         [1, 0], # b
+         [0, 0]], # c        
+    ]) / 2.74
+    fsa = WFSA(A, init=torch.eye(2)[0], final=torch.ones(2))
+    assert fsa([1,2,0]) == 0
+    assert fsa([1,0,2]) > 0
+    assert 371 < fsa.pathsum() < 372
+
+class SSM(torch.nn.Module):
     def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
         """
         A: state matrix (K x K): determines contribution of state at previous 
@@ -83,7 +160,8 @@ class SSM:
         pi: vector (S): projection vector for tier. Segments s with pi[s]=0 are ignored.
         init: initialization vector (K); if unspecified, [0, 0, 0, ..., 0, 1] by default.
         device: train on GPU ('cuda') or CPU ('cpu')
-        """ 
+        """
+        super().__init__()
         self.A = A
         self.B = B
         self.C = C
@@ -111,42 +189,14 @@ class SSM:
             assert self.pi.shape[0] == X
             assert self.pi.shape[1] == U
 
-    def log_likelihood(self, sequence, init=None, debug=False):
-        '''
-        calculate log likelihood of sequence under this model
-        '''
-        if init is None:
-            x = self.init # shape X
-        else:
-            x = init # shape X
-            
-        score = 0.0
-        for symbol in sequence:
-            u = self.phi[symbol]  # for example, input 2  -> vector [0, 0, 1, 0, ...], shape U
-            proj = self.semiring.mv(self.pi, u) # pi @ u, shape X
-            
-            # Get output vector given current state. Uniform probability for things not projected.
-            y = (self.C * self.pi.T) @ x.float()
-
-            # Get log probability distribution over output symbols
-            # Add log prob of current symbol to total
-            score += torch.log_softmax(y, -1)[symbol]
-            
-            # Update state. If input not projected, state remains unchanged.
-            update = self.semiring.mv(self.A, x) + self.semiring.mv(self.B, u) # could also be (self.B * self.pi) @ u?
-            x = self.semiring.complement(proj)*x + proj*update
-
-            if debug:
-                breakpoint()
-        return score
-
-    def output_sequence(self, input, init=None, debug=False):
+    def forward(self, input, init=None, debug=False):
         T = len(input)
         u = self.phi[input]
-        proj = self.semiring.mm(self.pi, u.T).T # einsum("xu,tu->tx", self.pi, u)
+        proj = torch.zeros(T, self.pi.shape[0], dtype=self.dtype)
         x = torch.zeros(T + 1, self.A.shape[0], dtype=self.dtype)
         x[0] = self.init if init is None else init
         for t in range(T):
+            proj[t] = self.semiring.mv(self.pi, u[t])
             update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
             x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
             if debug:
@@ -154,50 +204,14 @@ class SSM:
         y = torch.einsum("yx,tx->ty", (self.C * self.pi.T), x[:-1].float())
         return SSMOutput(u, proj, x, y)
 
-    def log_likelihood2(self, sequence, init=None):
+    def log_likelihood(self, sequence, init=None, debug=False):
         # Alternative implementation
-        logits = self.output_sequence(sequence, init).y
+        logits = self(sequence, init).y
         return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
 
 # Classes for trainable phonotactics models
 
 class PhonotacticsModel(torch.nn.Module):
-    def __init__(self, A, B, C, init=None, pi=None):
-        super().__init__()
-        self.A = A
-        self.B = B
-        self.C = C
-        self.init = init
-        self.pi = pi
-
-    @classmethod
-    def initialize(
-            cls,
-            X,
-            S,
-            requires_grad=True,
-            init_T_A=DEFAULT_INIT_TEMPERATURE,
-            init_T_B=DEFAULT_INIT_TEMPERATURE,
-            init_T_C=DEFAULT_INIT_TEMPERATURE,
-            device=DEVICE):
-        A = torch.nn.Parameter((1/init_T_A)*torch.randn(X, X), requires_grad=requires_grad)
-        B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
-        C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
-        return cls(A, B, C).to(device)
-
-    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
-        ssm = self.ssm()
-        return torch.stack([ssm.log_likelihood(x, debug=debug) for x in xs]).sum()
-
-    def forward(self, xs):
-        return self.log_likelihood(xs)
-    
-    def ssm(self):
-        return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
-
-    def __add__(self, other):
-        return CompoundModel(self, other)    
-        
     def train(self,
               data: Iterable[Iterable[int]],
               report_every: int=1000,
@@ -225,17 +239,127 @@ class PhonotacticsModel(torch.nn.Module):
                     'mean_loss': np.mean(reporting_window),
                 }
                 diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
-                writer.writerow(diagnostic)                
+                writer.writerow(diagnostic)
                 diagnostics.append(diagnostic)
         return diagnostics
+    
+ 
+class FSAPhonotacticsModel(PhonotacticsModel):
+    def __init__(self, A, init=None, final=None):
+        super().__init__()
+        self.A = A
+        self.init = init
+        self.final = final
 
-class CompoundModel(PhonotacticsModel):
+    def fsa(self):
+        raise NotImplementedError
+
+    def forward(self, xss, debug=False):
+        return self.log_likelihood(xss, debug=debug)
+
+    @classmethod
+    def initialize(
+            cls,
+            X,
+            S,
+            requires_grad=True,
+            init_T=DEFAULT_INIT_TEMPERATURE,
+            device=DEVICE):
+        A = torch.nn.Parameter((1/init_T)*torch.randn(X, S, X), requires_grad=requires_grad)
+        init = torch.eye(X)[0]
+        final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
+        return cls(A, init=init, final=final).to(device)
+
+    
+def soft_ceiling(x, k, beta=1):
+    return k - torch.nn.functional.softplus(k - x, beta=beta)
+
+def spectral_radius(A):
+    return torch.linalg.eigvals(A).abs().max()
+
+class WFSAPhonotacticsModel(FSAPhonotacticsModel):        
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+        wfsa = self.fsa()
+        y = torch.stack([wfsa(x, debug=debug) for x in xs])
+        Z = wfsa.pathsum()
+        B = len(xs)
+        return y.log().sum() - B*Z.log()
+
+    def fsa(self) -> WFSA:
+        A_positive = self.A.exp()
+        final_positive = self.final.exp()
+        s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
+        adjustment = soft_ceiling(s, 1) / s
+        A_normalized = adjustment * A_positive
+        final_normalized = adjustment * final_positive
+        return WFSA(A_normalized, init=self.init, final=final_normalized)
+
+    
+class PFSAPhonotacticsModel(WFSAPhonotacticsModel):
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+        pfsa = self.fsa()
+        y = torch.stack([pfsa(x, debug=debug) for x in xs])
+        return y.log().sum()
+
+    def fsa(self) -> WFSA:
+        A_positive = self.A.exp()
+        final_positive = torch.sigmoid(self.final)
+        Z = A_positive.sum((-1, -2)) + final_positive
+        A_normalized = A_positive / Z[:, None, None]
+        final_normalized = final_positive / Z
+        return WFSA(A_normalized, init=self.init, final=final_normalized)
+
+
+class SSMPhonotacticsModel(PhonotacticsModel):
+    def __init__(self, A, B, C, init=None, pi=None, device=DEVICE):
+        super().__init__()
+        self.A = A
+        self.B = B
+        self.C = C
+        self.init = init
+        self.pi = pi
+
+        self.device = device
+
+    @classmethod
+    def initialize(
+            cls,
+            X,
+            S,
+            requires_grad=True,
+            init_T_A=DEFAULT_INIT_TEMPERATURE,
+            init_T_B=DEFAULT_INIT_TEMPERATURE,
+            init_T_C=DEFAULT_INIT_TEMPERATURE,
+            device=DEVICE):
+        A = torch.nn.Parameter((1/init_T_A)*torch.randn(X, X), requires_grad=requires_grad)
+        B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
+        C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
+        return cls(A, B, C).to(device)
+
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+        ssm = self.ssm()
+        def gen():
+            for x in xs:
+                logits = ssm(x).y
+                yield logits.log_softmax(-1).gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).sum()
+        return torch.stack(list(gen())).sum()
+
+    forward = log_likelihood
+    
+    def ssm(self) -> SSM:
+        return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
+
+    def __add__(self, other):
+        return CompoundSSMModel(self, other)    
+
+    
+class CompoundSSMModel(SSMPhonotacticsModel):
     def __init__(self, one, two):
-        super(PhonotacticsModel, self).__init__()
+        super(SSMPhonotacticsModel, self).__init__()
         self.one = one
         self.two = two
 
-    def ssm(self):
+    def ssm(self) -> SSM:
         ssms = [m.ssm() for m in self.children()]
         return SSM(
             A=torch.block_diag(*[m.A for m in ssms]),
@@ -245,7 +369,7 @@ class CompoundModel(PhonotacticsModel):
             pi=torch.cat([m.pi for m in ssms]),
         )
 
-class Factor2(PhonotacticsModel):
+class Factor2(SSMPhonotacticsModel):
     """ Phonotactics model whose probabilies are determined by factors of 2 segments """
     @classmethod
     def from_factors(cls, factors, projection=None, bias=False):
@@ -339,7 +463,7 @@ class SoftTSL2(SL2, SoftTierBased):
     pass
 
 # Data handling
-    
+
 def whole_dataset(data: Iterable, num_epochs: int=1) -> Iterator[Sequence]:
     return minibatches(data, len(data), num_epochs=num_epochs)
 
@@ -603,7 +727,7 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2,
     model.train(data, **kwds)
     return evaluate_model_unpaired(model, good, bad)
 
-def evaluate_model_paired(model: PhonotacticsModel, good_strings, bad_strings):
+def evaluate_model_paired(model: SSMPhonotacticsModel, good_strings, bad_strings):
     def gen():
         for good, bad in zip(good_strings, bad_strings):
             yield good, bad, model.log_likelihood([good]).item(), model.log_likelihood([bad]).item()
