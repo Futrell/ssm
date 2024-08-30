@@ -24,14 +24,14 @@ EPSILON = 10 ** -5
 
 def boolean_mv(A, x):
     """ Boolean matrix-vector multiplication. """
-    return torch.any(A & x[None, :], -1)
+    return (A & x[None, :]).any(-1)
 
 def boolean_vv(x, y):
-    return torch.any(x & y)
+    return (x & y).any()
 
 def boolean_mm(A, B):
     """ Boolean matrix-matrix multiplication. """
-    return torch.any(A & B, -2)
+    return (A[:, :, None] & B[None, :, :]).any(-2)
 
 Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'sum', 'prod', 'vv', 'mv', 'mm', 'complement'])
 
