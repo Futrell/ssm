@@ -27,6 +27,7 @@ def boolean_mv(A, x):
     return (A & x[None, :]).any(-1)
 
 def boolean_vv(x, y):
+    """ Boolean inner product """
     return (x & y).any()
 
 def boolean_mm(A, B):
@@ -183,16 +184,16 @@ class SSM(torch.nn.Module):
         # It says, for input feature i, whether state feature j should be sensitive to it.
         # By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
         if pi is None:
-            self.pi = torch.ones(X, U, dtype=self.dtype, device=device) # default [[1, 1, ...], ...]
+            self.pi = torch.ones(U, X, dtype=self.dtype, device=device) # default [[1, 1, ...], ...].T
         else:
             self.pi = pi
-            assert self.pi.shape[0] == X
-            assert self.pi.shape[1] == U
+            assert self.pi.shape[0] == U
+            assert self.pi.shape[1] == X
 
     def forward(self, input, init=None, debug=False):
         T = len(input)
         u = self.phi[input]
-        proj = self.semiring.mm(u, self.pi.T) # torch.einsum("xu,tu->tx", self.pi, u)
+        proj = self.semiring.mm(u, self.pi) # torch.einsum("ux,tu->tx", self.pi, u)
         x = [torch.zeros(self.A.shape[0], dtype=self.dtype) for _ in range(T+1)]
         x[0] = self.init if init is None else init        
         for t in range(T):
@@ -201,7 +202,7 @@ class SSM(torch.nn.Module):
             if debug:
                 breakpoint()
         x = torch.stack(x)
-        y = torch.einsum("yx,tx->ty", (self.C * self.pi.T), x[:-1].float())
+        y = torch.einsum("yx,tx->ty", (self.C * self.pi), x[:-1].float())
         return SSMOutput(u, proj, x, y)
 
 # Classes for trainable phonotactics models
@@ -425,7 +426,7 @@ class TierBased(Factor2):
             self.B,
             self.C,
             init=self.init,
-            pi=self.pi.unsqueeze(0).expand(*self.B.shape), # broadcast projection to all state features
+            pi=self.pi.unsqueeze(-1).expand(*self.C.shape), # broadcast projection to all state features
         )
 
 class SoftTierBased(Factor2):
@@ -447,7 +448,7 @@ class SoftTierBased(Factor2):
             self.B,
             self.C,
             init=self.init,
-            pi=self.pi.sigmoid().unsqueeze(0).expand(*self.B.shape), # squash projection probabilities to (0,1)
+            pi=self.pi.sigmoid().unsqueeze(-1).expand(*self.C.shape), # squash projection probabilities to (0,1)
         )
 
 class ProbabilisticTierBased(SoftTierBased):
@@ -457,14 +458,14 @@ class ProbabilisticTierBased(SoftTierBased):
             self.B,
             self.C.exp(),
             init=self.init,
-            pi=self.pi.sigmoid().unsqueeze(0).expand(*self.B.shape),
+            pi=self.pi.sigmoid().unsqueeze(-1).expand(*self.C.shape),
         )
 
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         ssm = self.ssm()
         def gen():
             for x in xs:
-                weights = ssm(x).y + ssm.semiring.complement(ssm.pi[0,x])[:, None] # hack!!!
+                weights = ssm(x).y + ssm.semiring.complement(ssm.pi[:,x][0])[:, None] # hack!!!
                 # Assume the weights are already positive, so we only need to normalize, not softmax
                 lnZ = weights.sum(-1).log() # shape T
                 relevant = weights.gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).log()
