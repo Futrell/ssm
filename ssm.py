@@ -59,7 +59,7 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
         x_coord, y_coord = np.where(x.u == 1)
         if pi is not None:
             indices = list((x.u.long() @ torch.arange(x.u.shape[-1])).numpy())
-            colors = list(torch.sigmoid(pi)[indices].detach().numpy())
+            colors = list(pi.sigmoid()[indices].detach().numpy())
             axs[1].scatter(x_coord, y_coord+1, c=colors, cmap='plasma', marker='o')
         else:
             axs[1].scatter(x_coord, y_coord+1, color='red', marker='o')            
@@ -298,7 +298,7 @@ class PFSAPhonotacticsModel(WFSAPhonotacticsModel):
 
     def fsa(self) -> WFSA:
         A_positive = self.A.exp()
-        final_positive = torch.sigmoid(self.final)
+        final_positive = self.final.sigmoid()
         Z = A_positive.sum((-1, -2)) + final_positive
         A_normalized = A_positive / Z[:, None, None]
         final_normalized = final_positive / Z
@@ -447,7 +447,7 @@ class SoftTierBased(Factor2):
             self.B,
             self.C,
             init=self.init,
-            pi=torch.sigmoid(self.pi.unsqueeze(0).expand(*self.B.shape)), # squash projection probabilities to (0,1)
+            pi=self.pi.sigmoid().unsqueeze(0).expand(*self.B.shape), # squash projection probabilities to (0,1)
         )
 
 class ProbabilisticTierBased(SoftTierBased):
@@ -457,7 +457,7 @@ class ProbabilisticTierBased(SoftTierBased):
             self.B,
             self.C.exp(),
             init=self.init,
-            pi=torch.sigmoid(self.pi.unsqueeze(0).expand(*self.B.shape)),
+            pi=self.pi.sigmoid().unsqueeze(0).expand(*self.B.shape),
         )
 
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
