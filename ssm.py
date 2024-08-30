@@ -464,7 +464,7 @@ class ProbabilisticTierBased(SoftTierBased):
         ssm = self.ssm()
         def gen():
             for x in xs:
-                weights = ssm(x).y + (1 - self.pi[x]) # shape TU
+                weights = ssm(x).y + ssm.semiring.complement(ssm.pi[0,x])[:, None] # hack!!!
                 # Assume the weights are already positive, so we only need to normalize, not softmax
                 lnZ = weights.sum(-1).log() # shape T
                 relevant = weights.gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).log()
