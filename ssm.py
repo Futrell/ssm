@@ -86,7 +86,7 @@ class WFSA(torch.nn.Module):
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
         self.phi = torch.eye(Y1, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
         self.init = torch.eye(X1, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
-        self.final = torch.eye(X1, dtype=self.dtype, device=device)[-1] if final is None else final # default to [..., 0, 0, 1]
+        self.final = torch.ones(X1, dtype=self.dtype, device=device) if final is None else final # default to [..., 0, 0, 1]
 
     def forward(self, input, init=None, final=None, debug=False):
         init = self.init if init is None else init
@@ -192,22 +192,17 @@ class SSM(torch.nn.Module):
     def forward(self, input, init=None, debug=False):
         T = len(input)
         u = self.phi[input]
-        proj = torch.zeros(T, self.pi.shape[0], dtype=self.dtype)
-        x = torch.zeros(T + 1, self.A.shape[0], dtype=self.dtype)
-        x[0] = self.init if init is None else init
+        proj = self.semiring.mm(u, self.pi.T) # torch.einsum("xu,tu->tx", self.pi, u)
+        x = [torch.zeros(self.A.shape[0], dtype=self.dtype) for _ in range(T+1)]
+        x[0] = self.init if init is None else init        
         for t in range(T):
-            proj[t] = self.semiring.mv(self.pi, u[t])
             update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
             x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
             if debug:
                 breakpoint()
+        x = torch.stack(x)
         y = torch.einsum("yx,tx->ty", (self.C * self.pi.T), x[:-1].float())
         return SSMOutput(u, proj, x, y)
-
-    def log_likelihood(self, sequence, init=None, debug=False):
-        # Alternative implementation
-        logits = self(sequence, init).y
-        return logits.log_softmax(-1).gather(-1, torch.tensor(sequence).unsqueeze(-1)).sum()
 
 # Classes for trainable phonotactics models
 
@@ -340,7 +335,7 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         ssm = self.ssm()
         def gen():
             for x in xs:
-                logits = ssm(x).y
+                logits = ssm(x, debug=debug).y
                 yield logits.log_softmax(-1).gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).sum()
         return torch.stack(list(gen())).sum()
 
@@ -350,9 +345,8 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
 
     def __add__(self, other):
-        return CompoundSSMModel(self, other)    
+        return CompoundSSMModel(self, other)
 
-    
 class CompoundSSMModel(SSMPhonotacticsModel):
     def __init__(self, one, two):
         super(SSMPhonotacticsModel, self).__init__()
@@ -422,13 +416,16 @@ class SL_SP2(Factor2):
         return A, B, init
 
 class TierBased(Factor2):
+    """ Assume projection is a function from input features to a single number for all state features, 
+    that is, we can say that a segment is or is not projected. """
+    
     def ssm(self):
         return SSM(
             self.A,
             self.B,
             self.C,
             init=self.init,
-            pi=self.pi.unsqueeze(0).expand(*self.B.shape),
+            pi=self.pi.unsqueeze(0).expand(*self.B.shape), # broadcast projection to all state features
         )
 
 class SoftTierBased(Factor2):
@@ -450,8 +447,31 @@ class SoftTierBased(Factor2):
             self.B,
             self.C,
             init=self.init,
+            pi=torch.sigmoid(self.pi.unsqueeze(0).expand(*self.B.shape)), # squash projection probabilities to (0,1)
+        )
+
+class ProbabilisticTierBased(SoftTierBased):
+    def ssm(self):
+        return SSM(
+            self.A,
+            self.B,
+            self.C.exp(),
+            init=self.init,
             pi=torch.sigmoid(self.pi.unsqueeze(0).expand(*self.B.shape)),
         )
+
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+        ssm = self.ssm()
+        def gen():
+            for x in xs:
+                weights = ssm(x).y + (1 - self.pi[x]) # shape TU
+                # Assume the weights are already positive, so we only need to normalize, not softmax
+                lnZ = weights.sum(-1).log() # shape T
+                relevant = weights.gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).log()
+                yield relevant - lnZ
+        return torch.stack(list(gen())).sum()
+
+    forward = log_likelihood
 
 class TSL2(SL2, TierBased):
     pass
@@ -460,6 +480,9 @@ class TSP2(SP2, TierBased):
     pass
 
 class SoftTSL2(SL2, SoftTierBased):
+    pass
+
+class pTSL2(SL2, ProbabilisticTierBased):
     pass
 
 # Data handling
@@ -649,7 +672,7 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
     #good = [random_no_axb(n=n+1) for _ in range(num_test)]
     #bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
 
-    if issubclass(model_type, TierBased):
+    if isinstance(model_type, TierBased):
         model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
     else:
         model = model_type.initialize(4)
