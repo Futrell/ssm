@@ -87,7 +87,7 @@ class WFSA(torch.nn.Module):
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
         self.phi = torch.eye(Y1, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
         self.init = torch.eye(X1, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
-        self.final = torch.ones(X1, dtype=self.dtype, device=device) if final is None else final # default to [..., 0, 0, 1]
+        self.final = torch.ones(X1, dtype=self.dtype, device=device) if final is None else final # default to [..., 1, 1, 1]
 
     def forward(self, input, init=None, final=None, debug=False):
         init = self.init if init is None else init
@@ -195,7 +195,7 @@ class SSM(torch.nn.Module):
         u = self.phi[input]
         proj = self.semiring.mm(u, self.pi) # torch.einsum("ux,tu->tx", self.pi, u)
         x = [torch.zeros(self.A.shape[0], dtype=self.dtype) for _ in range(T+1)]
-        x[0] = self.init if init is None else init        
+        x[0] = self.init if init is None else init
         for t in range(T):
             update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
             x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
@@ -245,10 +245,15 @@ class FSAPhonotacticsModel(PhonotacticsModel):
         super().__init__()
         self.A = A
         self.init = init
-        self.final = final
 
-    def fsa(self):
-        raise NotImplementedError
+        Q, S, Q2 = self.A.shape
+        assert Q == Q2
+        
+        if final is None:
+            self.final = torch.zeros(Q)
+        else:
+            assert final.shape[0] == Q
+            self.final = final
 
     def forward(self, xss, debug=False):
         return self.log_likelihood(xss, debug=debug)
@@ -258,22 +263,26 @@ class FSAPhonotacticsModel(PhonotacticsModel):
             cls,
             X,
             S,
+            learn_final=False,
             requires_grad=True,
             init_T=DEFAULT_INIT_TEMPERATURE,
             device=DEVICE):
         A = torch.nn.Parameter((1/init_T)*torch.randn(X, S, X), requires_grad=requires_grad)
         init = torch.eye(X)[0]
-        final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
-        return cls(A, init=init, final=final).to(device)
+        if learn_final:
+            final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
+            return cls(A, init=init, final=final).to(device)
+        else:
+            final = torch.zeros(X)
+            return cls(A, init=init, final=final)
 
-    
 def soft_ceiling(x, k, beta=1):
     return k - torch.nn.functional.softplus(k - x, beta=beta)
 
 def spectral_radius(A):
     return torch.linalg.eigvals(A).abs().max()
 
-class WFSAPhonotacticsModel(FSAPhonotacticsModel):        
+class GloballyNormalized:
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         wfsa = self.fsa()
         y = torch.stack([wfsa(x, debug=debug) for x in xs])
@@ -284,14 +293,19 @@ class WFSAPhonotacticsModel(FSAPhonotacticsModel):
     def fsa(self) -> WFSA:
         A_positive = self.A.exp()
         final_positive = self.final.exp()
+        return WFSA(A_positive, init=self.init, final=final_positive)
+
+class AdjustedNormalized(GloballyNormalized):
+    def fsa(self) -> WFSA:
+        A_positive = self.A.exp()
+        final_positive = self.final.exp()        
         s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
         adjustment = soft_ceiling(s, 1) / s
         A_normalized = adjustment * A_positive
         final_normalized = adjustment * final_positive
         return WFSA(A_normalized, init=self.init, final=final_normalized)
 
-    
-class PFSAPhonotacticsModel(WFSAPhonotacticsModel):
+class LocallyNormalized:
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         pfsa = self.fsa()
         y = torch.stack([pfsa(x, debug=debug) for x in xs])
@@ -299,12 +313,50 @@ class PFSAPhonotacticsModel(WFSAPhonotacticsModel):
 
     def fsa(self) -> WFSA:
         A_positive = self.A.exp()
-        final_positive = self.final.sigmoid()
+        final_positive = self.final.exp()
         Z = A_positive.sum((-1, -2)) + final_positive
         A_normalized = A_positive / Z[:, None, None]
         final_normalized = final_positive / Z
         return WFSA(A_normalized, init=self.init, final=final_normalized)
 
+class PFSAPhonotacticsModel(FSAPhonotacticsModel, LocallyNormalized):
+    pass
+
+class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
+    pass
+
+class pTSL(FSAPhonotacticsModel, AdjustedNormalized):
+    def __init__(self, E, pi, final=None):
+        super(PhonotacticsModel, self).__init__()
+        self.E = E # shape SQ
+        self.pi = pi # shape S
+        S, Q = self.E.shape
+        assert S == self.pi.shape[0]
+        if final is None:
+            self.final = torch.zeros(Q)
+        else:
+            assert len(self.final) == Q
+            self.final = final
+
+        self.init = torch.eye(Q)[0]
+        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T # shape 1SQ
+        self.T_not_on_tier = torch.eye(Q)[:, None, :] # shape Q1Q
+
+    @classmethod
+    def initialize(cls, S, learn_final=False, requires_grad=True, init_T=DEFAULT_INIT_TEMPERATURE, device=DEVICE):
+        pi = torch.nn.Parameter((1/init_T)*torch.randn(S), requires_grad=requires_grad)
+        E = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
+        if learn_final:
+            final = torch.nn.Parameter((1/init_T)*torch.randn(S+1), requires_grad=requires_grad)
+            return cls(E, pi, final=final).to(device)
+        else:
+            return cls(E, pi).to(device)
+
+    @property
+    def A(self):
+        proj = self.pi.sigmoid()[:, None]
+        A = proj * self.E.exp()[None, :, :] * self.T_on_tier  + (1-proj) * self.T_not_on_tier
+        return A
 
 class SSMPhonotacticsModel(PhonotacticsModel):
     def __init__(self, A, B, C, init=None, pi=None, device=DEVICE):
@@ -483,8 +535,6 @@ class TSP2(SP2, TierBased):
 class SoftTSL2(SL2, SoftTierBased):
     pass
 
-class pTSL2(SL2, ProbabilisticTierBased):
-    pass
 
 # Data handling
 
