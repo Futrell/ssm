@@ -147,6 +147,9 @@ def test_wfsa():
     assert fsa([1,0,2]) > 0
     assert 371 < fsa.pathsum() < 372
 
+
+# every symbols have two path, one project to the 
+
 class SSM(torch.nn.Module):
     def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
         """
