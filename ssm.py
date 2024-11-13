@@ -50,7 +50,7 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
     axs[0].set_title('Input')
     axs[0].set_xlabel('Time')
     axs[0].set_ylabel('Input dimension')
-    
+
     axs[1].imshow(x.x.detach().numpy().T, cmap=cmap)
     axs[1].set_title('State')
     axs[1].set_xlabel('Time')
@@ -63,8 +63,8 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
             colors = list(pi.sigmoid()[indices].detach().numpy())
             axs[1].scatter(x_coord, y_coord+1, c=colors, cmap='plasma', marker='o')
         else:
-            axs[1].scatter(x_coord, y_coord+1, color='red', marker='o')            
-    
+            axs[1].scatter(x_coord, y_coord+1, color='red', marker='o')
+
     axs[2].imshow(x.proj.detach().numpy().T, cmap=cmap)
     axs[2].set_title('Projection Probability')
     axs[2].set_xlabel('Time')
@@ -72,7 +72,7 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
 
     # Display the plot
     plt.tight_layout()
-    plt.show()    
+    plt.show()
 
 class WFSA(torch.nn.Module):
     def __init__(self, A, init=None, final=None, phi=None, device=DEVICE):
@@ -125,7 +125,7 @@ def test_wfsa():
         # from state 1
         [[1/2, 0], # a
          [1/2, 0], # b
-         [0, 0]], # c        
+         [0, 0]], # c
     ])
     fsa = WFSA(A, init=torch.eye(2)[0], final=torch.ones(2))
     assert fsa([1,2,0]) == 0
@@ -140,7 +140,7 @@ def test_wfsa():
         # from state 1
         [[1, 0], # a
          [1, 0], # b
-         [0, 0]], # c        
+         [0, 0]], # c
     ]) / 2.74
     fsa = WFSA(A, init=torch.eye(2)[0], final=torch.ones(2))
     assert fsa([1,2,0]) == 0
@@ -150,9 +150,9 @@ def test_wfsa():
 class SSM(torch.nn.Module):
     def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
         """
-        A: state matrix (K x K): determines contribution of state at previous 
+        A: state matrix (K x K): determines contribution of state at previous
            time to state at current time
-        B: input matrix (K x S): determines contribution of input at current 
+        B: input matrix (K x S): determines contribution of input at current
            time to state at current time
         C: output matrix (S x K): maps states to output space
 
@@ -168,7 +168,7 @@ class SSM(torch.nn.Module):
         self.C = C
 
         # Confirm that A,B,C have correct dimensions
-        X, X2 = self.A.shape 
+        X, X2 = self.A.shape
         X3, U = self.B.shape
         Y, X4 = self.C.shape
         assert X == X2 == X3 == X4
@@ -176,9 +176,9 @@ class SSM(torch.nn.Module):
         self.dtype = self.A.dtype
 
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
-        
+
         self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
-        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
+        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...] # you can do feature encoding here
 
         # The projection matrix pi is a function from input feature i to state feature j.
         # It says, for input feature i, whether state feature j should be sensitive to it.
@@ -238,8 +238,8 @@ class PhonotacticsModel(torch.nn.Module):
                 writer.writerow(diagnostic)
                 diagnostics.append(diagnostic)
         return diagnostics
-    
- 
+
+
 class FSAPhonotacticsModel(PhonotacticsModel):
     def __init__(self, A, init=None, final=None):
         super().__init__()
@@ -248,7 +248,7 @@ class FSAPhonotacticsModel(PhonotacticsModel):
 
         Q, S, Q2 = self.A.shape
         assert Q == Q2
-        
+
         if final is None:
             self.final = torch.zeros(Q)
         else:
@@ -298,7 +298,7 @@ class GloballyNormalized:
 class AdjustedNormalized(GloballyNormalized):
     def fsa(self) -> WFSA:
         A_positive = self.A.exp()
-        final_positive = self.final.exp()        
+        final_positive = self.final.exp()
         s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
         adjustment = soft_ceiling(s, 1) / s
         A_normalized = adjustment * A_positive
@@ -393,7 +393,7 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         return torch.stack(list(gen())).sum()
 
     forward = log_likelihood
-    
+
     def ssm(self) -> SSM:
         return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
 
@@ -459,8 +459,8 @@ class SL_SP2(Factor2):
             torch.eye(d, dtype=torch.bool),
         )
         B = torch.cat([
-            torch.eye(d, dtype=torch.bool)[:, 1:], 
-            torch.eye(d, dtype=torch.bool)[:, 1:] 
+            torch.eye(d, dtype=torch.bool)[:, 1:],
+            torch.eye(d, dtype=torch.bool)[:, 1:]
         ])
         init = torch.cat([
             torch.eye(d, dtype=torch.bool)[0],
@@ -469,9 +469,9 @@ class SL_SP2(Factor2):
         return A, B, init
 
 class TierBased(Factor2):
-    """ Assume projection is a function from input features to a single number for all state features, 
+    """ Assume projection is a function from input features to a single number for all state features,
     that is, we can say that a segment is or is not projected. """
-    
+
     def ssm(self):
         return SSM(
             self.A,
@@ -574,7 +574,7 @@ def anbn_ssm():
         1, # dimension for count of a's
         1, # dimension for whether we have seen b
     ]))
-    B = torch.Tensor([ 
+    B = torch.Tensor([
         [0, 1, -1],  # increment for a, decrement for b
         [0, 0, 10],   # increase for each b
     ])
@@ -651,13 +651,13 @@ def random_two_tiers(n=6):
 def random_tiptup():
     C1 = random.choice([0,1])
     C2 = random.choice([0,1])
-    V = 2 + C1 ^ C2 
+    V = 2 + C1 ^ C2
     return [C1, V, C2]
 
 def random_xor():
     two = [random.choice(range(2)) for _ in range(2)]
     return two + [two[0] ^ two[1]]
-             
+
 def random_anbn(p_halt=1/2, start=1):
     T = start
     while True:
@@ -714,9 +714,9 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
     ]
 
     bad = [
-        [0,1,0,2,0,3], 
+        [0,1,0,2,0,3],
         [0,0,1,0,0,2,0,0,3],
-        [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
+        [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;
         [1,1,2,0,3,0],
         [3,3,2,0,3,0],
     ]
@@ -747,7 +747,7 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples
     #     [0, 2, 1, 2, 3, 2], # matched on 2-SP factors
     #     [2, 3, 0, 1, 3, 2],
     #     [3, 2, 1, 0, 2, 3],
-    #     [1, 3, 2, 3, 0, 1], 
+    #     [1, 3, 2, 3, 0, 1],
     #     [0, 1, 2, 3, 1, 2],
     # ]
     good = [random_no_ab(n=n+1) for _ in range(num_test)]
@@ -757,7 +757,7 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples
         model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
     else:
         model = model_type.initialize(4)
-        
+
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
     model.train(data, **kwds)
     return evaluate_model_unpaired(model, good, bad)
@@ -767,7 +767,7 @@ def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples
 
     # For a string like aba
     # - this is prohibited by SP but allowed by TSL
-    # but for Tier = {a} then no 
+    # but for Tier = {a} then no
 
 def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2, num_samples=1000, num_test=100, **kwds):
     """ Evaluation for 2-SP """
@@ -783,9 +783,9 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2,
     # ]
 
     # bad = [
-    #     [0,1,0,2,0,3], 
+    #     [0,1,0,2,0,3],
     #     [0,0,1,0,0,2,0,0,3],
-    #     [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;  
+    #     [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;
     #     [1,1,2,0,3,0],
     #     [3,3,2,0,3,0],
     # ]
@@ -808,7 +808,7 @@ def evaluate_model_paired(model: SSMPhonotacticsModel, good_strings, bad_strings
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
-    return df            
+    return df
 
 def evaluate_model_unpaired(model, good_strings, bad_strings):
     """ Do a pairwise comparison of log likelihood for all good and bad strings. """
@@ -844,9 +844,9 @@ if __name__ == "__main__":
     tsl_no_ab_mean = np.mean(results_tsl_no_ab['diff'])
 
     print("SL datatset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
-        sl_no_ab_mean, sp_no_ab_mean, tsl_no_ab_mean 
+        sl_no_ab_mean, sp_no_ab_mean, tsl_no_ab_mean
     ))
-    
+
     # print("Training SP model on TSL data")
     # results_sp_no_axb = evaluate_no_axb(model_type = 'sp')
     # print("Training SL model on TSL data")
@@ -861,7 +861,7 @@ if __name__ == "__main__":
     # print("TSL dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
     #     sl_no_axb_mean, sp_no_axb_mean, tsl_no_axb_mean
     # ))
-    
+
     # print("Training SP model on SP data")
     # results_sp_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'sp')
     # print("Training SL model on SP data")
@@ -884,7 +884,7 @@ if __name__ == "__main__":
 # *abbbb
 
 # # SP but not captured by TSL
-# *a…b, if tier is {a, b}, 
+# *a…b, if tier is {a, b},
 # *acccb TSL
 # *abbbb TSL
 # *acacb TSL
