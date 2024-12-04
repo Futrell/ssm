@@ -37,14 +37,10 @@ def get_vocab_size(data):
 
 def test_eval(test_data):
     def compute_good_scores(model):
-        data = test_data[True]
-        N = len(data)
-        return model.log_likelihood(data).item() / N
+        return model.log_likelihood(test_data[True]).mean().item()
         
     def compute_bad_scores(model):
-        data = test_data[False]
-        N = len(data)
-        return model.log_likelihood(data).item() / N
+        return model.log_likelihood(test_data[False]).mean().item()
 
     return {
         'good_scores': compute_good_scores, 

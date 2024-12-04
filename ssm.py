@@ -225,7 +225,7 @@ class PhonotacticsModel(torch.nn.Module):
         writer.writeheader()
         for i, (epoch, batch) in enumerate(batches):
             opt.zero_grad()
-            loss = -self.log_likelihood(batch, debug=debug)
+            loss = -self.log_likelihood(batch, debug=debug).mean()
             loss.backward()
             opt.step()
             reporting_window.append(loss.detach())
@@ -288,8 +288,7 @@ class GloballyNormalized:
         wfsa = self.fsa()
         y = torch.stack([wfsa(x, debug=debug) for x in xs])
         Z = wfsa.pathsum()
-        B = len(xs)
-        return y.log().sum() - B*Z.log()
+        return y.log() - Z.log()
 
     def fsa(self) -> WFSA:
         A_positive = self.A.exp()
@@ -310,7 +309,7 @@ class LocallyNormalized:
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         pfsa = self.fsa()
         y = torch.stack([pfsa(x, debug=debug) for x in xs])
-        return y.log().sum()
+        return y.log()
 
     def fsa(self) -> WFSA:
         A_positive = self.A.exp()
@@ -391,7 +390,7 @@ class SSMPhonotacticsModel(PhonotacticsModel):
             for x in xs:
                 logits = ssm(x, debug=debug).y
                 yield logits.log_softmax(-1).gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).sum()
-        return torch.stack(list(gen())).sum()
+        return torch.stack(list(gen()))
 
     forward = log_likelihood
 
@@ -523,7 +522,7 @@ class ProbabilisticTierBased(SoftTierBased):
                 lnZ = weights.sum(-1).log() # shape T
                 relevant = weights.gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).log()
                 yield relevant - lnZ
-        return torch.stack(list(gen())).sum()
+        return torch.stack(list(gen()))
 
     forward = log_likelihood
 
@@ -804,7 +803,7 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2,
 def evaluate_model_paired(model: SSMPhonotacticsModel, good_strings, bad_strings):
     def gen():
         for good, bad in zip(good_strings, bad_strings):
-            yield good, bad, model.log_likelihood([good]).item(), model.log_likelihood([bad]).item()
+            yield good, bad, model.log_likelihood([good]).mean().item(), model.log_likelihood([bad]).mean().item()
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
@@ -815,7 +814,7 @@ def evaluate_model_unpaired(model, good_strings, bad_strings):
     def gen():
         for good in good_strings:
             for bad in bad_strings:
-                yield good, bad, model.log_likelihood([good]).item(), model.log_likelihood([bad]).item()
+                yield good, bad, model.log_likelihood([good]).mean().item(), model.log_likelihood([bad]).mean().item()
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
     df['diff'] = df['good_score'] - df['bad_score']
@@ -824,9 +823,9 @@ def evaluate_model_unpaired(model, good_strings, bad_strings):
 def evaluate_model_simple(model, good_strings, bad_strings):
     df_list = []
     for good in good_strings:
-        df_list.append([good, 'good', model.log_likelihood([good]).item()])
+        df_list.append([good, 'good', model.log_likelihood([good]).mean().item()])
     for bad in bad_strings:
-        df_list.append([bad, 'bad', model.log_likelihood([bad]).item()])
+        df_list.append([bad, 'bad', model.log_likelihood([bad]).mean().item()])
     df = pd.DataFrame(df_list)
     df.columns = ['string', 'grammatical', 'score']
     return df
