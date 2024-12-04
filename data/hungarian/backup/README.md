@@ -1,0 +1,1 @@
+- In features.txt, I made [labial] and [tense] 0 for all vowels
