@@ -5,11 +5,9 @@ from typing import *
 import ssm
 import process_data
 
-def get_model(
-        model_type: str,
-        vocab_size: int,
-        state_dim: Optional[int] = None,
-) -> ssm.PhonotacticsModel:
+def get_model(model_type: str,
+              vocab_size: int,
+              state_dim: Optional[int] = None) -> ssm.PhonotacticsModel:
     if state_dim is None:
         state_dim = vocab_size
         
@@ -19,6 +17,8 @@ def get_model(
         return ssm.SP2.initialize(vocab_size)
     elif model_type == 'soft_tsl2':
         return ssm.SoftTSL2.initialize(vocab_size)
+    elif model_type == 'ptsl2':
+        return ssm.pTSL.initialize(vocab_size)
     elif model_type == 'ssm':
         return ssm.SSMPhonotacticsModel.initialize(state_dim, vocab_size)
     elif model_type == 'pfsa':
@@ -37,14 +37,19 @@ def get_vocab_size(data):
 
 def test_eval(test_data):
     def compute_good_scores(model):
-        return model.log_likelihood(test_data[True]).item()
+        data = test_data[True]
+        N = len(data)
+        return model.log_likelihood(data).item() / N
         
     def compute_bad_scores(model):
-       return model.log_likelihood(test_data[False]).item()
+        data = test_data[False]
+        N = len(data)
+        return model.log_likelihood(data).item() / N
 
     return {
         'good_scores': compute_good_scores, 
-        'bad_scores': compute_bad_scores
+        'bad_scores': compute_bad_scores,
+        'diff': lambda m: compute_good_scores(m) - compute_bad_scores(m),
     }
 
 if __name__ == "__main__":
