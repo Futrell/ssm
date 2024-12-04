@@ -478,8 +478,8 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type='tsl', num_samp
 
     if model_type == 'tsl':
         model = train_tsl(4, torch.Tensor([0,1,1,1]), minibatches(dataset, batch_size, num_epochs=num_epochs))
-        if model_type == 'soft_tsl':
-                model = train_soft_tsl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
+    elif model_type == 'soft_tsl':
+            model = train_soft_tsl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sl':
         model = train_sl(4, minibatches(dataset, batch_size, num_epochs=num_epochs))
     elif model_type == 'sp':
