@@ -178,7 +178,7 @@ class SSM(torch.nn.Module):
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
 
         self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
-        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...] # you can do feature encoding here
+        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...] 
 
         # The projection matrix pi is a function from input feature i to state feature j.
         # It says, for input feature i, whether state feature j should be sensitive to it.
@@ -214,7 +214,7 @@ class PhonotacticsModel(torch.nn.Module):
               device: str=DEVICE,
               debug: bool=False,
               reporting_window_size: int=100,
-              diagnostic_fns: Optional[Dict[str, Callable[[SSM], Any]]]=None,
+              diagnostic_fns: Optional[Dict[str, Callable[[torch.nn.Module], Any]]]=None,
               **kwds):
         opt = torch.optim.AdamW(params=self.parameters(), **kwds)
         reporting_window = deque(maxlen=reporting_window_size)
