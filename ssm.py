@@ -209,7 +209,7 @@ class SSM(torch.nn.Module):
 
 class PhonotacticsModel(torch.nn.Module):
     def train(self,
-              data: Iterable[Iterable[int]],
+              batches: Iterable[Iterable[Tuple[int, Sequence[int]]]], # iterable of batches of sequences of ints
               report_every: int=1000,
               device: str=DEVICE,
               debug: bool=False,
@@ -221,17 +221,18 @@ class PhonotacticsModel(torch.nn.Module):
         if diagnostic_fns is None:
             diagnostic_fns = {}
         diagnostics = []
-        writer = csv.DictWriter(sys.stderr, "step mean_loss".split() + list(diagnostic_fns))
+        writer = csv.DictWriter(sys.stderr, "step epoch mean_loss".split() + list(diagnostic_fns))
         writer.writeheader()
-        for i, xs in enumerate(data, 1):
+        for i, (epoch, batch) in enumerate(batches):
             opt.zero_grad()
-            loss = -self.log_likelihood(xs, debug=debug)
+            loss = -self.log_likelihood(batch, debug=debug)
             loss.backward()
             opt.step()
             reporting_window.append(loss.detach())
             if i % report_every == 0:
                 diagnostic = {
                     'step': i,
+                    'epoch': epoch,
                     'mean_loss': np.mean(reporting_window),
                 }
                 diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
@@ -551,18 +552,17 @@ def batch(iterable: Sequence, n: int=1) -> Iterator[Sequence]:
 
 def minibatches(data: Iterable,
                 batch_size: int=1,
-                num_epochs: int=1) -> Iterator[Sequence]:
+                num_epochs: int=1) -> Iterator[Sequence[Tuple[int, Any]]]:
     """
     Generate a stream of data in minibatches of size batch_size.
     Go through the data num_epochs times, each time in a random order.
     If num_epochs not specified, returns an infinite stream of batches.
     """
     data = list(data)
-    def gen_epoch():
+    for epoch in range(num_epochs):
         random.shuffle(data)
-        return batch(data, batch_size)
-    stream = iter(gen_epoch, None)
-    return itertools.chain.from_iterable(itertools.islice(stream, None, num_epochs))
+        for datapoint in batch(data, batch_size):
+            yield epoch, datapoint
 
 # Example SSMs
 
