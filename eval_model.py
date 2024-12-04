@@ -38,13 +38,13 @@ parser.add_argument('--batch_size', type=int, default=1, help="Batch size")
 parser.add_argument('--num_epochs', type=int, default=1, help="Number of iterations through training data")
 parser.add_argument('--lr', type=float, default=.001, help="Adam learning rate")
 parser.add_argument('--report_every', type=int, default=1, help="How often to report training results")
-parser.add_argument('--reporting_window_size', type=int, default=100, help="Window size for averaging for reporting diagnostics")
+parser.add_argument('--reporting_window_size', type=int, default=100, help="Window size for averaging for reporting loss")
 
 args = parser.parse_args()
 *_, data = process_data.process_data(
     args.train_file,
     col_separator=args.col_separator,
-    char_separator=args.char_separator
+    char_separator=args.char_separator,
 )
 
 vocab_size = max(map(max, data)) + 1
