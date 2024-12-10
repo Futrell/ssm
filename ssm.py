@@ -16,8 +16,8 @@ import matplotlib.pyplot as plt
 
 INF = float('inf')
 
-# DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-DEVICE = 'cpu'
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+#DEVICE = 'cpu'
 
 DEFAULT_INIT_TEMPERATURE = 100
 EPSILON = 10 ** -5
@@ -228,7 +228,7 @@ class PhonotacticsModel(torch.nn.Module):
             loss = -self.log_likelihood(batch, debug=debug).mean()
             loss.backward()
             opt.step()
-            reporting_window.append(loss.detach())
+            reporting_window.append(loss.detach().clone().cpu().numpy())
             if i % report_every == 0:
                 diagnostic = {
                     'step': i,
