@@ -384,12 +384,12 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
         return cls(A, B, C).to(device)
 
-    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+    def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: Optional[bool]=False):
         ssm = self.ssm()
         def gen():
             for x in xs:
                 logits = ssm(x, debug=debug).y
-                yield logits.log_softmax(-1).gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).sum()
+                yield logits.log_softmax(-1).gather(-1, x.unsqueeze(-1)).sum()
         return torch.stack(list(gen()))
 
     forward = log_likelihood
@@ -513,14 +513,14 @@ class ProbabilisticTierBased(SoftTierBased):
             pi=self.pi.sigmoid().unsqueeze(-1).expand(*self.C.shape),
         )
 
-    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+    def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: Optional[bool]=False):
         ssm = self.ssm()
         def gen():
             for x in xs:
                 weights = ssm(x).y + ssm.semiring.complement(ssm.pi[:,x][0])[:, None] # hack!!!
                 # Assume the weights are already positive, so we only need to normalize, not softmax
                 lnZ = weights.sum(-1).log() # shape T
-                relevant = weights.gather(-1, torch.tensor(x).to(self.device).unsqueeze(-1)).log()
+                relevant = weights.gather(-1, x.unsqueeze(-1)).log()
                 yield relevant - lnZ
         return torch.stack(list(gen()))
 
