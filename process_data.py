@@ -1,5 +1,7 @@
-import numpy as np
+import torch
 import csv
+
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 from collections import defaultdict
 
@@ -29,8 +31,8 @@ def build_phone2ix(wordlist):
     return phone2ix
 
 def wordlist_to_vec(wordlist, phone2ix):
-    good = [list(map(phone2ix.get, word)) for word in wordlist[True]]
-    bad = [list(map(phone2ix.get, word)) for word in wordlist[False]]
+    good = [torch.LongTensor(list(map(phone2ix.get, word))).to(DEVICE) for word in wordlist[True]]
+    bad = [torch.LongTensor(list(map(phone2ix.get, word))).to(DEVICE) for word in wordlist[False]]
     return {True: good, False: bad}
 
 def process_data(file_path, col_separator=",", char_separator=" "):
