@@ -96,7 +96,3 @@ if __name__ == "__main__":
         diagnostic_fns=test_eval
     )
 
-
-    # input_path = "16.16.SL.2.1.0_Train.txt"
-
-    run a shell script that can run the code 
