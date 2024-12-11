@@ -400,6 +400,26 @@ class SSMPhonotacticsModel(PhonotacticsModel):
     def __add__(self, other):
         return CompoundSSMModel(self, other)
 
+class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
+    @classmethod
+    def initialize(
+            cls,
+            X,
+            S,
+            requires_grad=True,
+            init_T_A=DEFAULT_INIT_TEMPERATURE,
+            init_T_B=DEFAULT_INIT_TEMPERATURE,
+            init_T_C=DEFAULT_INIT_TEMPERATURE,
+            device=DEVICE):
+        A_diag = torch.nn.Parameter((1/init_T_A)*torch.randn(X), requires_grad=requires_grad)
+        B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
+        C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
+        return cls(A_diag, B, C).to(device)
+
+    def ssm(self) -> SSM:
+        return SSM(torch.diag(self.A), self.B, self.C, init=self.init, pi=self.pi)
+    
+
 class CompoundSSMModel(SSMPhonotacticsModel):
     def __init__(self, one, two):
         super(SSMPhonotacticsModel, self).__init__()
