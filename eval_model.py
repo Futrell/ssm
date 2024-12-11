@@ -10,7 +10,7 @@ def get_model(model_type: str,
               state_dim: Optional[int] = None) -> ssm.PhonotacticsModel:
     if state_dim is None:
         state_dim = vocab_size
-        
+
     if model_type == 'sl2':
         return ssm.SL2.initialize(vocab_size)
     elif model_type == 'sp2':
@@ -38,12 +38,12 @@ def get_vocab_size(data):
 def test_eval(test_data):
     def compute_good_scores(model):
         return model.log_likelihood(test_data[True]).mean().item()
-        
+
     def compute_bad_scores(model):
         return model.log_likelihood(test_data[False]).mean().item()
 
     return {
-        'good_scores': compute_good_scores, 
+        'good_scores': compute_good_scores,
         'bad_scores': compute_bad_scores,
         'diff': lambda m: compute_good_scores(m) - compute_bad_scores(m),
     }
@@ -51,23 +51,23 @@ def test_eval(test_data):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a phonotactics model.")
     parser.add_argument('model_type', type=str, help="Model type, a string")
-    parser.add_argument('train_file', type=str, 
+    parser.add_argument('train_file', type=str,
                         help="Training data, only TRUE cases will be used")
-    parser.add_argument('test_file', type=str, default=None, 
-                        help="""Test data, two columns where first is a form 
+    parser.add_argument('test_file', type=str, default=None,
+                        help="""Test data, two columns where first is a form
                                 and second is a judgment""")
-    parser.add_argument('--char_separator', type=str, default="", 
+    parser.add_argument('--char_separator', type=str, default="",
                         help="Delimiter for characters")
-    parser.add_argument('--col_separator', type=str, default="\t", 
+    parser.add_argument('--col_separator', type=str, default="\t",
                         help="Delimiter for forms vs. judgments in data files")
     parser.add_argument('--batch_size', type=int, default=1, help="Batch size")
-    parser.add_argument('--num_epochs', type=int, default=1, 
+    parser.add_argument('--num_epochs', type=int, default=1,
                         help="Number of iterations through training data")
-    parser.add_argument('--lr', type=float, default=.001, 
+    parser.add_argument('--lr', type=float, default=.001,
                         help="Adam learning rate")
-    parser.add_argument('--report_every', type=int, default=1, 
+    parser.add_argument('--report_every', type=int, default=1,
                         help="How often to report training results")
-    parser.add_argument('--reporting_window_size', type=int, default=100, 
+    parser.add_argument('--reporting_window_size', type=int, default=100,
                         help="Window size for averaging for reporting loss")
 
     args = parser.parse_args()
@@ -95,3 +95,8 @@ if __name__ == "__main__":
         lr=args.lr,
         diagnostic_fns=test_eval
     )
+
+
+    # input_path = "16.16.SL.2.1.0_Train.txt"
+
+    run a shell script that can run the code 

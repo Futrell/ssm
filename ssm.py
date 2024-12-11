@@ -8,11 +8,11 @@ import functools
 import itertools
 from collections import namedtuple, deque
 
-import tqdm
+# import tqdm
 import torch
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 INF = float('inf')
 
@@ -178,7 +178,7 @@ class SSM(torch.nn.Module):
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
 
         self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
-        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...] 
+        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
 
         # The projection matrix pi is a function from input feature i to state feature j.
         # It says, for input feature i, whether state feature j should be sensitive to it.

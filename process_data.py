@@ -44,3 +44,6 @@ def process_data(file_path, col_separator=",", char_separator=" "):
 if __name__ == "__main__":
     file_path  = 'space_sep.txt'
     process_data(file_path, col_separator=",", char_separator=" ")
+
+    # dataset is too big---define a function that import a large dataset as zip.
+    # option: use ssh fuse
