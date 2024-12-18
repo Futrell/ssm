@@ -32,8 +32,7 @@ def get_vocab_size(data):
     # Each symbol is represented by an integer, starting from 0. To get vocab
     # size, find the largest integer used and add 1.
     good_vocab_size = max(map(max, data[True])) + 1
-    bad_vocab_size = max(map(max, data[False])) + 1
-    return max(good_vocab_size, bad_vocab_size)
+    return good_vocab_size
 
 def test_eval(test_data):
     def compute_good_scores(model):
@@ -95,4 +94,3 @@ if __name__ == "__main__":
         lr=args.lr,
         diagnostic_fns=test_eval
     )
-
