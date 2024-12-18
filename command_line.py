@@ -27,6 +27,8 @@ for train_file in TRAIN_FILES:
 
     # Iterate over each test file
     for test_file in TEST_FILES:
+        # TODO: only want paired test files. start with random test files
+
         # Extract the test file name without the path
         test_name = os.path.basename(test_file).replace(".txt", "")
 
