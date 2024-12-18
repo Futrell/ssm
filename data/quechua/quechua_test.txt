@@ -1,75 +1,75 @@
-m a L c+ i
-s i Nj c+ u
-w a j c+ i
-m i L c+ u
-L a j c+ u
-w a p+ a
-s u m p+ i
-w a p+ i
-L i s p+ u
-m u s p+ a
-s u n t+ a
-L a s t+ i
-w i t+ u
-L a t+ a
-m a L t+ i
-k a L c+ i
-k i Nj c+ u
-k a j c+ i
-k i L c+ u
-k a j c+ u
-k a p+ a
-k u m p+ i
-k a p+ i
-k i s p+ u
-k u s p+ a
-k u n t+ a
-k a s t+ i
-k i t+ u
-k a t+ a
-k a L t+ i
-q a L c+ i
-q i Nj c+ u
-q a j c+ i
-q i L c+ u
-q a j c+ u
-q a p+ a
-q u m p+ i
-q a p+ i
-q i s p+ u
-q u s p+ a
-q u n t+ a
-q a s t+ i
-q i t+ u
-q a t+ a
-q a L t+ i
-c+ a L m i
-c+ i n s u
-p+ u n s i
-p+ a w i
-t+ a s L i
-t+ u n s a
-c+ a L q i
-c+ i Nq q a
-p+ u Nq q i
-p+ a q i
-t+ a s q i
-t+ u Nq q a
-c+ a L k i
-c+ i N k u
-p+ u N k u
-p+ a k i
-t+ a s k i
-t+ u N k a
-m a L t u
-t a L m u
-c a x r i
-r a x c i
-L a c u
-c a L u
-s a p i
-p a s i
-c i n s u
-s i Nj c u
-s u m p i
-p u n s i
+m a L c+ i	TRUE
+s i Nj c+ u	TRUE
+w a j c+ i	TRUE
+m i L c+ u	TRUE
+L a j c+ u	TRUE
+w a p+ a	TRUE
+s u m p+ i	TRUE
+w a p+ i	TRUE
+L i s p+ u	TRUE
+m u s p+ a	TRUE
+s u n t+ a	TRUE
+L a s t+ i	TRUE
+w i t+ u	TRUE
+L a t+ a	TRUE
+m a L t+ i	TRUE
+k a L c+ i	FALSE
+k i Nj c+ u	FALSE
+k a j c+ i	FALSE
+k i L c+ u	FALSE
+k a j c+ u	FALSE
+k a p+ a	FALSE
+k u m p+ i	FALSE
+k a p+ i	FALSE
+k i s p+ u	FALSE
+k u s p+ a	FALSE
+k u n t+ a	FALSE
+k a s t+ i	FALSE
+k i t+ u	FALSE
+k a t+ a	FALSE
+k a L t+ i	FALSE
+q a L c+ i	FALSE
+q i Nj c+ u	FALSE
+q a j c+ i	FALSE
+q i L c+ u	FALSE
+q a j c+ u	FALSE
+q a p+ a	FALSE
+q u m p+ i	FALSE
+q a p+ i	FALSE
+q i s p+ u	FALSE
+q u s p+ a	FALSE
+q u n t+ a	FALSE
+q a s t+ i	FALSE
+q i t+ u	FALSE
+q a t+ a	FALSE
+q a L t+ i	FALSE
+c+ a L m i	TRUE
+c+ i n s u	TRUE
+p+ u n s i	TRUE
+p+ a w i	TRUE
+t+ a s L i	TRUE
+t+ u n s a	TRUE
+c+ a L q i	TRUE
+c+ i Nq q a	TRUE
+p+ u Nq q i	TRUE
+p+ a q i	TRUE
+t+ a s q i	TRUE
+t+ u Nq q a	TRUE
+c+ a L k i	TRUE
+c+ i N k u	TRUE
+p+ u N k u	TRUE
+p+ a k i	TRUE
+t+ a s k i	TRUE
+t+ u N k a	TRUE
+m a L t u	TRUE
+t a L m u	TRUE
+c a x r i	TRUE
+r a x c i	TRUE
+L a c u	TRUE
+c a L u	TRUE
+s a p i	TRUE
+p a s i	TRUE
+c i n s u	TRUE
+s i Nj c u	TRUE
+s u m p i	TRUE
+p u n s i	TRUE
