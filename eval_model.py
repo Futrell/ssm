@@ -21,6 +21,8 @@ def get_model(model_type: str,
         return ssm.pTSL.initialize(vocab_size)
     elif model_type == 'ssm':
         return ssm.SSMPhonotacticsModel.initialize(state_dim, vocab_size)
+    elif model_type == 'diag_ssm':
+        return ssm.DiagonalSSMPhonotacticsModel.initialize(state_dim, vocab_size)    
     elif model_type == 'pfsa':
         return ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size)
     elif model_type == 'wfsa':
