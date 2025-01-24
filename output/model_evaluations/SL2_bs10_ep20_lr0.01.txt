@@ -1,0 +1,7 @@
+usage: eval_model.py [-h] [--char_separator CHAR_SEPARATOR]
+                     [--col_separator COL_SEPARATOR] [--batch_size BATCH_SIZE]
+                     [--num_epochs NUM_EPOCHS] [--lr LR]
+                     [--report_every REPORT_EVERY]
+                     [--reporting_window_size REPORTING_WINDOW_SIZE]
+                     model_type train_file test_file
+eval_model.py: error: the following arguments are required: train_file, test_file

@@ -1,48 +1,99 @@
 import os
-import glob
 import subprocess
+import numpy as np
+from itertools import product
 
-# Default paths
-DATA_PATH = "data/mlregtest"
-OUTPUT_DIR = "output/mlregtest"
+# Define available model types
+MODEL_CLASSES = ["SL2", "SP2", "SoftTSL2", "pTSL2", "SSM", "PFSA", "WFSA"]
 
-# Prompt for custom data path, otherwise use default
-data_path_input = input(f"Enter the path to the directory containing train and test files (default: {DATA_PATH}): ").strip()
-if data_path_input:
-    DATA_PATH = data_path_input
+# Define hyperparameters for tuning
+HYPERPARAMETER_GRID = {
+    "batch_size": [1, 32, 128, 512],
+    "num_epochs": [10],
+    "lr": [0.001, 0.01, 0.1],
+}
 
-# Ensure output directory exists
+training_file = "data/train.txt" # TODO
+test_file
+
+# Create output directory if it doesn't exist
+OUTPUT_DIR = "output/model_evaluations"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Find all train files (e.g., files ending with '_Train.txt')
-TRAIN_FILES = glob.glob(os.path.join(DATA_PATH, "*_Train.txt"))
+# Function to run evaluations for different models and hyperparameters
+def run_evaluations():
+    # Loop through all model classes
+    for model_type in MODEL_CLASSES:
+        print(f"Evaluating model: {model_type}")
 
-# Find all test files (e.g., files ending with '_Test*.txt')
-TEST_FILES = glob.glob(os.path.join(DATA_PATH, "*_Test*.txt"))
+        # Iterate through combinations of hyperparameters
+        for batch_size, num_epochs, lr in product(
+            HYPERPARAMETER_GRID["batch_size"],
+            HYPERPARAMETER_GRID["num_epochs"],
+            HYPERPARAMETER_GRID["lr"],
+        ):
+            output_file = os.path.join(
+                OUTPUT_DIR,
+                f"{model_type}_bs{batch_size}_ep{num_epochs}_lr{lr}.txt",
+            )
 
-# Iterate over each train file
-for train_file in TRAIN_FILES:
-    # Extract the train file name without the path
-    train_name = os.path.basename(train_file).replace(".txt", "")
+            # Run the model evaluation
+            command = [
+                "python",
+                "eval_model.py",  # Assuming eval_model.py runs training & evaluation
+                model_type,
+                training_file,
+                test_file,
+                "--batch_size", str(batch_size),
+                "--num_epochs", str(num_epochs),
+                "--lr", str(lr),
+            ]
 
-    # Iterate over each test file
-    for test_file in TEST_FILES:
+            print(f"Running: {command}")
+            with open(output_file, "w") as f:
+                subprocess.run(command, stdout=f, stderr=f)
 
-        # Extract the test file name without the path
-        test_name = os.path.basename(test_file).replace(".txt", "")
+            print(f"Results saved to: {output_file}")
 
-        # Create a unique output file
-        output_file = os.path.join(OUTPUT_DIR, f"{train_name}_{test_name}_output.txt")
+    print("All model evaluations completed.")
 
-        # Run the evaluation command and save the output
-        print(f"Running eval_model.py with {train_file} and {test_file}")
-        with open(output_file, "w") as outfile:
-            subprocess.run(["python", "eval_model.py", "sl2", train_file, test_file], stdout=outfile)
+# Function to analyze results
+def analyze_results():
+    results = []
 
-        print(f"Output saved to {output_file}")
+    for model_type in MODEL_CLASSES:
+        for batch_size, num_epochs, lr in product(
+            HYPERPARAMETER_GRID["batch_size"],
+            HYPERPARAMETER_GRID["num_epochs"],
+            HYPERPARAMETER_GRID["lr"],
+        ):
+            output_file = os.path.join(
+                OUTPUT_DIR,
+                f"{model_type}_bs{batch_size}_ep{num_epochs}_lr{lr}.txt",
+            )
 
-print(f"All evaluations completed. Outputs are in the '{OUTPUT_DIR}' folder.")
+            # Read the loss values from the output files
+            if os.path.exists(output_file):
+                with open(output_file, "r") as f:
+                    for line in f:
+                        if "Loss:" in line:
+                            loss_value = float(line.split(":")[-1].strip())
+                            results.append(
+                                (model_type, batch_size, num_epochs, lr, loss_value)
+                            )
 
-# TODO: only want paired test files. start with random test files
-# also hyperparameter tuning. Find the best hyperparameters for each model based on a randomly chosen train-test pair
-# 
+    # Find the best model configuration
+    best_model = min(results, key=lambda x: x[-1])
+    print("\nBest Model Configuration:")
+    print(f"Model: {best_model[0]}")
+    print(f"Batch Size: {best_model[1]}")
+    print(f"Epochs: {best_model[2]}")
+    print(f"Learning Rate: {best_model[3]}")
+    print(f"Loss: {best_model[4]:.4f}")
+
+if __name__ == "__main__":
+    # Step 1: Run evaluations
+    run_evaluations()
+
+    # Step 2: Analyze results
+    analyze_results()

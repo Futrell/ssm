@@ -68,7 +68,7 @@ if __name__ == "__main__":
                         help="Adam learning rate")
     parser.add_argument('--report_every', type=int, default=1,
                         help="How often to report training results")
-    parser.add_argument('--reporting_window_size', type=int, default=100,
+    parser.add_argument('--reporting_window_size', type=int, default=1,
                         help="Window size for averaging for reporting loss")
 
     args = parser.parse_args()
