@@ -1,20 +1,21 @@
 import os
+import tqdm
 import subprocess
 import numpy as np
 from itertools import product
 
 # Define available model types
-MODEL_CLASSES = ["SL2", "SP2", "SoftTSL2", "pTSL2", "SSM", "PFSA", "WFSA"]
+MODEL_CLASSES = ["sl2", "sp2", "soft_tsl2", "ptsl2", "ssm", "pfsa", "wfsa"]
 
 # Define hyperparameters for tuning
 HYPERPARAMETER_GRID = {
     "batch_size": [1, 32, 128, 512],
-    "num_epochs": [10],
+    "num_epochs": [1],
     "lr": [0.001, 0.01, 0.1],
 }
 
-training_file = "data/train.txt" # TODO
-test_file
+training_file = "data/mlregtest/04.04.SL.2.1.0_Dev.txt" # TODO:
+test_file = "data/mlregtest/04.04.SL.2.1.0_TestLR.txt" #
 
 # Create output directory if it doesn't exist
 OUTPUT_DIR = "output/model_evaluations"

@@ -1,7 +1,7 @@
 import csv
 import argparse
 from typing import *
-
+import tqdm
 import ssm
 import process_data
 
@@ -22,7 +22,7 @@ def get_model(model_type: str,
     elif model_type == 'ssm':
         return ssm.SSMPhonotacticsModel.initialize(state_dim, vocab_size)
     elif model_type == 'diag_ssm':
-        return ssm.DiagonalSSMPhonotacticsModel.initialize(state_dim, vocab_size)    
+        return ssm.DiagonalSSMPhonotacticsModel.initialize(state_dim, vocab_size)
     elif model_type == 'pfsa':
         return ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size)
     elif model_type == 'wfsa':
@@ -85,9 +85,11 @@ if __name__ == "__main__":
         col_separator=args.col_separator,
         char_separator=args.char_separator,
     )
-    test_eval = test_eval(test_data)
+    test_eval = tqdm.tqdm(test_eval(test_data))
 
-    batches = ssm.minibatches(train_data[True], args.batch_size, args.num_epochs)
+
+
+    batches = tqdm.tqdm(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs))
     model = get_model(args.model_type, vocab_size)
     model.train(
         batches,

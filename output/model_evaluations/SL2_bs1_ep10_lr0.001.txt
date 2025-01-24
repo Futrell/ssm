@@ -1,7 +1,52 @@
-usage: eval_model.py [-h] [--char_separator CHAR_SEPARATOR]
-                     [--col_separator COL_SEPARATOR] [--batch_size BATCH_SIZE]
-                     [--num_epochs NUM_EPOCHS] [--lr LR]
-                     [--report_every REPORT_EVERY]
-                     [--reporting_window_size REPORTING_WINDOW_SIZE]
-                     model_type train_file test_file
-eval_model.py: error: the following arguments are required: train_file, test_file
+step,epoch,mean_loss,good_scores,bad_scores,diff
+0,0,34.648163,-56.13601303100586,-56.146488189697266,0.01047515869140625
+1,0,30.443913,-56.13375473022461,-56.147193908691406,0.013439178466796875
+2,0,27.666405,-56.131431579589844,-56.14767837524414,0.016246795654296875
+3,0,33.200623,-56.128936767578125,-56.148197174072266,0.019260406494140625
+4,0,36.052834,-56.12624740600586,-56.14875793457031,0.022510528564453125
+5,0,29.111855,-56.12324523925781,-56.149314880371094,0.02606964111328125
+6,0,38.786125,-56.120140075683594,-56.149879455566406,0.0297393798828125
+7,0,33.218246,-56.11714172363281,-56.1504020690918,0.033260345458984375
+8,0,30.495703,-56.11427307128906,-56.15091323852539,0.036640167236328125
+9,0,33.208843,-56.111366271972656,-56.15149688720703,0.040130615234375
+10,0,36.071705,-56.10823440551758,-56.152061462402344,0.043827056884765625
+11,0,30.484213,-56.105247497558594,-56.15261459350586,0.047367095947265625
+12,0,33.172913,-56.10232925415039,-56.15317916870117,0.05084991455078125
+13,0,29.039608,-56.09951400756836,-56.15374755859375,0.054233551025390625
+14,0,31.909912,-56.09701919555664,-56.15430450439453,0.057285308837890625
+15,0,36.04637,-56.094505310058594,-56.15484619140625,0.06034088134765625
+16,0,36.060432,-56.09200668334961,-56.15538787841797,0.06338119506835938
+17,0,30.47662,-56.08951950073242,-56.155921936035156,0.06640243530273438
+18,0,33.341652,-56.08715057373047,-56.15645217895508,0.06930160522460938
+19,0,37.529144,-56.08473205566406,-56.1569709777832,0.07223892211914062
+20,0,38.773125,-56.08229446411133,-56.157501220703125,0.07520675659179688
+21,0,30.415678,-56.07976150512695,-56.15803909301758,0.078277587890625
+22,0,30.53613,-56.07728958129883,-56.15854263305664,0.0812530517578125
+23,0,29.017054,-56.07483673095703,-56.159088134765625,0.08425140380859375
+24,0,38.750458,-56.072391510009766,-56.15971755981445,0.0873260498046875
+25,0,28.977123,-56.069923400878906,-56.160343170166016,0.09041976928710938
+26,0,34.621696,-56.06741714477539,-56.16092300415039,0.093505859375
+27,0,37.411102,-56.064842224121094,-56.16150665283203,0.0966644287109375
+28,0,29.048931,-56.06230545043945,-56.16209411621094,0.09978866577148438
+Traceback (most recent call last):
+  File "/Users/hutengdai/Documents/projects/ssm/eval_model.py", line 92, in <module>
+    model.train(
+  File "/Users/hutengdai/Documents/projects/ssm/ssm.py", line 241, in train
+    diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
+  File "/Users/hutengdai/Documents/projects/ssm/ssm.py", line 241, in <dictcomp>
+    diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
+  File "/Users/hutengdai/Documents/projects/ssm/eval_model.py", line 49, in <lambda>
+    'diff': lambda m: compute_good_scores(m) - compute_bad_scores(m),
+  File "/Users/hutengdai/Documents/projects/ssm/eval_model.py", line 41, in compute_good_scores
+    return model.log_likelihood(test_data[True]).mean().item()
+  File "/Users/hutengdai/Documents/projects/ssm/ssm.py", line 396, in log_likelihood
+    return torch.stack(list(gen()))
+  File "/Users/hutengdai/Documents/projects/ssm/ssm.py", line 394, in gen
+    logits = ssm(x, debug=debug).y
+  File "/Users/hutengdai/miniconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/hutengdai/miniconda3/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/hutengdai/Documents/projects/ssm/ssm.py", line 205, in forward
+    if debug:
+KeyboardInterrupt
