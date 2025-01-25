@@ -1,6 +1,6 @@
 import torch
 import csv
-
+import pprint as pp
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 from collections import defaultdict
@@ -50,12 +50,18 @@ def pairing(input_data):
     # take the input data, and split it based on the labels,
     # the data
     # .zip()
-    print(input_data)
+    # print(input_data)
+    good = input_data[True]
+    bad = input_data[False]
+    pairs = zip(good, bad)
+    pairs = [(x,y) for x,y in pairs if len(x) == len(y)]
+    print(pairs[0][0])
+    print(pairs[0][1])
     # return output_data
 # end def
 if __name__ == "__main__":
-    file_path  = 'space_sep.txt'
-    process_data(file_path, col_separator=",", char_separator=" ")
+    file_path  = 'data/mlregtest/04.04.SL.2.1.0_TestLR.txt'
+    process_data(file_path, col_separator="\t", char_separator="")
 
     # dataset is too big---define a function that import a large dataset as zip.
     # option: use ssh fuse
