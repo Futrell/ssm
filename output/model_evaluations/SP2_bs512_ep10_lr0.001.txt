@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/hutengdai/Documents/projects/ssm/eval_model.py", line 91, in <module>
-    model = get_model(args.model_type, vocab_size)
-  File "/Users/hutengdai/Documents/projects/ssm/eval_model.py", line 31, in get_model
-    raise ValueError("Unrecognized model type: %s" % model_type)
-ValueError: Unrecognized model type: SP2

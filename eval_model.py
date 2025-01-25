@@ -85,11 +85,11 @@ if __name__ == "__main__":
         col_separator=args.col_separator,
         char_separator=args.char_separator,
     )
-    test_eval = tqdm.tqdm(test_eval(test_data))
+    test_eval = test_eval(test_data)
 
 
 
-    batches = tqdm.tqdm(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs))
+    batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs)))
     model = get_model(args.model_type, vocab_size)
     model.train(
         batches,

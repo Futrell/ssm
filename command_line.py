@@ -52,7 +52,7 @@ def run_evaluations():
 
             print(f"Running: {command}")
             with open(output_file, "w") as f:
-                subprocess.run(command, stdout=f, stderr=f)
+                subprocess.run(command, stdout=f)
 
             print(f"Results saved to: {output_file}")
 
