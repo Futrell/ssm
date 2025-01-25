@@ -148,7 +148,7 @@ def test_wfsa():
     assert 371 < fsa.pathsum() < 372
 
 
-# every symbols have two path, one project to the 
+# every symbols have two path, one project to the
 
 class SSM(torch.nn.Module):
     def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
@@ -224,7 +224,7 @@ class PhonotacticsModel(torch.nn.Module):
         if diagnostic_fns is None:
             diagnostic_fns = {}
         diagnostics = []
-        writer = csv.DictWriter(sys.stderr, "step epoch mean_loss".split() + list(diagnostic_fns))
+        writer = csv.DictWriter(sys.stdout, "step epoch mean_loss".split() + list(diagnostic_fns))
         writer.writeheader()
         for i, (epoch, batch) in enumerate(batches):
             opt.zero_grad()
@@ -421,7 +421,7 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
 
     def ssm(self) -> SSM:
         return SSM(torch.diag(self.A), self.B, self.C, init=self.init, pi=self.pi)
-    
+
 
 class CompoundSSMModel(SSMPhonotacticsModel):
     def __init__(self, one, two):
@@ -852,81 +852,3 @@ def evaluate_model_simple(model, good_strings, bad_strings):
     df = pd.DataFrame(df_list)
     df.columns = ['string', 'grammatical', 'score']
     return df
-
-if __name__ == "__main__":
-    print("Training SP model on SL data")
-    results_sp_no_ab = evaluate_no_ab(model_type = SP2)
-    print("Training SL model on SL data")
-    results_sl_no_ab = evaluate_no_ab(model_type = SL2)
-    print("Training TSL model on SL data")
-    results_tsl_no_ab = evaluate_no_ab(model_type = TSL2)
-
-    sp_no_ab_mean = np.mean(results_sp_no_ab['diff'])
-    sl_no_ab_mean = np.mean(results_sl_no_ab['diff'])
-    tsl_no_ab_mean = np.mean(results_tsl_no_ab['diff'])
-
-    print("SL datatset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
-        sl_no_ab_mean, sp_no_ab_mean, tsl_no_ab_mean
-    ))
-
-    # print("Training SP model on TSL data")
-    # results_sp_no_axb = evaluate_no_axb(model_type = 'sp')
-    # print("Training SL model on TSL data")
-    # results_sl_no_axb = evaluate_no_axb(model_type = 'sl')
-    # print("Training TSL model on TSL data")
-    # results_tsl_no_axb = evaluate_no_axb(model_type = 'tsl')
-
-    # sl_no_axb_mean = np.mean(results_sl_no_axb['diff'])
-    # tsl_no_axb_mean = np.mean(results_tsl_no_axb['diff'])
-    # sp_no_axb_mean = np.mean(results_sp_no_axb['diff'])
-
-    # print("TSL dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
-    #     sl_no_axb_mean, sp_no_axb_mean, tsl_no_axb_mean
-    # ))
-
-    # print("Training SP model on SP data")
-    # results_sp_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'sp')
-    # print("Training SL model on SP data")
-    # results_sl_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'sl')
-    # print("Training TSL model on SP data")
-    # results_tsl_no_ab_subsequence = evaluate_no_ab_subsequence(model_type = 'tsl')
-
-    # sl_no_ab_subsequence_mean = np.mean(results_sl_no_ab_subsequence['diff'])
-    # tsl_no_ab_subsequence_mean = np.mean(results_tsl_no_ab_subsequence['diff'])
-    # sp_no_ab_subsequence_mean = np.mean(results_sp_no_ab_subsequence['diff'])
-
-    # print("SP dataset: \n SSM-SL mean difference: {}\n SSM-SP mean difference: {}\n SSM-TSL mean difference: {}".format(
-    #     sl_no_ab_subsequence_mean, sp_no_ab_subsequence_mean, tsl_no_ab_subsequence_mean
-    # ))
-
-
-# SP but not captured by SL
-# *a…b
-# *acccb
-# *abbbb
-
-# # SP but not captured by TSL
-# *a…b, if tier is {a, b},
-# *acccb TSL
-# *abbbb TSL
-# *acacb TSL
-# *
-
-# But yes ab on
-
-# abbaccca
-
-# 3-SP language *a-b-c
-# 3-TSL language: *a-b-c, Tier = {a, b, c}
-
-# For a string like abbc
-# - this is prohibited by SP but allowed by TSL
-# this cannot work for any tier
-
-
-# 2-SP language *a-a
-# 2-TSL language: *a-a, Tier = {a, b, c, d}
-
-# For a string like aba
-# - this is prohibited by SP but allowed by TSL
-# but for Tier = {a} then no
