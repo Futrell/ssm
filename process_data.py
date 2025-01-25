@@ -37,10 +37,22 @@ def wordlist_to_vec(wordlist, phone2ix):
 
 def process_data(file_path, col_separator=",", char_separator=" "):
     wordlist = load(file_path, col_separator, char_separator)
+    pairing(wordlist)
     phone2ix = build_phone2ix(wordlist)
+
     word_vec = wordlist_to_vec(wordlist, phone2ix)
     return wordlist, phone2ix, word_vec
 
+def pairing(input_data):
+    """
+    Purpose: Pairing the good and bad data
+    """
+    # take the input data, and split it based on the labels,
+    # the data
+    # .zip()
+    print(input_data)
+    # return output_data
+# end def
 if __name__ == "__main__":
     file_path  = 'space_sep.txt'
     process_data(file_path, col_separator=",", char_separator=" ")
