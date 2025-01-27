@@ -53,7 +53,7 @@ def run_evaluations():
             print(f"Running: {command}")
             with open(output_file, "w") as f:
                 subprocess.run(command, stdout=f)
-                
+
             # TODO: can we save the results incrementally?
 
             print(f"Results saved to: {output_file}")

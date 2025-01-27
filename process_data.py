@@ -35,29 +35,27 @@ def wordlist_to_vec(wordlist, phone2ix):
     bad = [torch.LongTensor(list(map(phone2ix.get, word))).to(DEVICE) for word in wordlist[False]]
     return {True: good, False: bad}
 
+def pairing(input_data):
+    """
+    Purpose: Pairing the good and bad data
+    """
+    good = input_data[True]
+    bad = input_data[False]
+    pairs = zip(good, bad)
+    pairs = [(x, y) for x, y in pairs if len(x) == len(y)]
+
+    paired_data = {True: [x for x, y in pairs], False: [y for x, y in pairs]}
+    return paired_data
+
 def process_data(file_path, col_separator=",", char_separator=" "):
     wordlist = load(file_path, col_separator, char_separator)
-    pairing(wordlist)
+    print(wordlist)
+    wordlist = pairing(wordlist)
     phone2ix = build_phone2ix(wordlist)
 
     word_vec = wordlist_to_vec(wordlist, phone2ix)
     return wordlist, phone2ix, word_vec
 
-def pairing(input_data):
-    """
-    Purpose: Pairing the good and bad data
-    """
-    # take the input data, and split it based on the labels,
-    # the data
-    # .zip()
-    # print(input_data)
-    good = input_data[True]
-    bad = input_data[False]
-    pairs = zip(good, bad)
-    pairs = [(x,y) for x,y in pairs if len(x) == len(y)]
-    print(pairs[0][0])
-    print(pairs[0][1])
-    # return output_data
 # end def
 if __name__ == "__main__":
     file_path  = 'data/mlregtest/04.04.SL.2.1.0_TestLR.txt'
