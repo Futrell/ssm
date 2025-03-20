@@ -3,6 +3,7 @@ import argparse
 from typing import *
 import tqdm
 import ssm
+import numpy as np
 import process_data
 
 def get_model(model_type: str,
@@ -37,16 +38,24 @@ def get_vocab_size(data):
     return good_vocab_size
 
 def test_eval(test_data):
+    
     def compute_good_scores(model):
         return model.log_likelihood(test_data[True]).mean().item()
 
     def compute_bad_scores(model):
         return model.log_likelihood(test_data[False]).mean().item()
 
+    def compute_paired_diff(model):
+        goods = model.log_likelihood(test_data[True])
+        bads = model.log_likelihood(test_data[False])
+        diffs = goods - bads
+        return diffs.mean().item()
+
     return {
         'good_scores': compute_good_scores,
         'bad_scores': compute_bad_scores,
         'diff': lambda m: compute_good_scores(m) - compute_bad_scores(m),
+        #'paired_diff': compute_paired_diff,
     }
 
 if __name__ == "__main__":
@@ -89,12 +98,16 @@ if __name__ == "__main__":
 
 
 
-    batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs)))
+    batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size)
     model.train(
         batches,
         report_every=args.report_every,
         reporting_window_size=args.reporting_window_size,
         lr=args.lr,
-        diagnostic_fns=test_eval
+        diagnostic_fns=test_eval,
+        hyperparams_to_report={
+            'batch_size': args.batch_size,
+            'lr': args.lr,
+        }
     )

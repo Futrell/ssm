@@ -218,13 +218,14 @@ class PhonotacticsModel(torch.nn.Module):
               debug: bool=False,
               reporting_window_size: int=100,
               diagnostic_fns: Optional[Dict[str, Callable[[torch.nn.Module], Any]]]=None,
+              hyperparams_to_report: Optional[Dict]=None,
               **kwds):
         opt = torch.optim.AdamW(params=self.parameters(), **kwds)
         reporting_window = deque(maxlen=reporting_window_size)
         if diagnostic_fns is None:
             diagnostic_fns = {}
         diagnostics = []
-        writer = csv.DictWriter(sys.stdout, "step epoch mean_loss".split() + list(diagnostic_fns))
+        writer = csv.DictWriter(sys.stdout, "step epoch mean_loss".split() + list(diagnostic_fns) + (list(hyperparams_to_report) if hyperparams_to_report else []))
         writer.writeheader()
         for i, (epoch, batch) in enumerate(batches):
             opt.zero_grad()
@@ -239,6 +240,8 @@ class PhonotacticsModel(torch.nn.Module):
                     'mean_loss': np.mean(reporting_window),
                 }
                 diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
+                if hyperparams_to_report:
+                    diagnostic |= hyperparams_to_report
                 writer.writerow(diagnostic)
                 diagnostics.append(diagnostic)
         return diagnostics
