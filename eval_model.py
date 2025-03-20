@@ -8,26 +8,33 @@ import process_data
 
 def get_model(model_type: str,
               vocab_size: int,
+              init_temperature: float,
               state_dim: Optional[int] = None) -> ssm.PhonotacticsModel:
     if state_dim is None:
         state_dim = vocab_size
 
     if model_type == 'sl2':
-        return ssm.SL2.initialize(vocab_size)
+        return ssm.SL2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'sp2':
-        return ssm.SP2.initialize(vocab_size)
+        return ssm.SP2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'soft_tsl2':
-        return ssm.SoftTSL2.initialize(vocab_size)
+        return ssm.SoftTSL2.initialize(vocab_size, i, init_T=init_temperature, init_T_projection=init_temperature)
     elif model_type == 'ptsl2':
         return ssm.pTSL.initialize(vocab_size)
     elif model_type == 'ssm':
-        return ssm.SSMPhonotacticsModel.initialize(state_dim, vocab_size)
+        return ssm.SSMPhonotacticsModel.initialize(
+            state_dim,
+            vocab_size,
+            init_T_A=init_temperature,
+            init_T_B=init_temperature,
+            init_T_C=init_temperature,
+        )
     elif model_type == 'diag_ssm':
-        return ssm.DiagonalSSMPhonotacticsModel.initialize(state_dim, vocab_size)
+        return ssm.DiagonalSSMPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
     elif model_type == 'pfsa':
-        return ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size)
+        return ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
     elif model_type == 'wfsa':
-        return ssm.WFSAPhonotacticsModel.initialize(state_dim, vocab_size)
+        return ssm.WFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
     else:
         raise ValueError("Unrecognized model type: %s" % model_type)
 
@@ -75,6 +82,8 @@ if __name__ == "__main__":
                         help="Number of iterations through training data")
     parser.add_argument('--lr', type=float, default=.001,
                         help="Adam learning rate")
+    parser.add_argument('--init_temperature', type=float, default=100,
+                        help="Initialization temperature")
     parser.add_argument('--report_every', type=int, default=1,
                         help="How often to report training results")
     parser.add_argument('--reporting_window_size', type=int, default=1,
@@ -99,7 +108,7 @@ if __name__ == "__main__":
 
 
     batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs + 1)))
-    model = get_model(args.model_type, vocab_size)
+    model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
     model.train(
         batches,
         report_every=args.report_every,
