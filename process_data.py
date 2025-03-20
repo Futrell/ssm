@@ -20,7 +20,6 @@ def load(file_path, col_separator, char_separator):
                 else:
                     # Split the first column (word) using the char_separator
                     wordlist[row_val].append(row[0].split(char_separator))
-
     return wordlist
 
 def build_phone2ix(wordlist):
@@ -49,12 +48,11 @@ def pairing(input_data):
 
 def process_data(file_path, col_separator=",", char_separator=" "):
     wordlist = load(file_path, col_separator, char_separator)
-    print(wordlist)
-    wordlist = pairing(wordlist)
-    phone2ix = build_phone2ix(wordlist)
+    paired_wordlist = pairing(wordlist) if wordlist[False] else wordlist
+    phone2ix = build_phone2ix(paired_wordlist)
 
-    word_vec = wordlist_to_vec(wordlist, phone2ix)
-    return wordlist, phone2ix, word_vec
+    word_vec = wordlist_to_vec(paired_wordlist, phone2ix)
+    return paired_wordlist, phone2ix, word_vec
 
 # end def
 if __name__ == "__main__":
