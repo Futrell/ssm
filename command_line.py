@@ -5,7 +5,7 @@ import numpy as np
 from itertools import product
 
 # Define available model types
-MODEL_CLASSES = ["sl2", "sp2", "soft_tsl2", "ptsl2", "ssm", "pfsa", "wfsa"]
+MODEL_CLASSES = ["ptsl2", "ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
 
 # Define hyperparameters for tuning
 HYPERPARAMETER_GRID = {
@@ -40,7 +40,7 @@ def run_evaluations():
 
             # Run the model evaluation
             command = [
-                "python",
+                "python3",
                 "eval_model.py",  # Assuming eval_model.py runs training & evaluation
                 model_type,
                 training_file,

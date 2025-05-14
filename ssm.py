@@ -16,7 +16,14 @@ import numpy as np
 
 INF = float('inf')
 
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+if torch.backends.mps.is_available():
+    DEVICE = torch.device("mps")
+elif torch.cuda.is_available():
+    DEVICE = torch.device("cuda")
+else:
+    DEVICE = torch.device("cpu")
+print("Using device:", DEVICE)
+
 #DEVICE = 'cpu'
 
 DEFAULT_INIT_TEMPERATURE = 100
@@ -347,7 +354,7 @@ class pTSL(FSAPhonotacticsModel, AdjustedNormalized):
         self.init = torch.eye(Q)[0]
         self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T # shape 1SQ
         self.T_not_on_tier = torch.eye(Q)[:, None, :] # shape Q1Q
-
+    
     @classmethod
     def initialize(cls, S, learn_final=False, requires_grad=True, init_T=DEFAULT_INIT_TEMPERATURE, device=DEVICE):
         pi = torch.nn.Parameter((1/init_T)*torch.randn(S), requires_grad=requires_grad)
@@ -360,8 +367,10 @@ class pTSL(FSAPhonotacticsModel, AdjustedNormalized):
 
     @property
     def A(self):
-        proj = self.pi.sigmoid()[:, None]
+        proj = self.pi.sigmoid()[None, :, None]
         A = proj * self.E.exp()[None, :, :] * self.T_on_tier  + (1-proj) * self.T_not_on_tier
+        breakpoint()
+
         return A
 
 class SSMPhonotacticsModel(PhonotacticsModel):
