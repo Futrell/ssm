@@ -16,13 +16,15 @@ import numpy as np
 
 INF = float('inf')
 
-if torch.backends.mps.is_available():
-    DEVICE = torch.device("mps")
-elif torch.cuda.is_available():
-    DEVICE = torch.device("cuda")
-else:
-    DEVICE = torch.device("cpu")
-print("Using device:", DEVICE)
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+# DEVICE = torch.device("mps") if torch.backends.mps.is_available() else 'cpu'
+
+# elif torch.cuda.is_available():
+#     device = torch.device("cuda")
+# else:
+#     device = torch.device("cpu")
+# print("Using device:", device)
 
 #DEVICE = 'cpu'
 
@@ -369,8 +371,6 @@ class pTSL(FSAPhonotacticsModel, AdjustedNormalized):
     def A(self):
         proj = self.pi.sigmoid()[None, :, None]
         A = proj * self.E.exp()[None, :, :] * self.T_on_tier  + (1-proj) * self.T_not_on_tier
-        breakpoint()
-
         return A
 
 class SSMPhonotacticsModel(PhonotacticsModel):
