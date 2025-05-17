@@ -362,17 +362,10 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
             self.final = final
             assert len(self.final) == Q            
 
-<<<<<<< HEAD
-        self.init = torch.eye(Q)[0].to(self.E.device)
-        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.unsqueeze(0).to(self.E.device) # shape 1SQ
-        self.T_not_on_tier = torch.eye(Q)[:, None, :].to(self.E.device) # shape Q1Q
-
-=======
         self.init = torch.eye(Q)[0]
         self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T # shape 1SQ
         self.T_not_on_tier = torch.eye(Q)[:, None, :] # shape Q1Q
     
->>>>>>> 8c60c87d66ba4af475c23d242a233252e8ea37ff
     @classmethod
     def initialize(cls,
                    S,
@@ -391,15 +384,9 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
             return cls(E, pi).to(device)
 
     @property
-<<<<<<< HEAD
     def A_positive(self):
         proj = self.pi.sigmoid()[None, :, None]
         A = proj * self.E.exp()[:, :, None] * self.T_on_tier + (1-proj) * self.T_not_on_tier # exp E?
-=======
-    def A(self):
-        proj = self.pi.sigmoid()[None, :, None]
-        A = proj * self.E.exp()[None, :, :] * self.T_on_tier  + (1-proj) * self.T_not_on_tier
->>>>>>> 8c60c87d66ba4af475c23d242a233252e8ea37ff
         return A
 
 class SSMPhonotacticsModel(PhonotacticsModel):
