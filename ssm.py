@@ -323,7 +323,9 @@ class GloballyNormalized:
 
 class AdjustedNormalized(GloballyNormalized):
     def fsa(self) -> WFSA:
-        s = spectral_radius(self.A_positive.sum(-2) + self.final_positive[:, None])
+        A_positive = self.A_positive
+        final_positive = self.final_positive
+        s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
         adjustment = soft_ceiling(s, 1) / s
         A_normalized = adjustment * A_positive
         final_normalized = adjustment * final_positive
