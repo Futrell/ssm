@@ -1,4 +1,3 @@
-""" State-space sequence model """
 import sys
 import csv
 import random
@@ -21,6 +20,8 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 DEFAULT_INIT_TEMPERATURE = 100
 EPSILON = 10 ** -5
+
+torch.autograd.set_detect_anomaly(True)
 
 def boolean_mv(A, x):
     """ Boolean matrix-vector multiplication. """
@@ -77,7 +78,7 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
 class WFSA(torch.nn.Module):
     def __init__(self, A, init=None, final=None, phi=None, device=DEVICE):
         super().__init__()
-        self.A = A
+        self.A = A # positive weights
         self.device = device
 
         X1, Y1, X2 = self.A.shape
@@ -86,8 +87,8 @@ class WFSA(torch.nn.Module):
         self.dtype = self.A.dtype
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
         self.phi = torch.eye(Y1, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
-        self.init = torch.eye(X1, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
-        self.final = torch.ones(X1, dtype=self.dtype, device=device) if final is None else final # default to [..., 1, 1, 1]
+        self.init = torch.eye(X1, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...], enforcing state 0 = initial state.
+        self.final = torch.ones(X1, dtype=self.dtype, device=device) if final is None else final # default to [..., 1, 1, 1], meaning all states can be equally final
 
     def forward(self, input, init=None, final=None, debug=False):
         init = self.init if init is None else init
@@ -248,19 +249,32 @@ class PhonotacticsModel(torch.nn.Module):
 
 
 class FSAPhonotacticsModel(PhonotacticsModel):
+    """ FSA Phonotactics model parameterized by log-space weights. """
+    
     def __init__(self, A, init=None, final=None):
         super().__init__()
-        self.A = A
-        self.init = init
-
+        self.A = A # unnormalized weights
         Q, S, Q2 = self.A.shape
         assert Q == Q2
-
-        if final is None:
-            self.final = torch.zeros(Q)
+        
+        if init is None: # init is in positive weight space
+            self.init = torch.eye(Q)[0]
         else:
-            assert final.shape[0] == Q
+            self.init = init
+
+        if final is None: # final is in log weight space
+            self.final = torch.zeros(Q) # will be come all ones
+        else:
+            assert final.shape[-1] == Q
             self.final = final
+
+    @property
+    def A_positive(self):
+        return self.A.exp()
+
+    @property
+    def final_positive(self):
+        return self.final.exp()
 
     def forward(self, xss, debug=False):
         return self.log_likelihood(xss, debug=debug)
@@ -275,13 +289,11 @@ class FSAPhonotacticsModel(PhonotacticsModel):
             init_T=DEFAULT_INIT_TEMPERATURE,
             device=DEVICE):
         A = torch.nn.Parameter((1/init_T)*torch.randn(X, S, X), requires_grad=requires_grad)
-        init = torch.eye(X)[0]
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
-            return cls(A, init=init, final=final).to(device)
+            return cls(A, final=final).to(device)
         else:
-            final = torch.zeros(X)
-            return cls(A, init=init, final=final)
+            return cls(A).to(device)
 
 def soft_ceiling(x, k, beta=1):
     return k - torch.nn.functional.softplus(k - x, beta=beta)
@@ -297,30 +309,27 @@ class GloballyNormalized:
         return y.log() - Z.log()
 
     def fsa(self) -> WFSA:
-        A_positive = self.A.exp()
         final_positive = self.final.exp()
-        return WFSA(A_positive, init=self.init, final=final_positive)
+        return WFSA(self.A_positive, init=self.init, final=final_positive)
 
 class AdjustedNormalized(GloballyNormalized):
     def fsa(self) -> WFSA:
-        A_positive = self.A.exp()
-        final_positive = self.final.exp()
-        s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
+        s = spectral_radius(self.A_positive.sum(-2) + self.final_positive[:, None])
         adjustment = soft_ceiling(s, 1) / s
         A_normalized = adjustment * A_positive
         final_normalized = adjustment * final_positive
         return WFSA(A_normalized, init=self.init, final=final_normalized)
 
-class LocallyNormalized:
+class LocallyNormalized: # NOTE: PFSA models have a halting probability, SSM models don't.
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         pfsa = self.fsa()
         y = torch.stack([pfsa(x, debug=debug) for x in xs])
         return y.log()
 
     def fsa(self) -> WFSA:
-        A_positive = self.A.exp()
-        final_positive = self.final.exp()
-        Z = A_positive.sum((-1, -2)) + final_positive
+        A_positive = self.A_positive
+        final_positive = self.final_positive
+        Z = A_positive.sum((-1, -2)) + self.final_positive
         A_normalized = A_positive / Z[:, None, None]
         final_normalized = final_positive / Z
         return WFSA(A_normalized, init=self.init, final=final_normalized)
@@ -331,27 +340,34 @@ class PFSAPhonotacticsModel(FSAPhonotacticsModel, LocallyNormalized):
 class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
     pass
 
-class pTSL(FSAPhonotacticsModel, AdjustedNormalized):
+class pTSL(FSAPhonotacticsModel, LocallyNormalized):
     def __init__(self, E, pi, final=None):
         super(PhonotacticsModel, self).__init__()
-        self.E = E # shape SQ
+        self.E = E # shape QS
         self.pi = pi # shape S
-        S, Q = self.E.shape
-        assert S == self.pi.shape[0]
+        Q, S = self.E.shape
+        assert S == self.pi.shape[-1]
         if final is None:
             self.final = torch.zeros(Q)
         else:
-            assert len(self.final) == Q
             self.final = final
+            assert len(self.final) == Q            
 
-        self.init = torch.eye(Q)[0]
-        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T # shape 1SQ
-        self.T_not_on_tier = torch.eye(Q)[:, None, :] # shape Q1Q
+        self.init = torch.eye(Q)[0].to(self.E.device)
+        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.unsqueeze(0).to(self.E.device) # shape 1SQ
+        self.T_not_on_tier = torch.eye(Q)[:, None, :].to(self.E.device) # shape Q1Q
 
     @classmethod
-    def initialize(cls, S, learn_final=False, requires_grad=True, init_T=DEFAULT_INIT_TEMPERATURE, device=DEVICE):
-        pi = torch.nn.Parameter((1/init_T)*torch.randn(S), requires_grad=requires_grad)
-        E = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
+    def initialize(cls,
+                   S,
+                   pi=None,
+                   learn_final=False,
+                   requires_grad=True,
+                   init_T=DEFAULT_INIT_TEMPERATURE,
+                   device=DEVICE):
+        if pi is None:
+            pi = torch.nn.Parameter((1/init_T)*torch.randn(S), requires_grad=requires_grad)
+        E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(S+1), requires_grad=requires_grad)
             return cls(E, pi, final=final).to(device)
@@ -359,9 +375,9 @@ class pTSL(FSAPhonotacticsModel, AdjustedNormalized):
             return cls(E, pi).to(device)
 
     @property
-    def A(self):
-        proj = self.pi.sigmoid()[:, None]
-        A = proj * self.E.exp()[None, :, :] * self.T_on_tier  + (1-proj) * self.T_not_on_tier
+    def A_positive(self):
+        proj = self.pi.sigmoid()[None, :, None]
+        A = proj * self.E.exp()[:, :, None] * self.T_on_tier + (1-proj) * self.T_not_on_tier # exp E?
         return A
 
 class SSMPhonotacticsModel(PhonotacticsModel):
@@ -512,12 +528,16 @@ class SoftTierBased(Factor2):
     def initialize(
             cls,
             S,
+            pi=None, 
             requires_grad: bool=True,
             device: str=DEVICE,
             init_T=DEFAULT_INIT_TEMPERATURE,
             init_T_projection=DEFAULT_INIT_TEMPERATURE):
         factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
-        projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S), requires_grad=requires_grad)
+        if pi is None:
+            projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S), requires_grad=requires_grad)
+        else:
+            projection = pi
         return cls.from_factors(factors, projection).to(device)
 
     def ssm(self):
@@ -573,11 +593,11 @@ def single_datapoints(data: Iterable, num_epochs: int=1) -> Iterator[Sequence]:
 def batch(iterable: Sequence, n: int=1) -> Iterator[Sequence]:
     l = len(iterable)
     for i in range(0, l, n):
-        yield iterable[i : min(i+n, l)]
+        yield torch.LongTensor(iterable[i : min(i+n, l)])
 
 def minibatches(data: Iterable,
                 batch_size: int=1,
-                num_epochs: int=1) -> Iterator[Sequence[Tuple[int, Any]]]:
+                num_epochs: int=1):
     """
     Generate a stream of data in minibatches of size batch_size.
     Go through the data num_epochs times, each time in a random order.
@@ -725,11 +745,19 @@ def evaluate_tiptup(model):
     ]
     return evaluate_model_unpaired(model, good, bad)
 
-def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_samples=1000, num_test=100, **kwds):
+def evaluate_no_axb(num_epochs=20,
+                    batch_size=5,
+                    n=4,
+                    model_type=TSL2,
+                    force_pi=None,
+                    num_samples=1000,
+                    num_test=100,
+                    **kwds):
     """ Evaluation for 2-TSL """
     dataset = [random_no_axb(n=n) for _ in range(num_samples)]
     # the first two of these comparisons will be exactly zero for SL
     # the third comparison will be exactly zero for SL and SP
+
     good = [ # no 23 on the tier {1, 2, 3}
          [0,2,0,1,0,3], # matched on SL factors
          [0,0,2,0,0,1,0,0,3], # matched on SL factors
@@ -748,8 +776,10 @@ def evaluate_no_axb(num_epochs=20, batch_size=5, n=4, model_type=TSL2, num_sampl
     #good = [random_no_axb(n=n+1) for _ in range(num_test)]
     #bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
 
-    if isinstance(model_type, TierBased):
-        model = model_type.initialize(4, torch.Tensor([0,1,1,1]))
+    if isinstance(model_type, TierBased): # fixed tier -- the right projection function is [0,1,1,1].
+        model = model_type.initialize(4, torch.Tensor([0,1,1,1])) 
+    elif force_pi is not None:
+        model = model_type.initialize(4, pi=force_pi)
     else:
         model = model_type.initialize(4)
 
@@ -829,6 +859,8 @@ def evaluate_no_ab_subsequence(num_epochs=20, batch_size=5, n=4, model_type=SP2,
 def evaluate_model_paired(model: SSMPhonotacticsModel, good_strings, bad_strings):
     def gen():
         for good, bad in zip(good_strings, bad_strings):
+            good = torch.LongTensor(good)
+            bad = torch.LongTensor(bad)
             yield good, bad, model.log_likelihood([good]).mean().item(), model.log_likelihood([bad]).mean().item()
     df = pd.DataFrame(list(gen()))
     df.columns = ['good', 'bad', 'good_score', 'bad_score']
