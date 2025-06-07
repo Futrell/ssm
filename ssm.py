@@ -604,6 +604,7 @@ def single_datapoints(data: Iterable, num_epochs: int=1) -> Iterator[Sequence]:
 def batch(iterable: Sequence, n: int=1) -> Iterator[Sequence]:
     l = len(iterable)
     for i in range(0, l, n):
+        breakpoint()
         yield torch.LongTensor(iterable[i : min(i+n, l)])
 
 def minibatches(data: Iterable,
