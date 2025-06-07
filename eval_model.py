@@ -17,8 +17,12 @@ def get_model(model_type: str,
         return ssm.SL2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'sp2':
         return ssm.SP2.initialize(vocab_size, init_T=init_temperature)
-    elif model_type == 'soft_tsl2':
-        return ssm.SoftTSL2.initialize(vocab_size, i, init_T=init_temperature, init_T_projection=init_temperature)
+    elif model_type == 'soft_tsl2': 
+        return ssm.SoftTSL2.initialize(
+            vocab_size,
+            init_T=init_temperature,
+            init_T_projection=init_temperature
+        )
     elif model_type == 'ptsl2':
         return ssm.pTSL.initialize(vocab_size)
     elif model_type == 'ssm':
@@ -29,8 +33,14 @@ def get_model(model_type: str,
             init_T_B=init_temperature,
             init_T_C=init_temperature,
         )
-    elif model_type == 'diag_ssm':
-        return ssm.DiagonalSSMPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
+    elif model_type == 'diag_ssm': 
+        return ssm.DiagonalSSMPhonotacticsModel.initialize(
+            state_dim,
+            vocab_size,
+            init_T_A=init_temperature,
+            init_T_B=init_temperature,
+            init_T_C=init_temperature,
+        )
     elif model_type == 'pfsa':
         return ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
     elif model_type == 'wfsa':
