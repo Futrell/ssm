@@ -115,8 +115,6 @@ if __name__ == "__main__":
     )
     test_eval = test_eval(test_data)
 
-
-
     batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
     model.train(
