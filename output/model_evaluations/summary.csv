@@ -6,3 +6,11 @@ dataset,model,batch,epochs,lr,loss,log
 04.04.SL.2.1.0,LR,ptsl2,32,100,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_ptsl2_bs32_ep100_lr0.001.txt
 04.04.SL.2.1.0,LR,ssm,32,100,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_ssm_bs32_ep100_lr0.001.txt
 04.04.SL.2.1.0,LR,pfsa,32,100,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_pfsa_bs32_ep100_lr0.001.txt
+04.04.SL.2.1.0,LR,ptsl2,32,100,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_ptsl2_bs32_ep100_lr0.001.txt
+04.04.SL.2.1.0,LR,ssm,32,100,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_ssm_bs32_ep100_lr0.001.txt
+04.04.SL.2.1.0,LR,pfsa,32,100,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_pfsa_bs32_ep100_lr0.001.txt
+04.04.SL.2.1.0,LR,ptsl2,32,10,0.001,"0it [00:00, ?it/s]",output/model_evaluations/04.04.SL.2.1.0_LR_ptsl2_bs32_ep10_lr0.001.txt
+04.04.SL.2.1.0,LR,ssm,32,10,0.001,"0it [00:00, ?it/s]",output/model_evaluations/04.04.SL.2.1.0_LR_ssm_bs32_ep10_lr0.001.txt
+04.04.SL.2.1.0,LR,ptsl2,32,10,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_ptsl2_bs32_ep10_lr0.001.txt
+04.04.SL.2.1.0,LR,ssm,32,10,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_ssm_bs32_ep10_lr0.001.txt
+04.04.SL.2.1.0,LR,pfsa,32,10,0.001,,output/model_evaluations/04.04.SL.2.1.0_LR_pfsa_bs32_ep10_lr0.001.txt

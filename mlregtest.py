@@ -17,11 +17,12 @@ MLREG_DIR   = Path("data/mlregtest")
 OUT_DIR     = Path("output/model_evaluations")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-DEFAULT_MODELS = ["ptsl2", "ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
+# DEFAULT_MODELS = ["ptsl2", "ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
+DEFAULT_MODELS = ["sl2"]
 
 GRID = { "batch_size": [32], "num_epochs": [10], "lr": [1e-3] }
 
-TEST_SUFS = {                     # suffix   -> short code
+TEST_SUFS = {                     # suffix
     "_TestLR.txt": "LR",
     "_TestLA.txt": "LA",
     "_TestSA.txt": "SA",
@@ -45,7 +46,7 @@ def iter_pairs():
 
 def run_one(model, train, test, tag, split, bs, epochs, lr):
     log_file = OUT_DIR / f"{tag}_{split}_{model}_bs{bs}_ep{epochs}_lr{lr}.txt"
-    breakpoint()
+
     if log_file.exists():                       # skip if already done
         return log_file
 
@@ -57,8 +58,8 @@ def run_one(model, train, test, tag, split, bs, epochs, lr):
         "--lr", str(lr),
     ]
     with open(log_file, "w") as f:
-        tqdm(subprocess.run(cmd, stdout=f,
-                       stderr=subprocess.STDOUT, check=False))
+        subprocess.run(cmd, stdout=f,
+                       stderr=subprocess.STDOUT, check=False)
     return log_file
 
 def extract_loss(path):
@@ -85,33 +86,53 @@ def append_summary(row):
 # --------------------------------------------------------------------------- #
 def main(args):
     models = args.models.split(",")
+
     GRID["batch_size"] = [args.batch_size]
     GRID["num_epochs"] = [args.epochs]
     GRID["lr"]         = [args.lr]
 
+    grid_vals   = list(product(*GRID.values()))         # pre-compute grid
+    pair_list   = list(iter_pairs())                    # materialise generator
+    total_runs  = len(models) * len(grid_vals) * len(pair_list)
+
     print(f"Train files : {len(list(MLREG_DIR.glob('*_Train.txt')))}")
     print(f"Model types : {models}")
-    print(f"Grid size   : {np.prod([len(v) for v in GRID.values()])}")
+    print(f"Grid size   : {len(grid_vals)}")
     print(f"Splits      : {list(TEST_SUFS.values())}")
+    print(f"Total runs  : {total_runs}")
 
-    for train, test, tag, split in iter_pairs():
-        for model, (bs, ep, lr) in product(models, product(*GRID.values())):
+    with tqdm(total=total_runs, desc="Model runs") as bar:
+        for train, test, tag, split in pair_list:
+            for model in models:
+                for bs, ep, lr in grid_vals:
 
-            print(f"\n[{tag}/{split}] {model}  bs={bs} ep={ep} lr={lr}")
-            log_file = run_one(model, train, test, tag, split, bs, ep, lr)
-            loss = extract_loss(log_file)
-            print(f"final loss = {loss}")
+                    bar.set_postfix(
+                        ds=f"{tag}/{split}",
+                        model=model,
+                        bs=bs,
+                        ep=ep,
+                        lr=lr,
+                        refresh=False
+                    )
 
-            append_summary({
-                "dataset": tag,
-                "split":   split,
-                "model":   model,
-                "batch":   bs,
-                "epochs":  ep,
-                "lr":      lr,
-                "loss":    loss,
-                "log":     log_file,
-            })
+                    log_file = run_one(model, train, test, tag, split,
+                                       bs, ep, lr)
+                    loss = extract_loss(log_file)
+                    bar.set_postfix(loss=f"{loss:.4g}" if loss else "NA",
+                                    refresh=False)
+
+                    append_summary({
+                        "dataset": tag,
+                        "split":   split,
+                        "model":   model,
+                        "batch":   bs,
+                        "epochs":  ep,
+                        "lr":      lr,
+                        "loss":    loss,
+                        "log":     log_file,
+                    })
+
+                    bar.update()
 
     plot_results()
 
@@ -152,3 +173,6 @@ if __name__ == "__main__":
     ap.add_argument("--epochs",     type=int, default=10)
     ap.add_argument("--lr",         type=float, default=1e-3)
     main(ap.parse_args())
+
+
+# pre-compute the number of iteration and pass it to tqdm
