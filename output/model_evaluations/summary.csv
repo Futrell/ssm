@@ -375,3 +375,4 @@ dataset,model,batch,epochs,lr,loss,log
 64.06.TSL.6.1.9,LA,sl2,32,10,0.001,,output/model_evaluations/64.06.TSL.6.1.9_LA_sl2_bs32_ep10_lr0.001.txt
 64.06.TSL.6.1.9,SA,sl2,32,10,0.001,,output/model_evaluations/64.06.TSL.6.1.9_SA_sl2_bs32_ep10_lr0.001.txt
 64.06.TSL.6.1.9,SR,sl2,32,10,0.001,,output/model_evaluations/64.06.TSL.6.1.9_SR_sl2_bs32_ep10_lr0.001.txt
+04.04.SL.2.1.0,SA,ssm,32,10,0.001,,output/model_evaluations/04.04.SL.2.1.0_SA_ssm_bs32_ep10_lr0.001.txt
