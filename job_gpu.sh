@@ -22,8 +22,8 @@
 #SBATCH --gres=gpu:8                # Request 8 GPUs (48GB each)
 
 # Log file location (uses username (%u), job name (%x) and job ID (%j)):
-#SBATCH --output=/home/%u/LI-submission/output/slurm_logs/%x-%j.log
-#SBATCH --error=/home/%u/LI-submission/output/slurm_logs/%x-%j.err
+#SBATCH --output=/home/%u/ssm/output/slurm_logs/%x-%j.log
+#SBATCH --error=/home/%u/ssm/output/slurm_logs/%x-%j.err
 
 # --------------------------
 # Environment Setup
