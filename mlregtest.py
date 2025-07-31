@@ -19,7 +19,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_MODELS = ["ptsl2", "ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
 
-GRID = { "batch_size": [32], "num_epochs": [100], "lr": [1e-3] }
+GRID = { "batch_size": [32], "num_epochs": [10], "lr": [1e-3] }
 
 TEST_SUFS = {                     # suffix   -> short code
     "_TestLR.txt": "LR",
@@ -45,6 +45,7 @@ def iter_pairs():
 
 def run_one(model, train, test, tag, split, bs, epochs, lr):
     log_file = OUT_DIR / f"{tag}_{split}_{model}_bs{bs}_ep{epochs}_lr{lr}.txt"
+    breakpoint()
     if log_file.exists():                       # skip if already done
         return log_file
 
@@ -56,8 +57,8 @@ def run_one(model, train, test, tag, split, bs, epochs, lr):
         "--lr", str(lr),
     ]
     with open(log_file, "w") as f:
-        subprocess.run(cmd, stdout=f,
-                       stderr=subprocess.STDOUT, check=False)
+        tqdm(subprocess.run(cmd, stdout=f,
+                       stderr=subprocess.STDOUT, check=False))
     return log_file
 
 def extract_loss(path):
@@ -95,10 +96,11 @@ def main(args):
 
     for train, test, tag, split in iter_pairs():
         for model, (bs, ep, lr) in product(models, product(*GRID.values())):
+
             print(f"\n[{tag}/{split}] {model}  bs={bs} ep={ep} lr={lr}")
             log_file = run_one(model, train, test, tag, split, bs, ep, lr)
             loss = extract_loss(log_file)
-            print(f"  ↳ final loss = {loss}")
+            print(f"final loss = {loss}")
 
             append_summary({
                 "dataset": tag,
@@ -147,6 +149,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default=",".join(DEFAULT_MODELS))
     ap.add_argument("--batch_size", type=int, default=32)
-    ap.add_argument("--epochs",     type=int, default=100)
+    ap.add_argument("--epochs",     type=int, default=10)
     ap.add_argument("--lr",         type=float, default=1e-3)
     main(ap.parse_args())
