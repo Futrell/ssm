@@ -36,7 +36,7 @@ module load cuda/11.2
 # Create a fresh virtual environment
 source ~/.bashrc
 conda activate pytorch_tutorial
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 # --------------------------
 # Run the Application
