@@ -1,7 +1,0 @@
-
-[notice] A new release of pip is available: 25.1.1 -> 25.2
-[notice] To update, run: pip install --upgrade pip
-Traceback (most recent call last):
-  File "/home/huteng/ssm/mlregtest.py", line 9, in <module>
-    import pandas as pd
-ModuleNotFoundError: No module named 'pandas'
