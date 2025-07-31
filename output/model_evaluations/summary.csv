@@ -1,0 +1,2 @@
+dataset,model,batch,epochs,lr,loss,log
+04.04.SL.2.1.0,ptsl2,32,100,0.001,,output/model_evaluations/04.04.SL.2.1.0_ptsl2_bs32_ep100_lr0.001.txt
