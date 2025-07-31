@@ -1,0 +1,6 @@
+Defaulting to user installation because normal site-packages is not writeable
+Train files : 90
+Model types : ['ssm']
+Grid size   : 1
+Splits      : ['LR', 'LA', 'SA', 'SR']
+Total runs  : 360
