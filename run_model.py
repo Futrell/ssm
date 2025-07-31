@@ -9,13 +9,17 @@ MODEL_CLASSES = ["ptsl2", "ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
 
 # Define hyperparameters for tuning
 HYPERPARAMETER_GRID = {
-    "batch_size": [1, 32, 128, 512],
-    "num_epochs": [1],
-    "lr": [0.001, 0.01, 0.1],
+    "batch_size": [32],
+    "num_epochs": [100],
+    "lr": [0.001],
 }
 
-training_file = "data/mlregtest/04.04.SL.2.1.0_Dev.txt" # TODO:
+training_file = "data/mlregtest/04.04.SL.2.1.0_Dev.txt" # TODO: controlled data  data/mlregtest/04.04.SL.2.1.0_Train.txt
 test_file = "data/mlregtest/04.04.SL.2.1.0_TestLR.txt" #
+
+
+# read the training and test files from the mlregtest directory, and then run this script to evaluate the models with different classe.
+# plot the results to compare different models and hyperparameters.
 
 # Create output directory if it doesn't exist
 OUTPUT_DIR = "output/model_evaluations"
