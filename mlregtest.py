@@ -5,7 +5,6 @@ import argparse, csv, os, re, subprocess, sys
 from itertools import product
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -134,36 +133,36 @@ def main(args):
 
                     bar.update()
 
-    plot_results()
+    # plot_results()
 
 # --------------------------------------------------------------------------- #
 #  PLOT                                                                       #
 # --------------------------------------------------------------------------- #
-def plot_results():
-    df = pd.read_csv(SUMMARY_CSV)
-    best = (
-        df.sort_values("loss")
-          .groupby(["dataset", "split", "model"])
-          .first()
-          .reset_index()
-    )
+# def plot_results():
+#     df = pd.read_csv(SUMMARY_CSV)
+#     best = (
+#         df.sort_values("loss")
+#           .groupby(["dataset", "split", "model"])
+#           .first()
+#           .reset_index()
+#     )
 
-    fig, ax = plt.subplots(figsize=(11, 4))
-    lbls = []
-    for (_, split), sub in best.groupby(["dataset", "split"]):
-        ax.scatter(sub["model"], sub["loss"],
-                   label=f"{sub.dataset.iloc[0]}-{split}",
-                   s=80, alpha=.8)
-        lbls.append(f"{sub.dataset.iloc[0]}-{split}")
+#     fig, ax = plt.subplots(figsize=(11, 4))
+#     lbls = []
+#     for (_, split), sub in best.groupby(["dataset", "split"]):
+#         ax.scatter(sub["model"], sub["loss"],
+#                    label=f"{sub.dataset.iloc[0]}-{split}",
+#                    s=80, alpha=.8)
+#         lbls.append(f"{sub.dataset.iloc[0]}-{split}")
 
-    ax.set_ylabel("Best loss (lower = better)")
-    ax.set_xlabel("Model class")
-    ax.set_title("Best configuration per model / dataset / split")
-    ax.legend(title="Corpus-Split", bbox_to_anchor=(1.02, 1), loc="upper left")
-    plt.xticks(rotation=45, ha="right")
-    plt.tight_layout()
-    fig.savefig(OUT_DIR / "comparison.png", dpi=150)
-    print(f"\nPlot saved to {OUT_DIR/'comparison.png'}")
+#     ax.set_ylabel("Best loss (lower = better)")
+#     ax.set_xlabel("Model class")
+#     ax.set_title("Best configuration per model / dataset / split")
+#     ax.legend(title="Corpus-Split", bbox_to_anchor=(1.02, 1), loc="upper left")
+#     plt.xticks(rotation=45, ha="right")
+#     plt.tight_layout()
+#     fig.savefig(OUT_DIR / "comparison.png", dpi=150)
+#     print(f"\nPlot saved to {OUT_DIR/'comparison.png'}")
 
 # --------------------------------------------------------------------------- #
 if __name__ == "__main__":
