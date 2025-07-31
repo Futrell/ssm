@@ -14,8 +14,7 @@ MLREG_DIR   = Path("data/mlregtest")
 OUT_DIR     = Path("output/model_evaluations")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# DEFAULT_MODELS = ["ptsl2", "ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
-DEFAULT_MODELS = ["ssm"]
+DEFAULT_MODELS = ["ssm", "ptsl2",  "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
 
 GRID = { "batch_size": [32], "num_epochs": [10], "lr": [1e-3] }
 
