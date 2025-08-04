@@ -42,6 +42,3 @@ pip3 install -r requirements.txt
 # Run the Application
 # --------------------------
 /sw/pkgs/arc/python/3.12.1/bin/python mlregtest.py
-
-# (Optional) After successful run, you might push changes to git:
-# git push
