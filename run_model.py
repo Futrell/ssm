@@ -63,7 +63,6 @@ def run_evaluations(file_dict):
                 f"{model_string}.txt",
             )
 
-            breakpoint()
             # Run the model evaluation
             command = [
                 "python3.10",
@@ -77,7 +76,7 @@ def run_evaluations(file_dict):
                 "--save_checkpoints",
                 "--checkpoint_filename", model_string,
                 "--checkpoint_folder", output_folder,
-                "--char_separator", " "
+                "--char_separator", '" "'
             ]
 
             print(f"Running: {command}")
