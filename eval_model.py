@@ -1,4 +1,5 @@
 import csv
+import os
 import argparse
 from typing import *
 import tqdm
@@ -102,6 +103,7 @@ if __name__ == "__main__":
                         help="Window size for averaging for reporting loss")
     parser.add_argument('--save_checkpoints', action='store_true',
                         help="Whether to save checkpoints.")
+    parser.add_argument('--checkpoint_folder', type=str, default='.')
     parser.add_argument('--checkpoint_filename', type=str, default="model",
                         help="Filename prefix for checkpoints.")
 
@@ -126,7 +128,8 @@ if __name__ == "__main__":
     if not args.save_checkpoints:
         checkpoint_prefix = None
     else:
-        checkpoint_prefix = "checkpoints/%s" % args.checkpoint_filename
+        basename = os.path.dirname(args.train_file).split('/')[-1]
+        checkpoint_prefix = "%s/checkpoints/%s" % (args.checkpoint_folder, args.checkpoint_filename)
     
     model.train(
         batches,

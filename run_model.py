@@ -35,6 +35,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Function to run evaluations for different models and hyperparameters
 def run_evaluations(file_dict):
+    basename = os.path.dirname(file_dict['training']).split('/')[-1]
     # Loop through all model classes
     for model_type in MODEL_CLASSES:
         print(f"Evaluating model: {model_type}")
@@ -45,10 +46,15 @@ def run_evaluations(file_dict):
             HYPERPARAMETER_GRID["num_epochs"],
             HYPERPARAMETER_GRID["lr"],
         ):
+            output_folder = os.path.join(OUTPUT_DIR, basename, model_type)
+            os.makedirs(output_folder, exist_ok=True)
+
+            model_string = f"{model_type}_bs{batch_size}_ep{num_epochs}_lr{lr}"
             output_file = os.path.join(
-                OUTPUT_DIR,
-                f"{model_type}_bs{batch_size}_ep{num_epochs}_lr{lr}.txt",
+                output_folder,
+                f"{model_string}.txt",
             )
+
 
             # Run the model evaluation
             command = [
@@ -60,6 +66,9 @@ def run_evaluations(file_dict):
                 "--batch_size", str(batch_size),
                 "--num_epochs", str(num_epochs),
                 "--lr", str(lr),
+                "--save_checkpoints",
+                "--checkpoint_prefix", model_string,
+                "--checkpoint_folder", output_folder
             ]
 
             print(f"Running: {command}")
