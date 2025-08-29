@@ -134,7 +134,7 @@ if __name__ == "__main__":
     if not args.save_checkpoints:
         checkpoint_prefix = None
     else:
-        basename = os.path.dirname(args.train_file).split('/')[-1]
+        os.makedirs(os.path.join(args.checkpoint_folder, 'checkpoints'), exist_ok=True)
         checkpoint_prefix = "%s/checkpoints/%s" % (args.checkpoint_folder, args.checkpoint_filename)
     
     model.train(
