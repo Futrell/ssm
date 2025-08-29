@@ -88,7 +88,7 @@ class WFSA(torch.nn.Module):
     def __init__(self, A, init=None, final=None, phi=None):
         super().__init__()
         self.A = A # positive weights
-        self.device = device
+        self.device = DEVICE
 
         X1, Y1, X2 = self.A.shape
         assert X1 == X2
