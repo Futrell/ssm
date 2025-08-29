@@ -124,6 +124,8 @@ if __name__ == "__main__":
         args.test_file,
         col_separator=args.col_separator,
         char_separator=args.char_separator,
+        # TODO: Will need to fix this once we have random test data
+        paired=True
     )
     test_eval = test_eval(test_data)
 

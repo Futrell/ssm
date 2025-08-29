@@ -55,10 +55,10 @@ def run_evaluations(file_dict):
                 f"{model_string}.txt",
             )
 
-
+            breakpoint()
             # Run the model evaluation
             command = [
-                "python3",
+                "python3.10",
                 "eval_model.py",  # Assuming eval_model.py runs training & evaluation
                 model_type,
                 file_dict['training'],
@@ -67,7 +67,7 @@ def run_evaluations(file_dict):
                 "--num_epochs", str(num_epochs),
                 "--lr", str(lr),
                 "--save_checkpoints",
-                "--checkpoint_prefix", model_string,
+                "--checkpoint_filename", model_string,
                 "--checkpoint_folder", output_folder
             ]
 

@@ -5,21 +5,25 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 from collections import defaultdict
 
-def load(file_path, col_separator, char_separator):
+def load(file_path, col_separator, char_separator, paired=False):
     wordlist = defaultdict(list)
     with open(file_path, 'r') as f:
         reader = csv.reader(f, delimiter=col_separator)
         for row in reader:
             # Ensure the row is not empty
             if row:
-                row_val = False if row[1] == 'FALSE' else True
+                if not paired:
+                    row_val = True if len(row) == 1 or row[1] == 'TRUE' else False
 
-                # If char_separator is None, split word character by character
-                if not char_separator:
-                    wordlist[row_val].append(list(row[0]))
+                    # If char_separator is None, split word character by character
+                    if not char_separator:
+                        wordlist[row_val].append(list(row[0]))
+                    else:
+                        # Split the first column (word) using the char_separator
+                        wordlist[row_val].append(row[0].split(char_separator))
                 else:
-                    # Split the first column (word) using the char_separator
-                    wordlist[row_val].append(row[0].split(char_separator))
+                    wordlist[True].append(row[0])
+                    wordlist[False].append(row[1])
     return wordlist
 
 def build_phone2ix(wordlist):
@@ -41,13 +45,14 @@ def pairing(input_data):
     good = input_data[True]
     bad = input_data[False]
     pairs = zip(good, bad)
-    pairs = [(x, y) for x, y in pairs if len(x) == len(y)]
+    pairs = [(x, y) for x, y in pairs]
 
     paired_data = {True: [x for x, y in pairs], False: [y for x, y in pairs]}
     return paired_data
 
-def process_data(file_path, col_separator=",", char_separator=" "):
-    wordlist = load(file_path, col_separator, char_separator)
+# TODO: Need to tweak this to work with unpaired data
+def process_data(file_path, col_separator=",", char_separator=" ", paired=False):
+    wordlist = load(file_path, col_separator, char_separator, paired=paired)
     paired_wordlist = pairing(wordlist) if wordlist[False] else wordlist
     phone2ix = build_phone2ix(paired_wordlist)
 
