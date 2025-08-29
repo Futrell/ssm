@@ -5,7 +5,7 @@ import numpy as np
 from itertools import product
 
 # Define available model types
-MODEL_CLASSES = ["ptsl2", "ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
+MODEL_CLASSES = ["ptsl2", "ssm", "diag_ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
 
 # Define hyperparameters for tuning
 HYPERPARAMETER_GRID = {
