@@ -302,9 +302,10 @@ class FSAPhonotacticsModel(PhonotacticsModel):
         A = torch.nn.Parameter((1/init_T)*torch.randn(X, S, X), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
-            return cls(A, final=final).to(DEVICE)
+            model = cls(A, final=final).to(DEVICE)
         else:
-            return cls(A).to(DEVICE)
+            model = cls(A).to(DEVICE)
+        return model
 
 def soft_ceiling(x, k, beta=1):
     return k - torch.nn.functional.softplus(k - x, beta=beta)
