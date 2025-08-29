@@ -14,8 +14,16 @@ HYPERPARAMETER_GRID = {
     "lr": [0.001],
 }
 
-training_file = "data/mlregtest/04.04.SL.2.1.0_Dev.txt" # TODO: controlled data  data/mlregtest/04.04.SL.2.1.0_Train.txt
-test_file = "data/mlregtest/04.04.SL.2.1.0_TestLR.txt" #
+DATA_DIRECTORY = "data/converted_mlregtest/"
+
+def get_directories():
+    # Get directories in MLRegTest folder
+    directories = []
+    for filename in os.listdir(DATA_DIRECTORY):
+        full_path = os.path.join(DATA_DIRECTORY, filename)
+        if os.path.isdir(full_path):
+            directories.append(full_path)
+    return directories
 
 
 # read the training and test files from the mlregtest directory, and then run this script to evaluate the models with different classe.
@@ -26,7 +34,7 @@ OUTPUT_DIR = "output/model_evaluations"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Function to run evaluations for different models and hyperparameters
-def run_evaluations():
+def run_evaluations(file_dict):
     # Loop through all model classes
     for model_type in MODEL_CLASSES:
         print(f"Evaluating model: {model_type}")
@@ -47,8 +55,8 @@ def run_evaluations():
                 "python3",
                 "eval_model.py",  # Assuming eval_model.py runs training & evaluation
                 model_type,
-                training_file,
-                test_file,
+                file_dict['training'],
+                file_dict['testing_paired'],
                 "--batch_size", str(batch_size),
                 "--num_epochs", str(num_epochs),
                 "--lr", str(lr),
@@ -99,8 +107,21 @@ def analyze_results():
     print(f"Loss: {best_model[4]:.4f}")
 
 if __name__ == "__main__":
-    # Step 1: Run evaluations
-    run_evaluations()
+    directories = get_directories()
+    for directory in directories:
+        files = os.listdir(directory)
+        file_dict = {}
 
-    # Step 2: Analyze results
-    analyze_results()
+        for file in files:
+            if 'LearningData' in file:
+                file_dict['training'] = os.path.join(directory, file)
+            elif 'TestingPairs' in file:
+                file_dict['testing_paired'] = os.path.join(directory, file)
+            elif 'TestingUnpaired' in file:
+                file_dict['testing_unpaired'] = os.path.join(directory, file)
+
+        # Step 1: Run evaluations
+        run_evaluations(file_dict)
+
+        # Step 2: Analyze results
+        analyze_results()
