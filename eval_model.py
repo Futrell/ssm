@@ -6,6 +6,8 @@ import ssm
 import numpy as np
 import process_data
 
+CHECKPOINT_DIR = "checkpoints"
+
 def get_model(model_type: str,
               vocab_size: int,
               init_temperature: float,
@@ -72,7 +74,7 @@ def test_eval(test_data):
         'good_scores': compute_good_scores,
         'bad_scores': compute_bad_scores,
         'diff': lambda m: compute_good_scores(m) - compute_bad_scores(m),
-        #'paired_diff': compute_paired_diff,
+        'paired_diff': compute_paired_diff,
     }
 
 if __name__ == "__main__":
@@ -98,6 +100,10 @@ if __name__ == "__main__":
                         help="How often to report training results")
     parser.add_argument('--reporting_window_size', type=int, default=1,
                         help="Window size for averaging for reporting loss")
+    parser.add_argument('--save_checkpoints', action='store_true',
+                        help="Whether to save checkpoints.")
+    parser.add_argument('--checkpoint_filename', type=str, default="model",
+                        help="Filename prefix for checkpoints.")
 
     args = parser.parse_args()
 
@@ -117,12 +123,18 @@ if __name__ == "__main__":
 
     batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
+    if not args.save_checkpoints:
+        checkpoint_prefix = None
+    else:
+        checkpoint_prefix = "checkpoints/%s" % args.checkpoint_filename
+    
     model.train(
         batches,
         report_every=args.report_every,
         reporting_window_size=args.reporting_window_size,
         lr=args.lr,
         diagnostic_fns=test_eval,
+        checkpoint_prefix=checkpoint_prefix,
         hyperparams_to_report={
             'batch_size': args.batch_size,
             'lr': args.lr,

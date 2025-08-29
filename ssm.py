@@ -227,6 +227,7 @@ class PhonotacticsModel(torch.nn.Module):
               device: str=DEVICE,
               debug: bool=False,
               reporting_window_size: int=100,
+              checkpoint_prefix: Optional[str]=None,
               diagnostic_fns: Optional[Dict[str, Callable[[torch.nn.Module], Any]]]=None,
               hyperparams_to_report: Optional[Dict]=None,
               **kwds):
@@ -254,6 +255,10 @@ class PhonotacticsModel(torch.nn.Module):
                     diagnostic |= hyperparams_to_report
                 writer.writerow(diagnostic)
                 diagnostics.append(diagnostic)
+                if checkpoint_prefix is not None:
+                    filename = checkpoint_prefix + "_%d.pt" % i
+                    with open(filename, 'wb') as outfile:
+                        torch.save(self, outfile)
         return diagnostics
 
 
