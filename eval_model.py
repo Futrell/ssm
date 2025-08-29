@@ -90,7 +90,7 @@ if __name__ == "__main__":
     parser.add_argument('test_file', type=str, default=None,
                         help="""Test data, two columns where first is a form
                                 and second is a judgment""")
-    parser.add_argument('--char_separator', type=str, default="",
+    parser.add_argument('--char_separator', type=str, default=" ",
                         help="Delimiter for characters")
     parser.add_argument('--col_separator', type=str, default="\t",
                         help="Delimiter for forms vs. judgments in data files")
