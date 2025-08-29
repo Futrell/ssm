@@ -3,10 +3,12 @@ import argparse
 from typing import *
 import tqdm
 import ssm
+import torch
 import numpy as np
 import process_data
 
 CHECKPOINT_DIR = "checkpoints"
+DEVICE = 'gpu' if torch.cuda.is_available() else 'cpu'
 
 def get_model(model_type: str,
               vocab_size: int,
@@ -16,19 +18,19 @@ def get_model(model_type: str,
         state_dim = vocab_size
 
     if model_type == 'sl2':
-        return ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'sp2':
-        return ssm.SP2.initialize(vocab_size, init_T=init_temperature)
+        model = ssm.SP2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'soft_tsl2': 
-        return ssm.SoftTSL2.initialize(
+        model = ssm.SoftTSL2.initialize(
             vocab_size,
             init_T=init_temperature,
             init_T_projection=init_temperature
         )
     elif model_type == 'ptsl2':
-        return ssm.pTSL.initialize(vocab_size)
+        model = ssm.pTSL.initialize(vocab_size)
     elif model_type == 'ssm':
-        return ssm.SSMPhonotacticsModel.initialize(
+        model = ssm.SSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
             init_T_A=init_temperature,
@@ -36,7 +38,7 @@ def get_model(model_type: str,
             init_T_C=init_temperature,
         )
     elif model_type == 'diag_ssm': 
-        return ssm.DiagonalSSMPhonotacticsModel.initialize(
+        model = ssm.DiagonalSSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
             init_T_A=init_temperature,
@@ -44,11 +46,13 @@ def get_model(model_type: str,
             init_T_C=init_temperature,
         )
     elif model_type == 'pfsa':
-        return ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
+        model = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
     elif model_type == 'wfsa':
-        return ssm.WFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
+        model = ssm.WFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
     else:
         raise ValueError("Unrecognized model type: %s" % model_type)
+
+    return model.to(DEVICE)
 
 def get_vocab_size(data):
     # Each symbol is represented by an integer, starting from 0. To get vocab
