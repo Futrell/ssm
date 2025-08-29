@@ -85,7 +85,7 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
     plt.show()
 
 class WFSA(torch.nn.Module):
-    def __init__(self, A, init=None, final=None, phi=None, device=DEVICE):
+    def __init__(self, A, init=None, final=None, phi=None):
         super().__init__()
         self.A = A # positive weights
         self.device = device
@@ -95,9 +95,9 @@ class WFSA(torch.nn.Module):
 
         self.dtype = self.A.dtype
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
-        self.phi = torch.eye(Y1, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
-        self.init = torch.eye(X1, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...], enforcing state 0 = initial state.
-        self.final = torch.ones(X1, dtype=self.dtype, device=device) if final is None else final # default to [..., 1, 1, 1], meaning all states can be equally final
+        self.phi = torch.eye(Y1, dtype=self.dtype, device=DEVICE) if phi is None else phi # default to identity matrix
+        self.init = torch.eye(X1, dtype=self.dtype, device=DEVICE)[0] if init is None else init # default to [1, 0, 0, 0, ...], enforcing state 0 = initial state.
+        self.final = torch.ones(X1, dtype=self.dtype, device=DEVICE) if final is None else final # default to [..., 1, 1, 1], meaning all states can be equally final
 
     def forward(self, input, init=None, final=None, debug=False):
         init = self.init if init is None else init
@@ -114,7 +114,7 @@ class WFSA(torch.nn.Module):
     def transition_closure(self):
         # Code for real semiring only. Needs spectral radius of A less than 1!
         # Use A* = (I - A)^{-1}, from Lehmann (1977: 65).
-        I = torch.eye(self.A.shape[0])
+        I = torch.eye(self.A.shape[0], device=DEVICE)
         A = self.A.sum(-2)
         assert spectral_radius(A) <= 1 + EPSILON
         return torch.linalg.inv(I - A)
@@ -137,7 +137,7 @@ def test_wfsa():
          [1/2, 0], # b
          [0, 0]], # c
     ])
-    fsa = WFSA(A, init=torch.eye(2)[0], final=torch.ones(2))
+    fsa = WFSA(A, init=torch.eye(2, device=DEVICE)[0], final=torch.ones(2, device=DEVICE))
     assert fsa([1,2,0]) == 0
     assert fsa([1,0,2]) > 0
 
@@ -152,7 +152,7 @@ def test_wfsa():
          [1, 0], # b
          [0, 0]], # c
     ]) / 2.74
-    fsa = WFSA(A, init=torch.eye(2)[0], final=torch.ones(2))
+    fsa = WFSA(A, init=torch.eye(2, device=DEVICE)[0], final=torch.ones(2, device=DEVICE))
     assert fsa([1,2,0]) == 0
     assert fsa([1,0,2]) > 0
     assert 371 < fsa.pathsum() < 372
@@ -270,12 +270,12 @@ class FSAPhonotacticsModel(PhonotacticsModel):
         assert Q == Q2
         
         if init is None: # init is in positive weight space
-            self.init = torch.eye(Q)[0]
+            self.init = torch.eye(Q, device=DEVICE)[0]
         else:
             self.init = init
 
         if final is None: # final is in log weight space
-            self.final = torch.zeros(Q) # will be come all ones
+            self.final = torch.zeros(Q, device=DEVICE) # will be come all ones
         else:
             assert final.shape[-1] == Q
             self.final = final
@@ -302,10 +302,10 @@ class FSAPhonotacticsModel(PhonotacticsModel):
         A = torch.nn.Parameter((1/init_T)*torch.randn(X, S, X), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
-            model = cls(A, final=final).to(DEVICE)
+            model = cls(A, final=final)
         else:
-            model = cls(A).to(DEVICE)
-        return model
+            model = cls(A)
+        return model.to(DEVICE)
 
 def soft_ceiling(x, k, beta=1):
     return k - torch.nn.functional.softplus(k - x, beta=beta)
@@ -362,14 +362,14 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
         Q, S = self.E.shape
         assert S == self.pi.shape[-1]
         if final is None:
-            self.final = torch.zeros(Q).to(DEVICE)
+            self.final = torch.zeros(Q, device=DEVICE)
         else:
             self.final = final
             assert len(self.final) == Q            
 
-        self.init = torch.eye(Q)[0].to(DEVICE)
+        self.init = torch.eye(Q, device=DEVICE)[0]
         self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ
-        self.T_not_on_tier = torch.eye(Q)[:, None, :].to(DEVICE) # shape Q1Q
+        self.T_not_on_tier = torch.eye(Q, device=DEVICE)[:, None, :] # shape Q1Q
     
     @classmethod
     def initialize(cls,
@@ -383,9 +383,10 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
         E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(S+1), requires_grad=requires_grad)
-            return cls(E, pi, final=final).to(DEVICE)
+            model = cls(E, pi, final=final)
         else:
-            return cls(E, pi).to(DEVICE)
+            model = cls(E, pi)
+        return model.to(DEVICE)
 
     @property
     def A_positive(self):
