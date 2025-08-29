@@ -9,12 +9,12 @@ def load(file_path, col_separator, char_separator, paired=False):
     wordlist = defaultdict(list)
     with open(file_path, 'r') as f:
         reader = csv.reader(f, delimiter=col_separator)
+        next(reader)
         for row in reader:
             # Ensure the row is not empty
             if row:
                 if not paired:
                     row_val = True if len(row) == 1 or row[1] == 'TRUE' else False
-
                     # If char_separator is None, split word character by character
                     if not char_separator:
                         wordlist[row_val].append(list(row[0]))
@@ -22,8 +22,13 @@ def load(file_path, col_separator, char_separator, paired=False):
                         # Split the first column (word) using the char_separator
                         wordlist[row_val].append(row[0].split(char_separator))
                 else:
-                    wordlist[True].append(row[0])
-                    wordlist[False].append(row[1])
+                    if not char_separator:
+                        wordlist[True].append(row[0])
+                        wordlist[False].append(row[1])
+                    else:
+                        wordlist[True].append(row[0].split(char_separator))
+                        wordlist[False].append(row[1].split(char_separator))
+
     return wordlist
 
 def build_phone2ix(wordlist):
