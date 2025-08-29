@@ -487,9 +487,9 @@ class Factor2(SSMPhonotacticsModel):
 class SL2(Factor2):
     @classmethod
     def init_matrices(cls, d, bias=False):
-        A = torch.zeros(d+bias, d+bias) # X x X
-        B = torch.eye(d+bias)[:, (1+bias):] # X x S
-        init = torch.eye(d+bias)[0]
+        A = torch.zeros(d+bias, d+bias, device=DEVICE) # X x X
+        B = torch.eye(d+bias, device=DEVICE)[:, (1+bias):] # X x S
+        init = torch.eye(d+bias, device=DEVICE)[0]
         if bias:
             A[0,0] = 1
             init[0,1] = 1
@@ -498,9 +498,9 @@ class SL2(Factor2):
 class SP2(Factor2):
     @classmethod
     def init_matrices(cls, d, bias=False):
-        A = torch.eye(d, d, dtype=bool)
-        B = torch.eye(d, dtype=bool)[:, 1:]
-        init = torch.eye(d, dtype=bool)[0]
+        A = torch.eye(d, d, dtype=bool, device=DEVICE)
+        B = torch.eye(d, dtype=bool, device=DEVICE)[:, 1:]
+        init = torch.eye(d, dtype=bool, device=DEVICE)[0]
         return A, B, init
 
 class SL_SP2(Factor2):
@@ -509,15 +509,15 @@ class SL_SP2(Factor2):
         A = torch.block_diag(
             torch.zeros(d, d, dtype=torch.bool),
             torch.eye(d, dtype=torch.bool),
-        )
+        ).to(DEVICE)
         B = torch.cat([
             torch.eye(d, dtype=torch.bool)[:, 1:],
             torch.eye(d, dtype=torch.bool)[:, 1:]
-        ])
+        ]).to(DEVICE)
         init = torch.cat([
             torch.eye(d, dtype=torch.bool)[0],
             torch.eye(d, dtype=torch.bool)[0],
-        ])
+        ]).to(DEVICE)
         return A, B, init
 
 class TierBased(Factor2):
