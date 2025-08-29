@@ -370,8 +370,8 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
             assert len(self.final) == Q            
 
         self.init = torch.eye(Q)[0]
-        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T # shape 1SQ
-        self.T_not_on_tier = torch.eye(Q)[:, None, :] # shape Q1Q
+        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ
+        self.T_not_on_tier = torch.eye(Q)[:, None, :].to(DEVICE) # shape Q1Q
     
     @classmethod
     def initialize(cls,
