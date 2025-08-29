@@ -5,13 +5,22 @@ import numpy as np
 from itertools import product
 
 # Define available model types
-MODEL_CLASSES = ["ptsl2", "ssm", "diag_ssm", "pfsa", "wfsa", "sl2", "sp2", "soft_tsl2"]
+MODEL_CLASSES = [
+    "ptsl2",
+    "ssm",
+    "diag_ssm",
+    "pfsa",
+    "wfsa",
+    "sl2",
+    "sp2",
+    "soft_tsl2",
+]
 
 # Define hyperparameters for tuning
 HYPERPARAMETER_GRID = {
-    "batch_size": [32],
-    "num_epochs": [100],
-    "lr": [0.001],
+    "batch_size": [1, 32, 128, 1024],
+    "num_epochs": [10],
+    "lr": [0.01, 0.001, 0.0001],
 }
 
 DATA_DIRECTORY = "data/converted_mlregtest/"
@@ -73,47 +82,13 @@ def run_evaluations(file_dict):
 
             print(f"Running: {command}")
             with open(output_file, "w") as f:
+                # pipe stdout into the file f
                 subprocess.run(command, stdout=f)
-
-            # TODO: can we save the results incrementally?
 
             print(f"Results saved to: {output_file}")
 
     print("All model evaluations completed.")
 
-# Function to analyze results
-def analyze_results():
-    results = []
-
-    for model_type in MODEL_CLASSES:
-        for batch_size, num_epochs, lr in product(
-            HYPERPARAMETER_GRID["batch_size"],
-            HYPERPARAMETER_GRID["num_epochs"],
-            HYPERPARAMETER_GRID["lr"],
-        ):
-            output_file = os.path.join(
-                OUTPUT_DIR,
-                f"{model_type}_bs{batch_size}_ep{num_epochs}_lr{lr}.txt",
-            )
-
-            # Read the loss values from the output files
-            if os.path.exists(output_file):
-                with open(output_file, "r") as f:
-                    for line in f:
-                        if "Loss:" in line:
-                            loss_value = float(line.split(":")[-1].strip())
-                            results.append(
-                                (model_type, batch_size, num_epochs, lr, loss_value)
-                            )
-
-    # Find the best model configuration
-    best_model = min(results, key=lambda x: x[-1])
-    print("\nBest Model Configuration:")
-    print(f"Model: {best_model[0]}")
-    print(f"Batch Size: {best_model[1]}")
-    print(f"Epochs: {best_model[2]}")
-    print(f"Learning Rate: {best_model[3]}")
-    print(f"Loss: {best_model[4]:.4f}")
 
 if __name__ == "__main__":
     directories = get_directories()
@@ -129,8 +104,5 @@ if __name__ == "__main__":
             elif 'TestingUnpaired' in file:
                 file_dict['testing_unpaired'] = os.path.join(directory, file)
 
-        # Step 1: Run evaluations
         run_evaluations(file_dict)
 
-        # Step 2: Analyze results
-        analyze_results()
