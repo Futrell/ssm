@@ -7,7 +7,6 @@ from itertools import product
 # Define available model types
 MODEL_CLASSES = [
     "ptsl2",
-    "ssm",
     "diag_ssm",
     "pfsa",
     "wfsa",
@@ -18,9 +17,9 @@ MODEL_CLASSES = [
 
 # Define hyperparameters for tuning
 HYPERPARAMETER_GRID = {
-    "batch_size": [1, 32, 128, 1024],
+    "batch_size": [32, 128, 1024],
     "num_epochs": [10],
-    "lr": [0.01, 0.001, 0.0001],
+    "lr": [0.001],
 }
 
 DATA_DIRECTORY = "data/converted_mlregtest/"
