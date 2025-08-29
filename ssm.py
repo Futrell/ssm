@@ -364,12 +364,12 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
         Q, S = self.E.shape
         assert S == self.pi.shape[-1]
         if final is None:
-            self.final = torch.zeros(Q)
+            self.final = torch.zeros(Q).to(DEVICE)
         else:
             self.final = final
             assert len(self.final) == Q            
 
-        self.init = torch.eye(Q)[0]
+        self.init = torch.eye(Q)[0].to(DEVICE)
         self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ
         self.T_not_on_tier = torch.eye(Q)[:, None, :].to(DEVICE) # shape Q1Q
     
