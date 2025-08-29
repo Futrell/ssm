@@ -9,7 +9,8 @@ import numpy as np
 import process_data
 
 CHECKPOINT_DIR = "checkpoints"
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+#DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+DEVICE = 'cpu'
 
 def get_model(model_type: str,
               vocab_size: int,
@@ -123,9 +124,7 @@ if __name__ == "__main__":
     *_, test_data = process_data.process_data(
         args.test_file,
         col_separator=args.col_separator,
-        char_separator=args.char_separator,
-        # TODO: Will need to fix this once we have random test data
-        paired=True
+        char_separator=args.char_separator
     )
     test_eval = test_eval(test_data)
 

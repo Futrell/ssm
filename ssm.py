@@ -15,7 +15,8 @@ import numpy as np
 
 INF = float('inf')
 
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+# DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+DEVICE = 'cpu'
 
 # DEVICE = torch.device("mps") if torch.backends.mps.is_available() else 'cpu'
 

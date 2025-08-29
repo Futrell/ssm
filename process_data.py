@@ -1,11 +1,12 @@
 import torch
 import csv
 import pprint as pp
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+# DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+DEVICE = 'cpu'
 
 from collections import defaultdict
 
-def load(file_path, col_separator, char_separator, paired=False):
+def load(file_path, col_separator, char_separator):
     wordlist = defaultdict(list)
     with open(file_path, 'r') as f:
         reader = csv.reader(f, delimiter=col_separator)
@@ -13,21 +14,13 @@ def load(file_path, col_separator, char_separator, paired=False):
         for row in reader:
             # Ensure the row is not empty
             if row:
-                if not paired:
-                    row_val = True if len(row) == 1 or row[1] == 'TRUE' else False
-                    # If char_separator is None, split word character by character
-                    if not char_separator:
-                        wordlist[row_val].append(list(row[0]))
-                    else:
-                        # Split the first column (word) using the char_separator
-                        wordlist[row_val].append(row[0].split(char_separator))
+                row_val = True if len(row) == 1 or row[1] in ['TRUE', 'grammatical'] else False
+                # If char_separator is None, split word character by character
+                if not char_separator:
+                    wordlist[row_val].append(list(row[0]))
                 else:
-                    if not char_separator:
-                        wordlist[True].append(row[0])
-                        wordlist[False].append(row[1])
-                    else:
-                        wordlist[True].append(row[0].split(char_separator))
-                        wordlist[False].append(row[1].split(char_separator))
+                    # Split the first column (word) using the char_separator
+                    wordlist[row_val].append(row[0].split(char_separator))
 
     return wordlist
 
@@ -43,31 +36,9 @@ def wordlist_to_vec(wordlist, phone2ix):
     bad = [torch.LongTensor(list(map(phone2ix.get, word))).to(DEVICE) for word in wordlist[False]]
     return {True: good, False: bad}
 
-def pairing(input_data):
-    """
-    Purpose: Pairing the good and bad data
-    """
-    good = input_data[True]
-    bad = input_data[False]
-    pairs = zip(good, bad)
-    pairs = [(x, y) for x, y in pairs]
+def process_data(file_path, col_separator=",", char_separator=" "):
+    wordlist = load(file_path, col_separator, char_separator)
+    phone2ix = build_phone2ix(wordlist)
 
-    paired_data = {True: [x for x, y in pairs], False: [y for x, y in pairs]}
-    return paired_data
-
-# TODO: Need to tweak this to work with unpaired data
-def process_data(file_path, col_separator=",", char_separator=" ", paired=False):
-    wordlist = load(file_path, col_separator, char_separator, paired=paired)
-    paired_wordlist = pairing(wordlist) if wordlist[False] else wordlist
-    phone2ix = build_phone2ix(paired_wordlist)
-
-    word_vec = wordlist_to_vec(paired_wordlist, phone2ix)
-    return paired_wordlist, phone2ix, word_vec
-
-# end def
-if __name__ == "__main__":
-    file_path  = 'data/mlregtest/04.04.SL.2.1.0_TestLR.txt'
-    process_data(file_path, col_separator="\t", char_separator="")
-
-    # dataset is too big---define a function that import a large dataset as zip.
-    # option: use ssh fuse
+    word_vec = wordlist_to_vec(wordlist, phone2ix)
+    return wordlist, phone2ix, word_vec
