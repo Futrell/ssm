@@ -76,7 +76,8 @@ def run_evaluations(file_dict):
                 "--lr", str(lr),
                 "--save_checkpoints",
                 "--checkpoint_filename", model_string,
-                "--checkpoint_folder", output_folder
+                "--checkpoint_folder", output_folder,
+                "--char_separator", " "
             ]
 
             print(f"Running: {command}")
