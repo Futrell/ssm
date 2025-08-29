@@ -207,7 +207,7 @@ class SSM(torch.nn.Module):
         T = len(input)
         u = self.phi[input]
         proj = self.semiring.mm(u, self.pi) # torch.einsum("ux,tu->tx", self.pi, u)
-        x = [torch.zeros(self.A.shape[0], dtype=self.dtype) for _ in range(T+1)]
+        x = [torch.zeros(self.A.shape[0], dtype=self.dtype, device=DEVICE) for _ in range(T+1)]
         x[0] = self.init if init is None else init
         for t in range(T):
             update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
