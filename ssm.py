@@ -161,7 +161,7 @@ def test_wfsa():
 # every symbols have two path, one project to the
 
 class SSM(torch.nn.Module):
-    def __init__(self, A, B, C, init=None, phi=None, pi=None, device=DEVICE):
+    def __init__(self, A, B, C, init=None, phi=None, pi=None):
         """
         A: state matrix (K x K): determines contribution of state at previous
            time to state at current time
@@ -173,7 +173,6 @@ class SSM(torch.nn.Module):
         phi: matrix (Y x S): maps segments to vector representation
         pi: vector (S): projection vector for tier. Segments s with pi[s]=0 are ignored.
         init: initialization vector (K); if unspecified, [0, 0, 0, ..., 0, 1] by default.
-        device: train on GPU ('cuda') or CPU ('cpu')
         """
         super().__init__()
         self.A = A
@@ -190,14 +189,14 @@ class SSM(torch.nn.Module):
 
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
 
-        self.phi = torch.eye(U, dtype=self.dtype, device=device) if phi is None else phi # default to identity matrix
-        self.init = torch.eye(X, dtype=self.dtype, device=device)[0] if init is None else init # default to [1, 0, 0, 0, ...]
+        self.phi = torch.eye(U, dtype=self.dtype, device=DEVICE) if phi is None else phi # default to identity matrix
+        self.init = torch.eye(X, dtype=self.dtype, device=DEVICE)[0] if init is None else init # default to [1, 0, 0, 0, ...]
 
         # The projection matrix pi is a function from input feature i to state feature j.
         # It says, for input feature i, whether state feature j should be sensitive to it.
         # By default, all state features are sensitive to all input features, yielding a standard LTI SSM.
         if pi is None:
-            self.pi = torch.ones(U, X, dtype=self.dtype, device=device) # default [[1, 1, ...], ...].T
+            self.pi = torch.ones(U, X, dtype=self.dtype, device=DEVICE) # default [[1, 1, ...], ...].T
         else:
             self.pi = pi
             assert self.pi.shape[0] == U
@@ -224,7 +223,6 @@ class PhonotacticsModel(torch.nn.Module):
     def train(self,
               batches: Iterable[Iterable[Tuple[int, Sequence[int]]]], # iterable of batches of sequences of ints
               report_every: int=1000,
-              device: str=DEVICE,
               debug: bool=False,
               reporting_window_size: int=100,
               checkpoint_prefix: Optional[str]=None,
@@ -300,14 +298,13 @@ class FSAPhonotacticsModel(PhonotacticsModel):
             S,
             learn_final=False,
             requires_grad=True,
-            init_T=DEFAULT_INIT_TEMPERATURE,
-            device=DEVICE):
+            init_T=DEFAULT_INIT_TEMPERATURE):
         A = torch.nn.Parameter((1/init_T)*torch.randn(X, S, X), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
-            return cls(A, final=final).to(device)
+            return cls(A, final=final).to(DEVICE)
         else:
-            return cls(A).to(device)
+            return cls(A).to(DEVICE)
 
 def soft_ceiling(x, k, beta=1):
     return k - torch.nn.functional.softplus(k - x, beta=beta)
@@ -379,16 +376,15 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
                    pi=None,
                    learn_final=False,
                    requires_grad=True,
-                   init_T=DEFAULT_INIT_TEMPERATURE,
-                   device=DEVICE):
+                   init_T=DEFAULT_INIT_TEMPERATURE):
         if pi is None:
             pi = torch.nn.Parameter((1/init_T)*torch.randn(S), requires_grad=requires_grad)
         E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(S+1), requires_grad=requires_grad)
-            return cls(E, pi, final=final).to(device)
+            return cls(E, pi, final=final).to(DEVICE)
         else:
-            return cls(E, pi).to(device)
+            return cls(E, pi).to(DEVICE)
 
     @property
     def A_positive(self):
@@ -397,15 +393,13 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
         return A
 
 class SSMPhonotacticsModel(PhonotacticsModel):
-    def __init__(self, A, B, C, init=None, pi=None, device=DEVICE):
+    def __init__(self, A, B, C, init=None, pi=None):
         super().__init__()
         self.A = A
         self.B = B
         self.C = C
         self.init = init
         self.pi = pi
-
-        self.device = device
 
     @classmethod
     def initialize(
@@ -415,12 +409,11 @@ class SSMPhonotacticsModel(PhonotacticsModel):
             requires_grad=True,
             init_T_A=DEFAULT_INIT_TEMPERATURE,
             init_T_B=DEFAULT_INIT_TEMPERATURE,
-            init_T_C=DEFAULT_INIT_TEMPERATURE,
-            device=DEVICE):
+            init_T_C=DEFAULT_INIT_TEMPERATURE):
         A = torch.nn.Parameter((1/init_T_A)*torch.randn(X, X), requires_grad=requires_grad)
         B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
         C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
-        return cls(A, B, C).to(device)
+        return cls(A, B, C).to(DEVICE)
 
     def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: Optional[bool]=False):
         ssm = self.ssm()
@@ -447,12 +440,11 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
             requires_grad=True,
             init_T_A=DEFAULT_INIT_TEMPERATURE,
             init_T_B=DEFAULT_INIT_TEMPERATURE,
-            init_T_C=DEFAULT_INIT_TEMPERATURE,
-            device=DEVICE):
+            init_T_C=DEFAULT_INIT_TEMPERATURE):
         A_diag = torch.nn.Parameter((1/init_T_A)*torch.randn(X), requires_grad=requires_grad)
         B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
         C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
-        return cls(A_diag, B, C).to(device)
+        return cls(A_diag, B, C).to(DEVICE)
 
     def ssm(self) -> SSM:
         return SSM(torch.diag(self.A), self.B, self.C, init=self.init, pi=self.pi)
@@ -486,9 +478,9 @@ class Factor2(SSMPhonotacticsModel):
         raise NotImplementedError
 
     @classmethod
-    def initialize(cls, S, projection=None, requires_grad: bool=True, device: str=DEVICE, init_T=DEFAULT_INIT_TEMPERATURE):
+    def initialize(cls, S, projection=None, requires_grad: bool=True, init_T=DEFAULT_INIT_TEMPERATURE):
         factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
-        return cls.from_factors(factors, projection=projection).to(device)
+        return cls.from_factors(factors, projection=projection).to(DEVICE)
 
 class SL2(Factor2):
     @classmethod
@@ -546,7 +538,6 @@ class SoftTierBased(Factor2):
             S,
             pi=None, 
             requires_grad: bool=True,
-            device: str=DEVICE,
             init_T=DEFAULT_INIT_TEMPERATURE,
             init_T_projection=DEFAULT_INIT_TEMPERATURE):
         factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
@@ -554,7 +545,7 @@ class SoftTierBased(Factor2):
             projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S), requires_grad=requires_grad)
         else:
             projection = pi
-        return cls.from_factors(factors, projection).to(device)
+        return cls.from_factors(factors, projection).to(DEVICE)
 
     def ssm(self):
         return SSM(
