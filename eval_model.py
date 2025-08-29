@@ -8,7 +8,7 @@ import numpy as np
 import process_data
 
 CHECKPOINT_DIR = "checkpoints"
-DEVICE = 'gpu' if torch.cuda.is_available() else 'cpu'
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 def get_model(model_type: str,
               vocab_size: int,
