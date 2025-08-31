@@ -440,16 +440,41 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
             X,
             S,
             requires_grad=True,
+            A_diag=None,
+            B=None,
+            C=None,
             init_T_A=DEFAULT_INIT_TEMPERATURE,
             init_T_B=DEFAULT_INIT_TEMPERATURE,
             init_T_C=DEFAULT_INIT_TEMPERATURE):
-        A_diag = torch.nn.Parameter((1/init_T_A)*torch.randn(X), requires_grad=requires_grad)
-        B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
-        C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
+        if A_diag is None:
+            A_diag = torch.nn.Parameter((1/init_T_A)*torch.randn(X), requires_grad=requires_grad)
+            
+        if B is None:
+            B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
+
+        if C is None:
+            C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
+            
         return cls(A_diag, B, C).to(DEVICE)
 
     def ssm(self) -> SSM:
-        return SSM(torch.diag(self.A), self.B, self.C, init=self.init, pi=self.pi)
+        return SSM(
+            torch.diag(self.A),
+            self.B,
+            self.C,
+            init=self.init,
+            pi=self.pi
+        )
+
+class SquashedDiagonalSSMPhonotacticsModel(DiagonalSSMPhonotacticsModel):
+    def ssm(self) -> SSM:
+        return SSM(
+            torch.diag(torch.sigmoid(self.A)),
+            self.B,
+            self.C,
+            init=self.init,
+            pi=self.pi
+        )
 
 
 class CompoundSSMModel(SSMPhonotacticsModel):
@@ -468,7 +493,7 @@ class CompoundSSMModel(SSMPhonotacticsModel):
             pi=torch.cat([m.pi for m in ssms]),
         )
 
-class Factor2(SSMPhonotacticsModel):
+class Factor2(DiagonalSSMPhonotacticsModel):
     """ Phonotactics model whose probabilies are determined by factors of 2 segments """
     @classmethod
     def from_factors(cls, factors, projection=None, bias=False):
@@ -482,43 +507,48 @@ class Factor2(SSMPhonotacticsModel):
     @classmethod
     def initialize(cls, S, projection=None, requires_grad: bool=True, init_T=DEFAULT_INIT_TEMPERATURE):
         factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
+        # S+1 for eos?
         return cls.from_factors(factors, projection=projection).to(DEVICE)
+
 
 class SL2(Factor2):
     @classmethod
     def init_matrices(cls, d, bias=False):
-        A = torch.zeros(d+bias, d+bias, device=DEVICE) # X x X
+        A_diag = torch.zeros(d+bias, device=DEVICE) 
         B = torch.eye(d+bias, device=DEVICE)[:, (1+bias):] # X x S
         init = torch.eye(d+bias, device=DEVICE)[0]
         if bias:
-            A[0,0] = 1
+            A_diag[0] = 1
             init[0,1] = 1
-        return A, B, init
+        return A_diag, B, init
 
 class SP2(Factor2):
     @classmethod
     def init_matrices(cls, d, bias=False):
-        A = torch.eye(d, d, dtype=bool, device=DEVICE)
-        B = torch.eye(d, dtype=bool, device=DEVICE)[:, 1:]
-        init = torch.eye(d, dtype=bool, device=DEVICE)[0]
-        return A, B, init
+        A_diag = torch.ones(d+bias, dtype=bool, device=DEVICE)
+        B = torch.eye(d+bias, dtype=bool, device=DEVICE)[:, (1+bias):]
+        init = torch.eye(d+bias, dtype=bool, device=DEVICE)[0]
+        if bias:
+            A_diag[0] = True
+            init[0,1] = True
+        return A_diag, B, init
 
 class SL_SP2(Factor2):
     @classmethod
     def init_matrices(cls, d):
-        A = torch.block_diag(
-            torch.zeros(d, d, dtype=torch.bool),
-            torch.eye(d, dtype=torch.bool),
-        ).to(DEVICE)
+        A_diag = torch.cat([
+            torch.zeros(d, dtype=torch.bool),
+            torch.ones(d, dtype=torch.bool),
+        ]).to(DEVICE)
         B = torch.cat([
             torch.eye(d, dtype=torch.bool)[:, 1:],
-            torch.eye(d, dtype=torch.bool)[:, 1:]
+            torch.eye(d, dtype=torch.bool)[:, 1:],
         ]).to(DEVICE)
         init = torch.cat([
             torch.eye(d, dtype=torch.bool)[0],
             torch.eye(d, dtype=torch.bool)[0],
         ]).to(DEVICE)
-        return A, B, init
+        return A_diag, B, init
 
 class TierBased(Factor2):
     """ Assume projection is a function from input features to a single number for all state features,
@@ -526,7 +556,7 @@ class TierBased(Factor2):
 
     def ssm(self):
         return SSM(
-            self.A,
+            torch.diag(self.A),
             self.B,
             self.C,
             init=self.init,
@@ -551,7 +581,7 @@ class SoftTierBased(Factor2):
 
     def ssm(self):
         return SSM(
-            self.A,
+            torch.diag(self.A),
             self.B,
             self.C,
             init=self.init,
@@ -561,7 +591,7 @@ class SoftTierBased(Factor2):
 class ProbabilisticTierBased(SoftTierBased):
     def ssm(self):
         return SSM(
-            self.A,
+            torch.diag(self.A),
             self.B,
             self.C.exp(),
             init=self.init,
