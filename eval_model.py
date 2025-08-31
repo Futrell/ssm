@@ -127,7 +127,7 @@ if __name__ == "__main__":
         # TODO: Will need to fix this once we have random test data
         paired=True
     )
-    test_eval = test_eval(test_data)
+    eval_fns = test_eval(test_data)
 
     batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
