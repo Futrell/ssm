@@ -16,7 +16,7 @@ def get_model(model_type: str,
               init_temperature: float,
               state_dim: Optional[int] = None) -> ssm.PhonotacticsModel:
     if state_dim is None:
-        state_dim = vocab_size
+        state_dim = vocab_size + 1 # for eos
 
     if model_type == 'sl2':
         model = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
@@ -39,9 +39,10 @@ def get_model(model_type: str,
             init_T_C=init_temperature,
         )
     elif model_type == 'diag_ssm': 
-        model = ssm.DiagonalSSMPhonotacticsModel.initialize(
+        model = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
             init_T_A=init_temperature,
             init_T_B=init_temperature,
             init_T_C=init_temperature,
@@ -142,7 +143,7 @@ if __name__ == "__main__":
         report_every=args.report_every,
         reporting_window_size=args.reporting_window_size,
         lr=args.lr,
-        diagnostic_fns=test_eval,
+        diagnostic_fns=eval_fns,
         checkpoint_prefix=checkpoint_prefix,
         hyperparams_to_report={
             'batch_size': args.batch_size,
