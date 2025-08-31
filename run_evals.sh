@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # --- config mirroring your Python script ---
-DATA_DIRECTORY="data/converted_mlregtest"
+DATA_DIRECTORY="data/truncated_mlregtest"
 OUTPUT_DIR="output/model_evaluations"
 
 # Model classes
@@ -17,9 +17,9 @@ MODEL_CLASSES=(
 )
 
 # Hyperparameter grid
-BATCH_SIZES=(32 128 1024)
+BATCH_SIZES=(4 8 64)
 NUM_EPOCHS=(10)
-LRS=(0.001)
+LRS=(0.1 0.01 0.001)
 
 # Path to the evaluator script (adjust if needed)
 EVAL_SCRIPT="eval_model.py"
@@ -71,6 +71,7 @@ for DIR in $DATA_DIRECTORY/*/; do
                --batch_size "$bs"
                --num_epochs "$ne"
                --lr "$lr"
+	       --report_every 10
                --save_checkpoints
                --checkpoint_filename "$model_string"
                --checkpoint_folder "$outdir"
