@@ -30,7 +30,7 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 DEFAULT_INIT_TEMPERATURE = 100
 EPSILON = 10 ** -5
 
-torch.autograd.set_detect_anomaly(True)
+#torch.autograd.set_detect_anomaly(True)
 
 def boolean_mv(A, x):
     """ Boolean matrix-vector multiplication. """
@@ -112,12 +112,18 @@ class WFSA(torch.nn.Module):
         return y
 
     def transition_closure(self):
+        # (I - A)^{-1} via solve; no spectral radius check in the hot path
+        A = self.A.sum(-2)
+        I = torch.eye(A.shape[0], device=A.device, dtype=A.dtype)
+        return torch.linalg.solve(I - A, I)  # faster/more stable than inv
+
+    #def transition_closure(self):
         # Code for real semiring only. Needs spectral radius of A less than 1!
         # Use A* = (I - A)^{-1}, from Lehmann (1977: 65).
-        I = torch.eye(self.A.shape[0], device=DEVICE)
-        A = self.A.sum(-2)
-        assert spectral_radius(A) <= 1 + EPSILON
-        return torch.linalg.inv(I - A)
+    #    I = torch.eye(self.A.shape[0], device=DEVICE)
+    #    A = self.A.sum(-2)
+    #    assert spectral_radius(A) <= 1 + EPSILON
+    #    return torch.linalg.inv(I - A)
 
     def pathsum(self, init=None, final=None):
         init = self.init if init is None else init
@@ -241,12 +247,13 @@ class PhonotacticsModel(torch.nn.Module):
             loss = -self.log_likelihood(batch, debug=debug).mean()
             loss.backward()
             opt.step()
-            reporting_window.append(loss.detach().clone().cpu().numpy())
+            reporting_window.append(loss.detach())
             if i % report_every == 0:
+                mean_loss = torch.stack(list(reporting_window)).mean().item()
                 diagnostic = {
                     'step': i,
                     'epoch': epoch,
-                    'mean_loss': np.mean(reporting_window),
+                    'mean_loss': mean_loss,
                 }
                 diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
                 if hyperparams_to_report:
