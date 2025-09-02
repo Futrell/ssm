@@ -117,14 +117,6 @@ class WFSA(torch.nn.Module):
         I = torch.eye(A.shape[0], device=A.device, dtype=A.dtype)
         return torch.linalg.solve(I - A, I)  # faster/more stable than inv
 
-    #def transition_closure(self):
-        # Code for real semiring only. Needs spectral radius of A less than 1!
-        # Use A* = (I - A)^{-1}, from Lehmann (1977: 65).
-    #    I = torch.eye(self.A.shape[0], device=DEVICE)
-    #    A = self.A.sum(-2)
-    #    assert spectral_radius(A) <= 1 + EPSILON
-    #    return torch.linalg.inv(I - A)
-
     def pathsum(self, init=None, final=None):
         init = self.init if init is None else init
         final = self.final if final is None else final
@@ -275,23 +267,14 @@ class FSAPhonotacticsModel(PhonotacticsModel):
         self.A = A # unnormalized weights
         Q, S, Q2 = self.A.shape
         assert Q == Q2
-        
-        if init is None: # init is in positive weight space
-            self.init = torch.eye(Q, device=DEVICE)[0]
-        else:
-            self.init = init
 
-        if final is None: # final is in log weight space
-            self.final = torch.zeros(Q, device=DEVICE) # will be come all ones
-        else:
-            assert final.shape[-1] == Q
-            self.final = final
+        self.init = init # might be None
+        self.final = final # might be None
 
-    @property
     def A_positive(self):
-        return self.A.exp()
+        A_positive = self.A.exp() # Q1 S Q2
+        return A_positive
 
-    @property
     def final_positive(self):
         return self.final.exp()
 
@@ -328,18 +311,23 @@ class GloballyNormalized:
         return y.log() - Z.log()
 
     def fsa(self) -> WFSA:
-        final_positive = self.final.exp()
-        return WFSA(self.A_positive, init=self.init, final=final_positive)
+        return WFSA(self.A_positive(), init=self.init, final=self.final_positive())
 
 class AdjustedNormalized(GloballyNormalized):
     def fsa(self) -> WFSA:
-        A_positive = self.A_positive
-        final_positive = self.final_positive
-        s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
-        adjustment = soft_ceiling(s, 1) / s
-        A_normalized = adjustment * A_positive
-        final_normalized = adjustment * final_positive
-        return WFSA(A_normalized, init=self.init, final=final_normalized)
+        A_positive = self.A_positive()
+        if self.final is None:
+            s = spectral_radius(A_positive.sum(-2))
+            adjustment = soft_ceiling(s, 1) / s
+            A_normalized = adjustment * A_positive
+            return WFSA(A_normalized, init=self.init, final=None)
+        else:
+            final_positive = self.final_positive()
+            s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
+            adjustment = soft_ceiling(s, 1) / s
+            A_normalized = adjustment * A_positive
+            final_normalized = adjustment * final_positive
+            return WFSA(A_normalized, init=self.init, final=final_normalized)
 
 class LocallyNormalized: # NOTE: PFSA models have a halting probability, SSM models don't.
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
@@ -348,12 +336,17 @@ class LocallyNormalized: # NOTE: PFSA models have a halting probability, SSM mod
         return y.log()
 
     def fsa(self) -> WFSA:
-        A_positive = self.A_positive
-        final_positive = self.final_positive
-        Z = A_positive.sum((-1, -2)) + self.final_positive
-        A_normalized = A_positive / Z[:, None, None]
-        final_normalized = final_positive / Z
-        return WFSA(A_normalized, init=self.init, final=final_normalized)
+        A_positive = self.A_positive()
+        if self.final is None:
+            Z = A_positive.sum((-1, -2))
+            A_normalized = A_positive / Z[:, None, None] 
+            return WFSA(A_normalized, init=self.init, final=None)
+        else:
+            final_positive = self.final_positive()
+            Z = A_positive.sum((-1, -2)) + final_positive # from each state, sum mass to halt or transition
+            A_normalized = A_positive / Z[:, None, None] 
+            final_normalized = final_positive / Z
+            return WFSA(A_normalized, init=self.init, final=final_normalized)
 
 class PFSAPhonotacticsModel(FSAPhonotacticsModel, LocallyNormalized):
     pass
@@ -361,22 +354,17 @@ class PFSAPhonotacticsModel(FSAPhonotacticsModel, LocallyNormalized):
 class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
     pass
 
-class pTSL(FSAPhonotacticsModel, LocallyNormalized):
+class pTSL(PFSAPhonotacticsModel):
     def __init__(self, E, pi, final=None):
-        super(PhonotacticsModel, self).__init__()
+        super(FSAPhonotacticsModel, self).__init__()
         self.E = E # shape QS
         self.pi = pi # shape S
         Q, S = self.E.shape
         assert S == self.pi.shape[-1]
-        if final is None:
-            self.final = torch.zeros(Q, device=DEVICE)
-        else:
-            self.final = final
-            assert len(self.final) == Q            
-
+        self.final = final
         self.init = torch.eye(Q, device=DEVICE)[0]
-        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ
-        self.T_not_on_tier = torch.eye(Q, device=DEVICE)[:, None, :] # shape Q1Q
+        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ, saving symbol as state
+        self.T_not_on_tier = torch.eye(Q, device=DEVICE)[:, None, :] # shape Q1Q, preserving state
     
     @classmethod
     def initialize(cls,
@@ -395,7 +383,6 @@ class pTSL(FSAPhonotacticsModel, LocallyNormalized):
             model = cls(E, pi)
         return model.to(DEVICE)
 
-    @property
     def A_positive(self):
         proj = self.pi.sigmoid()[None, :, None]
         A = proj * self.E.exp()[:, :, None] * self.T_on_tier + (1-proj) * self.T_not_on_tier # exp E?
@@ -428,7 +415,9 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         ssm = self.ssm()
         def gen():
             for x in xs:
+                # for sequence x1 x2 x3, get the vector of logits of x_t | x_{<t}
                 logits = ssm(x, debug=debug).y
+                # normalize locally 
                 yield logits.log_softmax(-1).gather(-1, x.unsqueeze(-1)).sum()
         return torch.stack(list(gen()))
 

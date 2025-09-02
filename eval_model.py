@@ -18,15 +18,18 @@ def get_model(model_type: str,
     if state_dim is None:
         state_dim = vocab_size + 1 # for eos
 
-    if model_type == 'sl2':
+    if model_type == 'sl2': 
         model = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+    elif model_type == 'pfsa_sl2':
+        # same as SL2, but backed by PFSA instead of SSM; outcomes should be identical
+        model = ssm.pTSL.initialize(vocab_size, pi=torch.ones(vocab_size, device=DEVICE) * float('inf'))
     elif model_type == 'sp2':
         model = ssm.SP2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'soft_tsl2': 
         model = ssm.SoftTSL2.initialize(
             vocab_size,
             init_T=init_temperature,
-            init_T_projection=init_temperature
+            init_T_projection=init_temperature,
         )
     elif model_type == 'ptsl2':
         model = ssm.pTSL.initialize(vocab_size)
@@ -50,7 +53,7 @@ def get_model(model_type: str,
     elif model_type == 'pfsa':
         model = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
     elif model_type == 'wfsa':
-        model = ssm.WFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature)
+        model = ssm.WFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, learn_final=True)
     else:
         raise ValueError("Unrecognized model type: %s" % model_type)
 

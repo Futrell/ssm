@@ -3,13 +3,15 @@ import csv
 import pprint as pp
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
+ADD_EOS = True
+
 from collections import defaultdict
 
 def load(file_path, col_separator, char_separator, paired=False):
     wordlist = defaultdict(list)
     with open(file_path, 'r') as f:
         reader = csv.reader(f, delimiter=col_separator)
-        next(reader)
+        next(reader) # throw away header
         for row in reader:
             # Ensure the row is not empty
             if row:
@@ -38,10 +40,20 @@ def build_phone2ix(wordlist):
     phone2ix = {phone: idx for idx, phone in enumerate(unique_phones)}
     return phone2ix
 
-def wordlist_to_vec(wordlist, phone2ix):
-    good = [torch.LongTensor(list(map(phone2ix.get, word))).to(DEVICE) for word in wordlist[True]]
-    bad = [torch.LongTensor(list(map(phone2ix.get, word))).to(DEVICE) for word in wordlist[False]]
-    return {True: good, False: bad}
+def wordlist_to_vec(wordlist, phone2ix, add_eos=ADD_EOS):
+    good = [list(map(phone2ix.get, word)) for word in wordlist[True]]
+    bad = [list(map(phone2ix.get, word)) for word in wordlist[False]]
+    if not add_eos:
+        return {
+            True: list(map(torch.LongTensor, good)),
+            False: list(map(torch.LongTensor, bad)),
+        }
+    else:
+        # eos always added as vocabulary item 0
+        eos = torch.LongTensor([0])
+        good_delimited = [torch.cat([torch.LongTensor(form) + 1, eos]) for form in good]
+        bad_delimited = [torch.cat([torch.LongTensor(form) + 1, eos]) for form in bad]
+        return {True: good_delimited, False: bad_delimited}
 
 def pairing(input_data):
     """
@@ -56,11 +68,11 @@ def pairing(input_data):
     return paired_data
 
 # TODO: Need to tweak this to work with unpaired data
+# This is the only function that get calls from the outside.
 def process_data(file_path, col_separator=",", char_separator=" ", paired=False):
     wordlist = load(file_path, col_separator, char_separator, paired=paired)
     paired_wordlist = pairing(wordlist) if wordlist[False] else wordlist
     phone2ix = build_phone2ix(paired_wordlist)
-
     word_vec = wordlist_to_vec(paired_wordlist, phone2ix)
     return paired_wordlist, phone2ix, word_vec
 
