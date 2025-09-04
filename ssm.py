@@ -232,7 +232,12 @@ class PhonotacticsModel(torch.nn.Module):
         if diagnostic_fns is None:
             diagnostic_fns = {}
         diagnostics = []
-        writer = csv.DictWriter(sys.stdout, "step epoch mean_loss".split() + list(diagnostic_fns) + (list(hyperparams_to_report) if hyperparams_to_report else []))
+        writer = csv.DictWriter(
+            sys.stdout,
+            "step epoch mean_loss".split() + list(diagnostic_fns) + (
+                list(hyperparams_to_report) if hyperparams_to_report else []
+            )
+        )
         writer.writeheader()
         for i, (epoch, batch) in enumerate(batches):
             opt.zero_grad()
@@ -528,6 +533,17 @@ class SP2(Factor2):
             A_diag[0] = True
             init[0,1] = True
         return A_diag, B, init
+
+class QuasiSP2(Factor2):
+    @classmethod
+    def init_matrices(cls, d, bias=False):
+        A_diag = torch.ones(d+bias, device=DEVICE)
+        B = torch.eye(d+bias, device=DEVICE)[:, (1+bias):]
+        init = torch.eye(d+bias, device=DEVICE)[0]
+        if bias:
+            A_diag[0] = True
+            init[0,1] = True
+        return A_diag, B, init    
 
 class SL_SP2(Factor2):
     @classmethod
