@@ -45,14 +45,14 @@ def wordlist_to_vec(wordlist, phone2ix, add_eos=ADD_EOS):
     bad = [list(map(phone2ix.get, word)) for word in wordlist[False]]
     if not add_eos:
         return {
-            True: [torch.LongTensor(form, device=DEVICE) for form in good],
-            False: [torch.LongTensor(form, device=DEVICE) for form in bad],
+            True: [torch.LongTensor(form).to(DEVICE) for form in good],
+            False: [torch.LongTensor(form).to(DEVICE) for form in bad],
         }
     else:
         # eos always added as vocabulary item 0
-        eos = torch.LongTensor([0], device=DEVICE)
-        good_delimited = [torch.cat([torch.LongTensor(form, device=DEVICE) + 1, eos]) for form in good]
-        bad_delimited = [torch.cat([torch.LongTensor(form, device=DEVICE) + 1, eos]) for form in bad]
+        eos = torch.LongTensor([0]).to(DEVICE)
+        good_delimited = [torch.cat([torch.LongTensor(form).to(DEVICE) + 1, eos]) for form in good]
+        bad_delimited = [torch.cat([torch.LongTensor(form.to(DEVICE) + 1, eos]) for form in bad]
         return {True: good_delimited, False: bad_delimited}
 
 def pairing(input_data):
