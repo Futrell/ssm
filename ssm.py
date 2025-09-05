@@ -32,23 +32,56 @@ EPSILON = 10 ** -5
 
 #torch.autograd.set_detect_anomaly(True)
 
-def boolean_mv(A, x):
-    """ Boolean matrix-vector multiplication. """
-    return (A & x[None, :]).any(-1)
+class Semiring:
+    @classmethod
+    def vv(self, x, y):
+        return self.sum(self.mul(x, y), dim=-1)
 
-def boolean_vv(x, y):
-    """ Boolean inner product """
-    return (x & y).any()
+    @classmethod
+    def mv(self, A, x):
+        return self.sum(self.mul(A, x[None, :]), dim=-1)
 
-def boolean_mm(A, B):
-    """ Boolean matrix-matrix multiplication. """
-    return (A[:, :, None] & B[None, :, :]).any(-2)
+    @classmethod
+    def mm(self, A, B):
+        return self.sum(self.mul(A[:, :, None], B[None, :, :]), dim=-2)
 
-Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'sum', 'prod', 'vv', 'mv', 'mm', 'complement'])
+class BooleanSemiring(Semiring):
+    zero = False
+    one = True
+    add = operator.or_
+    mul = operator.and_
+    sum = torch.any
+    prod = torch.all
+    complement = operator.invert
 
-RealSemiring = Semiring(0, 1, operator.add, operator.mul, torch.sum, torch.prod, operator.matmul, operator.matmul, operator.matmul, lambda x: 1-x)
-BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, torch.any, torch.all, boolean_vv, boolean_mv, boolean_mm, operator.invert)
-#LogspaceSemiring = Semiring(-INF, 0, torch.logaddexp, operator.add, torch.logsumexp, torch.sum, logspace_vv, logspace_mv, logspace_mm, lambda x: (-x.exp()).log1p())
+class RealSemiring(Semiring):
+    zero = 0.0
+    one = 1.0
+    add = operator.add
+    mul = operator.mul
+    sum = torch.sum
+    prod = torch.prod
+    vv = operator.matmul
+    mv = operator.matmul
+    mm = operator.matmul
+    
+
+    @classmethod
+    def complement(cls, x):
+        return 1-x
+
+class LogspaceSemiring(Semiring):
+    zero = -INF
+    one = 0.0
+    add = torch.logaddexp
+    mul = operator.add
+    sum = torch.logsumexp
+    prod = torch.sum
+
+    @classmethod
+    def complement(cls, x):
+        return (-x.exp()).log1p()
+    
 
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
 
