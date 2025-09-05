@@ -11,6 +11,7 @@ from collections import namedtuple, deque
 import torch
 import pandas as pd
 import numpy as np
+import torch_semiring_einsum as tse
 # import matplotlib.pyplot as plt
 
 INF = float('inf')
@@ -77,7 +78,8 @@ class RealSemiring(Semiring):
     to_exp = lambda x:x
     to_log = torch.log
     logistic = torch.sigmoid
-    
+    einsum = torch.einsum
+
     @classmethod
     def complement(cls, x):
         return 1-x
@@ -95,6 +97,10 @@ class LogspaceSemiring(Semiring):
     to_exp = torch.exp
     to_log = lambda x:x
     logistic = torch.nn.functional.logsigmoid
+
+    @classmethod
+    def einsum(cls, formula, *args):
+        return tse.log_einsum(tse.compile_equation(formula), *args)
 
     @classmethod
     def complement(cls, x):
@@ -161,10 +167,8 @@ class WFSA(torch.nn.Module):
         x = self.final if final is None else final
         # A is Q_1 x S x Q_2
         # need to reshape to Q_1 x Q_2 x S
-        A_transposed = self.A.transpose(-1, -2)
         for u_t in reversed(u):
-            A_t = self.semiring.mv(A_transposed, u_t)
-            x = self.semiring.mv(A_t, x)
+            x = self.semiring.einsum("qsr,s,q->r", self.A, u_t, x)
         y = self.semiring.vv(init, x)
         if debug:
             breakpoint()
