@@ -114,7 +114,7 @@ class LogspaceSemiring(Semiring):
 
     @classmethod
     def mm(cls, A, B):
-        return tse.log_einsum(cls.mm_eq)
+        return tse.log_einsum(cls.mm_eq, A, B)
 
     @classmethod
     def einsum(cls, formula, *args):
