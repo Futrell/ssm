@@ -35,15 +35,18 @@ EPSILON = 10 ** -5
 class Semiring:
     @classmethod
     def vv(self, x, y):
-        return self.sum(self.mul(x, y), dim=-1)
+        multiplied = self.mul(x, y)
+        return self.sum(multiplied, dim=-1)
 
     @classmethod
     def mv(self, A, x):
-        return self.sum(self.mul(A, x[None, :]), dim=-1)
+        multiplied = self.mul(A, x[None, :])
+        return self.sum(multiplied, dim=-1)
 
     @classmethod
     def mm(self, A, B):
-        return self.sum(self.mul(A[:, :, None], B[None, :, :]), dim=-2)
+        multiplied = self.mul(A[:, :, None], B[None, :, :])
+        return self.sum(multiplied, dim=-2)
 
 class BooleanSemiring(Semiring):
     zero = False
