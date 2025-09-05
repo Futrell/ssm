@@ -95,6 +95,7 @@ class LogspaceSemiring(Semiring):
 
     @classmethod
     def complement(cls, x):
+        # numerically stable log(1-exp(x))
         return (-x.exp()).log1p()
     
 
@@ -372,37 +373,43 @@ def spectral_radius(A):
     return torch.linalg.eigvals(A).abs().max()
 
 class GloballyNormalized:
-    # Only works with RealSemiring!
     
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         wfsa = self.fsa()
         y = torch.stack([wfsa(x, debug=debug) for x in xs])
-        Z = wfsa.pathsum()
-        return y.log() - Z.log()
+        logZ = self.fsa(semiring=RealSemiring).pathsum().log()
+        return self.semiring.to_log(y) - logZ
 
-    def fsa(self) -> WFSA:
+    def fsa(self, semiring=None) -> WFSA:
         return WFSA(
             self.A_positive(),
             init=self.init,
             final=self.final_positive(),
             phi=self.phi,
+            semiring=self.semiring if semiring is None else semiring,
         )
 
 class AdjustedNormalized(GloballyNormalized):
-    def fsa(self) -> WFSA:
-        A_positive = self.A_positive()
+    def fsa(self, semiring=None) -> WFSA:
+        A_positive = self.semiring.to_exp(self.A_positive())
         if self.final is None:
             s = spectral_radius(A_positive.sum(-2))
             adjustment = soft_ceiling(s, 1) / s
             A_normalized = adjustment * A_positive
-            return WFSA(A_normalized, init=self.init, final=None, phi=self.phi)
+            final_normalized = None
         else:
-            final_positive = self.final_positive()
+            final_positive = self.semiring.to_exp(self.final_positive())
             s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
             adjustment = soft_ceiling(s, 1) / s
             A_normalized = adjustment * A_positive
             final_normalized = adjustment * final_positive
-            return WFSA(A_normalized, init=self.init, final=final_normalized, phi=self.phi)
+        return WFSA(
+            self.semiring.from_exp(A_normalized),
+            init=self.init,
+            final=None if final_normalized is None else self.semiring.from_exp(final_normalized),
+            phi=self.phi,
+            semiring=self.semiring if semiring is None else semiring,
+        )
 
 class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM models don't.
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
@@ -410,18 +417,23 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
         y = torch.stack([pfsa(x, debug=debug) for x in xs])
         return self.semiring.to_log(y)
 
-    def fsa(self) -> WFSA:
+    def fsa(self, semiring=None) -> WFSA:
         A_positive = self.A_positive()
         if self.final is None:
             Z = self.semiring.sum(A_positive, dim=(-1, -2))
             A_normalized = self.semiring.div(A_positive, Z[:, None, None])
-            return WFSA(A_normalized, init=self.init, final=None, semiring=self.semiring)
+            final_normalized = None
         else:
             final_positive = self.final_positive()
             Z = self.semiring.add(self.semiring.sum(A_positive, dim=(-1, -2)), final_positive) # from each state, sum mass to halt or transition
             A_normalized = self.semiring.div(A_positive, Z[:, None, None] )
             final_normalized = self.semiring.div(final_positive, Z)
-            return WFSA(A_normalized, init=self.init, final=final_normalized, semiring=self.semiring)
+        return WFSA(
+            A_normalized,
+            init=self.init,
+            final=final_normalized,
+            semiring=self.semiring if semiring is None else semiring,
+        )
 
 class PFSAPhonotacticsModel(FSAPhonotacticsModel, LocallyNormalized):
     pass
