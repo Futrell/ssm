@@ -56,6 +56,7 @@ class BooleanSemiring(Semiring):
     mul = operator.and_
     sum = torch.any
     prod = torch.all
+    einsum = torch.einsum
     complement = operator.invert
     from_exp = lambda x:x
     to_exp = lambda x:x
@@ -97,6 +98,23 @@ class LogspaceSemiring(Semiring):
     to_exp = torch.exp
     to_log = lambda x:x
     logistic = torch.nn.functional.logsigmoid
+
+    mv_eq = tse.compile_equation("ij,j->i")
+    bmv_eq = tse.compile_equation("bij,j->bi")
+    mm_eq = tse.compile_equation("ij,jk->ik")
+
+    @classmethod
+    def mv(cls, A, x):
+        if A.ndim == 2:
+            return tse.log_einsum(cls.mv_eq, A, x)
+        elif A.ndim == 3:
+            return tse.log_einsum(cls.bmv_eq, A, x)
+        else:
+            raise ValueError("Bad dimensions: A=%s, x=%s" % (str(A.shape), str(x.shape)))
+
+    @classmethod
+    def mm(cls, A, B):
+        return tse.log_einsum(cls.mm_eq)
 
     @classmethod
     def einsum(cls, formula, *args):
@@ -165,10 +183,11 @@ class WFSA(torch.nn.Module):
         init = self.semiring.from_exp(self.init if init is None else init)
         u = self.semiring.from_exp(self.phi[input])
         x = self.final if final is None else final
-        # A is Q_1 x S x Q_2
-        # need to reshape to Q_1 x Q_2 x S
+        A_transposed = self.A.transpose(-1, -2)
         for u_t in reversed(u):
-            x = self.semiring.einsum("qsr,s,q->r", self.A, u_t, x)
+            #x = self.semiring.einsum("qsr,s,r->q", self.A, u_t, x)
+            A_t = self.semiring.mv(A_transposed, u_t)
+            x = self.semiring.mv(A_t, x)
         y = self.semiring.vv(init, x)
         if debug:
             breakpoint()
