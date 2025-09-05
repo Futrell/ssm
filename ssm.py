@@ -48,7 +48,7 @@ Semiring = namedtuple("Semiring", ['zero', 'one', 'add', 'mul', 'sum', 'prod', '
 
 RealSemiring = Semiring(0, 1, operator.add, operator.mul, torch.sum, torch.prod, operator.matmul, operator.matmul, operator.matmul, lambda x: 1-x)
 BooleanSemiring = Semiring(False, True, operator.or_, operator.and_, torch.any, torch.all, boolean_vv, boolean_mv, boolean_mm, operator.invert)
-#LogspaceSemiring = Semiring(-INF, 0, torch.logaddexp, operator.add, torch.logsumexp, torch.sum, logspace_vv, logspace_mv, logspace_mm, lambda x: (1-x.exp()).log())
+#LogspaceSemiring = Semiring(-INF, 0, torch.logaddexp, operator.add, torch.logsumexp, torch.sum, logspace_vv, logspace_mv, logspace_mm, lambda x: (-x.exp()).log1p())
 
 SSMOutput = namedtuple("SSMOutput", "u proj x y".split())
 
@@ -100,6 +100,7 @@ class WFSA(torch.nn.Module):
         self.final = torch.ones(X1, dtype=self.dtype, device=DEVICE) if final is None else final # default to [..., 1, 1, 1], meaning all states can be equally final
 
     def forward(self, input, init=None, final=None, debug=False):
+        # Only real semiring!!!
         init = self.init if init is None else init
         x = self.final if final is None else final
         u = self.phi[input]
@@ -267,7 +268,7 @@ class PhonotacticsModel(torch.nn.Module):
 class FSAPhonotacticsModel(PhonotacticsModel):
     """ FSA Phonotactics model parameterized by log-space weights. """
     
-    def __init__(self, A, init=None, final=None):
+    def __init__(self, A, init=None, final=None, phi=None):
         super().__init__()
         self.A = A # unnormalized weights
         Q, S, Q2 = self.A.shape
@@ -275,6 +276,11 @@ class FSAPhonotacticsModel(PhonotacticsModel):
 
         self.init = init # might be None
         self.final = final # might be None
+
+        if phi is None:
+            self.phi = torch.eye(S, device=DEVICE)
+        else:
+            self.phi = phi
 
     def A_positive(self):
         A_positive = self.A.exp() # Q1 S Q2
@@ -316,7 +322,12 @@ class GloballyNormalized:
         return y.log() - Z.log()
 
     def fsa(self) -> WFSA:
-        return WFSA(self.A_positive(), init=self.init, final=self.final_positive())
+        return WFSA(
+            self.A_positive(),
+            init=self.init,
+            final=self.final_positive(),
+            phi=self.phi,
+        )
 
 class AdjustedNormalized(GloballyNormalized):
     def fsa(self) -> WFSA:
@@ -325,14 +336,14 @@ class AdjustedNormalized(GloballyNormalized):
             s = spectral_radius(A_positive.sum(-2))
             adjustment = soft_ceiling(s, 1) / s
             A_normalized = adjustment * A_positive
-            return WFSA(A_normalized, init=self.init, final=None)
+            return WFSA(A_normalized, init=self.init, final=None, phi=self.phi)
         else:
             final_positive = self.final_positive()
             s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
             adjustment = soft_ceiling(s, 1) / s
             A_normalized = adjustment * A_positive
             final_normalized = adjustment * final_positive
-            return WFSA(A_normalized, init=self.init, final=final_normalized)
+            return WFSA(A_normalized, init=self.init, final=final_normalized, phi=self.phi)
 
 class LocallyNormalized: # NOTE: PFSA models have a halting probability, SSM models don't.
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
@@ -360,7 +371,7 @@ class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
     pass
 
 class pTSL(PFSAPhonotacticsModel):
-    def __init__(self, E, pi, final=None):
+    def __init__(self, E, pi, final=None, phi=None):
         super(FSAPhonotacticsModel, self).__init__()
         self.E = E # shape QS
         self.pi = pi # shape S
@@ -370,6 +381,11 @@ class pTSL(PFSAPhonotacticsModel):
         self.init = torch.eye(Q, device=DEVICE)[0]
         self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ, saving symbol as state
         self.T_not_on_tier = torch.eye(Q, device=DEVICE)[:, None, :] # shape Q1Q, preserving state
+
+        if phi is None:
+            self.phi = torch.eye(S, device=DEVICE)
+        else:
+            self.phi = phi
     
     @classmethod
     def initialize(cls,
