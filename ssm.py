@@ -181,14 +181,15 @@ class WFSA(torch.nn.Module):
 
     def forward(self, input, init=None, final=None, debug=False):
         init = self.semiring.from_exp(self.init if init is None else init)
-        u = self.semiring.from_exp(self.phi[input])
-        x = self.final if final is None else final
-        A_transposed = self.A.transpose(-1, -2)
-        for u_t in reversed(u):
-            #x = self.semiring.einsum("qsr,s,r->q", self.A, u_t, x)
+        final = self.final if final is None else final
+        A_transposed = self.A.transpose(-1, -2)        
+        u = self.semiring.from_exp(self.phi[input])        
+        x = init
+        for u_t in u:
+            #x = self.semiring.einsum("qsr,s,q->r", self.A, u_t, x)
             A_t = self.semiring.mv(A_transposed, u_t)
-            x = self.semiring.mv(A_t, x)
-        y = self.semiring.vv(init, x)
+            x = self.semiring.mv(A_t.T, x)
+        y = self.semiring.vv(x, final)
         if debug:
             breakpoint()
         return y
@@ -1066,3 +1067,7 @@ def evaluate_model_simple(model, good_strings, bad_strings):
     df = pd.DataFrame(df_list)
     df.columns = ['string', 'grammatical', 'score']
     return df
+
+if __name__ == '__main__':
+    import nose
+    nose.runmodule()
