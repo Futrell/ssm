@@ -56,7 +56,7 @@ fi
 # --------------------------
 # Config (from your first script)
 # --------------------------
-DATA_DIRECTORY="data/truncated_mlregtest"
+DATA_DIRECTORY="data/boundary_mlregtest"
 OUTPUT_DIR="output/model_evaluations"
 
 # Which script to run. Switch to "mlregtest.py" if you prefer.
