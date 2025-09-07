@@ -469,7 +469,6 @@ class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
     pass
 
 class pTSL(PFSAPhonotacticsModel):
-    # Real Semiring only!
     def __init__(self, E, pi, final=None, phi=None, semiring=RealSemiring):
         super(FSAPhonotacticsModel, self).__init__()
         self.E = E # shape QS
