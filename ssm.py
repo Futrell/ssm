@@ -7,31 +7,16 @@ import functools
 import itertools
 from collections import namedtuple, deque
 
-# import tqdm
 import torch
 import pandas as pd
 import numpy as np
 import torch_semiring_einsum as tse
-# import matplotlib.pyplot as plt
 
 INF = float('inf')
-
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-
-# DEVICE = torch.device("mps") if torch.backends.mps.is_available() else 'cpu'
-
-# elif torch.cuda.is_available():
-#     device = torch.device("cuda")
-# else:
-#     device = torch.device("cpu")
-# print("Using device:", device)
-
-#DEVICE = 'cpu'
-
 DEFAULT_INIT_TEMPERATURE = 100
 EPSILON = 10 ** -5
 
-#torch.autograd.set_detect_anomaly(True)
 
 class Semiring:
     @classmethod
@@ -88,9 +73,7 @@ class RealSemiring(Semiring):
 class LogspaceSemiring(Semiring):
     zero = -INF
     one = 0.0
-    add = torch.logaddexp
     mul = operator.add
-    sum = torch.logsumexp
     prod = torch.sum
     div = operator.sub
     from_exp = torch.log
@@ -103,8 +86,31 @@ class LogspaceSemiring(Semiring):
     bmv_eq = tse.compile_equation("bij,j->bi")
     mm_eq = tse.compile_equation("ij,jk->ik")
 
+    add = torch.logaddexp
+    sum = torch.logsumexp
+
     @classmethod
-    def mv(cls, A, x):
+    def add(cls, x, y):
+        # logaddexp that preserves gradients when both x and y contain -inf
+        Z = x.exp() + y.exp()                       
+        tiny = torch.finfo(Z.dtype).tiny                # e.g., ~1e-45 for float32
+        logZ = torch.log(torch.clamp_min(Z, tiny))      # avoid  log(0)
+        result = torch.where(Z == 0, torch.full_like(Z, -torch.inf), logZ)  # put back -inf
+        return result
+
+    @classmethod
+    def sum(cls, x: torch.Tensor, dim, keepdim=False):
+        # logsumexp that preserves gradients when x contains -inf
+        mask = torch.isfinite(x)
+        neg_big = torch.finfo(x.dtype).min / 4
+        x_finite = torch.where(mask, x, torch.full_like(x, neg_big))
+        y = torch.logsumexp(x_finite, dim=dim, keepdim=True)
+        all_invalid = ~mask.any(dim=dim, keepdim=True)
+        y = torch.where(all_invalid, torch.full_like(y, -torch.inf), y)
+        return y if keepdim else y.squeeze(dim)
+
+    @classmethod
+    def not_mv(cls, A, x):
         if A.ndim == 2:
             return tse.log_einsum(cls.mv_eq, A, x)
         elif A.ndim == 3:
@@ -113,7 +119,7 @@ class LogspaceSemiring(Semiring):
             raise ValueError("Bad dimensions: A=%s, x=%s" % (str(A.shape), str(x.shape)))
 
     @classmethod
-    def mm(cls, A, B):
+    def not_mm(cls, A, B):
         return tse.log_einsum(cls.mm_eq, A, B)
 
     @classmethod
@@ -161,7 +167,7 @@ def plot_ssm_output(x: SSMOutput, pi: Optional[torch.Tensor]=None, cmap='viridis
     plt.show()
 
 class WFSA(torch.nn.Module):
-    def __init__(self, A, init=None, final=None, phi=None, semiring=None):
+    def __init__(self, A, init=None, final=None, semiring=None):
         super().__init__()
         self.A = A # positive weights
         self.device = DEVICE
@@ -175,19 +181,16 @@ class WFSA(torch.nn.Module):
         else:
             self.semiring = semiring
             
-        self.phi = torch.eye(Y1, dtype=self.dtype, device=DEVICE) if phi is None else phi # default to identity matrix
         self.init = torch.eye(X1, dtype=self.dtype, device=DEVICE)[0] if init is None else init # default to [1, 0, 0, 0, ...], enforcing state 0 = initial state.
         self.final = self.semiring.from_exp(torch.ones(X1, dtype=self.dtype, device=DEVICE)) if final is None else final # default to [..., 1, 1, 1], meaning all states can be equally final
 
     def forward(self, input, init=None, final=None, debug=False):
         init = self.semiring.from_exp(self.init if init is None else init)
         final = self.final if final is None else final
-        A_transposed = self.A.transpose(-1, -2)        
-        u = self.semiring.from_exp(self.phi[input])        
         x = init
-        for u_t in u:
+        for x_t in input:
             #x = self.semiring.einsum("qsr,s,q->r", self.A, u_t, x)
-            A_t = self.semiring.mv(A_transposed, u_t)
+            A_t = self.A[:, x_t, :]
             x = self.semiring.mv(A_t.T, x)
         y = self.semiring.vv(x, final)
         if debug:
@@ -350,7 +353,7 @@ class PhonotacticsModel(torch.nn.Module):
 class FSAPhonotacticsModel(PhonotacticsModel):
     """ FSA Phonotactics model parameterized by log-space weights. """
     
-    def __init__(self, A, init=None, final=None, phi=None, semiring=RealSemiring):
+    def __init__(self, A, init=None, final=None, semiring=RealSemiring):
         super().__init__()
         self.A = A # unnormalized weights
         Q, S, Q2 = self.A.shape
@@ -358,11 +361,6 @@ class FSAPhonotacticsModel(PhonotacticsModel):
 
         self.init = init # might be None
         self.final = final # might be None
-
-        if phi is None:
-            self.phi = torch.eye(S, device=DEVICE)
-        else:
-            self.phi = phi
 
         self.semiring = semiring            
 
@@ -412,7 +410,6 @@ class GloballyNormalized:
             self.A_positive(),
             init=self.init,
             final=self.final_positive(),
-            phi=self.phi,
             semiring=self.semiring if semiring is None else semiring,
         )
 
@@ -434,7 +431,6 @@ class AdjustedNormalized(GloballyNormalized):
             self.semiring.from_exp(A_normalized),
             init=self.init,
             final=None if final_normalized is None else self.semiring.from_exp(final_normalized),
-            phi=self.phi,
             semiring=self.semiring if semiring is None else semiring,
         )
 
@@ -469,7 +465,7 @@ class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
     pass
 
 class pTSL(PFSAPhonotacticsModel):
-    def __init__(self, E, pi, final=None, phi=None, semiring=RealSemiring):
+    def __init__(self, E, pi, final=None, semiring=RealSemiring):
         super(FSAPhonotacticsModel, self).__init__()
         self.E = E # shape QS
         self.pi = pi # shape S
@@ -482,14 +478,9 @@ class pTSL(PFSAPhonotacticsModel):
 
         self.semiring = semiring
 
-        # Both of these are stored in expspace
         self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ, saving symbol as state
         self.T_not_on_tier = torch.eye(Q, device=DEVICE)[:, None, :] # shape Q1Q, preserving state
 
-        if phi is None:
-            self.phi = torch.eye(S, device=DEVICE)
-        else:
-            self.phi = phi
     
     @classmethod
     def initialize(cls,
@@ -512,13 +503,19 @@ class pTSL(PFSAPhonotacticsModel):
     def A_positive(self):
         # In real semiring:
         # A = proj * self.E.exp()[:, :, None] * self.T_on_tier + (1-proj) * self.T_not_on_tier
+        #proj = self.pi.sigmoid()[None, :, None]
+        #E = self.E.exp()[:, :, None]
+        #A = proj * E * self.T_on_tier + (1-proj) * self.T_not_on_tier
+        #result = self.semiring.from_exp(A)
+        #breakpoint()
+        #return result
         proj = self.semiring.logistic(self.pi)[None, :, None]
         not_proj = self.semiring.logistic(-self.pi)[None, :, None]
         E = self.semiring.from_log(self.E)[:, :, None] 
-        on_tier = self.semiring.mul(E, self.T_on_tier)
+        on_tier = self.semiring.mul(E, self.semiring.from_exp(self.T_on_tier))
         one = self.semiring.mul(proj, on_tier)
-        two = self.semiring.mul(not_proj, self.T_not_on_tier)
-        A = self.semiring.add(one, two)
+        two = self.semiring.mul(not_proj, self.semiring.from_exp(self.T_not_on_tier))
+        A = self.semiring.add(one, two) # this kills the gradient, because it takes a log of zero
         return A
 
 class SSMPhonotacticsModel(PhonotacticsModel):
@@ -630,7 +627,8 @@ class Factor2(DiagonalSSMPhonotacticsModel):
         A, B, init = cls.init_matrices(X, bias=bias)
         return cls(A, B, factors, init=init, pi=projection)
 
-    def init_matrices(self, d):
+    @classmethod
+    def init_matrices(cls, d, bias=False):
         raise NotImplementedError
 
     @classmethod
@@ -675,7 +673,7 @@ class QuasiSP2(Factor2):
 
 class SL_SP2(Factor2):
     @classmethod
-    def init_matrices(cls, d):
+    def init_matrices(cls, d, bias=False):
         A_diag = torch.cat([
             torch.zeros(d, dtype=torch.bool),
             torch.ones(d, dtype=torch.bool),
@@ -933,29 +931,29 @@ def evaluate_no_axb(num_epochs=20,
                     num_test=100,
                     **kwds):
     """ Evaluation for 2-TSL """
-    dataset = [random_no_axb(n=n) for _ in range(num_samples)]
+    dataset = list(map(torch.LongTensor, [random_no_axb(n=n) for _ in range(num_samples)]))
     # the first two of these comparisons will be exactly zero for SL
     # the third comparison will be exactly zero for SL and SP
 
-    good = [ # no 23 on the tier {1, 2, 3}
+    good = list(map(torch.LongTensor, [ # no 23 on the tier {1, 2, 3}
          [0,2,0,1,0,3], # matched on SL factors
          [0,0,2,0,0,1,0,0,3], # matched on SL factors
          [0,2,0,1,0,2,0,1,0,3], # matched on (boolean) SP factors: 00,01,02,03,10,11,12,13,20,21,22,23
          [1,1,3,0,2,0],
          [3,3,2,1,3,0],
-    ]
+    ]))
 
-    bad = [
+    bad = list(map(torch.LongTensor, [
         [0,1,0,2,0,3],
         [0,0,1,0,0,2,0,0,3],
         [0,2,0,1,0,1,0,2,0,3], # same SP factors as the SP example above;
         [1,1,2,0,3,0],
         [3,3,2,0,3,0],
-    ]
+    ]))
     #good = [random_no_axb(n=n+1) for _ in range(num_test)]
     #bad = [random_no_axb(n=n+1, neg=True) for _ in range(num_test)]
 
-    if isinstance(model_type, TierBased): # fixed tier -- the right projection function is [0,1,1,1].
+    if issubclass(model_type, TierBased): # fixed tier -- the right projection function is [0,1,1,1].
         model = model_type.initialize(4, torch.Tensor([0,1,1,1])) 
     elif force_pi is not None:
         model = model_type.initialize(4, pi=force_pi)
