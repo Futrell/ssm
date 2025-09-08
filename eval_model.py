@@ -22,9 +22,17 @@ def get_model(model_type: str,
         model = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'pfsa_sl2':
         # same as SL2, but backed by PFSA instead of SSM; outcomes should be identical
-        model = ssm.pTSL.initialize(vocab_size, pi=torch.ones(vocab_size, device=DEVICE) * float('inf'), semiring=ssm.LogspaceSemiring)
+        model = ssm.pTSL.initialize(
+            vocab_size,
+            pi=torch.ones(vocab_size, device=DEVICE) * float('inf'), # force everything projected
+            semiring=ssm.LogspaceSemiring,
+        )
     elif model_type == 'sp2':
         model = ssm.SP2.initialize(vocab_size, init_T=init_temperature)
+    elif model_type == 'sl2_plus_pfsa':
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model2 = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+        model = model1 + model2
     elif model_type == 'quasi_sp2':
         model = ssm.QuasiSP2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'soft_tsl2': 
@@ -53,6 +61,8 @@ def get_model(model_type: str,
         )
     elif model_type == 'pfsa':
         model = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+    elif model_type == 'opfsa':
+        model = ssm.OverparameterizedPFSAPhonotacticsModel.initialize(state_dim, 2*state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
     elif model_type == 'wfsa':
         model = ssm.WFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, learn_final=True)
     else:

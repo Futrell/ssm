@@ -304,6 +304,10 @@ class SSM(torch.nn.Module):
 # Classes for trainable phonotactics models
 
 class PhonotacticsModel(torch.nn.Module):
+    def __add__(self, other):
+        weights = torch.nn.Parameter(1/DEFAULT_INIT_TEMPERATURE * torch.randn(2))
+        return MixturePhonotacticsModel(torch.nn.ParameterList([self, other]), weights, logspace_weights=True)
+    
     def train(self,
               batches: Iterable[Iterable[Tuple[int, Sequence[int]]]], # iterable of batches of sequences of ints
               report_every: int=1000,
@@ -349,6 +353,23 @@ class PhonotacticsModel(torch.nn.Module):
                         torch.save(self, outfile)
         return diagnostics
 
+class MixturePhonotacticsModel(PhonotacticsModel):
+    def __init__(self, models, weights, logspace_weights=True):
+        super(PhonotacticsModel, self).__init__()
+        self.models = models
+        self.weights = weights
+        self.logspace_weights = logspace_weights
+
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+        ys = torch.stack([model.log_likelihood(xs) for model in self.models])        
+        if self.logspace_weights: 
+            weights = self.weights.log_softmax(-1)
+        else: 
+            weights = self.weights.log().log_softmax(-1)
+        y = (weights[:, None] + ys).logsumexp(-2)
+        return y
+    
+
 
 class FSAPhonotacticsModel(PhonotacticsModel):
     """ FSA Phonotactics model parameterized by log-space weights. """
@@ -391,6 +412,49 @@ class FSAPhonotacticsModel(PhonotacticsModel):
             model = cls(A, semiring=semiring)
         return model.to(DEVICE)
 
+class OverparameterizedFSAPhonotacticsModel(FSAPhonotacticsModel):
+    def __init__(self, B, C, init=None, final=None, semiring=RealSemiring):
+        super(FSAPhonotacticsModel, self).__init__()
+        self.B = B # unnormalized weights
+        self.C = C
+        BQ, BQ2 = self.B.shape
+        CQ, S, CQ2 = self.C.shape
+        assert BQ == CQ2
+        assert BQ2 == CQ
+
+        self.init = init # might be None
+        self.final = final # might be None
+
+        self.semiring = semiring
+
+    @classmethod
+    def initialize(
+            cls,
+            X,
+            H,
+            S,
+            learn_final=False,
+            requires_grad=True,
+            semiring=RealSemiring,
+            init_T=DEFAULT_INIT_TEMPERATURE):
+        B = torch.nn.Parameter((1/init_T)*torch.randn(X, H), requires_grad=requires_grad)
+        C = torch.nn.Parameter((1/init_T)*torch.randn(H, S, X), requires_grad=requires_grad)
+        if learn_final:
+            final = torch.nn.Parameter((1/init_T)*torch.randn(X), requires_grad=requires_grad)
+            model = cls(B, C, final=final, semiring=semiring)
+        else:
+            model = cls(B, C, semiring=semiring)
+        return model.to(DEVICE)
+
+    def A_positive(self):
+        BQ, BQ2 = self.B.shape
+        CQ, S, CQ2 = self.C.shape        
+        C = self.C.reshape(CQ, S*CQ2)
+        A = self.semiring.mm(self.B, C)
+        A_positive = self.semiring.from_log(A) # Q1 S Q2
+        return A_positive.reshape(BQ, S, CQ2)
+
+
 def soft_ceiling(x, k, beta=1):
     return k - torch.nn.functional.softplus(k - x, beta=beta)
 
@@ -398,7 +462,6 @@ def spectral_radius(A):
     return torch.linalg.eigvals(A).abs().max()
 
 class GloballyNormalized:
-    
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         wfsa = self.fsa()
         y = torch.stack([wfsa(x, debug=debug) for x in xs])
@@ -459,6 +522,13 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
         )
 
 class PFSAPhonotacticsModel(FSAPhonotacticsModel, LocallyNormalized):
+    def __add__(self, other):
+        return MixtureFSAPhonotacticsModel([self, other], torch.ones(2)/2)
+
+    def __mul__(self, other):
+        return CompoundPFSAPhonotacticsModel([self, other])
+
+class OverparameterizedPFSAPhonotacticsModel(OverparameterizedFSAPhonotacticsModel, LocallyNormalized):
     pass
 
 class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
@@ -478,8 +548,8 @@ class pTSL(PFSAPhonotacticsModel):
 
         self.semiring = semiring
 
-        self.T_on_tier = torch.cat([torch.zeros(1, S), torch.eye(S)]).T.to(DEVICE) # shape 1SQ, saving symbol as state
-        self.T_not_on_tier = torch.eye(Q, device=DEVICE)[:, None, :] # shape Q1Q, preserving state
+        self.T_on_tier = self.semiring.from_exp(torch.cat([torch.zeros(1, S), torch.eye(S)]).to(DEVICE)).T # shape 1SQ, saving symbol as state
+        self.T_not_on_tier = self.semiring.from_exp(torch.eye(Q, device=DEVICE))[:, None, :] # shape Q1Q, preserving state
 
     
     @classmethod
@@ -512,9 +582,9 @@ class pTSL(PFSAPhonotacticsModel):
         proj = self.semiring.logistic(self.pi)[None, :, None]
         not_proj = self.semiring.logistic(-self.pi)[None, :, None]
         E = self.semiring.from_log(self.E)[:, :, None] 
-        on_tier = self.semiring.mul(E, self.semiring.from_exp(self.T_on_tier))
+        on_tier = self.semiring.mul(E, self.T_on_tier)
         one = self.semiring.mul(proj, on_tier)
-        two = self.semiring.mul(not_proj, self.semiring.from_exp(self.T_not_on_tier))
+        two = self.semiring.mul(not_proj, self.T_not_on_tier)
         A = self.semiring.add(one, two) # this kills the gradient, because it takes a log of zero
         return A
 
@@ -556,7 +626,7 @@ class SSMPhonotacticsModel(PhonotacticsModel):
     def ssm(self) -> SSM:
         return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
 
-    def __add__(self, other):
+    def __mul__(self, other):
         return CompoundSSMModel(self, other)
 
 class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
