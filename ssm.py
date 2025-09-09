@@ -51,11 +51,14 @@ class BooleanSemiring(Semiring):
 class RealSemiring(Semiring):
     zero = 0.0
     one = 1.0
+    
     add = operator.add
     mul = operator.mul
+    div = operator.truediv
+    pow = operator.pow
+    
     sum = torch.sum
     prod = torch.prod
-    div = operator.truediv
     vv = operator.matmul
     mv = operator.matmul
     mm = operator.matmul
@@ -73,9 +76,13 @@ class RealSemiring(Semiring):
 class LogspaceSemiring(Semiring):
     zero = -INF
     one = 0.0
+    
     mul = operator.add
-    prod = torch.sum
     div = operator.sub
+    pow = operator.mul
+
+    prod = torch.sum    
+    
     from_exp = torch.log
     from_log = lambda x:x
     to_exp = torch.exp
@@ -307,7 +314,7 @@ class PhonotacticsModel(torch.nn.Module):
     def __add__(self, other):
         weights = torch.nn.Parameter(1/DEFAULT_INIT_TEMPERATURE * torch.randn(2))
         return MixturePhonotacticsModel(torch.nn.ParameterList([self, other]), weights, logspace_weights=True)
-    
+
     def train(self,
               batches: Iterable[Iterable[Tuple[int, Sequence[int]]]], # iterable of batches of sequences of ints
               report_every: int=1000,
@@ -352,6 +359,7 @@ class PhonotacticsModel(torch.nn.Module):
                     with open(filename, 'wb') as outfile:
                         torch.save(self, outfile)
         return diagnostics
+    
 
 class MixturePhonotacticsModel(PhonotacticsModel):
     def __init__(self, models, weights, logspace_weights=True):
@@ -360,7 +368,7 @@ class MixturePhonotacticsModel(PhonotacticsModel):
         self.weights = weights
         self.logspace_weights = logspace_weights
 
-    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: bool=False):
         ys = torch.stack([model.log_likelihood(xs) for model in self.models])        
         if self.logspace_weights: 
             weights = self.weights.log_softmax(-1)
@@ -368,7 +376,6 @@ class MixturePhonotacticsModel(PhonotacticsModel):
             weights = self.weights.log().log_softmax(-1)
         y = (weights[:, None] + ys).logsumexp(-2)
         return y
-    
 
 
 class FSAPhonotacticsModel(PhonotacticsModel):
@@ -522,17 +529,60 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
         )
 
 class PFSAPhonotacticsModel(FSAPhonotacticsModel, LocallyNormalized):
-    def __add__(self, other):
-        return MixtureFSAPhonotacticsModel([self, other], torch.ones(2)/2)
-
     def __mul__(self, other):
-        return CompoundPFSAPhonotacticsModel([self, other])
+        weights = torch.nn.Parameter(1/DEFAULT_INIT_TEMPERATURE * torch.randn(2))
+        return ProductPFSAPhonotacticsModel(self, other, weights, logspace_weights=True)
 
 class OverparameterizedPFSAPhonotacticsModel(OverparameterizedFSAPhonotacticsModel, LocallyNormalized):
     pass
 
 class WFSAPhonotacticsModel(FSAPhonotacticsModel, AdjustedNormalized):
     pass
+
+class ProductPFSAPhonotacticsModel(PFSAPhonotacticsModel):
+    # untested
+    def __init__(self, one, two, weights=None, logspace_weights=True):
+        super(PhonotacticsModel, self).__init__()
+        self.one = one
+        self.two = two
+        if weights is None:
+            self.weights = torch.ones(2, device=DEVICE)
+            self.logspace_weights = False
+        else:
+            self.weights = weights
+            self.logspace_weights = logspace_weights
+        self.semiring = self.one.semiring
+    
+    def fsa(self, semiring=None):
+        one_fsa, two_fsa = self.one.fsa(semiring=self.semiring), self.two.fsa(semiring=self.semiring)
+        weights = self.weights.exp() if self.logspace_weights else self.weights
+
+        one_A = self.semiring.pow(one_fsa.A.transpose(-2,-3), weights[0]) # shape SQQ
+        two_A = self.semiring.pow(two_fsa.A.transpose(-2,-3), weights[1])
+        one_final = self.semiring.pow(one_fsa.final, weights[0])
+        two_final = self.semiring.pow(two_fsa.final, weights[1])
+        combo_shape = one_A.shape[-1] * two_A.shape[-1]
+        S = one_A.shape[0]
+        
+        cofinal_unnorm = self.semiring.mul(one_final[:, None], two_final[None, :]).reshape(combo_shape)
+        coA_unnorm = self.semiring.mul(
+            one_A[:, :, :, None, None],
+            two_A[:, None, None, :, :],
+        ).reshape(S, combo_shape, combo_shape).transpose(-2,-3)
+        Z = self.semiring.add(self.semiring.sum(coA_unnorm, (-1, -2)), cofinal_unnorm)
+        coA = self.semiring.div(coA_unnorm, Z)
+        cofinal = self.semiring.div(cofinal_unnorm, Z)
+
+        # init is in expspace
+        coinit_unnorm = self.semiring.mul(
+            self.semiring.pow(self.semiring.from_exp(one_fsa.init), weights[0])[:, None],
+            self.semiring.pow(self.semiring.from_exp(two_fsa.init), weights[1])[None, :],
+        ).reshape(combo_shape)
+        initZ = self.semiring.sum(coinit_unnorm, -1)
+        coinit = self.semiring.to_exp(self.semiring.div(coinit_unnorm, initZ))
+
+        return WFSA(coA, init=coinit, final=cofinal, semiring=self.semiring)
+        
 
 class pTSL(PFSAPhonotacticsModel):
     def __init__(self, E, pi, final=None, semiring=RealSemiring):
@@ -573,12 +623,6 @@ class pTSL(PFSAPhonotacticsModel):
     def A_positive(self):
         # In real semiring:
         # A = proj * self.E.exp()[:, :, None] * self.T_on_tier + (1-proj) * self.T_not_on_tier
-        #proj = self.pi.sigmoid()[None, :, None]
-        #E = self.E.exp()[:, :, None]
-        #A = proj * E * self.T_on_tier + (1-proj) * self.T_not_on_tier
-        #result = self.semiring.from_exp(A)
-        #breakpoint()
-        #return result
         proj = self.semiring.logistic(self.pi)[None, :, None]
         not_proj = self.semiring.logistic(-self.pi)[None, :, None]
         E = self.semiring.from_log(self.E)[:, :, None] 
@@ -611,7 +655,17 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
         return cls(A, B, C).to(DEVICE)
 
-    def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: Optional[bool]=False):
+    def incremental_logits(self, xs: Iterable[torch.LongTensor], debug: bool=False):
+        ssm = self.ssm()
+        def gen():
+            for x in xs:
+                # for sequence x1 x2 x3, get the vector of logits of x_t | x_{<t}
+                logits = ssm(x, debug=debug).y
+                # normalize locally 
+                yield logits.log_softmax(-1).gather(-1, x.unsqueeze(-1))
+        return list(gen())
+
+    def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: bool=False):
         ssm = self.ssm()
         def gen():
             for x in xs:
@@ -627,7 +681,7 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
 
     def __mul__(self, other):
-        return CompoundSSMModel(self, other)
+        return ProductSSMModel(self, other)
 
 class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
     @classmethod
@@ -673,7 +727,7 @@ class SquashedDiagonalSSMPhonotacticsModel(DiagonalSSMPhonotacticsModel):
         )
 
 
-class CompoundSSMModel(SSMPhonotacticsModel):
+class ProductSSMModel(SSMPhonotacticsModel):
     def __init__(self, one, two):
         super(SSMPhonotacticsModel, self).__init__()
         self.one = one
