@@ -17,7 +17,6 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 DEFAULT_INIT_TEMPERATURE = 100
 EPSILON = 10 ** -5
 
-
 class Semiring:
     @classmethod
     def vv(self, x, y):
@@ -194,7 +193,7 @@ class WFSA(torch.nn.Module):
             self.init = init
 
         if final is None: # default to [..., 1, 1, 1]
-            self.final = torch.full((X1,), self.semiring.one, dtype=self.dtype, device=DEVICE)
+            self.final = torch.full_like(self.init, self.semiring.one)
         else:
             self.final = final
 
@@ -224,13 +223,6 @@ class WFSA(torch.nn.Module):
         occupancy = self.state_occupancy()
         return self.semiring.vv(occupancy, self.final)
 
-    def fisher_information_matrix(self):
-        E = self.semiring.sum(self.A, -1) # E_ij = \sum_k A_ijk
-        fisher_E = softmax_fisher(self.semiring.to_exp(E))
-        N = self.state_occupancy()
-        result = N[:, None, None] * fisher_E
-        return result
-        
 def softmax_fisher(A):
     # F_ij = p_i \delta_ij - p_i p_j
     #      = p_i (\delta_ij - p_j)
@@ -343,24 +335,18 @@ class PhonotacticsModel(torch.nn.Module):
               report_every: int=1000,
               debug: bool=False,
               reporting_window_size: int=100,
+              lr: float=0.01,
               checkpoint_prefix: Optional[str]=None,
-              diagnostic_fns: Optional[Dict[str, Callable[[torch.nn.Module], Any]]]=None,
+              eval_fn: Optional[Callable[[torch.nn.Module], Any]]=None,
               hyperparams_to_report: Optional[Dict]=None,
               **kwds):
-        opt = torch.optim.AdamW(params=self.parameters(), **kwds)
+        opt = torch.optim.Adam(params=self.parameters(), lr=lr, **kwds)
         reporting_window = deque(maxlen=reporting_window_size)
-        if diagnostic_fns is None:
-            diagnostic_fns = {}
         diagnostics = []
-        writer = csv.DictWriter(
-            sys.stdout,
-            "step epoch mean_loss".split() + list(diagnostic_fns) + (
-                list(hyperparams_to_report) if hyperparams_to_report else []
-            )
-        )
-        writer.writeheader()
+        writer = csv.writer(sys.stdout)
+        first_time = True
         for i, (epoch, batch) in enumerate(batches):
-            opt.zero_grad()
+            self.zero_grad(set_to_none=True)
             loss = -self.log_likelihood(batch, debug=debug).mean()
             loss.backward()
             opt.step()
@@ -372,17 +358,20 @@ class PhonotacticsModel(torch.nn.Module):
                     'epoch': epoch,
                     'mean_loss': mean_loss,
                 }
-                diagnostic |= {label : fn(self) for label, fn in diagnostic_fns.items()}
+                with torch.no_grad():
+                    diagnostic |= eval_fn(self)
                 if hyperparams_to_report:
                     diagnostic |= hyperparams_to_report
-                writer.writerow(diagnostic)
+                if first_time:
+                    writer.writerow(list(diagnostic.keys()))
+                    first_time = False
+                writer.writerow(list(diagnostic.values()))
                 diagnostics.append(diagnostic)
                 if checkpoint_prefix is not None:
                     filename = checkpoint_prefix + "_%d.pt" % i
                     with open(filename, 'wb') as outfile:
                         torch.save(self, outfile)
         return diagnostics
-    
 
 class MixturePhonotacticsModel(PhonotacticsModel):
     def __init__(self, models, weights, logspace_weights=True):
@@ -440,6 +429,29 @@ class FSAPhonotacticsModel(PhonotacticsModel):
             semiring=self.semiring if semiring is None else semiring
         )
 
+    def _fisher_information_matrix(self):
+        # Fisher information matrix as a function of logits
+        fsa = self.fsa()
+        N = fsa.state_occupancy()        
+        E = self.semiring.sum(fsa.A, -1) # E_ij = \sum_k A_ijk
+        fisher_E = softmax_fisher(self.semiring.to_exp(E))
+        result = N[:, None, None] * fisher_E
+        return result
+
+    
+
+    def natural_gradient_step(self, lr):
+        blocks = self.fisher_information_matrix()
+        # natural gradient is
+        # \theta' = \theta - \eta F^{-1}(\theta) \grad J(\theta).
+        # We have F(\theta) = J F(z) J^T, where z = per-state logits, and J = dz/d\theta.
+        # 
+        
+        
+        
+
+    
+        
     @classmethod
     def initialize(
             cls,
@@ -516,7 +528,7 @@ class GloballyNormalized:
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         wfsa = self.fsa()
         y = torch.stack([wfsa(x, debug=debug) for x in xs])
-        logZ = self.fsa(semiring=RealSemiring).pathsum().log()
+        Z = self.fsa(semiring=RealSemiring).pathsum()
         return self.semiring.to_log(y) - logZ
 
     
@@ -543,6 +555,12 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
         A_normalized = self.semiring.div(A_positive, Z[:, None, None])
         final_normalized = self.semiring.div(final_positive, Z)
         return A_normalized, final_normalized
+
+    def fsa_fisher(self):
+        # Fisher Information Metric F(A) as a function of probabilities A_ijk = p(s_j, q_k | q_i).
+        # Then for underlying parameters \theta, F(\theta) = J F(A) J^T, where J = dA/d\theta.
+        pass
+        
 
 
 class LocallyNormalizedWithEOS(LocallyNormalized):
@@ -1122,9 +1140,9 @@ def evaluate_no_axb(num_epochs=20,
     else:
         model = model_type.initialize(4)
 
-    diagnostics = {'good_bad_diff': lambda m: evaluate_model_paired(m, good, bad)['diff'].sum()}
+    eval_fn = lambda m: {'good_bad_diff': evaluate_model_paired(m, good, bad)['diff'].sum()}
     data = minibatches(dataset, batch_size, num_epochs=num_epochs)
-    model.train(data, diagnostic_fns=diagnostics, **kwds)
+    model.train(data, eval_fn=eval_fn, **kwds)
     return evaluate_model_paired(model, good, bad), model
 
 def evaluate_no_ab(num_epochs=20, batch_size=5, n=4, model_type=SL2, num_samples=1000, num_test=100, **kwds): # SL2 dataset

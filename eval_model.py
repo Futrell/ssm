@@ -6,6 +6,7 @@ import tqdm
 import ssm
 import torch
 import numpy as np
+import scipy
 import process_data
 
 CHECKPOINT_DIR = "checkpoints"
@@ -104,6 +105,15 @@ def get_vocab_size(data):
     good_vocab_size = max(map(max, data)) + 1
     return good_vocab_size
 
+def numerical_eval(test_data, judgments):
+    def compute_correlation(model):
+        scores = model.log_likelihood(test_data)
+        return {
+            'spearman': scipy.stats.spearmanr(scores, judgments).statistic,
+            'pearson': scipy.stats.pearsonr(scores, judgments).statistic,
+        }
+    return compute_correlations
+
 def categorical_eval(test_data, judgments):
     values = set() # {TRUE, FALSE} or {grammatical, ungrammatical} etc.
     for value in judgments:
@@ -113,26 +123,19 @@ def categorical_eval(test_data, judgments):
         value: [form for form, judgment in zip(test_data, judgments) if judgment == value]
         for value in values
     }
-    result = {}
     
-    def compute_scores(value):
-        def mean_scores(model):
-            return model.log_likelihood(categorized_data[value]).mean().item()
-        return mean_scores
-
-    def compute_paired_diff(model):
-        one = model.log_likelihood(categorized_data[values[0]])
-        two = model.log_likelihood(categorized_data[values[1]])
-        diffs = one - two
-        return diffs.mean().item()
-
-    
-    for value in values:
-        result['%s_scores' % str(value)] = compute_scores(value)
-    if len(values) == 2 and len(categorized_data[values[0]]) == len(categorized_data[values[1]]):
-        result['%s_%s_diff' % (str(values[0]), str(values[1]))] = compute_paired_diff
-
-    return result
+    def compute_scores(model):
+        result = {}
+        scores = [model.log_likelihood(categorized_data[value]) for value in values]
+        for value, score in zip(values, scores):
+            result['%s_scores' % value] = score.mean().item()
+        if len(scores) == 2:
+            diffs = scores[0] - scores[1]
+            result['%s_%s_diff' % (str(values[0]), str(values[1]))] = diffs.mean().item()
+            result['%s_%s_diff_t' % (str(values[0]), str(values[1]))] = scipy.stats.ttest_rel(*scores).statistic
+        return result
+            
+    return compute_scores
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a phonotactics model.")
@@ -181,7 +184,7 @@ if __name__ == "__main__":
         phone2ix=phone2ix, # ensure same vocabulary mapping
         paired=args.test_data_paired, 
     )
-    eval_fns = categorical_eval(test_data, test_extra[0])
+    eval_fn = categorical_eval(test_data, test_extra[0])
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
     if not args.save_checkpoints:
@@ -195,7 +198,7 @@ if __name__ == "__main__":
         report_every=args.report_every,
         reporting_window_size=args.reporting_window_size,
         lr=args.lr,
-        diagnostic_fns=eval_fns,
+        eval_fn=eval_fn,
         checkpoint_prefix=checkpoint_prefix,
         hyperparams_to_report={
             'batch_size': args.batch_size,
