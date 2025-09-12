@@ -546,22 +546,6 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
 
 
 class LocallyNormalizedWithEOS(LocallyNormalized):
-    def __init__(self, A, init=None, final=None, semiring=RealSemiring):
-        super(FSAPhonotacticsModel).__init__()
-        # the logspace weights here will be transformed into a WFSA via
-        # self.A_and_final_positive -> self.A_and_final_normalized -> self.fsa
-        self.A = A # unnormalized weights
-        Q, S, Q2 = self.A.shape
-        assert Q == Q2
-
-        self.semiring = semiring        
-
-        self.final = final # might be None
-        if init is None:
-            self.init = self.semiring.from_exp(torch.nn.functional.one_hot(torch.tensor(0), Q)).to(DEVICE)
-        else:
-            self.init = init
-    
     def A_and_final_normalized(self):
         A_positive, _ = self.A_and_final_positive()
         Z = self.semiring.sum(A_positive, dim=(-1, -2))
