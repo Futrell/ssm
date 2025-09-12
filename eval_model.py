@@ -111,7 +111,7 @@ def get_vocab_size(data):
 def numerical_eval(test_data, judgments):
     judgments = np.array(list(map(float, judgments)))
     def compute_correlations(model):
-        scores = model.log_likelihood(test_data)
+        scores = model.log_likelihood(test_data).detach().numpy()
         return {
             'spearman': scipy.stats.spearmanr(scores, judgments).statistic,
             'pearson': scipy.stats.pearsonr(scores, judgments).statistic,
