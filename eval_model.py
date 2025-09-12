@@ -110,7 +110,7 @@ def get_vocab_size(data):
 
 def numerical_eval(test_data, judgments):
     judgments = np.array(list(map(float, judgments)))
-    def compute_correlation(model):
+    def compute_correlations(model):
         scores = model.log_likelihood(test_data)
         return {
             'spearman': scipy.stats.spearmanr(scores, judgments).statistic,
@@ -151,6 +151,8 @@ if __name__ == "__main__":
                                 and second is a judgment (TRUE or FALSE, or numerical)""")
     parser.add_argument('--test_data_paired', action='store_true',
                         help="Whether the test data is in two-column paired grammatical/ungrammatical format.")
+    parser.add_argument('--numerical_eval', action='store_true',
+                        help="Whether test judgments are numerical, rather than categorical.")
     parser.add_argument('--char_separator', type=str, default=" ",
                         help="Delimiter for characters")
     parser.add_argument('--col_separator', type=str, default="\t",
@@ -188,7 +190,11 @@ if __name__ == "__main__":
         phone2ix=phone2ix, # ensure same vocabulary mapping
         paired=args.test_data_paired, 
     )
-    eval_fn = categorical_eval(test_data, test_extra[0])
+    if args.numerical_eval:
+        eval_fn = numerical_eval(test_data, test_extra[0])
+    else:
+        eval_fn = categorical_eval(test_data, test_extra[0])
+        
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
     if not args.save_checkpoints:
