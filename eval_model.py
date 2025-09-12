@@ -1,13 +1,16 @@
-import csv
 import os
+import csv
 import argparse
 from typing import *
+
 import tqdm
-import ssm
 import torch
 import numpy as np
 import scipy
+
 import process_data
+import ssm
+
 
 CHECKPOINT_DIR = "checkpoints"
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -106,6 +109,7 @@ def get_vocab_size(data):
     return good_vocab_size
 
 def numerical_eval(test_data, judgments):
+    judgments = np.array(list(map(float, judgments)))
     def compute_correlation(model):
         scores = model.log_likelihood(test_data)
         return {
