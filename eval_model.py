@@ -100,30 +100,39 @@ def get_model(model_type: str,
 
 def get_vocab_size(data):
     # Each symbol is represented by an integer, starting from 0. To get vocab
-    # size, find the largest integer used and add 1.
-    good_vocab_size = max(map(max, data[True])) + 1
+    # size, find the largest integer used and add 1. Potentially includes EOS.
+    good_vocab_size = max(map(max, data)) + 1
     return good_vocab_size
 
-def test_eval(test_data):
+def categorical_eval(test_data, judgments):
+    values = set() # {TRUE, FALSE} or {grammatical, ungrammatical} etc.
+    for value in judgments:
+        values.add(value)
+    values = list(values) # so it has an order
+    categorized_data = {
+        value: [form for form, judgment in zip(test_data, judgments) if judgment == value]
+        for value in values
+    }
+    result = {}
     
-    def compute_good_scores(model):
-        return model.log_likelihood(test_data[True]).mean().item()
-
-    def compute_bad_scores(model):
-        return model.log_likelihood(test_data[False]).mean().item()
+    def compute_scores(value):
+        def mean_scores(model):
+            return model.log_likelihood(categorized_data[value]).mean().item()
+        return mean_scores
 
     def compute_paired_diff(model):
-        goods = model.log_likelihood(test_data[True])
-        bads = model.log_likelihood(test_data[False])
-        diffs = goods - bads
+        one = model.log_likelihood(categorized_data[values[0]])
+        two = model.log_likelihood(categorized_data[values[1]])
+        diffs = one - two
         return diffs.mean().item()
 
-    return {
-        'good_scores': compute_good_scores,
-        'bad_scores': compute_bad_scores,
-        'diff': lambda m: compute_good_scores(m) - compute_bad_scores(m),
-        'paired_diff': compute_paired_diff,
-    }
+    
+    for value in values:
+        result['%s_scores' % str(value)] = compute_scores(value)
+    if len(values) == 2 and len(categorized_data[values[0]]) == len(categorized_data[values[1]]):
+        result['%s_%s_diff' % (str(values[0]), str(values[1]))] = compute_paired_diff
+
+    return result
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a phonotactics model.")
@@ -132,7 +141,9 @@ if __name__ == "__main__":
                         help="Training data, only TRUE cases will be used")
     parser.add_argument('test_file', type=str, default=None,
                         help="""Test data, two columns where first is a form
-                                and second is a judgment""")
+                                and second is a judgment (TRUE or FALSE, or numerical)""")
+    parser.add_argument('--test_data_paired', action='store_true',
+                        help="Whether the test data is in two-column paired grammatical/ungrammatical format.")
     parser.add_argument('--char_separator', type=str, default=" ",
                         help="Delimiter for characters")
     parser.add_argument('--col_separator', type=str, default="\t",
@@ -156,23 +167,22 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    *_, train_data = process_data.process_data(
+    phone2ix, train_data, train_extra = process_data.process_data(
         args.train_file,
         col_separator=args.col_separator,
         char_separator=args.char_separator,
     )
     vocab_size = get_vocab_size(train_data)
 
-    *_, test_data = process_data.process_data(
+    _, test_data, test_extra = process_data.process_data(
         args.test_file,
         col_separator=args.col_separator,
         char_separator=args.char_separator,
-        # TODO: Will need to fix this once we have random test data
-        paired=True
+        phone2ix=phone2ix, # ensure same vocabulary mapping
+        paired=args.test_data_paired, 
     )
-    eval_fns = test_eval(test_data)
-
-    batches = tqdm.tqdm(list(ssm.minibatches(train_data[True], args.batch_size, args.num_epochs + 1)))
+    eval_fns = categorical_eval(test_data, test_extra[0])
+    batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
     if not args.save_checkpoints:
         checkpoint_prefix = None
