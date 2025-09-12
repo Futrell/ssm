@@ -2,6 +2,7 @@ import os
 import csv
 import argparse
 from typing import *
+from collections import defaultdict
 
 import tqdm
 import torch
@@ -119,15 +120,11 @@ def numerical_eval(test_data, judgments):
     return compute_correlations
 
 def categorical_eval(test_data, judgments):
-    values = set() # {TRUE, FALSE} or {grammatical, ungrammatical} etc.
-    for value in judgments:
-        values.add(value)
-    values = list(values) # so it has an order
-    categorized_data = {
-        value: [form for form, judgment in zip(test_data, judgments) if judgment == value]
-        for value in values
-    }
-    
+    categorized_data = defaultdict(list)
+    for form, value in zip(test_data, judgments):
+        categorized_data[value].append(form)
+    values = list(categorized_data.keys())
+
     def compute_scores(model):
         result = {}
         scores = [
