@@ -587,7 +587,8 @@ class LocallyNormalizedWithEOS(LocallyNormalized):
 
         final = self.semiring.from_exp(torch.zeros(Q+1, device=DEVICE))
         final[-1] = self.semiring.one
-        init = torch.cat([self.init, torch.Tensor([self.semiring.zero], device=DEVICE)])
+        init = torch.full_like(final, self.semiring.zero)
+        init[:-1] = self.init
         return WFSA(
             A_delimited,
             init=init,
