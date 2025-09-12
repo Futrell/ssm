@@ -189,8 +189,9 @@ class WFSA(torch.nn.Module):
             self.semiring = semiring
 
         if init is None: # default to [1, 0, 0, 0, ...], enforcing state 0 = initial state.
-            self.init = torch.ones(X1, dtype=self.dtype, device=DEVICE)
-            self.init[0] = 1.0
+            init = torch.ones(X1, dtype=self.dtype, device=DEVICE)
+            init[0] = 1.0
+            self.init = self.semiring.from_exp(init)
         else:
             self.init = init
 
@@ -200,7 +201,7 @@ class WFSA(torch.nn.Module):
             self.final = final
 
     def forward(self, input, debug=False):
-        x = self.semiring.from_exp(self.init)
+        x = self.init
         for x_t in input:
             #x = self.semiring.einsum("qsr,s,q->r", self.A, u_t, x)
             A_t = self.A[:, x_t, :]
@@ -211,11 +212,11 @@ class WFSA(torch.nn.Module):
         return y
 
     def transition_closure(self):
-        # (I - A)^{-1} via solve; no spectral radius check in the hot path
-        # only works for Real Semiring
-        A = self.semiring.sum(self.A, -2)
-        I = self.semiring.from_exp(torch.eye(A.shape[0], device=A.device, dtype=A.dtype))
-        return torch.linalg.solve(I - A, I)  # faster/more stable than inv
+        # do calculation in exp space
+        A = self.semiring.to_exp(self.semiring.sum(self.A, -2))
+        I = torch.eye(A.shape[0], device=A.device, dtype=A.dtype)
+        result = torch.linalg.solve(I - A, I)
+        return self.semiring.from_exp(result)
 
     def state_occupancy(self):
         A_star = self.transition_closure()
@@ -225,11 +226,18 @@ class WFSA(torch.nn.Module):
         occupancy = self.state_occupancy()
         return self.semiring.vv(occupancy, self.final)
 
+    def fisher_information_matrix(self):
+        E = self.semiring.sum(self.A, -1) # E_ij = \sum_k A_ijk
+        fisher_E = softmax_fisher(self.semiring.to_exp(E))
+        N = self.state_occupancy()
+        result = N[:, None, None] * fisher_E
+        return result
+        
 def softmax_fisher(A):
     # F_ij = p_i \delta_ij - p_i p_j
     #      = p_i (\delta_ij - p_j)
     I = torch.eye(A.shape[-1])
-    F = A[..., :, None] * (I - A[..., None, :])
+    F = A.unsqueeze(-1) * (I - A.unsqueeze(-2))
     return F
 
 def test_wfsa():
@@ -296,6 +304,7 @@ class SSM(torch.nn.Module):
 
         self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
 
+        # NOTE: SSM not set up to run in Logspace semiring
         self.phi = torch.eye(U, dtype=self.dtype, device=DEVICE) if phi is None else phi # default to identity matrix
         self.init = torch.eye(X, dtype=self.dtype, device=DEVICE)[0] if init is None else init # default to [1, 0, 0, 0, ...]
 
@@ -309,12 +318,12 @@ class SSM(torch.nn.Module):
             assert self.pi.shape[0] == U
             assert self.pi.shape[1] == X
 
-    def forward(self, input, init=None, debug=False):
+    def forward(self, input, debug=False):
         T = len(input)
         u = self.phi[input]
         proj = self.semiring.mm(u, self.pi) # torch.einsum("ux,tu->tx", self.pi, u)
         x = [torch.zeros(self.A.shape[0], dtype=self.dtype, device=DEVICE) for _ in range(T+1)]
-        x[0] = self.init if init is None else init
+        x[0] = self.init
         for t in range(T):
             update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
             x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
@@ -403,14 +412,17 @@ class FSAPhonotacticsModel(PhonotacticsModel):
         Q, S, Q2 = self.A.shape
         assert Q == Q2
 
+        self.semiring = semiring        
+
         self.final = final # might be None
         if init is None:
-            self.init = torch.zeros(Q, device=DEVICE)
-            self.init[0] = 1.0
+            init = torch.zeros(Q, device=DEVICE)
+            init[0] = 1.0
+            self.init = self.semiring.from_exp(init)
         else:
             self.init = init
 
-        self.semiring = semiring
+
 
     def A_positive(self):
         A_positive = self.semiring.from_log(self.A) # Q1 S Q2
@@ -466,13 +478,8 @@ class OverparameterizedFSAPhonotacticsModel(FSAPhonotacticsModel):
         assert BQ == CQ2
         assert BQ2 == CQ
 
-        self.final = final # might be None        
-        if init is None:
-            self.init = torch.zeros(CQ2, device=DEVICE)
-            self.init[0] = 1.0
-        else:
-            self.init = init
-
+        self.final = final # might be None
+        self.init = init
         self.semiring = semiring
 
     @classmethod
@@ -494,13 +501,14 @@ class OverparameterizedFSAPhonotacticsModel(FSAPhonotacticsModel):
             model = cls(B, C, semiring=semiring)
         return model.to(DEVICE)
 
-    def A_positive(self):
+    def A_and_final_positive(self):
         BQ, BQ2 = self.B.shape
         CQ, S, CQ2 = self.C.shape        
         C = self.C.reshape(CQ, S*CQ2)
         A = self.semiring.mm(self.B, C)
         A_positive = self.semiring.from_log(A) # Q1 S Q2
-        return A_positive.reshape(BQ, S, CQ2)
+        final = None if self.final is None else self.semiring.from_log(self.final)
+        return A_positive.reshape(BQ, S, CQ2), final
 
 
 def soft_ceiling(x, k, beta=1):
@@ -519,8 +527,8 @@ class GloballyNormalized:
     
 class AdjustedNormalized(GloballyNormalized):
     def A_and_final_positive(self):
-        A_positive = self.semiring.to_exp(self.A_positive())
-        final_positive = self.semiring.to_exp(self.final_positive())
+        A_positive = self.A.exp()
+        final_positive = self.final.exp()
         s = spectral_radius(A_positive.sum(-2) + final_positive[:, None])
         adjustment = soft_ceiling(s, 1) / s
         A_normalized = adjustment * A_positive
@@ -535,8 +543,8 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
         return self.semiring.to_log(y)
 
     def A_and_final_positive(self):
-        A_positive = self.A_positive()
-        final_positive = self.final_positive()
+        A_positive = self.semiring.from_log(self.A)
+        final_positive = self.semiring.from_log(self.final)
         Z = self.semiring.add(self.semiring.sum(A_positive, dim=(-1, -2)), final_positive)
         A_normalized = self.semiring.div(A_positive, Z[:, None, None])
         final_normalized = self.semiring.div(final_positive, Z)
@@ -544,27 +552,30 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
 
 
 class LocallyNormalizedWithEOS(LocallyNormalized):
-
-    def A_positive(self):
+    def A_and_final_positive(self):
         A_positive = self.semiring.from_log(self.A)
         Z = self.semiring.sum(A_positive, dim=(-1, -2))
         A_normalized = self.semiring.div(A_positive, Z[:, None, None])
-        return A_normalized
-
-    def A_and_final_positive(self):
-        A = self.A_positive()
-        return A, None
+        return A_normalized, None
     
     def fsa(self, semiring=None) -> WFSA:
         """ WFSA with an explicit final sink state after eos """
-        A_normalized = self.A_positive()
+        A_normalized, _ = self.A_and_final_positive()
         Q, S, R = A_normalized.shape
+        # sink state is characterized by
+        # p(sink | :, :) = 0        
+        # p(sink | eos, :) = 1
+        # thus
+        # p(sink, : | :) = 0
+        # p(sink, eos | :) = p(eos | :) * 1
         A_delimited = self.semiring.from_exp(torch.zeros(Q+1, S, R+1, device=DEVICE))
         A_delimited[:-1, :, :-1] = A_normalized
-        A_delimited[:, 0, -1] = self.semiring.one
+        A_delimited[:, 0, -1] = self.semiring.sum(A_delimited[:, 0, :], -1) # redirect all probability mass into the sink
+        A_delimited[:, 0, :-1] = self.semiring.zero # after eos, never go into any state except the sink
+
         final = self.semiring.from_exp(torch.zeros(Q+1, device=DEVICE))
         final[-1] = self.semiring.one
-        init = torch.cat([self.init, torch.Tensor([self.semiring.zero], device=DEVICE)])
+        init = torch.cat([self.init, torch.Tensor([self.semiring.zero], device=DEVICE)]) 
         return WFSA(
             A_delimited,
             init=init,
@@ -599,10 +610,15 @@ class ProductPFSAPhonotacticsModel(PFSAPhonotacticsModel):
     @property
     def init(self):
         one_init, two_init = self.one.init, self.two.init
-        return torch.kron(one_init**self.weights[0], two_init**self.weights[1])
+        Q = one_init.shape[-1] * two_init.shape[-1]
+        result = self.semiring.mul(
+            self.semiring.pow(one_init[:, None], self.weights[0]),
+            self.semiring.pow(two_init[None, :], self.weights[1]),
+        ).reshape(Q)
+        return result
 
-    def A_positive(self):
-        one_Ap, two_Ap = self.one.A_positive(), self.two.A_positive()
+    def A_and_final_positive(self):
+        (one_Ap, _), (two_Ap, _) = self.one.A_and_final_positive(), self.two.A_and_final_positive()
         one_A = self.semiring.pow(one_Ap.transpose(-2,-3), self.weights[0]) # shape SQQ
         two_A = self.semiring.pow(two_Ap.transpose(-2,-3), self.weights[1])
         S = one_A.shape[0]
@@ -611,10 +627,7 @@ class ProductPFSAPhonotacticsModel(PFSAPhonotacticsModel):
             one_A[:, :, None, :, None],
             two_A[:, None, :, None, :],
         ).reshape(S, combo_shape, combo_shape).transpose(-2,-3)
-        return coA
-
-    def final_positive(self):
-        return None
+        return coA, None
 
 
 class pTSL(PFSAPhonotacticsModel):
@@ -626,9 +639,6 @@ class pTSL(PFSAPhonotacticsModel):
         assert S == self.pi.shape[-1]
         
         self.final = final
-        self.init = torch.zeros(Q, device=DEVICE)
-        self.init[0] = 1.0
-
         self.semiring = semiring
 
         self.T_on_tier = self.semiring.from_exp(torch.cat([torch.zeros(1, S), torch.eye(S)]).to(DEVICE)).T # shape 1SQ, saving symbol as state
@@ -653,7 +663,7 @@ class pTSL(PFSAPhonotacticsModel):
             model = cls(E, pi, semiring=semiring)
         return model.to(DEVICE)
 
-    def A_positive(self):
+    def A_and_final_positive(self):
         # In real semiring:
         # A = proj * self.E.exp()[:, :, None] * self.T_on_tier + (1-proj) * self.T_not_on_tier
         proj = self.semiring.logistic(self.pi)[None, :, None]
@@ -663,7 +673,7 @@ class pTSL(PFSAPhonotacticsModel):
         one = self.semiring.mul(proj, on_tier)
         two = self.semiring.mul(not_proj, self.T_not_on_tier)
         A = self.semiring.add(one, two) # this kills the gradient, because it takes a log of zero
-        return A
+        return A, None
 
 class SSMPhonotacticsModel(PhonotacticsModel):
     def __init__(self, A, B, C, init=None, pi=None):
