@@ -12,6 +12,8 @@ import pandas as pd
 import numpy as np
 import torch_semiring_einsum as tse
 
+import naturalgradient
+
 INF = float('inf')
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 DEFAULT_INIT_TEMPERATURE = 100
@@ -88,10 +90,6 @@ class LogspaceSemiring(Semiring):
     to_log = lambda x:x
     logistic = torch.nn.functional.logsigmoid
 
-    mv_eq = tse.compile_equation("ij,j->i")
-    bmv_eq = tse.compile_equation("bij,j->bi")
-    mm_eq = tse.compile_equation("ij,jk->ik")
-
     add = torch.logaddexp
     sum = torch.logsumexp
 
@@ -114,19 +112,6 @@ class LogspaceSemiring(Semiring):
         all_invalid = ~mask.any(dim=dim, keepdim=True)
         y = torch.where(all_invalid, torch.full_like(y, -torch.inf), y)
         return y if keepdim else y.squeeze(dim)
-
-    @classmethod
-    def not_mv(cls, A, x):
-        if A.ndim == 2:
-            return tse.log_einsum(cls.mv_eq, A, x)
-        elif A.ndim == 3:
-            return tse.log_einsum(cls.bmv_eq, A, x)
-        else:
-            raise ValueError("Bad dimensions: A=%s, x=%s" % (str(A.shape), str(x.shape)))
-
-    @classmethod
-    def not_mm(cls, A, B):
-        return tse.log_einsum(cls.mm_eq, A, B)
 
     @classmethod
     def einsum(cls, formula, *args):
@@ -222,6 +207,28 @@ class WFSA(torch.nn.Module):
     def pathsum(self):
         occupancy = self.state_occupancy()
         return self.semiring.vv(occupancy, self.final)
+
+    def apply_fisher(self, v):
+        """ Apply the Fisher information matrix to v """
+        Q, S, Q2 = self.A.shape
+        
+        p = self.semiring.to_exp(self.A).clamp_min(EPSILON).view(Q, -1)
+        v = v.view(Q, -1)
+        d = p.size(-2) # vocab size
+        ones = torch.ones_like(p)
+        
+        # project to remove the simplex degree of freedom
+        v_tan = v - (v.sum(dim=1, keepdim=True) / d) * ones  # [Q, d]
+
+        # form the Fisher blocks, removing the simplex degree of freedom
+        w = v_tan / p
+        w = w - (w.sum(dim=1, keepdim=True) / d) * ones
+        
+        # result is F(A)v, but don't realize true block-diagonal F(A)
+        N = self.state_occupancy().view(Q, 1, 1)                     
+        result = (N * w.view_as(self.A)).contiguous()
+        
+        return result
 
 def softmax_fisher(A):
     # F_ij = p_i \delta_ij - p_i p_j
@@ -335,42 +342,47 @@ class PhonotacticsModel(torch.nn.Module):
               report_every: int=1000,
               debug: bool=False,
               reporting_window_size: int=100,
-              lr: float=0.01,
+              natural_gradient: bool=False,
               checkpoint_prefix: Optional[str]=None,
               eval_fn: Optional[Callable[[torch.nn.Module], Any]]=None,
               hyperparams_to_report: Optional[Dict]=None,
               **kwds):
-        opt = torch.optim.Adam(params=self.parameters(), lr=lr, **kwds)
+        if natural_gradient:
+            opt = naturalgradient.NaturalGradientDescent(params=self.parameters(), model=self, **kwds)
+        else:
+            opt = torch.optim.Adam(params=self.parameters(), **kwds)            
+        
         reporting_window = deque(maxlen=reporting_window_size)
         diagnostics = []
         writer = csv.writer(sys.stdout)
         first_time = True
         for i, (epoch, batch) in enumerate(batches):
-            self.zero_grad(set_to_none=True)
+            if i % report_every == 0:
+                diagnostic = {
+                    'step': i,
+                    'epoch': epoch,
+                }
+                with torch.no_grad():
+                    diagnostic |= eval_fn(self)
+                if hyperparams_to_report:
+                    diagnostic |= hyperparams_to_report
+                if checkpoint_prefix is not None:
+                    filename = checkpoint_prefix + "_%d.pt" % i
+                    with open(filename, 'wb') as outfile:
+                        torch.save(self, outfile)
+            opt.zero_grad()
             loss = -self.log_likelihood(batch, debug=debug).mean()
             loss.backward()
             opt.step()
             reporting_window.append(loss.detach())
             if i % report_every == 0:
                 mean_loss = torch.stack(list(reporting_window)).mean().item()
-                diagnostic = {
-                    'step': i,
-                    'epoch': epoch,
-                    'mean_loss': mean_loss,
-                }
-                with torch.no_grad():
-                    diagnostic |= eval_fn(self)
-                if hyperparams_to_report:
-                    diagnostic |= hyperparams_to_report
+                diagnostic['mean_loss'] = mean_loss
                 if first_time:
                     writer.writerow(list(diagnostic.keys()))
                     first_time = False
                 writer.writerow(list(diagnostic.values()))
-                diagnostics.append(diagnostic)
-                if checkpoint_prefix is not None:
-                    filename = checkpoint_prefix + "_%d.pt" % i
-                    with open(filename, 'wb') as outfile:
-                        torch.save(self, outfile)
+                diagnostics.append(diagnostic)                
         return diagnostics
 
 class MixturePhonotacticsModel(PhonotacticsModel):
@@ -429,29 +441,6 @@ class FSAPhonotacticsModel(PhonotacticsModel):
             semiring=self.semiring if semiring is None else semiring
         )
 
-    def _fisher_information_matrix(self):
-        # Fisher information matrix as a function of logits
-        fsa = self.fsa()
-        N = fsa.state_occupancy()        
-        E = self.semiring.sum(fsa.A, -1) # E_ij = \sum_k A_ijk
-        fisher_E = softmax_fisher(self.semiring.to_exp(E))
-        result = N[:, None, None] * fisher_E
-        return result
-
-    
-
-    def natural_gradient_step(self, lr):
-        blocks = self.fisher_information_matrix()
-        # natural gradient is
-        # \theta' = \theta - \eta F^{-1}(\theta) \grad J(\theta).
-        # We have F(\theta) = J F(z) J^T, where z = per-state logits, and J = dz/d\theta.
-        # 
-        
-        
-        
-
-    
-        
     @classmethod
     def initialize(
             cls,
@@ -481,7 +470,7 @@ class OverparameterizedFSAPhonotacticsModel(FSAPhonotacticsModel):
 
         self.semiring = semiring
         self.final = final # might be None        
-        if self.init is None:
+        if init is None:
             self.init = self.semiring.from_exp(torch.nn.functional.one_hot(torch.tensor([0]), CQ2)).to(DEVICE)
         else:
             self.init = init
@@ -623,11 +612,10 @@ class ProductPFSAPhonotacticsModel(PFSAPhonotacticsModel):
     @property
     def init(self):
         one_init, two_init = self.one.init, self.two.init
-        Q = one_init.shape[-1] * two_init.shape[-1]
         result = self.semiring.mul(
             self.semiring.pow(one_init[:, None], self.weights[0]),
             self.semiring.pow(two_init[None, :], self.weights[1]),
-        ).reshape(Q)
+        ).reshape(-1)
         return result
 
     def A_and_final_positive(self):
@@ -797,7 +785,7 @@ class ProductSSMModel(SSMPhonotacticsModel):
             B=torch.cat([m.B for m in ssms]),
             C=torch.cat([m.C for m in ssms], dim=-1),
             init=torch.cat([m.init for m in ssms]),
-            pi=torch.cat([m.pi for m in ssms]),
+            pi=torch.cat([m.pi for m in ssms], dim=-1),
         )
 
 class Factor2(DiagonalSSMPhonotacticsModel):
@@ -826,8 +814,8 @@ class SL2(Factor2):
         B = torch.eye(d+bias, device=DEVICE)[:, (1+bias):] # X x S
         init = torch.eye(d+bias, device=DEVICE)[0]
         if bias:
-            A_diag[0] = 1
-            init[0,1] = 1
+            A_diag[0] = True
+            init[0,1] = True
         return A_diag, B, init
 
 class SP2(Factor2):
