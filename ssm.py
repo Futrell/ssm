@@ -887,7 +887,7 @@ class TierBased(Factor2):
 
     @property
     def pi(self):
-        return self.pi.unsqueeze(-1).expand(*self.C.shape)
+        return self.pi.unsqueeze(-1).expand(*self.C.shape) 
 
     
 class SoftTierBased(Factor2):
@@ -917,10 +917,10 @@ class ProbabilisticTierBased(SoftTierBased):
     @property
     def C(self):
         if self.bias:
-            C = self.Cb_params[0, :] = self.Cb_params[1:, :]
+            C = self.Cb_params[0, :] + self.Cb_params[1:, :]
         else:
             C = self.Cb_params
-        return C.softmax(0) # will return probabilities
+        return C.exp()
     
     def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: Optional[bool]=False):
         ssm = self.ssm()
