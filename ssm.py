@@ -716,22 +716,34 @@ class pTSL(PFSAPhonotacticsModel):
         return A, None
 
 class SSMPhonotacticsModel(PhonotacticsModel):
-    def __init__(self, A, B, Cb, init=None, pi=None, bias=False):
+    def __init__(self, A_params, B_params, Cb_params, pi_params=None, init=None, bias=False):
         super().__init__()
-        self.A = A
-        self.B = B
-        self.Cb = Cb
+        self.A_params = A_params
+        self.B_params = B_params
+        self.Cb_params = Cb_params
         self.init = init
-        self.pi = pi
+        self.pi_params = pi_params
         self.bias = bias
+
+    @property
+    def A(self):
+        return self.A_params
+
+    @property
+    def B(self):
+        return self.B_params
 
     @property
     def C(self):
         if self.bias:
-            return self.Cb[0, :] + self.Cb[1:, :]
+            C = self.Cb_params[0, :] + self.Cb_params[1:, :]
         else:
-            return self.Cb
-        
+            C = self.Cb_params
+        return C
+
+    @property
+    def pi(self):
+        return self.pi_params
 
     @classmethod
     def initialize(
@@ -753,9 +765,9 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         def gen():
             for x in xs:
                 # for sequence x1 x2 x3, get the vector of logits of x_t | x_{<t}
-                logits = ssm(x, debug=debug).y
-                # normalize locally 
-                yield logits.log_softmax(-1).gather(-1, x.unsqueeze(-1)).sum()
+                logprobs = ssm(x, debug=debug).y
+                # normalize locally -- cannot in general normalize C in advance
+                yield logprobs.log_softmax(-1).gather(-1, x.unsqueeze(-1)).sum()
         return torch.stack(list(gen()))
 
     forward = log_likelihood
@@ -764,7 +776,7 @@ class SSMPhonotacticsModel(PhonotacticsModel):
         return self.ssm()
 
     def ssm(self) -> SSM:
-        return SSM(self.A, self.B, C, init=self.init, pi=self.pi)
+        return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
 
     def __mul__(self, other):
         if isinstance(other, SSMPhonotacticsModel):
@@ -797,25 +809,20 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
 
         return cls(A_diag, B, Cb, bias=bias).to(DEVICE)
 
-    def ssm(self) -> SSM:
-        return SSM(
-            torch.diag(self.A),
-            self.B,
-            self.C,
-            init=self.init,
-            pi=self.pi
-        )
+    @property
+    def A(self):
+        return torch.diag(self.A_params)
 
+    
 class SquashedDiagonalSSMPhonotacticsModel(DiagonalSSMPhonotacticsModel):
-    def ssm(self) -> SSM:
-        return SSM(
-            torch.diag(torch.sigmoid(self.A)), # squash to [0,1]
-            torch.tanh(self.B), # squash to [-1,1]
-            self.C,
-            init=self.init,
-            pi=self.pi
-        )
+    @property
+    def A(self):
+        return torch.diag(torch.sigmoid(self.A_params))
 
+    @property
+    def B(self):
+        return torch.tanh(self.B)
+    
 
 class ProductSSMModel(SSMPhonotacticsModel):
     def __init__(self, *models):
@@ -838,7 +845,7 @@ class Factor2(DiagonalSSMPhonotacticsModel):
     def from_factors(cls, factors, projection=None, bias=False):
         S, X = factors.shape
         A, B, init = cls.init_matrices(X)
-        return cls(A, B, factors, init=init, pi=projection, bias=bias)
+        return cls(A, B, factors, init=init, pi_params=projection, bias=bias)
 
     @classmethod
     def init_matrices(cls, d, bias=False):
@@ -878,15 +885,11 @@ class TierBased(Factor2):
     """ Assume projection is a function from input features to a single number for all state features,
     that is, we can say that a segment is or is not projected. """
 
-    def ssm(self):
-        return SSM(
-            torch.diag(self.A),
-            self.B,
-            self.C,
-            init=self.init,
-            pi=self.pi.unsqueeze(-1).expand(*self.C.shape), # broadcast projection to all state features
-        )
+    @property
+    def pi(self):
+        return self.pi.unsqueeze(-1).expand(*self.C.shape)
 
+    
 class SoftTierBased(Factor2):
     @classmethod
     def initialize(
@@ -904,30 +907,26 @@ class SoftTierBased(Factor2):
             projection = pi
         return cls.from_factors(factors, projection, bias=bias).to(DEVICE)
 
-    def ssm(self):
-        return SSM(
-            torch.diag(self.A),
-            self.B,
-            self.C,
-            init=self.init,
-            pi=self.pi.sigmoid().unsqueeze(-1).expand(*self.C.shape), # squash projection probabilities to (0,1)
-        )
+    @property
+    def pi(self):
+        return self.pi.sigmoid().unsqueeze(-1).expand(*self.C.shape)
+
 
 class ProbabilisticTierBased(SoftTierBased):
-    def ssm(self):
-        return SSM(
-            torch.diag(self.A),
-            self.B,
-            self.C.exp(),
-            init=self.init,
-            pi=self.pi.sigmoid().unsqueeze(-1).expand(*self.C.shape),
-        )
 
+    @property
+    def C(self):
+        if self.bias:
+            C = self.Cb_params[0, :] = self.Cb_params[1:, :]
+        else:
+            C = self.Cb_params
+        return C.softmax(0) # will return probabilities
+    
     def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: Optional[bool]=False):
         ssm = self.ssm()
         def gen():
             for x in xs:
-                weights = ssm(x).y + ssm.semiring.complement(ssm.pi[:,x][0])[:, None] # hack!!!
+                weights = ssm(x).y + (1-ssm.pi)[:, None] # hack
                 # Assume the weights are already positive, so we only need to normalize, not softmax
                 lnZ = weights.sum(-1).log() # shape T
                 relevant = weights.gather(-1, x.unsqueeze(-1)).log()
