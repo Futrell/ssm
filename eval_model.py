@@ -16,6 +16,8 @@ import ssm
 CHECKPOINT_DIR = "checkpoints"
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
+INF = float('inf')
+
 def get_model(model_type: str,
               vocab_size: int,
               init_temperature: float,
@@ -24,24 +26,19 @@ def get_model(model_type: str,
         state_dim = vocab_size + 1 # for eos
 
     if model_type == 'sl2': 
-        model = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model = ssm.SL2.initialize(vocab_size, init_T=init_temperature, bias=True)
     elif model_type == 'pfsa_sl2':
         # same as SL2, but backed by PFSA instead of SSM; outcomes should be identical
         model = ssm.pTSL.initialize(
             vocab_size,
             init_T=init_temperature,
-            pi=torch.ones(vocab_size, device=DEVICE) * float('inf'), # force everything projected
+            pi=torch.full((vocab_size,), INF, device=DEVICE), # force everything projected
             semiring=ssm.LogspaceSemiring,
         )
     elif model_type == 'sp2':
         model = ssm.SP2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'sl2_times_pfsa':
-        model1 = ssm.pTSL.initialize(
-            vocab_size,
-            init_T=init_temperature,
-            pi=torch.ones(vocab_size, device=DEVICE) * float('inf'), # force everything projected
-            semiring=ssm.LogspaceSemiring,
-        )        
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
         model2 = ssm.PFSAPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
@@ -65,7 +62,11 @@ def get_model(model_type: str,
     elif model_type == 'ptsl2_plus_pfsa':
         model1 = ssm.pTSL.initialize(vocab_size, semiring=ssm.LogspaceSemiring)
         model2 = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
-        model = model1 + model2 
+        model = model1 + model2
+    elif model_type == 'sl2_times_sp2':
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model2 = ssm.SP2.initialize(vocab_size, init_T=init_temperature)
+        model = model1 * model2
     elif model_type == 'quasi_sp2':
         model = ssm.QuasiSP2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'soft_tsl2': 
@@ -74,6 +75,35 @@ def get_model(model_type: str,
             init_T=init_temperature,
             init_T_projection=init_temperature,
         )
+    elif model_type == 'sl2_times_soft_tsl2':
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model2 = ssm.SoftTSL2.initialize(
+            vocab_size,
+            init_T=init_temperature,
+            init_T_projection=init_temperature,
+        )        
+        model = model1 * model2
+    elif model_type == 'sl2_times_ptsl2':
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model2 = ssm.pTSL.initialize(
+            vocab_size,
+            init_T=init_temperature,
+            semiring=ssm.LogspaceSemiring,
+        )
+        model = model1 * model2
+    elif model_type == 'sl2_times_mtsl2':
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model2 = ssm.pTSL.initialize(
+            vocab_size,
+            init_T=init_temperature,
+            semiring=ssm.LogspaceSemiring
+        )
+        model3 = ssm.pTSL.initialize(
+            vocab_size,
+            init_T=init_temperature,
+            semiring=ssm.LogspaceSemiring
+        )
+        model = ssm.ProductPhonotacticsModel(model1, model2, model3)
     elif model_type == 'ptsl2':
         model = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
     elif model_type == 'ssm':
@@ -92,6 +122,14 @@ def get_model(model_type: str,
             init_T_A=init_temperature,
             init_T_C=init_temperature,
         )
+    elif model_type == 'diag_ssm_flex': 
+        model = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
+            state_dim,
+            vocab_size,
+            init_T_A=init_temperature,
+            init_T_B=init_temperature,
+            init_T_C=init_temperature,
+        )        
     elif model_type == 'pfsa':
         model = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
     elif model_type == 'opfsa':
@@ -112,14 +150,14 @@ def get_vocab_size(data):
 def numerical_eval(test_data, judgments):
     judgments = np.array(list(map(float, judgments)))
     def compute_correlations(model):
-        scores = model.log_likelihood(test_data).detach().cpu().numpy()
+        scores = model.log_likelihood(test_data, debug=False).detach().cpu().numpy()
         return {
             'spearman': scipy.stats.spearmanr(scores, judgments).statistic,
             'pearson': scipy.stats.pearsonr(scores, judgments).statistic,
         }
     return compute_correlations
 
-def categorical_eval(test_data, judgments):
+def categorical_eval(test_data, judgments, paired=False):
     categorized_data = defaultdict(list)
     for form, value in zip(test_data, judgments):
         categorized_data[value].append(form)
@@ -133,7 +171,7 @@ def categorical_eval(test_data, judgments):
         ]
         for value, score in zip(values, scores):
             result['%s_scores' % value] = score.mean().item()
-        if len(scores) == 2:
+        if len(scores) == 2 and paired:
             diffs = scores[0] - scores[1]
             result['%s_%s_diff' % (str(values[0]), str(values[1]))] = diffs.mean().item()
             result['%s_%s_diff_t' % (str(values[0]), str(values[1]))] = scipy.stats.ttest_rel(*scores).statistic
@@ -193,10 +231,11 @@ if __name__ == "__main__":
     if args.numerical_eval:
         eval_fn = numerical_eval(test_data, test_extra[0])
     else:
-        eval_fn = categorical_eval(test_data, test_extra[0])
+        eval_fn = categorical_eval(test_data, test_extra[0], paired=args.test_data_paired)
         
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
+    model.phone2ix = phone2ix # just attach the phoneme-to-index mapping to the model
     if not args.save_checkpoints:
         checkpoint_prefix = None
     else:
