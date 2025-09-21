@@ -17,7 +17,7 @@ import naturalgradient
 INF = float('inf')
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 DEFAULT_INIT_TEMPERATURE = 100
-EPSILON = 10 ** -5
+EPSILON = 10 ** -10
 
 class Semiring:
     @classmethod
@@ -184,14 +184,28 @@ class WFSA(torch.nn.Module):
 
     def forward(self, input, debug=False):
         x = self.init
-        for x_t in input:
-            #x = self.semiring.einsum("qsr,s,q->r", self.A, u_t, x)
-            A_t = self.A[:, x_t, :]
-            x = self.semiring.mv(A_t.T, x)
+        # y = init A_1 A_2 A_3 ... A_T final
+        for u_t in input:
+            A_t = self.A[:, u_t, :]
+            x = self.semiring.mv(A_t.T, x) 
         y = self.semiring.vv(x, self.final)
         if debug:
             breakpoint()
         return y
+
+    def forward_incremental(self, input, debug=False):
+        Q, S, R = self.A.shape
+        A_reshaped = self.A.view(Q, -1).T
+        def gen():
+            q = self.init
+            for t, u_t in enumerate(input):
+                y = self.semiring.mv(A_reshaped, q).view(S, R)
+                s = self.semiring.sum(y, -1) # vector of values for outputs
+                yield s
+                q = self.semiring.div(y[u_t], s[u_t])
+                if debug:
+                    breakpoint()
+        return torch.stack(list(gen()))
 
     def transition_closure(self):
         # do calculation in exp space
@@ -201,34 +215,40 @@ class WFSA(torch.nn.Module):
         return self.semiring.from_exp(result)
 
     def state_occupancy(self):
-        A_star = self.transition_closure()
-        return self.semiring.mv(A_star.T, self.init)
-
+        """ Expected state occupancy counts (always real semiring) """
+        P = self.semiring.to_exp(self.semiring.sum(self.A, -2))
+        init = self.semiring.to_exp(self.init)    
+        I = torch.eye(P.shape[0], device=P.device, dtype=P.dtype)
+        result = torch.linalg.solve(I - P.T, init)
+        return result
+    
     def pathsum(self):
-        occupancy = self.state_occupancy()
+        A_star = self.transition_closure()
+        occupancy = self.semiring.mv(A_star.T, self.init)
         return self.semiring.vv(occupancy, self.final)
 
     def apply_fisher(self, v):
         """ Apply the Fisher information matrix to v """
-        Q, S, Q2 = self.A.shape
+        p = self.semiring.to_exp(self.A) # hack
+        mask = p > 0.0
+        Q, S, Q2 = p.shape        
+        vA = torch.where(mask, v.view_as(self.A), 0.0)
         
-        p = self.semiring.to_exp(self.A).clamp_min(EPSILON).view(Q, -1)
-        v = v.view(Q, -1)
-        d = p.size(-2) # vocab size
-        ones = torch.ones_like(p)
+        p_sum = p.sum((-1,-2), keepdim=True)
+        p_proj = torch.where(mask, p / p_sum, 0.0)
         
-        # project to remove the simplex degree of freedom
-        v_tan = v - (v.sum(dim=1, keepdim=True) / d) * ones  # [Q, d]
+        sum_v = vA.sum((-1,-2), keepdim=True)
+        v_tan = vA - p_proj * sum_v
+        
+        w = torch.where(mask, v_tan / p_proj, 0.0)
+        sum_w = w.sum((-1,-2), keepdim=True)
+        w_tan = w - p_proj * sum_w
 
-        # form the Fisher blocks, removing the simplex degree of freedom
-        w = v_tan / p
-        w = w - (w.sum(dim=1, keepdim=True) / d) * ones
-        
-        # result is F(A)v, but don't realize true block-diagonal F(A)
-        N = self.state_occupancy().view(Q, 1, 1)                     
-        result = (N * w.view_as(self.A)).contiguous()
-        
+        # Scale by nonnegative expected occupancy counts
+        counts = self.state_occupancy()
+        result = counts[:, None, None] * w_tan
         return result
+
 
 def softmax_fisher(A):
     # F_ij = p_i \delta_ij - p_i p_j
@@ -299,7 +319,8 @@ class SSM(torch.nn.Module):
 
         self.dtype = self.A.dtype
 
-        self.semiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
+        self.isemiring = BooleanSemiring if self.dtype is torch.bool else RealSemiring
+        self.semiring = LogspaceSemiring # output will always be logits
 
         # NOTE: SSM not set up to run in Logspace semiring
         self.phi = torch.eye(U, dtype=self.dtype, device=DEVICE) if phi is None else phi # default to identity matrix
@@ -318,31 +339,42 @@ class SSM(torch.nn.Module):
     def forward(self, input, debug=False):
         T = len(input)
         u = self.phi[input]
-        proj = self.semiring.mm(u, self.pi) # torch.einsum("ux,tu->tx", self.pi, u)
+        proj = self.isemiring.mm(u, self.pi) # torch.einsum("ux,tu->tx", self.pi, u)
         x = [torch.zeros(self.A.shape[0], dtype=self.dtype, device=DEVICE) for _ in range(T+1)]
         x[0] = self.init
         for t in range(T):
-            update = self.semiring.mv(self.A, x[t]) + self.semiring.mv(self.B, u[t])
-            x[t+1] = self.semiring.complement(proj[t])*x[t] + proj[t]*update
+            update = self.isemiring.mv(self.A, x[t]) + self.isemiring.mv(self.B, u[t])
+            x[t+1] = self.isemiring.complement(proj[t])*x[t] + proj[t]*update
             if debug:
                 breakpoint()
         x = torch.stack(x)
         y = torch.einsum("yx,tx->ty", (self.C * self.pi), x[:-1].float())
         return SSMOutput(u, proj, x, y)
 
+    def forward_incremental(self, input, debug=False):
+        result = self.forward(input, debug=debug)
+        return result.y
+
 # Classes for trainable phonotactics models
 
 class PhonotacticsModel(torch.nn.Module):
     def __add__(self, other):
         weights = torch.nn.Parameter(1/DEFAULT_INIT_TEMPERATURE * torch.randn(2))
-        return MixturePhonotacticsModel(torch.nn.ParameterList([self, other]), weights, logspace_weights=True)
+        return MixturePhonotacticsModel(
+            self, other,
+            weights=weights,
+            logspace_weights=True
+        )
+
+    def __mul__(self, other):
+        return ProductPhonotacticsModel(self, other)
 
     def train(self,
               batches: Iterable[Iterable[Tuple[int, Sequence[int]]]], # iterable of batches of sequences of ints
               report_every: int=1000,
               debug: bool=False,
               reporting_window_size: int=100,
-              natural_gradient: bool=False,
+              natural_gradient: bool=False, # broken
               checkpoint_prefix: Optional[str]=None,
               eval_fn: Optional[Callable[[torch.nn.Module], Any]]=None,
               hyperparams_to_report: Optional[Dict]=None,
@@ -385,20 +417,49 @@ class PhonotacticsModel(torch.nn.Module):
                 diagnostics.append(diagnostic)                
         return diagnostics
 
-class MixturePhonotacticsModel(PhonotacticsModel):
-    def __init__(self, models, weights, logspace_weights=True):
+class ProductPhonotacticsModel(PhonotacticsModel):
+    def __init__(self, *models, weights=None, logspace_weights=False):
         super(PhonotacticsModel, self).__init__()
-        self.models = models
-        self.weights = weights
-        self.logspace_weights = logspace_weights
+        self.models = torch.nn.ModuleList(list(models))
+        if weights is None:
+            self.weights = torch.ones(len(self.models), device=DEVICE)
+        elif logspace_weights:
+            self.weights = weights.exp()
+        else:
+            self.weights = weights
 
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: bool=False):
-        ys = torch.stack([model.log_likelihood(xs) for model in self.models])        
+        # Always locally normalized / delimited! Does not use final probs.
+        automata = [model.automaton() for model in self.models]
+        def gen():
+            for x in xs:
+                logits = torch.stack([
+                    a.semiring.to_log(a.forward_incremental(x, debug=debug))
+                    for a in automata
+                ]) # MTS
+                combo_logits = (self.weights[:, None, None] * logits).sum(0)
+                yield combo_logits.log_softmax(-1).gather(-1, x.unsqueeze(-1)).sum()
+        result = torch.stack(list(gen()))
+        return result
+
+class MixturePhonotacticsModel(PhonotacticsModel):
+    def __init__(self, *models, weights=None, logspace_weights=False):
+        super(PhonotacticsModel, self).__init__()
+        self.models = torch.nn.ModuleList(list(models))
+        if weights is None:
+            self.weights = torch.zeros(len(self.models), device=DEVICE)
+            self.logspace_weights = True
+        else:
+            self.weights = weights
+            self.logspace_weights = logspace_weights
+
+    def log_likelihood(self, xs: Iterable[Sequence[int]], debug: bool=False):
+        ys = torch.stack([model.log_likelihood(x) for model in self.models])
         if self.logspace_weights: 
             weights = self.weights.log_softmax(-1)
         else: 
             weights = self.weights.log().log_softmax(-1)
-        y = (weights[:, None] + ys).logsumexp(-2)
+        y = (weights[:, None] + ys).logsumexp(0)
         return y
 
 
@@ -408,7 +469,7 @@ class FSAPhonotacticsModel(PhonotacticsModel):
     def __init__(self, A, init=None, final=None, semiring=RealSemiring):
         super().__init__()
         # the logspace weights here will be transformed into a WFSA via
-        # self.A_and_final_positive -> self.A_and_final_normalized -> self.fsa
+        # self.A and self.final -> self.A_and_final_positive -> self.A_and_final_normalized -> self.fsa
         self.A = A # unnormalized weights
         Q, S, Q2 = self.A.shape
         assert Q == Q2
@@ -431,6 +492,9 @@ class FSAPhonotacticsModel(PhonotacticsModel):
 
     def forward(self, xss, debug=False):
         return self.log_likelihood(xss, debug=debug)
+
+    def automaton(self, semiring=None):
+        return self.fsa(semiring=semiring)
 
     def fsa(self, semiring=None) -> WFSA:
         A, final = self.A_and_final_normalized()
@@ -563,6 +627,8 @@ class LocallyNormalizedWithEOS(LocallyNormalized):
         """ WFSA with an explicit final sink state after eos """
         A_normalized, _ = self.A_and_final_normalized()
         Q, S, R = A_normalized.shape
+        # remove probability mass associated with eos and ensuing states
+        
         # sink state is characterized by
         # p(sink | :, :) = 0        
         # p(sink | eos, :) = 1
@@ -587,8 +653,7 @@ class LocallyNormalizedWithEOS(LocallyNormalized):
     
 
 class PFSAPhonotacticsModel(LocallyNormalizedWithEOS, FSAPhonotacticsModel):
-    def __mul__(self, other):
-        return ProductPFSAPhonotacticsModel(self, other)
+    pass
 
 class OverparameterizedPFSAPhonotacticsModel(LocallyNormalizedWithEOS, OverparameterizedFSAPhonotacticsModel):
     pass
@@ -596,46 +661,12 @@ class OverparameterizedPFSAPhonotacticsModel(LocallyNormalizedWithEOS, Overparam
 class WFSAPhonotacticsModel(AdjustedNormalized, FSAPhonotacticsModel):
     pass
 
-class ProductPFSAPhonotacticsModel(PFSAPhonotacticsModel):
-    def __init__(self, one, two, weights=None, logspace_weights=True):
-        super(PhonotacticsModel, self).__init__()
-        self.one = one
-        self.two = two
-        if weights is None:
-            self.weights = torch.ones(2, device=DEVICE)
-        elif logspace_weights:
-            self.weights = weights.exp()
-        else:
-            self.weights = weights
-        self.semiring = self.one.semiring
-
-    @property
-    def init(self):
-        one_init, two_init = self.one.init, self.two.init
-        result = self.semiring.mul(
-            self.semiring.pow(one_init[:, None], self.weights[0]),
-            self.semiring.pow(two_init[None, :], self.weights[1]),
-        ).reshape(-1)
-        return result
-
-    def A_and_final_positive(self):
-        (one_Ap, _), (two_Ap, _) = self.one.A_and_final_positive(), self.two.A_and_final_positive()
-        one_A = self.semiring.pow(one_Ap.transpose(-2,-3), self.weights[0]) # shape SQQ
-        two_A = self.semiring.pow(two_Ap.transpose(-2,-3), self.weights[1])
-        S = one_A.shape[0]
-        combo_shape = one_A.shape[-1] * two_A.shape[-1]
-        coA = self.semiring.mul(
-            one_A[:, :, None, :, None],
-            two_A[:, None, :, None, :],
-        ).reshape(S, combo_shape, combo_shape).transpose(-2,-3)
-        return coA, None
-
-
 class pTSL(PFSAPhonotacticsModel):
-    def __init__(self, E, pi, final=None, semiring=RealSemiring):
+    def __init__(self, Eb, pi, final=None, bias=False, semiring=RealSemiring):
         super(PhonotacticsModel, self).__init__()
-        self.E = E # shape QS
+        self.Eb = Eb # shape QS
         self.pi = pi # shape S
+        self.bias = bias
         Q, S = self.E.shape
         assert S == self.pi.shape[-1]
 
@@ -646,23 +677,30 @@ class pTSL(PFSAPhonotacticsModel):
         self.T_on_tier = self.semiring.from_exp(torch.cat([torch.zeros(1, S), torch.eye(S)]).to(DEVICE)).T # shape 1SQ, saving symbol as state
         self.T_not_on_tier = self.semiring.from_exp(torch.eye(Q, device=DEVICE))[:, None, :] # shape Q1Q, preserving state
 
+    @property
+    def E(self):
+        if self.bias:
+            return self.Eb[:, 0].unsqueeze(-1) + self.Eb[:, 1:]
+        else:
+            return self.Eb
     
     @classmethod
     def initialize(cls,
                    S,
                    pi=None,
+                   bias=False,
                    learn_final=False,
                    semiring=RealSemiring,
                    requires_grad=True,
                    init_T=DEFAULT_INIT_TEMPERATURE):
         if pi is None:
             pi = torch.nn.Parameter((1/init_T)*torch.randn(S), requires_grad=requires_grad)
-        E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S), requires_grad=requires_grad)
+        E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S+bias), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(S+1), requires_grad=requires_grad)
-            model = cls(E, pi, final=final, semiring=semiring)
+            model = cls(E, pi, bias=bias, final=final, semiring=semiring)
         else:
-            model = cls(E, pi, semiring=semiring)
+            model = cls(E, pi, bias=bias, semiring=semiring)
         return model.to(DEVICE)
 
     def A_and_final_positive(self):
@@ -674,17 +712,26 @@ class pTSL(PFSAPhonotacticsModel):
         on_tier = self.semiring.mul(E, self.T_on_tier)
         one = self.semiring.mul(proj, on_tier)
         two = self.semiring.mul(not_proj, self.T_not_on_tier)
-        A = self.semiring.add(one, two) # this kills the gradient, because it takes a log of zero
+        A = self.semiring.add(one, two) 
         return A, None
 
 class SSMPhonotacticsModel(PhonotacticsModel):
-    def __init__(self, A, B, C, init=None, pi=None):
+    def __init__(self, A, B, Cb, init=None, pi=None, bias=False):
         super().__init__()
         self.A = A
         self.B = B
-        self.C = C
+        self.Cb = Cb
         self.init = init
         self.pi = pi
+        self.bias = bias
+
+    @property
+    def C(self):
+        if self.bias:
+            return self.Cb[0, :] + self.Cb[1:, :]
+        else:
+            return self.Cb
+        
 
     @classmethod
     def initialize(
@@ -692,23 +739,14 @@ class SSMPhonotacticsModel(PhonotacticsModel):
             X,
             S,
             requires_grad=True,
+            bias=False,
             init_T_A=DEFAULT_INIT_TEMPERATURE,
             init_T_B=DEFAULT_INIT_TEMPERATURE,
             init_T_C=DEFAULT_INIT_TEMPERATURE):
         A = torch.nn.Parameter((1/init_T_A)*torch.randn(X, X), requires_grad=requires_grad)
         B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
-        C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
-        return cls(A, B, C).to(DEVICE)
-
-    def incremental_logits(self, xs: Iterable[torch.LongTensor], debug: bool=False):
-        ssm = self.ssm()
-        def gen():
-            for x in xs:
-                # for sequence x1 x2 x3, get the vector of logits of x_t | x_{<t}
-                logits = ssm(x, debug=debug).y
-                # normalize locally 
-                yield logits.log_softmax(-1).gather(-1, x.unsqueeze(-1))
-        return list(gen())
+        C = torch.nn.Parameter((1/init_T_C)*torch.randn(S+bias, X), requires_grad=requires_grad)
+        return cls(A, B, C, bias=bias).to(DEVICE)
 
     def log_likelihood(self, xs: Iterable[torch.LongTensor], debug: bool=False):
         ssm = self.ssm()
@@ -722,11 +760,17 @@ class SSMPhonotacticsModel(PhonotacticsModel):
 
     forward = log_likelihood
 
+    def automaton(self, semiring=None):
+        return self.ssm()
+
     def ssm(self) -> SSM:
-        return SSM(self.A, self.B, self.C, init=self.init, pi=self.pi)
+        return SSM(self.A, self.B, C, init=self.init, pi=self.pi)
 
     def __mul__(self, other):
-        return ProductSSMModel(self, other)
+        if isinstance(other, SSMPhonotacticsModel):
+            return ProductSSMModel(self, other)
+        else:
+            return ProductPhonotacticsModel(self, other)
 
 class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
     @classmethod
@@ -737,7 +781,8 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
             requires_grad=True,
             A_diag=None,
             B=None,
-            C=None,
+            Cb=None,
+            bias=False,
             init_T_A=DEFAULT_INIT_TEMPERATURE,
             init_T_B=DEFAULT_INIT_TEMPERATURE,
             init_T_C=DEFAULT_INIT_TEMPERATURE):
@@ -748,9 +793,9 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
             B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
 
         if C is None:
-            C = torch.nn.Parameter((1/init_T_C)*torch.randn(S, X), requires_grad=requires_grad)
-            
-        return cls(A_diag, B, C).to(DEVICE)
+            Cb = torch.nn.Parameter((1/init_T_C)*torch.randn(S+bias, X), requires_grad=requires_grad)
+
+        return cls(A_diag, B, Cb, bias=bias).to(DEVICE)
 
     def ssm(self) -> SSM:
         return SSM(
@@ -764,8 +809,8 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
 class SquashedDiagonalSSMPhonotacticsModel(DiagonalSSMPhonotacticsModel):
     def ssm(self) -> SSM:
         return SSM(
-            torch.diag(torch.sigmoid(self.A)),
-            self.B,
+            torch.diag(torch.sigmoid(self.A)), # squash to [0,1]
+            torch.tanh(self.B), # squash to [-1,1]
             self.C,
             init=self.init,
             pi=self.pi
@@ -773,13 +818,12 @@ class SquashedDiagonalSSMPhonotacticsModel(DiagonalSSMPhonotacticsModel):
 
 
 class ProductSSMModel(SSMPhonotacticsModel):
-    def __init__(self, one, two):
+    def __init__(self, *models):
         super(SSMPhonotacticsModel, self).__init__()
-        self.one = one
-        self.two = two
+        self.models = torch.nn.ModuleList(list(models))
 
     def ssm(self) -> SSM:
-        ssms = [m.ssm() for m in self.children()]
+        ssms = [m.ssm() for m in self.models]
         return SSM(
             A=torch.block_diag(*[m.A for m in ssms]),
             B=torch.cat([m.B for m in ssms]),
@@ -793,68 +837,41 @@ class Factor2(DiagonalSSMPhonotacticsModel):
     @classmethod
     def from_factors(cls, factors, projection=None, bias=False):
         S, X = factors.shape
-        A, B, init = cls.init_matrices(X, bias=bias)
-        return cls(A, B, factors, init=init, pi=projection)
+        A, B, init = cls.init_matrices(X)
+        return cls(A, B, factors, init=init, pi=projection, bias=bias)
 
     @classmethod
     def init_matrices(cls, d, bias=False):
         raise NotImplementedError
 
     @classmethod
-    def initialize(cls, S, projection=None, requires_grad: bool=True, init_T=DEFAULT_INIT_TEMPERATURE):
-        factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
-        # S+1 for eos?
-        return cls.from_factors(factors, projection=projection).to(DEVICE)
+    def initialize(cls, S, bias=False, projection=None, requires_grad: bool=True, init_T=DEFAULT_INIT_TEMPERATURE):
+        factors = torch.nn.Parameter((1/init_T)*torch.randn(S+bias, S+1), requires_grad=requires_grad)
+        return cls.from_factors(factors, projection=projection, bias=bias).to(DEVICE)
 
 
 class SL2(Factor2):
     @classmethod
-    def init_matrices(cls, d, bias=False):
-        A_diag = torch.zeros(d+bias, device=DEVICE) 
-        B = torch.eye(d+bias, device=DEVICE)[:, (1+bias):] # X x S
-        init = torch.eye(d+bias, device=DEVICE)[0]
-        if bias:
-            A_diag[0] = True
-            init[0,1] = True
+    def init_matrices(cls, d):
+        A_diag = torch.zeros(d, dtype=bool, device=DEVICE)  # add a bias dimension
+        B = torch.eye(d, dtype=bool, device=DEVICE)[:, 1:] # X x S
+        init = torch.eye(d, dtype=bool, device=DEVICE)[0]
         return A_diag, B, init
 
 class SP2(Factor2):
     @classmethod
-    def init_matrices(cls, d, bias=False):
-        A_diag = torch.ones(d+bias, dtype=bool, device=DEVICE)
-        B = torch.eye(d+bias, dtype=bool, device=DEVICE)[:, (1+bias):]
-        init = torch.eye(d+bias, dtype=bool, device=DEVICE)[0]
-        if bias:
-            A_diag[0] = True
-            init[0,1] = True
+    def init_matrices(cls, d):
+        A_diag = torch.ones(d, dtype=bool, device=DEVICE)
+        B = torch.eye(d, dtype=bool, device=DEVICE)[:, 1:]
+        init = torch.eye(d, dtype=bool, device=DEVICE)[0]
         return A_diag, B, init
 
 class QuasiSP2(Factor2):
     @classmethod
-    def init_matrices(cls, d, bias=False):
-        A_diag = torch.ones(d+bias, device=DEVICE)
-        B = torch.eye(d+bias, device=DEVICE)[:, (1+bias):]
-        init = torch.eye(d+bias, device=DEVICE)[0]
-        if bias:
-            A_diag[0] = True
-            init[0,1] = True
-        return A_diag, B, init    
-
-class SL_SP2(Factor2):
-    @classmethod
-    def init_matrices(cls, d, bias=False):
-        A_diag = torch.cat([
-            torch.zeros(d, dtype=torch.bool),
-            torch.ones(d, dtype=torch.bool),
-        ]).to(DEVICE)
-        B = torch.cat([
-            torch.eye(d, dtype=torch.bool)[:, 1:],
-            torch.eye(d, dtype=torch.bool)[:, 1:],
-        ]).to(DEVICE)
-        init = torch.cat([
-            torch.eye(d, dtype=torch.bool)[0],
-            torch.eye(d, dtype=torch.bool)[0],
-        ]).to(DEVICE)
+    def init_matrices(cls, d):
+        A_diag = torch.ones(d, device=DEVICE)
+        B = torch.eye(d, device=DEVICE)[:, 1:]
+        init = torch.eye(d, device=DEVICE)[0]
         return A_diag, B, init
 
 class TierBased(Factor2):
@@ -875,7 +892,8 @@ class SoftTierBased(Factor2):
     def initialize(
             cls,
             S,
-            pi=None, 
+            pi=None,
+            bias=False,
             requires_grad: bool=True,
             init_T=DEFAULT_INIT_TEMPERATURE,
             init_T_projection=DEFAULT_INIT_TEMPERATURE):
@@ -884,7 +902,7 @@ class SoftTierBased(Factor2):
             projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S), requires_grad=requires_grad)
         else:
             projection = pi
-        return cls.from_factors(factors, projection).to(DEVICE)
+        return cls.from_factors(factors, projection, bias=bias).to(DEVICE)
 
     def ssm(self):
         return SSM(
