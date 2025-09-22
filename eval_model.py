@@ -1,6 +1,7 @@
 import os
 import csv
 import argparse
+import itertools
 from typing import *
 from collections import defaultdict
 
@@ -26,7 +27,7 @@ def get_model(model_type: str,
         state_dim = vocab_size + 1 # for eos
 
     if model_type == 'sl2': 
-        model = ssm.SL2.initialize(vocab_size, init_T=init_temperature, bias=True)
+        model = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'pfsa_sl2':
         # same as SL2, but backed by PFSA instead of SSM; outcomes should be identical
         model = ssm.pTSL.initialize(
@@ -228,10 +229,11 @@ if __name__ == "__main__":
         phone2ix=phone2ix, # ensure same vocabulary mapping
         paired=args.test_data_paired, 
     )
+    judgments = test_extra[0] if test_extra else itertools.repeat('dev')
     if args.numerical_eval:
-        eval_fn = numerical_eval(test_data, test_extra[0])
+        eval_fn = numerical_eval(test_data, judgments)
     else:
-        eval_fn = categorical_eval(test_data, test_extra[0], paired=args.test_data_paired)
+        eval_fn = categorical_eval(test_data, judgments, paired=args.test_data_paired)
         
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
