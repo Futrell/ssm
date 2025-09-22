@@ -865,6 +865,14 @@ class SL2(Factor2):
         init = torch.eye(d, dtype=bool, device=DEVICE)[0]
         return A_diag, B, init
 
+class RealSL2(Factor2):
+    @classmethod
+    def init_matrices(cls, d):
+        A_diag = torch.zeros(d, device=DEVICE)  # add a bias dimension
+        B = torch.eye(d, device=DEVICE)[:, 1:] # X x S
+        init = torch.eye(d, device=DEVICE)[0]
+        return A_diag, B, init    
+
 class SP2(Factor2):
     @classmethod
     def init_matrices(cls, d):
@@ -938,10 +946,10 @@ class ProbabilisticTierBased(SoftTierBased):
 class TSL2(SL2, TierBased):
     pass
 
-class TSP2(SP2, TierBased):
+class TSP2(QuasiSP2, TierBased):
     pass
 
-class SoftTSL2(SL2, SoftTierBased):
+class SoftTSL2(RealSL2, SoftTierBased):
     pass
 
 
