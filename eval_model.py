@@ -107,6 +107,10 @@ def get_model(model_type: str,
         model = ssm.ProductPhonotacticsModel(model1, model2, model3)
     elif model_type == 'ptsl2':
         model = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+    elif model_type == 'double_ptsl2':
+        model1 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+        model2 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+        model = model1 * model2
     elif model_type == 'ssm':
         model = ssm.SSMPhonotacticsModel.initialize(
             state_dim,
@@ -142,8 +146,9 @@ def get_model(model_type: str,
         model2 = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
-            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
+            #B=torch.eye(state_dim, device=DEVICE)[:, 1:],
             init_T_A=init_temperature,
+            init_T_B=init_temperature,
             init_T_C=init_temperature,
         )
         model = model1 * model2        
@@ -183,6 +188,13 @@ def numerical_eval(test_data, judgments):
             'pearson': scipy.stats.pearsonr(scores, judgments).statistic,
         }
     return compute_correlations
+
+def dev_eval(dev_data):
+    def do_dev_eval(model):
+        result = {}
+        result['dev_loss'] = -model.log_likelihood(dev_data).mean().detach().cpu().numpy()
+        return result
+    return do_dev_eval
 
 def categorical_eval(test_data, judgments, paired=False):
     categorized_data = defaultdict(list)
@@ -229,6 +241,8 @@ if __name__ == "__main__":
                         help="Number of iterations through training data")
     parser.add_argument('--lr', type=float, default=.001,
                         help="Adam learning rate")
+    parser.add_argument('--convexity_check', action='store_true',
+                        help="Whether to compute a convexity metric at each step (slow)")
     parser.add_argument('--init_temperature', type=float, default=100,
                         help="Initialization temperature")
     parser.add_argument('--report_every', type=int, default=1,
@@ -270,14 +284,14 @@ if __name__ == "__main__":
     if args.dev_file is None:
         dev_eval_fn = None
     else:
-        _, dev_data, dev_extra = process_data.process_data(
+        _, dev_data, _ = process_data.process_data(
             args.dev_file,
             col_separator=args.col_separator,
             char_separator=args.char_separator,
             phone2ix=phone2ix,
             header=not args.no_header,
         )
-        dev_eval_fn = categorical_eval(dev_data, itertools.repeat('dev'), paired=False)
+        dev_eval_fn = dev_eval(dev_data)
 
     def eval_fn(model):
         d = {}
@@ -302,6 +316,7 @@ if __name__ == "__main__":
         reporting_window_size=args.reporting_window_size,
         lr=args.lr,
         eval_fn=eval_fn,
+        convexity_check=args.convexity_check,
         checkpoint_prefix=checkpoint_prefix,
         hyperparams_to_report={
             'batch_size': args.batch_size,
