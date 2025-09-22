@@ -130,7 +130,33 @@ def get_model(model_type: str,
             init_T_A=init_temperature,
             init_T_B=init_temperature,
             init_T_C=init_temperature,
+        )
+    elif model_type == 'double_diag_ssm':
+        model1 = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
+            state_dim,
+            vocab_size,
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
+            init_T_A=init_temperature,
+            init_T_C=init_temperature,
         )        
+        model2 = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
+            state_dim,
+            vocab_size,
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
+            init_T_A=init_temperature,
+            init_T_C=init_temperature,
+        )
+        model = model1 * model2        
+    elif model_type == 'sl2_times_diag_ssm':
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model2 = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
+            state_dim,
+            vocab_size,
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
+            init_T_A=init_temperature,
+            init_T_C=init_temperature,
+        )
+        model = model1 * model2
     elif model_type == 'pfsa':
         model = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
     elif model_type == 'opfsa':
@@ -184,10 +210,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a phonotactics model.")
     parser.add_argument('model_type', type=str, help="Model type, a string")
     parser.add_argument('train_file', type=str,
-                        help="Training data, only TRUE cases will be used")
+                        help="Training data, consisting only of good forms")
     parser.add_argument('test_file', type=str, default=None,
                         help="""Test data, two columns where first is a form
                                 and second is a judgment (TRUE or FALSE, or numerical)""")
+    parser.add_argument('--dev_file', type=str, default=None, help="Held out training forms")
+    parser.add_argument('--no_header', action='store_true', help="Whether train/dev files have no header")
     parser.add_argument('--test_data_paired', action='store_true',
                         help="Whether the test data is in two-column paired grammatical/ungrammatical format.")
     parser.add_argument('--numerical_eval', action='store_true',
@@ -219,21 +247,45 @@ if __name__ == "__main__":
         args.train_file,
         col_separator=args.col_separator,
         char_separator=args.char_separator,
-    )
+        header=not args.no_header,
+    ) # TODO: need to filter true?
     vocab_size = get_vocab_size(train_data)
 
-    _, test_data, test_extra = process_data.process_data(
-        args.test_file,
-        col_separator=args.col_separator,
-        char_separator=args.char_separator,
-        phone2ix=phone2ix, # ensure same vocabulary mapping
-        paired=args.test_data_paired, 
-    )
-    judgments = test_extra[0] if test_extra else itertools.repeat('dev')
-    if args.numerical_eval:
-        eval_fn = numerical_eval(test_data, judgments)
+    if args.test_file is None:
+        test_eval_fn = None
     else:
-        eval_fn = categorical_eval(test_data, judgments, paired=args.test_data_paired)
+        _, test_data, test_extra = process_data.process_data(
+            args.test_file,
+            col_separator=args.col_separator,
+            char_separator=args.char_separator,
+            phone2ix=phone2ix, # ensure same vocabulary mapping
+            paired=args.test_data_paired, 
+        )
+        judgments = test_extra[0]
+        if args.numerical_eval:
+            test_eval_fn = numerical_eval(test_data, judgments)
+        else:
+            test_eval_fn = categorical_eval(test_data, judgments, paired=args.test_data_paired)
+
+    if args.dev_file is None:
+        dev_eval_fn = None
+    else:
+        _, dev_data, dev_extra = process_data.process_data(
+            args.dev_file,
+            col_separator=args.col_separator,
+            char_separator=args.char_separator,
+            phone2ix=phone2ix,
+            header=not args.no_header,
+        )
+        dev_eval_fn = categorical_eval(dev_data, itertools.repeat('dev'), paired=False)
+
+    def eval_fn(model):
+        d = {}
+        if dev_eval_fn is not None:
+            d |= dev_eval_fn(model)
+        if test_eval_fn is not None:
+            d |= test_eval_fn(model)
+        return d
         
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
