@@ -887,7 +887,7 @@ class TierBased(Factor2):
 
     @property
     def pi(self):
-        return self.pi.unsqueeze(-1).expand(*self.C.shape) 
+        return self.pi_params.unsqueeze(-1).expand(*self.C.shape) 
 
     
 class SoftTierBased(Factor2):
@@ -909,7 +909,7 @@ class SoftTierBased(Factor2):
 
     @property
     def pi(self):
-        return self.pi.sigmoid().unsqueeze(-1).expand(*self.C.shape)
+        return self.pi_params.sigmoid().unsqueeze(-1).expand(*self.C.shape)
 
 
 class ProbabilisticTierBased(SoftTierBased):
