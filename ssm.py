@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 import torch_semiring_einsum as tse
 
-import naturalgradient
+import convexity
 
 INF = float('inf')
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -374,16 +374,12 @@ class PhonotacticsModel(torch.nn.Module):
               report_every: int=1000,
               debug: bool=False,
               reporting_window_size: int=100,
-              natural_gradient: bool=False, # broken
+              convexity_check: bool=False,
               checkpoint_prefix: Optional[str]=None,
               eval_fn: Optional[Callable[[torch.nn.Module], Any]]=None,
               hyperparams_to_report: Optional[Dict]=None,
               **kwds):
-        if natural_gradient:
-            opt = naturalgradient.NaturalGradientDescent(params=self.parameters(), model=self, **kwds)
-        else:
-            opt = torch.optim.Adam(params=self.parameters(), **kwds)            
-        
+        opt = torch.optim.Adam(params=self.parameters(), **kwds)            
         reporting_window = deque(maxlen=reporting_window_size)
         diagnostics = []
         writer = csv.writer(sys.stdout)
@@ -410,6 +406,15 @@ class PhonotacticsModel(torch.nn.Module):
             if i % report_every == 0:
                 mean_loss = torch.stack(list(reporting_window)).mean().item()
                 diagnostic['mean_loss'] = mean_loss
+                if convexity_check:
+                    loss_closure = lambda: -self.log_likelihood(batch).mean()
+                    low, high = convexity.hessian_spectrum(loss_closure, list(self.parameters()))
+                    diagnostic['nonconvexity'] = abs(min(0, low)) / abs(high)
+                    diagnostic['high_eigval'] = high
+                    diagnostic['low_eigval'] = low
+                    bigger = max(abs(high), abs(low))
+                    smaller = min(abs(high), abs(low))
+                    diagnostic['condition_number'] = bigger / smaller
                 if first_time:
                     writer.writerow(list(diagnostic.keys()))
                     first_time = False
