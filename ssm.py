@@ -804,7 +804,7 @@ class DiagonalSSMPhonotacticsModel(SSMPhonotacticsModel):
         if B is None:
             B = torch.nn.Parameter((1/init_T_B)*torch.randn(X, S), requires_grad=requires_grad)
 
-        if C is None:
+        if Cb is None:
             Cb = torch.nn.Parameter((1/init_T_C)*torch.randn(S+bias, X), requires_grad=requires_grad)
 
         return cls(A_diag, B, Cb, bias=bias).to(DEVICE)
