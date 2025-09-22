@@ -821,7 +821,7 @@ class SquashedDiagonalSSMPhonotacticsModel(DiagonalSSMPhonotacticsModel):
 
     @property
     def B(self):
-        return torch.tanh(self.B)
+        return torch.tanh(self.B_params)
     
 
 class ProductSSMModel(SSMPhonotacticsModel):
