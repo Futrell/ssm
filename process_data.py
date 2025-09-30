@@ -41,8 +41,8 @@ def wordlist2vec(wordlist, phone2ix, add_eos=ADD_EOS):
         return delimited
 
 # This is the only function that get calls from the outside.
-def process_data(filepath, phone2ix=None, col_separator="\t", char_separator=" ", paired=False):
-    data, header = load_file(filepath, col_separator, char_separator, header=True, paired=paired)
+def process_data(filepath, phone2ix=None, col_separator="\t", char_separator=" ", paired=False, header=True):
+    data, _ = load_file(filepath, col_separator, char_separator, header=header, paired=paired)
     wordlist, *extra = zip(*data)
     if phone2ix is None:
         phone2ix = build_phone2ix(wordlist)
