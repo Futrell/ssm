@@ -123,16 +123,8 @@ def get_model(model_type: str,
         model = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
-            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],            
             init_T_A=init_temperature,
-            init_T_C=init_temperature,
-        )
-    elif model_type == 'diag_ssm_flex': 
-        model = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
-            state_dim,
-            vocab_size,
-            init_T_A=init_temperature,
-            init_T_B=init_temperature,
             init_T_C=init_temperature,
         )
     elif model_type == 'double_diag_ssm':
@@ -146,9 +138,8 @@ def get_model(model_type: str,
         model2 = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
-            #B=torch.eye(state_dim, device=DEVICE)[:, 1:],
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],            
             init_T_A=init_temperature,
-            init_T_B=init_temperature,
             init_T_C=init_temperature,
         )
         model = model1 * model2        

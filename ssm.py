@@ -824,10 +824,6 @@ class SquashedDiagonalSSMPhonotacticsModel(DiagonalSSMPhonotacticsModel):
     def A(self):
         return torch.diag(torch.sigmoid(self.A_params))
 
-    @property
-    def B(self):
-        return torch.tanh(self.B_params)
-    
 
 class ProductSSMModel(SSMPhonotacticsModel):
     def __init__(self, *models):
@@ -900,9 +896,13 @@ class TierBased(Factor2):
 
     @property
     def pi(self):
-        return self.pi_params.unsqueeze(-1).expand(*self.C.shape) 
+        return self.pi_params.unsqueeze(-1).expand(*self.C.shape)
 
+
+class FeaturalTierBased(Factor2):
     
+
+
 class SoftTierBased(Factor2):
     @classmethod
     def initialize(
