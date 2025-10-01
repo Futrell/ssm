@@ -899,10 +899,6 @@ class TierBased(Factor2):
         return self.pi_params.unsqueeze(-1).expand(*self.C.shape)
 
 
-class FeaturalTierBased(Factor2):
-    
-
-
 class SoftTierBased(Factor2):
     @classmethod
     def initialize(
