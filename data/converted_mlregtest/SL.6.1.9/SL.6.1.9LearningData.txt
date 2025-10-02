@@ -1,1000 +1,2000 @@
-a a a a a a a a a a a d d a a b b b b b
-a a a a a a a b b c c b b d c b b b b b
-a a a a a a a c c c a a c a d b b b b b
-a a a a a a a d d c d b c c a b b b b b
-a a a a a a b b a d c a b d c b b b b b
-a a a a a a b c c a b d c b b b b b b b
-a a a a a a b d d a c c b d d b b b b b
-a a a a a a c b a a a a a b c b b b b b
-a a a a a a c c b c b a d c c b b b b b
-a a a a a a c d d a c c a d c b b b b b
-a a a a a a d b a b c c c d d b b b b b
-a a a a a a d c b b d c b a d b b b b b
-a a a a a a d d c b d b b d c b b b b b
-a a a a a b a a d b a d c b c b b b b b
-a a a a a b a c a c a a a d c b b b b b
-a a a a a b a d b b b c a a c b b b b b
-a a a a a b b a c b a b c a c b b b b b
-a a a a a b b b c b d b a b d b b b b b
-a a a a a b b c d b d d c a b b b b b b
-a a a a a b b d d d d d a a b b b b b b
-a a a a a b c b b b c a a b b b b b b b
-a a a a a b c c c c b b b b d b b b b b
-a a a a a b d a a d d d d a d b b b b b
-a a a a a b d b b b d c b c a b b b b b
-a a a a a b d c b d d d b a c b b b b b
-a a a a a b d d c d a c d c a b b b b b
-a a a a a c a a d d d d d d a b b b b b
-a a a a a c a c b b c d c b c b b b b b
-a a a a a c a d c a c c c c c b b b b b
-a a a a a c b a d d a c b d a b b b b b
-a a a a a c b c a b c d a a a b b b b b
-a a a a a c b d b b a a b c c b b b b b
-a a a a a c c a c c c a c a d b b b b b
-a a a a a c c c a c c b b c d b b b b b
-a a a a a c c d b c c d d d b b b b b b
-a a a a a c d a c d b c c d d b b b b b
-a a a a a c d b d b d a c a b b b b b b
-a a a a a c d d a c a a a b c b b b b b
-a a a a a d a a a d d d a c c b b b b b
-a a a a a d a b c b d d a a b b b b b b
-a a a a a d a c d c c b c d d b b b b b
-a a a a a d b a b b c d a b a b b b b b
-a a a a a d b b c b a c b d d b b b b b
-a a a a a d b c d a a d c d a b b b b b
-a a a a a d b d d d d b a c a b b b b b
-a a a a a d c b b c a d c b a b b b b b
-a a a a a d c c c c c c b a a b b b b b
-a a a a a d c d d d a c a a b b b b b b
-a a a a a d d b b c a c b d b b b b b b
-a a a a a d d c c b c b c b b b b b b b
-a a a a a a a a a a a b c b b a b b b b b
-a a a a a a a b b a a c b a d b b b b b b
-a a a a a a a c b d d a d b d d b b b b b
-a a a a a a a d c d d a a c d b b b b b b
-a a a a a a b a d d b a a d c a b b b b b
-a a a a a a b c b c a c c b b a b b b b b
-a a a a a a b d c c b c d c c d b b b b b
-a a a a a a c b a a d b d d c b b b b b b
-a a a a a a c c a d a c a c d a b b b b b
-a a a a a a c d b b b a c b b d b b b b b
-a a a a a a d a c d d a d a d d b b b b b
-a a a a a a d c a a d c a d b c b b b b b
-a a a a a a d d b c d c a d c d b b b b b
-a a a a a b a a d a a c a a c b b b b b b
-a a a a a b a b d d c b d a d a b b b b b
-a a a a a b a d b c b a c a b d b b b b b
-a a a a a b b a c c a b d a d d b b b b b
-a a a a a b b b d c d a d a d a b b b b b
-a a a a a b b d a b c c c d b b b b b b b
-a a a a a b c a a d b a b a c d b b b b b
-a a a a a b c b b c c b d b d d b b b b b
-a a a a a b c c c c d a a c d c b b b b b
-a a a a a b d a a d d a b b c b b b b b b
-a a a a a b d b b a b d b d a d b b b b b
-a a a a a b d c b c d d b c d c b b b b b
-a a a a a b d d d a d d d a a a b b b b b
-a a a a a c a b a c b c b a b d b b b b b
-a a a a a c a c c c c b d d a d b b b b b
-a a a a a c a d d c b c d c c c b b b b b
-a a a a a c b b a c d c d d b c b b b b b
-a a a a a c b c b c d b d a b c b b b b b
-a a a a a c b d c b d d b c b d b b b b b
-a a a a a c c b a a c d a b c c b b b b b
-a a a a a c c c a d a c b a c d b b b b b
-a a a a a c c d c c b d d b a b b b b b b
-a a a a a c d a c d b a d a d b b b b b b
-a a a a a c d b d d b d b d d d b b b b b
-a a a a a c d d a b a d b c c c b b b b b
-a a a a a d a a c b b c b b b c b b b b b
-a a a a a d a b d c a b c a c a b b b b b
-a a a a a d a d b b a b c a a c b b b b b
-a a a a a d b a d a c d c c d d b b b b b
-a a a a a d b b d d b b a c c c b b b b b
-a a a a a d b d a d c a c b a d b b b b b
-a a a a a d c a b b d b d b b c b b b b b
-a a a a a d c b c c b a d d d c b b b b b
-a a a a a d c c d c a d d c d a b b b b b
-a a a a a d d a a a a a c d a a b b b b b
-a a a a a d d b a d c d b a c a b b b b b
-a a a a a d d c c d c a b a d d b b b b b
-a a a a a a a a a a a d c d a a a b b b b b
-a a a a a a a b b b a b b b b a b b b b b b
-a a a a a a a c c b c a c b d a d b b b b b
-a a a a a a b a a a a d a b c c c b b b b b
-a a a a a a b b c b b a d a b c c b b b b b
-a a a a a a b c d c c d a c c b a b b b b b
-a a a a a a c a a a d b d c b b a b b b b b
-a a a a a a c b c a d c c d a a c b b b b b
-a a a a a a c c d a b d a c c b d b b b b b
-a a a a a a d a a a d c d d d c d b b b b b
-a a a a a a d b a b b d c c a d c b b b b b
-a a a a a a d c b c d d a d c a d b b b b b
-a a a a a a d d c b d c a d d c d b b b b b
-a a a a a b a a d a c c d b d c c b b b b b
-a a a a a b a c a c a d b c a b c b b b b b
-a a a a a b a d a d c c a c b c d b b b b b
-a a a a a b b a c a b d b c a a d b b b b b
-a a a a a b b b d b d c a d b a a b b b b b
-a a a a a b b d a d d b d b b c c b b b b b
-a a a a a b c a c d c b d b d b a b b b b b
-a a a a a b c c a a c a c b d a c b b b b b
-a a a a a b c d b b a c c c d c b b b b b b
-a a a a a b d a c d c b d b a d b b b b b b
-a a a a a b d c a d c d d d b a d b b b b b
-a a a a a b d d c b a b a d c d b b b b b b
-a a a a a c a a d b d b c b d b c b b b b b
-a a a a a c a c b b a a a a a a b b b b b b
-a a a a a c a d c b a a c a b d b b b b b b
-a a a a a c b a d b d a a a c a b b b b b b
-a a a a a c b b d b c c d d a d d b b b b b
-a a a a a c b d a c d d c d a d b b b b b b
-a a a a a c c a b c d d a d b b c b b b b b
-a a a a a c c b c b c c a c b c c b b b b b
-a a a a a c c c d a b d a d b c c b b b b b
-a a a a a c d a a a a c c a b a d b b b b b
-a a a a a c d b b c a c b b c c c b b b b b
-a a a a a c d c c a a b b b d c a b b b b b
-a a a a a c d d c c b c b d b c c b b b b b
-a a a a a d a a d c d b b c b b a b b b b b
-a a a a a d a c a c d b d d d d a b b b b b
-a a a a a d a d b d b c d a a b c b b b b b
-a a a a a d b a d a c d d a c a a b b b b b
-a a a a a d b b d b a b c d a d c b b b b b
-a a a a a d b d a b c b b c b b c b b b b b
-a a a a a d c a b b c b a d d b b b b b b b
-a a a a a d c b c d a b b d b d b b b b b b
-a a a a a d c c d b b c b b c c b b b b b b
-a a a a a d d a a a a b a b a b d b b b b b
-a a a a a d d b b d c d b c c c a b b b b b
-a a a a a d d c c b c d b a d c c b b b b b
-a a a a a a a a a a b a d b b c b b b b b b b
-a a a a a a a b a d d d b b d b c d b b b b b
-a a a a a a a c c a d d c a d d b c b b b b b
-a a a a a a a d c c c a d d d a d a b b b b b
-a a a a a a b a d a c c a c c d c c b b b b b
-a a a a a a b c a a b c b b a a b b b b b b b
-a a a a a a b d b d c c a c d c d b b b b b b
-a a a a a a c a d a b b c b a d c d b b b b b
-a a a a a a c b d d a d d c b c d a b b b b b
-a a a a a a c d b b d a c d b b c c b b b b b
-a a a a a a d a c d a d c a b d a a b b b b b
-a a a a a a d b d d b d d c a c b d b b b b b
-a a a a a a d d a c d c d d a a b b b b b b b
-a a a a a b a a c b d c d a c c d c b b b b b
-a a a a a b a b d c b c b c a c a b b b b b b
-a a a a a b a d a b b a c c a d a d b b b b b
-a a a a a b b a b b d a a a c d b c b b b b b
-a a a a a b b b c d d c d a d b a b b b b b b
-a a a a a b b d a d d b a b d c c b b b b b b
-a a a a a b c a b c c c a a d c a a b b b b b
-a a a a a b c b d a b b b a c c b a b b b b b
-a a a a a b c c d d a b a c d b c a b b b b b
-a a a a a b d a b c c a b d c a d b b b b b b
-a a a a a b d b d d c b b c d d c d b b b b b
-a a a a a b d d b b d b a d d d d d b b b b b
-a a a a a c a a d b d c d b a d a d b b b b b
-a a a a a c a c a d b d b a a c a a b b b b b
-a a a a a c a d b c d b c d c d b a b b b b b
-a a a a a c b a c c a b b c b a a c b b b b b
-a a a a a c b c a a d d b b a b b b b b b b b
-a a a a a c b d b c a c a b c a a d b b b b b
-a a a a a c c a c d b b a a b a c c b b b b b
-a a a a a c c c a a a b d b b a c c b b b b b
-a a a a a c c d a b d a b a c c a c b b b b b
-a a a a a c d a a d a d c a d c a d b b b b b
-a a a a a c d b b d b d c c a b a d b b b b b
-a a a a a c d c d c c d c a c c b a b b b b b
-a a a a a d a a b a a a c c a d c c b b b b b
-a a a a a d a b b c b c a c a b a a b b b b b
-a a a a a d a c c b b b d b d c c a b b b b b
-a a a a a d a d d a a c b a a b a d b b b b b
-a a a a a d b a d c b d b c b a d d b b b b b
-a a a a a d b c a b a d b b d d c b b b b b b
-a a a a a d b d b b c a c c d b d d b b b b b
-a a a a a d c a c b b d c c b c c c b b b b b
-a a a a a d c b c d a b b c c b c c b b b b b
-a a a a a d c d a a a c a d c c b d b b b b b
-a a a a a d d a a d d a a b a d a b b b b b b
-a a a a a d d b c a b d c b d a c d b b b b b
-a a a a a d d c d a c c d b d a d b b b b b b
-a a a a a a a a a a a a c d d a c b a b b b b b
-a a a a a a a b b b a c d a d c b b a b b b b b
-a a a a a a a c c a a b b d c b b b b b b b b b
-a a a a a a a d d a c b d a a c c c c b b b b b
-a a a a a a b b a b d a d b a b d a c b b b b b
-a a a a a a b c c a a c d b a a a c c b b b b b
-a a a a a a b d d a c a d b c c d c c b b b b b
-a a a a a a c b b b a c b c b d a c d b b b b b
-a a a a a a c c c a d a a c d c c a a b b b b b
-a a a a a a c d d b a b d a b c d b d b b b b b
-a a a a a a d b a a c b d b d c d c b b b b b b
-a a a a a a d c a c b c a d d c b a b b b b b b
-a a a a a a d d c b c c a a a b d d b b b b b b
-a a a a a b a a d d c a b d c c b a b b b b b b
-a a a a a b a c a d b b a b b c c a a b b b b b
-a a a a a b a d c c b b d a a d c b d b b b b b
-a a a a a b b a c d d c d c a a a c b b b b b b
-a a a a a b b c a a b d d b c c c d a b b b b b
-a a a a a b b d a d d a c c a a c c b b b b b b
-a a a a a b c a c b b d c a c a d c a b b b b b
-a a a a a b c c a a d c d d a b b d a b b b b b
-a a a a a b c d b a c c c b b b b c a b b b b b
-a a a a a b d a b d d c d d c c c b a b b b b b
-a a a a a b d b c c a b b a a a c a c b b b b b
-a a a a a b d c d d d b a d c c c a a b b b b b
-a a a a a c a a a b b c d b d b b d c b b b b b
-a a a a a c a b c b c d a c d d b c a b b b b b
-a a a a a c a c d c c c c d b d c a a b b b b b
-a a a a a c b a a c a d b a a d c a b b b b b b
-a a a a a c b b b d b a b a b a b c c b b b b b
-a a a a a c b c c b c a b b a a d c d b b b b b
-a a a a a c b d c d a d d c b c c c b b b b b b
-a a a a a c c a c d d c d c d a d a b b b b b b
-a a a a a c c c a a a a d d b b d a c b b b b b
-a a a a a c c d b b d b b d b d d c a b b b b b
-a a a a a c d a c d d b b b b c b a a b b b b b
-a a a a a c d c a b a a b a a d c c a b b b b b
-a a a a a c d d b a c b a d c d d a b b b b b b
-a a a a a d a a c b b a c c b c b c d b b b b b
-a a a a a d a b d a c b a a c b b d a b b b b b
-a a a a a d a d a c c b c d d b c d b b b b b b
-a a a a a d b a c a b c a d c c b d d b b b b b
-a a a a a d b b c c b d d a b a b a a b b b b b
-a a a a a d b c d c c c b a a a d d d b b b b b
-a a a a a d c a a c a b a d b b b b a b b b b b
-a a a a a d c b c a b a a b d c a a b b b b b b
-a a a a a d c d a a c b b a b c d b d b b b b b
-a a a a a d d a b a d c c d b b c c a b b b b b
-a a a a a d d b b d a d c a b b c c a b b b b b
-a a a a a d d c c a d d c c a b c c b b b b b b
-a a a a a a a a a a b b c a c c c b d a b b b b b
-a a a a a a a b b b b d d c b c b a b a b b b b b
-a a a a a a a c b d c d b d d b d b d b b b b b b
-a a a a a a a d c c c d c b b d b c b b b b b b b
-a a a a a a b b a a d c c c b b d b a d b b b b b
-a a a a a a b c b b a d b a d c d a b c b b b b b
-a a a a a a b d d c b d d d d a a a d c b b b b b
-a a a a a a c a d d b d b b a b a a b b b b b b b
-a a a a a a c c a c c b d a d b b c b d b b b b b
-a a a a a a c d c c c b c d b a c c b d b b b b b
-a a a a a a d a d c d a b a b c b b a d b b b b b
-a a a a a a d c b c c b c c d d a a d b b b b b b
-a a a a a a d d d b d b d d c c b d d a b b b b b
-a a a a a b a b a a a c b c c b d a c a b b b b b
-a a a a a b a c a c c c b c b b b b b d b b b b b
-a a a a a b a d b b b c a a a b a d d a b b b b b
-a a a a a b b a c c b c c c d c b c d b b b b b b
-a a a a a b b c a a b c a c d d d b a b b b b b b
-a a a a a b b d b c b d a c b d c c b b b b b b b
-a a a a a b c a b c a b b c a d b d d b b b b b b
-a a a a a b c b c a b b a c d a c a c b b b b b b
-a a a a a b c c d b a c d b b b d a d b b b b b b
-a a a a a b c d d c d b a d b c b b b d b b b b b
-a a a a a b d b a a b d b b d a b d a d b b b b b
-a a a a a b d c b d a b a b c a a a d c b b b b b
-a a a a a b d d d a c d b a a b a a d c b b b b b
-a a a a a c a b a a c a d d c b b c b c b b b b b
-a a a a a c a c b d b c b b a a b a b b b b b b b
-a a a a a c a d c b c a a d b c c c a d b b b b b
-a a a a a c b a d b a b c c d c b d a c b b b b b
-a a a a a c b c a a b a c c c b d a b d b b b b b
-a a a a a c b d b a c b b b a d d b a a b b b b b
-a a a a a c c a c c b b a c a c c b d b b b b b b
-a a a a a c c c b a d a c d c b b a c c b b b b b
-a a a a a c c d b c d a d d d d c d b c b b b b b
-a a a a a c d a b d d b c d a a a b a c b b b b b
-a a a a a c d b d c b a c c a a a b c d b b b b b
-a a a a a c d d a a c b c b a b c a c d b b b b b
-a a a a a d a a b c d a c d d a b b d a b b b b b
-a a a a a d a b c d c b b a b c b b b a b b b b b
-a a a a a d a d a a b a c a b a d a c b b b b b b
-a a a a a d b a a c d d b b d a b c b c b b b b b
-a a a a a d b b c a d b b c a c a a c d b b b b b
-a a a a a d b d a b b a b b b c a c d d b b b b b
-a a a a a d c a a c c a c d c c a b d c b b b b b
-a a a a a d c b b b b a a b d a b a a a b b b b b
-a a a a a d c c d a b d c c c d b b c a b b b b b
-a a a a a d d a a c b b b c d c b a b a b b b b b
-a a a a a d d b b c c b b c c d d c c b b b b b b
-a a a a a d d c d a b d c c b d d a a a b b b b b
-a a a a a a a a a a a b a b a b d a c b a b b b b b
-a a a a a a a b a d d d b a a d d b b d a b b b b b
-a a a a a a a c b a c d d a d a d c d b b b b b b b
-a a a a a a a d b d a c c c d c d b c a c b b b b b
-a a a a a a b a d a a b a c d c c c d b c b b b b b
-a a a a a a b c a a b a c a d c d c a c d b b b b b
-a a a a a a b d b a d c b c d a d d b c d b b b b b
-a a a a a a c a c a a c d a c b c a b b c b b b b b
-a a a a a a c b c c b b c b c a c b b d b b b b b b
-a a a a a a c c d b b a b d b a c c b a d b b b b b
-a a a a a a d a a d a d b a d a d a b a c b b b b b
-a a a a a a d b c c d b a b b c b b a c a b b b b b
-a a a a a a d c d a c b d a d c c c a d d b b b b b
-a a a a a b a a a c a a a c d d b a b a d b b b b b
-a a a a a b a b b c c d b c d d b b b d d b b b b b
-a a a a a b a c c d c d c c b d d c b c a b b b b b
-a a a a a b b a a a d d c c b d a b d d a b b b b b
-a a a a a b b a d d d c c a a d d c b c c b b b b b
-a a a a a b b b d d d d b a d a b d a c a b b b b b
-a a a a a b b d b d c d b d d c c d d b d b b b b b
-a a a a a b c a d c c a b b b c a b a b a b b b b b
-a a a a a b c c a c d c c c c d c c b d b b b b b b
-a a a a a b c d b c d d a c b d c d b b c b b b b b
-a a a a a b d a c d b c b a a a d b c b d b b b b b
-a a a a a b d c a c d d c c d c a a a b c b b b b b
-a a a a a b d d c c a b a d b a d a c c c b b b b b
-a a a a a c a a d d b b a c b b c b c c d b b b b b
-a a a a a c a c a d a d a b c b c b b a a b b b b b
-a a a a a c a d b c d a b d b c a b b a a b b b b b
-a a a a a c b a d d b a c c d c b c a a b b b b b b
-a a a a a c b c a d d b b c b c b b d c a b b b b b
-a a a a a c b d c b a c c b b c a d d d d b b b b b
-a a a a a c c a d c a c d a b a b c a d d b b b b b
-a a a a a c c c a d b a a c d a a b a c c b b b b b
-a a a a a c c d c c d a a d c d c a a a b b b b b b
-a a a a a c d a d c a c a b b a c d a a d b b b b b
-a a a a a c d c a a a b b d b a b d d a a b b b b b
-a a a a a c d d b a b b c a d a c d a a a b b b b b
-a a a a a d a a b d b b c c a a d a b b d b b b b b
-a a a a a d a b d b d c d a c c d b c d c b b b b b
-a a a a a d a d a b b b b a b a a b b d d b b b b b
-a a a a a d b a b a a c c c b b a d d a c b b b b b
-a a a a a d b b d a d c d b d b b a c a a b b b b b
-a a a a a d b d a a c a b c b a d a c c c b b b b b
-a a a a a d c a a c d d d a c d a d c a c b b b b b
-a a a a a d c b c b a c a d a d c b a b c b b b b b
-a a a a a d c c d c b d b b b d a d c c a b b b b b
-a a a a a d d a a a d b d a c a b c d a d b b b b b
-a a a a a d d b c b a c a c a a c b a a c b b b b b
-a a a a a d d c d c a a d b c a d d b b c b b b b b
-a a a a a a a a a a b c b d c b a c d d a d b b b b b
-a a a a a a a b b b b d b b b b d d a d a a b b b b b
-a a a a a a a c c c c d c c c a a d b d b d b b b b b
-a a a a a a b a b a c d d c d a d c b a c c b b b b b
-a a a a a a b b c d c c c d d d b c c a a d b b b b b
-a a a a a a b d a d a c b d b c b a d a d b b b b b b
-a a a a a a c a c a a b a c d d a d a d d b b b b b b
-a a a a a a c b c d d c b c b a c d c a b c b b b b b
-a a a a a a c d a b d c c a d a d c b c c c b b b b b
-a a a a a a d a d a c a b a d c a a d c b b b b b b b
-a a a a a a d c b b c c a b d d a a b c a c b b b b b
-a a a a a a d d b c d d a d b c b b b d b d b b b b b
-a a a a a b a a b d d b d d a c b c d c a b b b b b b
-a a a a a b a b c c c c b d c d b c c b d b b b b b b
-a a a a a b a d a c c a a b b b b b c d a b b b b b b
-a a a a a b b a b d b b c a a d c a d d d c b b b b b
-a a a a a b b b c d d a c a b a b b c b a c b b b b b
-a a a a a b b d a a c a c a c b c d c d a c b b b b b
-a a a a a b c a b b c a c b b c b a a a d d b b b b b
-a a a a a b c b c c d c d b d b a b d b b d b b b b b
-a a a a a b c c d d a d a b b d c a c c c c b b b b b
-a a a a a b d a a d c d c c b b c d d d d b b b b b b
-a a a a a b d b b c d c c c c c b c c c d c b b b b b
-a a a a a b d c c c b d a c a c b c a b d b b b b b b
-a a a a a b d d d a a b d c b a c c a d a d b b b b b
-a a a a a c a b a b c c d c b d c a a a c c b b b b b
-a a a a a c a c b a b b c d c c d a b c b a b b b b b
-a a a a a c a d b d b b d a c c c a d d b c b b b b b
-a a a a a c b a c c b c a a a b a a b b c d b b b b b
-a a a a a c b b d c d c a d d c a b c b c a b b b b b
-a a a a a c b d a d c b b c c a c d d d a b b b b b b
-a a a a a c c a c a a d d d d a b d c a a b b b b b b
-a a a a a c c b d a a b d c d a b b a a b a b b b b b
-a a a a a c c d a c d a b a d a a b d a b b b b b b b
-a a a a a c d a b d d a b b b a c b a b d b b b b b b
-a a a a a c d b d c d b d b b a a a b a a a b b b b b
-a a a a a c d d b b a d c c b b b c c d b d b b b b b
-a a a a a d a a c b b b a b d c a a d a a a b b b b b
-a a a a a d a b c b d a a d d c b d b a a b b b b b b
-a a a a a d a c d c c a c a c c a b c b c a b b b b b
-a a a a a d b a a b a b b b a b a d d b d d b b b b b
-a a a a a d b b a c c a b a a b c d c a b d b b b b b
-a a a a a d b c b a d a c d d c b c d d c a b b b b b
-a a a a a d b d c a c b b a c d b b c b c c b b b b b
-a a a a a d c a d b d a d a d c d c a a c a b b b b b
-a a a a a d c c a a b b b d d d c c d b c d b b b b b
-a a a a a d c d b b b c b b d b b c d a c a b b b b b
-a a a a a d d a b d b b d d a d b c b c b a b b b b b
-a a a a a d d b c d d b c d d d c a a d a b b b b b b
-a a a a a d d c d b c d d c b d c c b c c c b b b b b
-a a a a a a a a a a a d a c b a b b a d c d a b b b b b
-a a a a a a a b a b d d b d c d a a d d b b c b b b b b
-a a a a a a a c b b b d b d c c b d d c b c c b b b b b
-a a a a a a a d c b d d d d c b d c c c a b c b b b b b
-a a a a a a b a d b d d b c b a b c a d d c a b b b b b
-a a a a a a b c a b b c b c c c d b d c a b c b b b b b
-a a a a a a b d b c b b c a b c c a b a b c d b b b b b
-a a a a a a c a c c d c b a b c a c c a d b c b b b b b
-a a a a a a c c a d d d d b c a c a d a a a a b b b b b
-a a a a a a c d d a a b c b a c b b d b a a d b b b b b
-a a a a a a d b b b c a d d b c b b d d a d c b b b b b
-a a a a a a d c d b d a b d d c a c c d c d a b b b b b
-a a a a a a d d d c c b b b b c a a d a b b c b b b b b
-a a a a a b a b b c b d c d c a a a d b d c b b b b b b
-a a a a a b a c c b d a c a d c b d a d d b d b b b b b
-a a a a a b a d d b b c a c c a a b a a c c a b b b b b
-a a a a a b b b a a a b b a d c a b b b c b b b b b b b
-a a a a a b b c a d a d b c b d b b c d a c b b b b b b
-a a a a a b b d b c d d b a b a b d a a b d a b b b b b
-a a a a a b c a d a b a c a b d c c c b c d a b b b b b
-a a a a a b c b d d b d d c a c a a d b a d b b b b b b
-a a a a a b c d b b b a a a c d b a a b b b b b b b b b
-a a a a a b d a b c c d a c d a d d c b a a a b b b b b
-a a a a a b d b c d b b a b d a d d c c a d a b b b b b
-a a a a a b d c d d c a b b c b d a d d d c b b b b b b
-a a a a a c a a b b c a a b c c a a c c d d d b b b b b
-a a a a a c a b c c d c a b a d b c a a a d a b b b b b
-a a a a a c a c d b d d b a b b d d c c d d b b b b b b
-a a a a a c b a a d a d c b d c d d d d d c a b b b b b
-a a a a a c b b b b a b c a d a d c a b d a d b b b b b
-a a a a a c b c c b c a c d a b a a d a b a c b b b b b
-a a a a a c b d d b b b b b b d c b a b a a c b b b b b
-a a a a a c c b a b d d c b a b a b c c b b c b b b b b
-a a a a a c c c c a d b c a a d d b a c d d d b b b b b
-a a a a a c c d c d d a b b a d c b a b a d b b b b b b
-a a a a a c d a d d d c b c b d b a b a d d c b b b b b
-a a a a a c d c b a d d a a c d c d d a d d b b b b b b
-a a a a a c d d c b b d a d b b b a c b d d d b b b b b
-a a a a a d a a d d d a b a a c c a c c b d a b b b b b
-a a a a a d a c b a c b d b a d c b b b d c a b b b b b
-a a a a a d a d b c c c d c a c d a b b a a b b b b b b
-a a a a a d b a c d c a c c d a d b c b b b d b b b b b
-a a a a a d b b c d d c a a a b c a c b a a d b b b b b
-a a a a a d b c d c c c d d a b d c b c b d a b b b b b
-a a a a a d c a a d b a d b b d a c b a c a b b b b b b
-a a a a a d c b c c b d c c b a d a c b c a c b b b b b
-a a a a a d c c c d d d a c d b b a a c a c b b b b b b
-a a a a a d d a a b a a c b c c b c a d a b a b b b b b
-a a a a a d d b b c a b b b b d b c d a d a b b b b b b
-a a a a a d d c c a c d c b c a c d b b c b a b b b b b
-a a a a a a a a a a c d a a b d a d a b b a b b b b b b b
-a a a a a a a b c a a b c a a a d c c d b c b b b b b b b
-a a a a a a a c d b a c a d b a d d c b c c b b b b b b b
-a a a a a a b a a d c a c a c c d a b d d d b b b b b b b
-a a a a a a b b b d d a b b b d c c b a d c c b b b b b b
-a a a a a a b c c d c d d d d b c c b a c c b a b b b b b
-a a a a a a c a a d c c b b a c b b b c d d b d b b b b b
-a a a a a a c b d a c a d a b d d a a b a c d b b b b b b
-a a a a a a c d a c a d a a b b c d b a d d a b b b b b b
-a a a a a a d a a d c c a d d d d b d d b b d a b b b b b
-a a a a a a d b b b d c a a c a a a d d b b d d b b b b b
-a a a a a a d c c c d b d a b c a c c d c c b a b b b b b
-a a a a a a d d d c a a b c d b c d c b c c a b b b b b b
-a a a a a b a b b a a d a d a c b c b a b b d c b b b b b
-a a a a a b a c c a d a c c b b b c c a d a a a b b b b b
-a a a a a b a d d b d c c d a c d c c c d c d a b b b b b
-a a a a a b b b a c a b a a b d a d c d a c b c b b b b b
-a a a a a b b c a c a b a c a b a d a c d a d b b b b b b
-a a a a a b b d b d a a b c d a d a c b d d d b b b b b b
-a a a a a b c a c a d d b a d b d d a b b c b d b b b b b
-a a a a a b c b d a c c a a c b d b d d d d c d b b b b b
-a a a a a b c c d d c c d a a b b a b c c a a c b b b b b
-a a a a a b d a a c c d c c d c c b a d b a c d b b b b b
-a a a a a b d b c a a b b b c b d a d c c c c b b b b b b
-a a a a a b d c c d b a a d b b a d d d a a d a b b b b b
-a a a a a b d d d d d c b b d b c b c a c a c a b b b b b
-a a a a a c a b b a b d d c c a a c d a b a d a b b b b b
-a a a a a c a c c a d a c d c d a c d c a b b a b b b b b
-a a a a a c a d d b b b b c b c b b c d b c b b b b b b b
-a a a a a c b a d c a d c d d c c c d a b d b b b b b b b
-a a a a a c b c a d a a c b b b c b c d c a c d b b b b b
-a a a a a c b d c a a a b b a a b a d b d a c d b b b b b
-a a a a a c c a d d a a d a a b c a d a a d d b b b b b b
-a a a a a c c c a d a b d b d d a a a a a c c c b b b b b
-a a a a a c c d b c d b d c a a d b a b b c d b b b b b b
-a a a a a c d a c c b c a a c c d b b b a b c a b b b b b
-a a a a a c d b d b b b a c b a b c d b d c b b b b b b b
-a a a a a c d d a d c c b c b b a d b d c b c c b b b b b
-a a a a a d a a b a d c d a a d d c c b c d d c b b b b b
-a a a a a d a b c c b c a b d d b d c a c a c d b b b b b
-a a a a a d a d a d c b b d d c d a d c c a d c b b b b b
-a a a a a d b a b c b a d b d a d c c d c d d c b b b b b
-a a a a a d b b c c a a b a d b a a d b b c b b b b b b b
-a a a a a d b c d c d d b b d d c c a b a d a a b b b b b
-a a a a a d c a a a c d c a c d d d c b a c d d b b b b b
-a a a a a d c b c a a b b b c b c d b a b d b d b b b b b
-a a a a a d c c c c c a a d b b d d a c c b a c b b b b b
-a a a a a d c d d d b c a d a d d b d d a d a b b b b b b
-a a a a a d d b b a d d c d d c b d a d b d a b b b b b b
-a a a a a d d c c c d a b a c c c d d b d b a a b b b b b
-a a a a a d b c a b a a d a d b b b b b
-a a a a a d d c d b b b b b c b b b b b
-a a a a a d d b c d a c a c b b b b b b
-a a a a a d d a c a a d a b a b b b b b
-a a a a a d c d a c c c a c b b b b b b
-a a a a a d c b d c a a c d c b b b b b
-a a a a a d c a c a d a b d c b b b b b
-a a a a a d b d a d c d a b a b b b b b
-a a a a a d b b d b a a a d b b b b b b
-a a a a a d b a c c b a c b d b b b b b
-a a a a a d a d a d d b a d d b b b b b
-a a a a a d a b d b d d a c c b b b b b
-a a a a a d a a c a c b a c c b b b b b
-a a a a a c d d b b a b b d a b b b b b
-a a a a a c d c a b d d d a b b b b b b
-a a a a a c d a d c a a a d b b b b b b
-a a a a a c c d c b a a c b a b b b b b
-a a a a a c c c a d b a c a a b b b b b
-a a a a a c c b a a c a a d c b b b b b
-a a a a a c b d d a b d c b a b b b b b
-a a a a a c b c c c d b a c b b b b b b
-a a a a a c b b b d a b b d b b b b b b
-a a a a a c b a a d a c a d a b b b b b
-a a a a a c a c d c d d a c d b b b b b
-a a a a a c a b c a d c a a b b b b b b
-a a a a a c a a b b a a b a a b b b b b
-a a a a a b d c d c b c d a a b b b b b
-a a a a a b d b b b d c d c d b b b b b
-a a a a a b d a a b b b a b d b b b b b
-a a a a a b c c d a a c b a a b b b b b
-a a a a a b c b b c c b a b b b b b b b
-a a a a a b b d d d a a c c c b b b b b
-a a a a a b b c c b a a d d c b b b b b
-a a a a a b b b b b c d d d b b b b b b
-a a a a a b b a a b b a d a d b b b b b
-a a a a a b a c c c d d a d b b b b b b
-a a a a a b a b b b c c a c a b b b b b
-a a a a a b a a a a c b d a d b b b b b
-a a a a a a d c d a c a a d b b b b b b
-a a a a a a d b c b b d d a b b b b b b
-a a a a a a d a b a a d d d c b b b b b
-a a a a a a c d a b b b a a c b b b b b
-a a a a a a c b d d c a a d a b b b b b
-a a a a a a c a c d b d a c b b b b b b
-a a a a a a b d b b a c a b b b b b b b
-a a a a a a b c a b b c c d d b b b b b
-a a a a a a b a c c b c b d a b b b b b
-a a a a a a a d c a b a b a a b b b b b
-a a a a a a a c b b a c a c c b b b b b
-a a a a a a a b a b b d d a a b b b b b
-a a a a a c a c d a a d c c b c b b b b b
-a a a a a d d c d c c a b c a b b b b b b
-a a a a a d d b c b d b b c a d b b b b b
-a a a a a d d a a c b a b c a b b b b b b
-a a a a a d c c d b b c c c c b b b b b b
-a a a a a d c b c c b a b b d b b b b b b
-a a a a a d c a b d d d c b b c b b b b b
-a a a a a d b d b a a d c d d a b b b b b
-a a a a a d b c a c a c d b b b b b b b b
-a a a a a d b a d a b d d b a a b b b b b
-a a a a a d a d c c b b b c a c b b b b b
-a a a a a d a c b b d d a a c c b b b b b
-a a a a a d a b a a b a b d a c b b b b b
-a a a a a c d d c c b b b c d b b b b b b
-a a a a a c d c b d b a c b d b b b b b b
-a a a a a c d b a b c d d d d b b b b b b
-a a a a a c c d d b c c c a c c b b b b b
-a a a a a c c c c c b a c c d a b b b b b
-a a a a a c c b b d a c a b d a b b b b b
-a a a a a c c a b c c a d a a a b b b b b
-a a a a a c b d a d d d c d c c b b b b b
-a a a a a c b b d b b a a a a b b b b b b
-a a a a a c b a c a d b c b b d b b b b b
-a a a a a c a d b c a a a d d b b b b b b
-a a a a a c a c a c b c a b d b b b b b b
-a a a a a c a a c d d d d b b c b b b b b
-a a a a a b d d b a a a c a b c b b b b b
-a a a a a b d c a b c c d d d c b b b b b
-a a a a a b d a d c d d b a c b b b b b b
-a a a a a b c d b c c a b a a c b b b b b
-a a a a a b c c a c a c c b c a b b b b b
-a a a a a b c a c d c d a c a d b b b b b
-a a a a a b b d b c b d c c b a b b b b b
-a a a a a b b c a a d d b d b b b b b b b
-a a a a a b b a c c c c b a b d b b b b b
-a a a a a b a d b a c c c b d d b b b b b
-a a a a a b a c a b b b a a c d b b b b b
-a a a a a b a a d a d b a b d d b b b b b
-a a a a a a d d b d b c d b a a b b b b b
-a a a a a a d c a b a a b b d a b b b b b
-a a a a a a d a c d c c a a c a b b b b b
-a a a a a a c d c a c b c b c a b b b b b
-a a a a a a c c a b a a d d b d b b b b b
-a a a a a a c a c c a a b b b d b b b b b
-a a a a a a b d b d b a a c a d b b b b b
-a a a a a a b c b a c a d d b a b b b b b
-a a a a a a b b a b c a a a a d b b b b b
-a a a a a a a d c a c a c b b a b b b b b
-a a a a a a a c b a c b c b c c b b b b b
-a a a a a a a b a c b c a d c d b b b b b
-a a a a a c c b b a d d a c b c c b b b b b
-a a a a a d d c c d a c d b b d b b b b b b
-a a a a a d d b b c b c b b c c c b b b b b
-a a a a a d d a a d a a b a b a a b b b b b
-a a a a a d c c d c a a a c b b c b b b b b
-a a a a a d c b b d b d c c a b d b b b b b
-a a a a a d c a a d c d d d c a d b b b b b
-a a a a a d b c d c a b a d d c c b b b b b
-a a a a a d b b d c b a d a b b a b b b b b
-a a a a a d b a c b d c d d c b b b b b b b
-a a a a a d a d b d d a b a a a b b b b b b
-a a a a a d a c a b c b b c c d d b b b b b
-a a a a a d a a d d b c b d b a b b b b b b
-a a a a a c d d c d d b a a a c d b b b b b
-a a a a a c d c c b a b c c c c c b b b b b
-a a a a a c d b a c c c b b d c a b b b b b
-a a a a a c c d d c b c c d d b d b b b b b
-a a a a a c c c d a a c d c a b a b b b b b
-a a a a a c c b c b c b b c b b a b b b b b
-a a a a a c c a b d c a a c c d a b b b b b
-a a a a a c b d b b c a d b d a a b b b b b
-a a a a a c b c a c a d a d c d a b b b b b
-a a a a a c b a c b d d b d d d c b b b b b
-a a a a a c a d b b d d b c b b b b b b b b
-a a a a a c a c a b a b b a b c a b b b b b
-a a a a a c a a d b c a b b c c a b b b b b
-a a a a a b d d b b d c b d d b b b b b b b
-a a a a a b d c a d b c d b a c b b b b b b
-a a a a a b d a c d a b a b d d c b b b b b
-a a a a a b c d b c b b c b c d a b b b b b
-a a a a a b c b d d a a b b c c b b b b b b
-a a a a a b c a d b b c a a a d a b b b b b
-a a a a a b b d d a b d c d d c d b b b b b
-a a a a a b b c b a c d a c d b c b b b b b
-a a a a a b b a d d d d d a a b a b b b b b
-a a a a a b a d c b d c c a c c d b b b b b
-a a a a a b a c b b c c d b b b d b b b b b
-a a a a a b a b a a c c d d d b d b b b b b
-a a a a a a d d c d c d b c c b d b b b b b
-a a a a a a d c b d a c d b d b d b b b b b
-a a a a a a d a d d c b a a d a d b b b b b
-a a a a a a c d c b d b c c b d d b b b b b
-a a a a a a c c a b d a b b b d c b b b b b
-a a a a a a c a c d a c b a b d b b b b b b
-a a a a a a b d c b d a c b b d a b b b b b
-a a a a a a b c a b d d d b a a c b b b b b
-a a a a a a b a d a d c b c b d d b b b b b
-a a a a a a a d b c d b d b d b d b b b b b
-a a a a a a a c b a b c d d a d d b b b b b
-a a a a a a a b a b a b b b a d a b b b b b
-a a a a a a b c b a d b c d a a b c b b b b b
-a a a a a d d c d c a c d c c d b b b b b b b
-a a a a a d d b d b d b a d c b c b b b b b b
-a a a a a d d a c a a a b a d b a d b b b b b
-a a a a a d c d b b d b c a a a a a b b b b b
-a a a a a d c b d d c a d c d a c b b b b b b
-a a a a a d c a c a a c d d d c b a b b b b b
-a a a a a d b d b a c b b d c b a c b b b b b
-a a a a a d b b d a b c a c b d a a b b b b b
-a a a a a d b a c c c b b b c a b c b b b b b
-a a a a a d a d c a c c b c a c c a b b b b b
-a a a a a d a c b c c c a b c b b a b b b b b
-a a a a a d a b a d c a c b b d d d b b b b b
-a a a a a c d d d b c a c a c c c d b b b b b
-a a a a a c d c c a c c c c b a a d b b b b b
-a a a a a c d b b b b a a c c d c d b b b b b
-a a a a a c d a a c d a c c d a a d b b b b b
-a a a a a c c c d a c b c b d a c d b b b b b
-a a a a a c c b b d b d b c c c d c b b b b b
-a a a a a c c a a d c b d a a b b a b b b b b
-a a a a a c b c d a a d c b c b d b b b b b b
-a a a a a c b b c c b c d a c d a a b b b b b
-a a a a a c b a c b d c a a a b d a b b b b b
-a a a a a c a d a b a a b d b b c c b b b b b
-a a a a a c a b d b b b a d a d c d b b b b b
-a a a a a c a a b b d a d d a a c b b b b b b
-a a a a a b d d a d a c b a c a d c b b b b b
-a a a a a b d b d a a a c b c c d c b b b b b
-a a a a a b d a c b a d c b d d a b b b b b b
-a a a a a b c d b a d b c a b c b c b b b b b
-a a a a a b c c a b b b c c a b d c b b b b b
-a a a a a b c a c b d d a a d c a b b b b b b
-a a a a a b b d a c a b c d b c c b b b b b b
-a a a a a b b b d c a b a d b c c d b b b b b
-a a a a a b b a c c d c b a b b c b b b b b b
-a a a a a b a d b c c b a c c c a a b b b b b
-a a a a a b a c a a d d a a d b a b b b b b b
-a a a a a b a a c d a a d d d b c a b b b b b
-a a a a a a d d b d d d b c d b a a b b b b b
-a a a a a a d c a b d c b d b b d b b b b b b
-a a a a a a d b a a c d a c a a c b b b b b b
-a a a a a a c d c c b d d d c d d b b b b b b
-a a a a a a c c b b b b b d a d d b b b b b b
-a a a a a a c a d d c d a b c a d c b b b b b
-a a a a a a b d d b a c a b b b d a b b b b b
-a a a a a a b c c b a c b a b b d c b b b b b
-a a a a a a b b a d a a b d c c a b b b b b b
-a a a a a a a d d d d c a a b a c d b b b b b
-a a a a a a a c c b a a c a b d c d b b b b b
-a a a a a a a b a d d b c b c a b d b b b b b
-a a a a a a a a a a a c a c b a b c d b b b b b
-a a a a a a a b a d b a d d d a c d c b b b b b
-a a a a a a a c b d c b c a d d c a d b b b b b
-a a a a a a a d d a b d d d c c d c a b b b b b
-a a a a a a b b a c a a c a a a b d b b b b b b
-a a a a a a b c b d c b d d d d b c a b b b b b
-a a a a a a b d c c a c d d b d d b a b b b b b
-a a a a a a c a d c b c b b b c d c b b b b b b
-a a a a a a c c a d a c c b c c b a c b b b b b
-a a a a a a c d c a b a d b c c c a d b b b b b
-a a a a a a d a d c b d a d b d b d b b b b b b
-a a a a a a d c a c b b d a a b d c b b b b b b
-a a a a a a d d b c d a b d b c a a d b b b b b
-a a a a a b a a d a a c a c c a a a c b b b b b
-a a a a a b a c a b d c d a c a b a c b b b b b
-a a a a a b a d b b d a b c d a b c b b b b b b
-a a a a a b b a b a c a d a b c d d b b b b b b
-a a a a a b b b c a b c b a b a a a d b b b b b
-a a a a a b b c c d b a d c c b c a c b b b b b
-a a a a a b b d d c c b d b c a b c c b b b b b
-a a a a a b c b a b b b d c a a c b c b b b b b
-a a a a a b c c a c b c d a a a b a a b b b b b
-a a a a a b c d b d b b c a a a b a b b b b b b
-a a a a a b d a d a a a b b a d a a c b b b b b
-a a a a a b d c a a d a a b a a a c c b b b b b
-a a a a a b d d b a a a a d d c d d b b b b b b
-a a a a a c a a c b b a d a a c d a a b b b b b
-a a a a a c a b d a c c d a a a b c a b b b b b
-a a a a a c a d a c a b d a b a b a a b b b b b
-a a a a a c b a b d a c a a b b d c d b b b b b
-a a a a a c b b c d b d d d c a d b c b b b b b
-a a a a a c b d a a c a c d d c c b a b b b b b
-a a a a a c c a c a b d d b a b b a a b b b b b
-a a a a a c c b d c a d d b d b c c d b b b b b
-a a a a a c c d a b c d c c d a d d a b b b b b
-a a a a a c d a b d b d c b d d c d d b b b b b
-a a a a a c d b c a c a d c b d c d c b b b b b
-a a a a a c d c d a c a a a b b b d a b b b b b
-a a a a a d a a a c d d a a c a b c d b b b b b
-a a a a a d a b b b b c b b b d d d b b b b b b
-a a a a a d a c c c b d b b c d a b d b b b b b
-a a a a a d b a a b a b b c d c b a c b b b b b
-a a a a a d b b a c b c a c d b a c b b b b b b
-a a a a a d b c b c c d c d a c a c a b b b b b
-a a a a a d b d d b b a a a d d a b b b b b b b
-a a a a a d c b b a d a d d d b d b d b b b b b
-a a a a a d c c c b b a d b d a c b c b b b b b
-a a a a a d c d d c a a d d c b d c c b b b b b
-a a a a a d d b a c d a c c c d c a a b b b b b
-a a a a a d d c c c c d b a b d d c d b b b b b
-a a a a a a a a a a a c a d b d d d b b b b b b b
-a a a a a a a b a d c d d b c b c c b b b b b b b
-a a a a a a a c c d b d d d a b c a a b b b b b b
-a a a a a a a d d d d b b c d a b c a d b b b b b
-a a a a a a b b c b c c a d a c c c a a b b b b b
-a a a a a a b c d d a d a d c d b b a c b b b b b
-a a a a a a c a b b d b b c b d c d d d b b b b b
-a a a a a a c b d a a c d d b d b a d c b b b b b
-a a a a a a c d a d d b c c c c a b d d b b b b b
-a a a a a a d a b d a b b c b c d a d d b b b b b
-a a a a a a d b c d d d b c d b a a b a b b b b b
-a a a a a a d c c d c c c c c c b b a b b b b b b
-a a a a a a d d d c d c d b d b c b a b b b b b b
-a a a a a b a b a a a d d a b b d b a a b b b b b
-a a a a a b a c b b d c b c d c b d d c b b b b b
-a a a a a b a d d a b b a d d c b b d a b b b b b
-a a a a a b b b b a c a a c c a a c c b b b b b b
-a a a a a b b c c a b d d b b b a c a a b b b b b
-a a a a a b b d c c d d c c c a d a c d b b b b b
-a a a a a b c a d a d c a c d c c c b a b b b b b
-a a a a a b c c a b c c a d c c a a c c b b b b b
-a a a a a b c d b b c a d c c d d b c d b b b b b
-a a a a a b d a c c c d a c b d a c b c b b b b b
-a a a a a b d c a a a b b d c a d c c a b b b b b
-a a a a a b d d b b c d c a c b c b d d b b b b b
-a a a a a c a a c c c b d d b c b c d b b b b b b
-a a a a a c a b d a c a c d a d d c a b b b b b b
-a a a a a c a c d b a d c d a c a b b a b b b b b
-a a a a a c b a a d c b c c b d b d d a b b b b b
-a a a a a c b b b b a d a c b d c a a d b b b b b
-a a a a a c b c d a d c a a b d a c c d b b b b b
-a a a a a c c a a a b a c b a a a b a a b b b b b
-a a a a a c c b a d c a d b a d c c b a b b b b b
-a a a a a c c c c c c d d d b a b a c b b b b b b
-a a a a a c c d d d d a d a c b a b c b b b b b b
-a a a a a c d b b a a d b a b a a a b c b b b b b
-a a a a a c d c b b b b a b a d a b a b b b b b b
-a a a a a c d d c a a a a d c a c c c c b b b b b
-a a a a a d a a c b a b c b b b c c b d b b b b b
-a a a a a d a c a a c b a d a b d d d a b b b b b
-a a a a a d a d a d b c c c b c c c a c b b b b b
-a a a a a d b a c a b b c d a c c a d b b b b b b
-a a a a a d b b d c c c a a b c c b b c b b b b b
-a a a a a d b d a c d d d c d d d b b d b b b b b
-a a a a a d c a b d c d d a b b a a b b b b b b b
-a a a a a d c b c d c d c d c d b b d c b b b b b
-a a a a a d c d a a a c a b b b b b b b b b b b b
-a a a a a d d a a d a d b a c d d c c a b b b b b
-a a a a a d d b b b b b d d b b a a b c b b b b b
-a a a a a d d c d a b a b c d d b a b c b b b b b
-a a a a a a a a a a a d c a d c d b d c c b b b b b
-a a a a a a a b b c b d b a b a a c a b c b b b b b
-a a a a a a a c c d a a c d c d c c c d d b b b b b
-a a a a a a a d d c b d b d c b c d b c b b b b b b
-a a a a a a b a d d c c a d c d b b b a c b b b b b
-a a a a a a b c a b c c a d a d d b b c a b b b b b
-a a a a a a b d b c c a a d d d b a a c c b b b b b
-a a a a a a c a d a d a a b c a a d b b b b b b b b
-a a a a a a c c a c d a d b c d b d a b c b b b b b
-a a a a a a c d b d a a d a c a c c c a b b b b b b
-a a a a a a d a c d b b d b b d a d d c d b b b b b
-a a a a a a d b d d a a d a d d a c c a c b b b b b
-a a a a a a d d a d d a d c c c b a b b a b b b b b
-a a a a a b a a a d d d c a d c d b c d d b b b b b
-a a a a a b a b b b c d a a d c b a b b a b b b b b
-a a a a a b a c d a d a d d c d c a c b d b b b b b
-a a a a a b b a a a a a a d a d d a a c a b b b b b
-a a a a a b b b a d d c c c a a c a b a c b b b b b
-a a a a a b b c c a d a d a d c c a c d b b b b b b
-a a a a a b b d d b c a b a c b d c d b d b b b b b
-a a a a a b c b b c c d b b b d b a b c c b b b b b
-a a a a a b c c d b a d a a a d a b d d c b b b b b
-a a a a a b d a a a c a b b d a b c a a b b b b b b
-a a a a a b d b a c a d a b c b c d c d a b b b b b
-a a a a a b d c b c d b b d b b a d b a a b b b b b
-a a a a a b d d c d a d d d a a b b c a b b b b b b
-a a a a a c a a d d b c d c a d d d a d c b b b b b
-a a a a a c a c a b d a d a c a c d d b d b b b b b
-a a a a a c a d b b c d c d a a d d d b d b b b b b
-a a a a a c b a c c c c a b b a c c b c d b b b b b
-a a a a a c b b d d c b d a b b c b a d a b b b b b
-a a a a a c b d b c b a b c b d a d b a c b b b b b
-a a a a a c c a c c b d d d b d b b b b b b b b b b
-a a a a a c c c a a a a c a a c a d d b a b b b b b
-a a a a a c c d a a d c c c c b d d d d a b b b b b
-a a a a a c d a b c c c c a c d a a c c a b b b b b
-a a a a a c d b c b d b a d b d a d d d d b b b b b
-a a a a a c d c d b a b a c a a b c a a d b b b b b
-a a a a a d a a b a c a a c a c c b a b b b b b b b
-a a a a a d a b c b b d b a c a c d b a b b b b b b
-a a a a a d a c d c a a a d b d a a a d a b b b b b
-a a a a a d b a a b d d d c d c a a d d a b b b b b
-a a a a a d b b b d b c d a b d d b d a b b b b b b
-a a a a a d b c d b c c c b a c a a b d b b b b b b
-a a a a a d c a b a c c a d d b c a d c a b b b b b
-a a a a a d c b c d b c d b d a d c c b c b b b b b
-a a a a a d c d a b a d d c c c b c b a d b b b b b
-a a a a a d d a a c d c c c c a a d a d d b b b b b
-a a a a a d d b b d a b b c d d a a a b c b b b b b
-a a a a a d d c c c b b a c b d d c c a a b b b b b
-a a a a a a a a a a a b c d d b c c b a a a b b b b b
-a a a a a a a b b b c c a d c a d b a c b c b b b b b
-a a a a a a a c d a a b d c d d c d b b d d b b b b b
-a a a a a a b a b b a a a b d b c a d a c a b b b b b
-a a a a a a b b c b d c d d a c c a b c d c b b b b b
-a a a a a a b c c d d d d a b b c b a d b c b b b b b
-a a a a a a b d d d b d b d d c a d b d a a b b b b b
-a a a a a a c b b c d c d d b a a c a c a a b b b b b
-a a a a a a c c c a a c c c b c c a c c a a b b b b b
-a a a a a a c d d a b a c d b b b a b c d a b b b b b
-a a a a a a d a d d c c a c b b c a b a c c b b b b b
-a a a a a a d c a d b b b d c d b c c b a d b b b b b
-a a a a a a d d b c d c d a d d d a a d d b b b b b b
-a a a a a b a a c b d b b a b b b a c d a a b b b b b
-a a a a a b a b d c a b d d c d d c a c a d b b b b b
-a a a a a b a d b c d a b b d c d b b d b a b b b b b
-a a a a a b b a c d d a d a a c a c d b c d b b b b b
-a a a a a b b b d c c a b b c d c d a a a a b b b b b
-a a a a a b b d b b b c a a d c b d b b a b b b b b b
-a a a a a b c a c d d a c d a c a c a d d c b b b b b
-a a a a a b c c a a d d b d a a d b b d c b b b b b b
-a a a a a b c d b c c a b d b a a a d c b b b b b b b
-a a a a a b d a d b a d d b a d b a a c c d b b b b b
-a a a a a b d c a c c a c b c b b a c b a d b b b b b
-a a a a a b d d b d d d c b c d b d d a a d b b b b b
-a a a a a c a a d b d b d b a d c a d c b d b b b b b
-a a a a a c a c a d a c d d c c d a b d d c b b b b b
-a a a a a c a d c c b b c a c d c c c b a a b b b b b
-a a a a a c b a d a c a b b b d d b b b d d b b b b b
-a a a a a c b b d b a b c a d c b a d c a b b b b b b
-a a a a a c b d a a a a c d a c d b c a d d b b b b b
-a a a a a c c a a d d a c c a b a b a d b b b b b b b
-a a a a a c c b b d a c d c c c c c d b b d b b b b b
-a a a a a c c c c d b a b d a c b d b a c d b b b b b
-a a a a a c c d d b b d a d a a c a c a d b b b b b b
-a a a a a c d b a a c a d c a c a c b c d b b b b b b
-a a a a a c d c a d b d b b d d d c c c b c b b b b b
-a a a a a c d d c a b b d c d b c d c d c c b b b b b
-a a a a a d a a d a c b b d c a c b d a b a b b b b b
-a a a a a d a c a a c d a b b a d b d a c a b b b b b
-a a a a a d a d b b a c c b b a d a b c c b b b b b b
-a a a a a d b a b c a a b d b b a b b d a d b b b b b
-a a a a a d b b c d b b a a a b b c b b d a b b b b b
-a a a a a d b d a b d d d c a a c c a a b d b b b b b
-a a a a a d c a a d d a b a b b d c c d c b b b b b b
-a a a a a d c b b d c a a b a c a a d b d a b b b b b
-a a a a a d c c c b a c c d a b d c a a b b b b b b b
-a a a a a d c d d b b d b a d b d d c b d b b b b b b
-a a a a a d d b a d d c b a a c d b a a b d b b b b b
-a a a a a d d c b c b c c c a a a b b c d d b b b b b
-a a a a a a a a a a b b d a d c b b b d d a c b b b b b
-a a a a a a a b b c b b b b d c b a a a a a a b b b b b
-a a a a a a a c c d b d b d c c a d a a b c c b b b b b
-a a a a a a b a a b d d c c c d d b b d b c a b b b b b
-a a a a a a b b b b a b d c d c a c b a a b c b b b b b
-a a a a a a b c b d d a a d c d a d d c a a b b b b b b
-a a a a a a b d c c a c b a a b c a b d c c c b b b b b
-a a a a a a c a d d b d c c d a a a d d a a a b b b b b
-a a a a a a c c c b d a c b d b a b d a b c c b b b b b
-a a a a a a c d d a a c b b d c c c a c c d b b b b b b
-a a a a a a d a d c b a d a b a b b a c a d c b b b b b
-a a a a a a d c b a a b d c b a c b b d a c c b b b b b
-a a a a a a d d b d c d d c b b a b c d b a d b b b b b
-a a a a a b a a c d a b b a d c d c b a d c b b b b b b
-a a a a a b a b c d c c c b b d c c b d d b b b b b b b
-a a a a a b a c d b a a c b d c a b a d d a d b b b b b
-a a a a a b a d d d b a d b c a d c c d b a b b b b b b
-a a a a a b b b a d d d a a a b b d b a a d c b b b b b
-a a a a a b b c c a d b c a c c a a c d a c a b b b b b
-a a a a a b c a a a b c a a a c b a b d d b c b b b b b
-a a a a a b c b a b d c c a c c a c a b a c c b b b b b
-a a a a a b c c a b a a d c b a d b c c b d d b b b b b
-a a a a a b c d b d b a b c b c a c d a a c d b b b b b
-a a a a a b d a c d a a b d b d b b d d a c c b b b b b
-a a a a a b d b d b c a b c a a b a b a d b a b b b b b
-a a a a a b d d a b c d d d c b c c c c a a c b b b b b
-a a a a a c a a b a a d d b d d b a d a b a a b b b b b
-a a a a a c a b c b a b b c c c a d c d a c a b b b b b
-a a a a a c a c d b b d a c c a b b b c b b d b b b b b
-a a a a a c b a a b a b b a d a a d d a d a b b b b b b
-a a a a a c b b b a a c a a a c d c c b b d c b b b b b
-a a a a a c b c c b b a d c d a b b d d b b d b b b b b
-a a a a a c c a a a d c c b c d d b a a a c c b b b b b
-a a a a a c c b b c b a c a d a d a a c a b b b b b b b
-a a a a a c c c c b d d d c c c a d d a c c b b b b b b
-a a a a a c c d d d b a a a d d d c d b b c b b b b b b
-a a a a a c d b b a d d d a a d b b d d c d d b b b b b
-a a a a a c d c c c c a c a b c b a a a b d c b b b b b
-a a a a a c d d d d d c c a d a d c c c d b b b b b b b
-a a a a a d a b c a b a a a d d a c c b c b c b b b b b
-a a a a a d a c d b b a c d b c d c b c d b d b b b b b
-a a a a a d b a a b d a d b b b b c d a d b a b b b b b
-a a a a a d b b b b c c c d d a b b d c b b d b b b b b
-a a a a a d b c d b c a a b b c b c b c d a d b b b b b
-a a a a a d c a a b b a c b c d d d a a c b a b b b b b
-a a a a a d c b b c a c b b a a b d b b b d d b b b b b
-a a a a a d c c c a a b d c c a d a b b c c d b b b b b
-a a a a a d c d d d b b a a d c a b b a c b c b b b b b
-a a a a a d d b b d b b b d d b b d c d d b b b b b b b
-a a a a a d d c c b c b d c a c b a b c d a b b b b b b
-a a a a a a a a a a c d a a c b d a a d a a a c b b b b b
-a a a a a a a b c a d b d d b c b b d d a d b a b b b b b
-a a a a a a a c c d c a c b b a b a d d d b c b b b b b b
-a a a a a a a d d c a d c b d c b a a d d c a a b b b b b
-a a a a a a b b a b d a d c b a a b a d c c a b b b b b b
-a a a a a a b c b b b b d b d d a c d d d d a a b b b b b
-a a a a a a b d c b d a c a d c a d b d c a b a b b b b b
-a a a a a a c b a d d d a b b a d c d d b b d b b b b b b
-a a a a a a c c b d a c a d b d b a b a d d a c b b b b b
-a a a a a a c d d b c d b a a c d b a c c d b a b b b b b
-a a a a a a d b a a c a d a c d c b c d c c a a b b b b b
-a a a a a a d c b b d c c b d d c a c c c b b a b b b b b
-a a a a a a d d d c a b d d b a d a c b c c d a b b b b b
-a a a a a b a b a b a d b d b c c a b b d b a b b b b b b
-a a a a a b a c a b a a c d b c b c c d c c c b b b b b b
-a a a a a b a d b d a d b d d b c a c d b d b c b b b b b
-a a a a a b b a d c c b d b c a a b d b d d d a b b b b b
-a a a a a b b c a a a a b d b d c a b c a a c d b b b b b
-a a a a a b b d a c c c a a b d c b c c c d c c b b b b b
-a a a a a b c a b d c a a a c d b c d d b b a c b b b b b
-a a a a a b c b d a b c a d b c b d b a b c a b b b b b b
-a a a a a b c d a b d a a c d b a a b c d d a a b b b b b
-a a a a a b d a b c a a b b b d d c c b a b d a b b b b b
-a a a a a b d b d b c c b b c c a d a b d d a b b b b b b
-a a a a a b d d a b a c c a c d b b c d b b c d b b b b b
-a a a a a c a a b b b b a d d c d c a c d c a b b b b b b
-a a a a a c a b b c c d b c b d b a d d d d c b b b b b b
-a a a a a c a c d a d a c a d b c d c c a d a b b b b b b
-a a a a a c b a b a b d b d c a a d b a c d d a b b b b b
-a a a a a c b b b a d d b c d c d a d d b d c d b b b b b
-a a a a a c b c c a c b c d a b c a c b a c c a b b b b b
-a a a a a c b d d b c d b b c a a d d b b b b c b b b b b
-a a a a a c c a d d a b b a d d d b d c d a a d b b b b b
-a a a a a c c c b a c b c b b c c c a a a a c d b b b b b
-a a a a a c c d b c c d d a c d a a d c d a a d b b b b b
-a a a a a c d a c c b a c b c b d d d c d b d c b b b b b
-a a a a a c d b d a b d d c d b b b d b d a c a b b b b b
-a a a a a c d d a d a c c b c b a b a a b d a d b b b b b
-a a a a a d a a d c b b c b b a d b d a a b c c b b b b b
-a a a a a d a c a d d a d b d c d b d b d a d d b b b b b
-a a a a a d a d b b c b b a c d b b b d b b d c b b b b b
-a a a a a d b a b b d b c b b b b a b b a d d d b b b b b
-a a a a a d b b c b b d a c d a d c a d d a c a b b b b b
-a a a a a d b c d d c a b a b d b c d d a c b b b b b b b
-a a a a a d c a a a d c d b a b a d b a d c a b b b b b b
-a a a a a d c b b a c d a c d d b d b c c a a a b b b b b
-a a a a a d c c c d c d c c c c b b b d a c c c b b b b b
-a a a a a d c d d d d a c b a d b a a c c a a d b b b b b
-a a a a a d d b c b a b d c a a b b c d a a d d b b b b b
-a a a a a d d c d b b c c b c d b b d a c b b b b b b b b
+a a a a a ù ù N i G V ò R a ù b b b b b	grammatical
+a a a a a ǔ è S k X j b M g F b b b b b	grammatical
+a a a a a á G n p y o S W m K b b b b b	grammatical
+a a a a a à U á i D W u W j i b b b b b	grammatical
+a a a a a ǎ l Z é Y O D u M à b b b b b	grammatical
+a a a a a è ǔ T h r X é C ò c b b b b b	grammatical
+a a a a a è t r ú n à H W k s b b b b b	grammatical
+a a a a a ó à n E U w ǒ ǎ e h b b b b b	grammatical
+a a a a a ò T s F g R x l J V b b b b b	grammatical
+a a a a a ǒ v w h t i z B k y b b b b b	grammatical
+a a a a a A Q G ò P d J S B S b b b b b	grammatical
+a a a a a B w ǎ U v ě v o y Z b b b b b	grammatical
+a a a a a D ǎ Q c k E u h a C b b b b b	grammatical
+a a a a a E b P O M W X y p Q b b b b b	grammatical
+a a a a a F x j e S ǎ N y K F b b b b b	grammatical
+a a a a a H J N F ǒ e ù ú u w b b b b b	grammatical
+a a a a a I Z N A p á c X r ě b b b b b	grammatical
+a a a a a J h Z T R r g w F i b b b b b	grammatical
+a a a a a K x b v á N y C d U b b b b b	grammatical
+a a a a a M ǎ p g l x F U c ò b b b b b	grammatical
+a a a a a N ǒ F ò P M I R à u b b b b b	grammatical
+a a a a a O K B H v W a o a i b b b b b	grammatical
+a a a a a Q é I e K O V q W I b b b b b	grammatical
+a a a a a R I O k E à à C ǔ f b b b b b	grammatical
+a a a a a S c d W x L m a P O b b b b b	grammatical
+a a a a a T y u t e z s W i w b b b b b	grammatical
+a a a a a V I r H L x l g x A b b b b b	grammatical
+a a a a a W f z P k k L l T r b b b b b	grammatical
+a a a a a Y ò ò Y ǔ a j g ǔ c b b b b b	grammatical
+a a a a a Z K H C j ò r E g k b b b b b	grammatical
+a a a a a a X à w ǒ W Z è D S b b b b b	grammatical
+a a a a a b k G X ǔ K O e M F b b b b b	grammatical
+a a a a a d ò V N i i a P I h b b b b b	grammatical
+a a a a a e R á E n ó O Y g ù b b b b b	grammatical
+a a a a a f o b x G j à t è b b b b b b	grammatical
+a a a a a h è é o D v H V w e b b b b b	grammatical
+a a a a a i X Z k C ǔ ǔ i Q S b b b b b	grammatical
+a a a a a j c x ě X à m b á ě b b b b b	grammatical
+a a a a a k z i x g ó D V q y b b b b b	grammatical
+a a a a a m E W ǒ j é á p ě ó b b b b b	grammatical
+a a a a a n H l ò D B h r é ě b b b b b	grammatical
+a a a a a o Y X ǎ ú U f J I ò b b b b b	grammatical
+a a a a a p i ǒ j C J w à j r b b b b b	grammatical
+a a a a a r ě h Z ǎ u V Z U n b b b b b	grammatical
+a a a a a s G Q x e x p G Q k b b b b b	grammatical
+a a a a a t T x a ù Y n Z ú d b b b b b	grammatical
+a a a a a u r S k k l k E i L b b b b b	grammatical
+a a a a a w C h Z h t b Y b ǎ b b b b b	grammatical
+a a a a a x T Y P ò L G ò J T b b b b b	grammatical
+a a a a a y t l G i Z Z ó W Z b b b b b	grammatical
+ù ù ě A ò v i è U z K j Z W l d n n w U	ungrammatical
+ǔ ě h p d j w U v f G B P U F k m i R y	ungrammatical
+á W U o b W q z n H à v o N f k q ó B N	ungrammatical
+à p v g I e E á r R é X O e y D C à e á	ungrammatical
+é ǎ ǒ T X j g f R ò w u L x G Q j p ǒ t	ungrammatical
+è G ó M C E J o b y z J Y a W F y o e N	ungrammatical
+ě b I T o X M m l ú K r S Z ě Z H I j X	ungrammatical
+ó z l j ú T u Q è O s m e a V ú T O w A	ungrammatical
+ǒ M r k q j n I z O A C N q ú è K i E ó	ungrammatical
+ú g m J H k h u V ǒ S v W B t K ǒ V N S	ungrammatical
+A w ù T u á V S q F f M j à L J o b ù è	ungrammatical
+C ó K V a x r W S d B n V H Q à M P r N	ungrammatical
+D P g f x ǒ e R u ǔ z u E à v M Q j y P	ungrammatical
+E l l D I M Y I H n U N f q I O n á c ú	ungrammatical
+F q g X è è C b n A Q J T L U c H y m i	ungrammatical
+G q z R o Y á g u c G á F L i s k Q c I	ungrammatical
+H y n á D m à A L b k é Z J V P l é I é	ungrammatical
+J O D k p j Y q d D M G w D r o U G Y Z	ungrammatical
+K U y c à ě K ó J ò b è O ù N ò t Y Q B	ungrammatical
+L g h H c J z N b N C t ó L X t R H h è	ungrammatical
+N ě ě ò r d ù R y Z r M X ǎ W Q G K ǔ r	ungrammatical
+O G N j ó Y T x k u H é L P á ǔ L S w A	ungrammatical
+P I J ó é ǒ ó r r O Q I W N X è N x l f	ungrammatical
+Q Z h k ǎ L X e G n s á b p r M Q n j T	ungrammatical
+R l T U b D B m c ǎ U G I e t ú p f Z ǒ	ungrammatical
+T ú U ù K è b F á G é ú S D X J z ò f O	ungrammatical
+U D S Y o h H ě T à R R d n n P s Y d x	ungrammatical
+V g q N é Z F m P C Z é ò P m m F é J m	ungrammatical
+X ò y W d L ǔ ù y i d C I r t ǔ f é Q Z	ungrammatical
+Y S Z l a ǎ R è h ú è k K W ò f L a S f	ungrammatical
+Z o U é x Y V Q C f j x O V a I w á b B	ungrammatical
+b é t w à h q I X K p s A J E è à ó W q	ungrammatical
+c F ǒ t e K v X é j ò à N a ó Z y x ò s	ungrammatical
+d e ó Y o L ǒ d j t E ó ǔ W T Z f F B K	ungrammatical
+e v z W G b k c n J Q n ǔ G P d á E p P	ungrammatical
+g F J ù r H G K F é ù P v l D Y o c ě b	ungrammatical
+h a o ǔ D P w p á B B ǎ Z ě x W V q y W	ungrammatical
+i q ě L O é Z y m Q m Q ǒ a j C ǔ y M i	ungrammatical
+j y h ě h Q b L D C n B ǎ m o à u n E V	ungrammatical
+l ú è s ǎ t f Q h X f c i b C M F F L m	ungrammatical
+m T z é ǒ N c H S J r Z b è I i ù p d M	ungrammatical
+n s Z O M G j F n U G p Z E K y ǔ r t e	ungrammatical
+p G T E z a b X H e d F O A l l ù ú c l	ungrammatical
+q c c ǔ ě à m ǒ è A I c D e a O p ě e D	ungrammatical
+r t Q b V r ě é ò t P n ǒ é G A s k V k	ungrammatical
+t é i z è A R C O w ó X e g d g u ò c ó	ungrammatical
+u M J ǔ ó v r d B i F E i z y O X x i w	ungrammatical
+v v V m M a c D B j y ó Q ú m w O R c C	ungrammatical
+x E b è l U ù F A p K x m q O B S X p ǎ	ungrammatical
+y a r u a N Y e N t q A X C ǔ R D ó d f	ungrammatical
+a a a a a ù ǔ h r à é l ù K W A b b b b b	grammatical
+a a a a a ǔ T K Y m l ǔ D ò U S b b b b b	grammatical
+a a a a a á f A ú ú D w p P p Q b b b b b	grammatical
+a a a a a ǎ ù ó S t ó Y ú u a Y b b b b b	grammatical
+a a a a a é ú O u l L è M H G è b b b b b	grammatical
+a a a a a è H n W D R w L l o ù b b b b b	grammatical
+a a a a a ě i J é I T Z C U A E b b b b b	grammatical
+a a a a a ò G ù q R G g C o W ù b b b b b	grammatical
+a a a a a ǒ R s X b Y s ò ó ǔ N b b b b b	grammatical
+a a a a a ú i e Q Q P k é s è D b b b b b	grammatical
+a a a a a A q ò k X ú N r k k ó b b b b b	grammatical
+a a a a a C ǔ B a U Z e u S V o b b b b b	grammatical
+a a a a a D ú P T N ǔ l s ò f f b b b b b	grammatical
+a a a a a E M g E è o ó x P q Y b b b b b	grammatical
+a a a a a F k a R g W H ǔ e D O b b b b b	grammatical
+a a a a a H é J O á à P a X R N b b b b b	grammatical
+a a a a a I X s s B M H q P w C b b b b b	grammatical
+a a a a a J g k E E á s N à m B b b b b b	grammatical
+a a a a a K w c C ǔ D C m J Q Q b b b b b	grammatical
+a a a a a M ú r U G m á ǎ y Q M b b b b b	grammatical
+a a a a a N Q v b M ó f b h h G b b b b b	grammatical
+a a a a a O m è I o r E t j c ò b b b b b	grammatical
+a a a a a Q I t v C O X p s v B b b b b b	grammatical
+a a a a a R X ù Z ǔ i ó T r u g b b b b b	grammatical
+a a a a a S p A N ò y b m e K x b b b b b	grammatical
+a a a a a U ǔ L ǔ J f A h a x z b b b b b	grammatical
+a a a a a V A ě L y v K T ó z ò b b b b b	grammatical
+a a a a a W B K R j ǔ Q p ò Z á b b b b b	grammatical
+a a a a a X E m c b p u b s B E b b b b b	grammatical
+a a a a a Y d y L z J W F w g M b b b b b	grammatical
+a a a a a a A f F ù u h x s ǒ Z b b b b b	grammatical
+a a a a a b Z k m E V I h i V B b b b b b	grammatical
+a a a a a c o P H I P U V a ó é b b b b b	grammatical
+a a a a a d y k Z B v q v b N s b b b b b	grammatical
+a a a a a f A p è F R O e U z b b b b b b	grammatical
+a a a a a g T N K ě H Q p è x S b b b b b	grammatical
+a a a a a h h q E r J ú p l z k b b b b b	grammatical
+a a a a a j A w u p r t F l a C b b b b b	grammatical
+a a a a a k U s A R à y F F h U b b b b b	grammatical
+a a a a a l k o t è v ě ě U q é b b b b b	grammatical
+a a a a a m x p S G G y M B m J b b b b b	grammatical
+a a a a a o H C q k g N Q e g R b b b b b	grammatical
+a a a a a p c f h F ù M w w T R b b b b b	grammatical
+a a a a a q v K k E m ě b D A Z b b b b b	grammatical
+a a a a a s B ǒ é b k j A T ù N b b b b b	grammatical
+a a a a a t S F j ò T I n à c l b b b b b	grammatical
+a a a a a u v R ò M á ǔ J W q X b b b b b	grammatical
+a a a a a w J I n Y P G p Y K r b b b b b	grammatical
+a a a a a x j z V o P q I á G k b b b b b	grammatical
+a a a a a y y ò R J d I b s à n b b b b b	grammatical
+ù ù Q ǎ D O ò Z p O D ǔ V c n á q ò b G j	ungrammatical
+ǔ T F O c V n L z ě f U j n F a o á u l g	ungrammatical
+á h r N f ě à K ǒ k I w L T ó v à g ě g i	ungrammatical
+ǎ ú M e Q à F à h e M h b w S Q D ǔ B s E	ungrammatical
+é K L h s l è t z D ǎ N k D j i V v ě R ó	ungrammatical
+è b h j V h e P I W w A j q J H l b N A á	ungrammatical
+ě o p A d l U n K j t ǔ W i q F ó c ě ú M	ungrammatical
+ò ǒ S j è F Z z è ě s d à g D t B P y w r	ungrammatical
+ǒ H ǒ p e N i o O a o ǎ I K i h g Y D Y B	ungrammatical
+ú N F j ò J w H w A u W h n è j X E C j O	ungrammatical
+A T O é R T e Y x p é h P v R T V E ǔ c ǒ	ungrammatical
+B r Z F y A I u t d r C t l c C ǔ p M ě X	ungrammatical
+D G A R N ú h e P v K á o G Z i G e e X à	ungrammatical
+E T a à e ú ù H a s l p w S U k O U ò b f	ungrammatical
+F h A q r h Z I J D á U s b y b I ù t l Y	ungrammatical
+G s C t V F R V ǒ w K P B Z t f i á J á Y	ungrammatical
+I L ú v R D m r U k Z y Y d L P t ó à ě u	ungrammatical
+J h q ǎ j g ǔ R b U n R e k Y p h E D U à	ungrammatical
+K y g B W O J ǎ g Q W j C l i z M j D Q b	ungrammatical
+M ò ú ǎ c y v A t C o ù Y L P K q p i N g	ungrammatical
+N R O ě Z N j w a g ǒ A N w à o o i P I n	ungrammatical
+O X o i t l g O ù O á I j D t F n S I f N	ungrammatical
+P o e q N l z ù ǔ f O O n G h e k H x ò w	ungrammatical
+R C é T C P X U V z u y L é è J z j n d l	ungrammatical
+S T d w q á L g ò I U o d H S W l s M k A	ungrammatical
+T k O è o u c s j G o F v r d n v n G b C	ungrammatical
+V ò c i T o s á G h o ù P m K p a Y Z b c	ungrammatical
+W S r l a K g N u l Z I Y Y i R X B M Q N	ungrammatical
+X t b j C c c z é w n c t y E ǔ ǔ z j N u	ungrammatical
+Z Q Z ǒ z Y M é Y s Q J A T q X E U Y à v	ungrammatical
+a X Y S f k E ù ǒ w b b ò ǒ M è k a ù y K	ungrammatical
+b t K l è n j n g s à c D ù U s a P U X ò	ungrammatical
+d ó R p ò k c Q g w R a z P é i q G ǎ o o	ungrammatical
+e Q d ǔ s R C I Y n b v F C ó Q E ǒ V S ǎ	ungrammatical
+f W z m s I Y l o w P g r j F N W j P ǔ T	ungrammatical
+g q L ò c G k E ò i ě F m t Q t R A R S R	ungrammatical
+i ú ǎ á ǒ C s N H ǒ g X é ě S W P y k k u	ungrammatical
+j p H Q C à é a m J P v S a o X Y E à j E	ungrammatical
+k o B O é x K n T V T D Z ò v Z P P v è O	ungrammatical
+m ù w M H s ò ó v ǎ D Q d T a X f s V P à	ungrammatical
+n A à v e q h T A Q a c F i P h t ǔ N Z m	ungrammatical
+o X l E r N G r ǒ ó S w à K g T w j F S k	ungrammatical
+p f K ǔ ě x è C B k é s K h v ó è ě L é x	ungrammatical
+q y F W m c r ě ú D x q F V ě h ò b M O I	ungrammatical
+s C u Z X f b q n á a O ó W z è D C s t ó	ungrammatical
+t T x S O N é C T R k ù Z V S é ǒ X Z j b	ungrammatical
+u r è ù z B l S b ò r ò K K I Z ǒ n L ǒ Y	ungrammatical
+w à v s v v J y I X N x X r a i U y ú t w	ungrammatical
+x O W Q ǔ á d r E ú e s ú g U E Y q J r w	ungrammatical
+y c a ú J a i y b ù h a è v T j w t U é c	ungrammatical
+a a a a a ù ǔ à r g Z O b C V L X b b b b b	grammatical
+a a a a a ǔ C j s ú O j S q Y X R b b b b b	grammatical
+a a a a a á Q L H é A i j u á Q q b b b b b	grammatical
+a a a a a à i L ò v u ǒ A B s E v b b b b b	grammatical
+a a a a a é ù w ǒ p D I i x ě C m b b b b b	grammatical
+a a a a a è M ú U v C U k ò ò l s b b b b b	grammatical
+a a a a a ě f T ó v h h D a H c v b b b b b	grammatical
+a a a a a ó u h B ú ù T ú z h ǎ Z b b b b b	grammatical
+a a a a a ǒ E i i ú G O G S T B B b b b b b	grammatical
+a a a a a ú J é ǔ Y E W u Z ǔ U X b b b b b	grammatical
+a a a a a A b Z Y L D o Z ǎ n G L b b b b b	grammatical
+a a a a a B d u l v ù Z Y n R ǔ u b b b b b	grammatical
+a a a a a D ǒ W d l k N s á k q N b b b b b	grammatical
+a a a a a E V f o ǒ ù h D P C Z Y b b b b b	grammatical
+a a a a a F m N q q S M S ǒ W Y L b b b b b	grammatical
+a a a a a G y r C e H X d o b A t b b b b b	grammatical
+a a a a a I ú J á m à v W J N J s b b b b b	grammatical
+a a a a a J f F j u k g F ǔ F z d b b b b b	grammatical
+a a a a a K q ě ò F X e ú O T j J b b b b b	grammatical
+a a a a a M D t P R ú B x K V ǎ l b b b b b	grammatical
+a a a a a N O K N z é j C ǔ H R q b b b b b	grammatical
+a a a a a O k k E m e n b ǒ c Y N b b b b b	grammatical
+a a a a a Q ǔ c j o l N M A v p R b b b b b	grammatical
+a a a a a R J Q E L q è J o E D M b b b b b	grammatical
+a a a a a S S h O W s ó q J F t M b b b b b	grammatical
+a a a a a T h ě Z U G W l I T O b b b b b b	grammatical
+a a a a a U x é i Q Q S I j F o Y b b b b b	grammatical
+a a a a a W è m T ě W F N P C á K b b b b b	grammatical
+a a a a a X O r o i P N P t d R ǎ b b b b b	grammatical
+a a a a a Y U K F z T W O n C r k b b b b b	grammatical
+a a a a a Z m f X P H x ó ù H ě n b b b b b	grammatical
+a a a a a a t x J p x F p C d ǔ u b b b b b	grammatical
+a a a a a c A n P x ě H k Z V v T b b b b b	grammatical
+a a a a a d O ó ò X j è m N c w è b b b b b	grammatical
+a a a a a e r i ǒ D H K L N ě ě P b b b b b	grammatical
+a a a a a g G n x á t t F k l W á b b b b b	grammatical
+a a a a a h d o S ú J P ó è s F q b b b b b	grammatical
+a a a a a i w p c a l L P V Z T P b b b b b	grammatical
+a a a a a k F K v L s H o Y F B d b b b b b	grammatical
+a a a a a l d è ú V y Q e g B Q a b b b b b	grammatical
+a a a a a n á m h P b á G ǒ à ǒ l b b b b b	grammatical
+a a a a a o G n V ú Q Y é à T K f b b b b b	grammatical
+a a a a a p c f Q e t H ó V T ó F b b b b b	grammatical
+a a a a a q u W Z ǒ h M k u V r é b b b b b	grammatical
+a a a a a s A ǎ g J v S J E q m z b b b b b	grammatical
+a a a a a t V j Y ù ǔ w ǒ z a A N b b b b b	grammatical
+a a a a a u q d K n O f Y m G T u b b b b b	grammatical
+a a a a a w ò h T s c G F u s z z b b b b b	grammatical
+a a a a a x W L p B O h x ǒ ǎ N D b b b b b	grammatical
+a a a a a y s i x ǒ é U W ú N w s b b b b b	grammatical
+ù ù u s p C p b u W Z s é y ǒ S f W o ù è p	ungrammatical
+ǔ B è U n M C d z r G y M é v y w i s C R è	ungrammatical
+á T ú t P U P s L ě P J J z K F H ú i ě w L	ungrammatical
+à m E U l q E ú i ù C U à V s H x I h E ò x	ungrammatical
+é à r c S u n V I O G Y à ò F B g X F k x ò	ungrammatical
+è ǒ p S J W p y L O ù è F ě t G o P B V á A	ungrammatical
+ě V ù I e X ò à ǒ à C k m Y Y ò ǔ C Q h e M	ungrammatical
+ó j M m B Z ǎ è k b i b l à A H Q ě s e x f	ungrammatical
+ǒ ǒ P w á ó T D á d o X ǔ f Z m ǎ S x K é v	ungrammatical
+ú S X u B E d Z K i A G é z D X U j ò t U a	ungrammatical
+A h Y p è B L N C r x k u Z c N à è m j x B	ungrammatical
+B s K o j i f à L a d v B K e à ǔ w G a F V	ungrammatical
+D à O f b q W ù d v ò c k Z ǒ H o c Y z z x	ungrammatical
+E R ě n O t L L j H H w T I u W I Z O y q n	ungrammatical
+F h ù H I g ǎ v V E N o X B p W b á b t O n	ungrammatical
+G z C T F f a V R g X t o q K H B x ě Z é I	ungrammatical
+I K k M ǎ a P g e T y ě k S w q Z V ù Q N n	ungrammatical
+J T y a m E c x ò p ò R T T q U B E b R ú e	ungrammatical
+K r v n ó p ǔ ò E w Y H ó N Z j m à L L w h	ungrammatical
+M è m ù ě A á P w Z v x B t K h h B n S á o	ungrammatical
+N N m Q J I k á e a L T w E a á j ó I B t T	ungrammatical
+O X B g M l N l U ù y F R F N x a G j ù ú g	ungrammatical
+P o Z Z V ù F r t j t ǎ t ǎ b M J Z à ǎ c Z	ungrammatical
+R é W Y a P b V R ò m c R K b l l U t f b q	ungrammatical
+S P d i r ú q ò ù x p O o I Y G á d L C h y	ungrammatical
+T X T V D P ò s p è I è ǒ X s v E R c x G S	ungrammatical
+U i F R q g R z P x Y l ó U S P o ù c F m p	ungrammatical
+V t m k ǔ d S t ó F è i o ǒ Q v j g ú ò e è	ungrammatical
+W x B v B c C N C G k N i x K h C a e O F ǔ	ungrammatical
+Y B ù h ǔ U ě N ǎ s K g y W b u y x Z k Y u	ungrammatical
+Z c J P V è p d l J u R ǎ e d ù l è à S ù q	ungrammatical
+a f u ó Z W ǔ V c Q T M N L ù ǎ D O y é h b	ungrammatical
+c é t T ǎ M v e e E s S O o á x c è M j v Y	ungrammatical
+d I à a V H K U j C i p ǔ n N è o g c X ǔ O	ungrammatical
+e V U o L T t è R p ú I e ǔ N ǔ H e G è r v	ungrammatical
+f m g ú U p o b E S n n ó P L p T ò V w é V	ungrammatical
+h ò v n k A S w S I i F ò l r b Q ǒ u ǎ b G	ungrammatical
+i Q ú à ǎ l A b K o R Y Q ǒ E n T F Y à n P	ungrammatical
+j y o ǔ X u é j t z à N o o M n Y z B A S B	ungrammatical
+l N ó o i W W S P ǒ ǒ I T i é ě w ǎ á s ě S	ungrammatical
+m v C G ě u j Q O P U ǒ c g h X I P N è e J	ungrammatical
+o L h ǒ t z G L ó à g k M e v Y Y t J M N B	ungrammatical
+p O T è ó ǔ T h v Z m O q j u b I g ǎ w f O	ungrammatical
+q b f v c b R o w Y q ě B D T X S à ò P ǔ i	ungrammatical
+r t è P R c W b h a R ǔ E H X x j ǒ T W a C	ungrammatical
+t ú P c m T Y I O E W Y d g g O ò C p i t ò	ungrammatical
+u d h g W ě m R Q t n a à Q O á x G v f ǔ V	ungrammatical
+v p ò f N ě R A I ǎ t w á Z W n D T s o ò j	ungrammatical
+x à O f Y r X n ǔ W a v B d é M m I e A ù S	ungrammatical
+y Z p x t I ǔ O ù B d ò q x R E ǒ v U ǎ w á	ungrammatical
+a a a a a ù ǔ d D Z n e n K à d ù I b b b b b	grammatical
+a a a a a ǔ G ò k f D W f q s D Q c b b b b b	grammatical
+a a a a a á N n Q á E f á ǒ K l ó B b b b b b	grammatical
+a a a a a à L y ò C z ě V l è F n c b b b b b	grammatical
+a a a a a ǎ p b ǒ à U y Z e w S d n b b b b b	grammatical
+a a a a a è ú J B ǎ J s L m K z v x b b b b b	grammatical
+a a a a a ě W u o H X U s D a R p z b b b b b	grammatical
+a a a a a ó V m c ǎ Q e d Y h y M p b b b b b	grammatical
+a a a a a ò i v é ǔ K ó ú é á à è ǔ b b b b b	grammatical
+a a a a a ú H v à W e u ǒ z y L W b b b b b b	grammatical
+a a a a a A T A ě ú Z t X C Z N r w b b b b b	grammatical
+a a a a a B s Q L M k C W W u ǔ b K b b b b b	grammatical
+a a a a a D ò N z G s u z q L v C ǔ b b b b b	grammatical
+a a a a a E Y r A C z X H R q f ó c b b b b b	grammatical
+a a a a a F v G t g x m w l H i é ě b b b b b	grammatical
+a a a a a H B o i à á s E M t K k ǔ b b b b b	grammatical
+a a a a a I X O á l u X Y Z L s X ǒ b b b b b	grammatical
+a a a a a J p l v c ú l à ǒ v b ǔ n b b b b b	grammatical
+a a a a a L é ó Y ǔ E h X l d Q è K b b b b b	grammatical
+a a a a a M U ó Q j T i Y l ǒ à j V b b b b b	grammatical
+a a a a a N k y w v E W K R i V l N b b b b b	grammatical
+a a a a a P ǎ ě S ó X g x Z c á V s b b b b b	grammatical
+a a a a a Q L ú L ǔ J x I M F l x e b b b b b	grammatical
+a a a a a R e J c f W B c r W V D y b b b b b	grammatical
+a a a a a S v c u h v K ò I r á i w b b b b b	grammatical
+a a a a a U E p ù v R N á u ǒ M O m b b b b b	grammatical
+a a a a a V R c Z V N v ǒ y Y M s S b b b b b	grammatical
+a a a a a W b z v F d x q à t ǔ à s b b b b b	grammatical
+a a a a a X j F m u R M A I x q b k b b b b b	grammatical
+a a a a a Z à m s W E V è Y D u p K b b b b b	grammatical
+a a a a a a X à D r b Z C m c Z q ú b b b b b	grammatical
+a a a a a b t i H ù Z A t m T ǎ ó H b b b b b	grammatical
+a a a a a d Q C r A ǒ r P c ě L V ǎ b b b b b	grammatical
+a a a a a e e P K I f Z ú ú ǔ V L C b b b b b	grammatical
+a a a a a g á z q ù t k j c p u ǎ J b b b b b	grammatical
+a a a a a h L z j ě ó h F ó n J ǔ R b b b b b	grammatical
+a a a a a i d m u X n S t j x W X ě b b b b b	grammatical
+a a a a a j z ú R m á j i à v è Y O b b b b b	grammatical
+a a a a a l I ǒ s P G k A C H b m k b b b b b	grammatical
+a a a a a m f Q v G H u ǎ o Y D Y A b b b b b	grammatical
+a a a a a o ù t Q z ú x c G j é Z ó b b b b b	grammatical
+a a a a a p L á s K h ě è w w w d C b b b b b	grammatical
+a a a a a q l D n T r O y é x w Z R b b b b b	grammatical
+a a a a a r q K F Z ú Z T x Z O J ù b b b b b	grammatical
+a a a a a t ǎ c H D ǎ à ó ú ǒ ě ě C b b b b b	grammatical
+a a a a a u E M b E ò Y Q m I á ǔ s b b b b b	grammatical
+a a a a a v O h N M d Q N ǒ s d E S b b b b b	grammatical
+a a a a a w c d U y R é é é v p o ǒ b b b b b	grammatical
+a a a a a x q ò ú v Z x J h P n y J b b b b b	grammatical
+a a a a a y w à M m e S G ě N z b S b b b b b	grammatical
+ù ǔ N i q è r m m d D á O J y r H ǔ U Q G g g	ungrammatical
+ǔ C é G D n N s T T t è U O ǎ w y x ú P g ò t	ungrammatical
+á g v L g o I j ú a b G á è F p t G P A e d ò	ungrammatical
+à u r o D x R v K Y d ǔ j v ě p e q e I Y ǎ n	ungrammatical
+é E T è k y c h x H d ù I z G i c z M O n y E	ungrammatical
+è X à è H H e p P D ě p v r h W s U Y à ó O H	ungrammatical
+ě h p p z L U ó Z é x ù B g K O G A v c H c o	ungrammatical
+ó r o T a ǎ Y F e a w W u g M ú E à o r x x ó	ungrammatical
+ǒ ú L o O Z Q u ǔ f Y P ǔ n è b ǔ W ě à T d r	ungrammatical
+ú c ǎ V r P i o à F z D Z x q u r c ó G A á H	ungrammatical
+A t a b f c j H T R o a k O x E m r b x b z P	ungrammatical
+C á ó Z e F f v F t b L Q p u z ò x G á ú E à	ungrammatical
+D K i G r m ǎ R m C E B w K h n n e ù z ó n ǔ	ungrammatical
+E T m O J u R S M ǔ f b ó i w ǎ V ǒ ò ǔ v r n	ungrammatical
+F d Q s ǔ w z ó G ù d e Z h U m X v B i b M ǎ	ungrammatical
+H é H u U K d l T C ǎ r P U Z l I h q c à i k	ungrammatical
+I I M x M é ò ú s S ò Q L n K c N á i ú u l u	ungrammatical
+J N g ú e C Z L H D B k I N ú s O u q j X s ǎ	ungrammatical
+K V N d O ù E e ú M Y U U m K s c k h w T O g	ungrammatical
+M à w V k w ó J N t R C D F n m Y ǔ è O ě T é	ungrammatical
+N K C f A A a y i z k j è S R t m J s é c ǎ Y	ungrammatical
+O c w L X é ǒ r p U T A O J r ú è X x k j P é	ungrammatical
+Q ó G K X f P B ó i s ǎ a x h Q á n z x r R L	ungrammatical
+R O u s b ú r y N J v ǎ V v W A G g m ù L P X	ungrammatical
+S d c D s s q U s E ó b J D N s m p A z D Y R	ungrammatical
+U á ě I á q ú v W ǔ i z u z N N v b W d l V J	ungrammatical
+V E I b V i J D V b J g r ò j y è b O I T O q	ungrammatical
+W Q H V M i E C D é Y è d ú q ú s e B W r J n	ungrammatical
+X i ú ó B e y ǎ p c H m à U s g F c l N f T J	ungrammatical
+Y r F y ǒ U E W z ǒ S a ǒ K á S C à ǒ o c a ó	ungrammatical
+a N ǔ f k N P y h M B s s D V E Y g D i M ó a	ungrammatical
+b Z Z J P A x B C á f J b T Y C á Z Y o l è K	ungrammatical
+c m u m B c r S c o i M W q W C t n M o h e a	ungrammatical
+e à W à à n è C D F W e è i V h d ě S e z l s	ungrammatical
+f V k X q T K ǎ G a g U Y o à ě P L s p J n b	ungrammatical
+g k R z E h K y X ú B B è ù U u s F s T L ǎ Q	ungrammatical
+h p p B P é d h Z T t u r L a Q è Y é T p è O	ungrammatical
+j ú ǔ P V ú S é T L A b p g G R à è A h V p N	ungrammatical
+k F W B R L m I ě p b à ě O R V ù H A O è T J	ungrammatical
+l e D k W o ǎ ǒ z C ǒ K K y ě f ǒ j C A E J y	ungrammatical
+m o L G o m Y N á ú P T K ǔ y n p T E H I F j	ungrammatical
+o é Y b m y s ǒ s E à P ù U è V l T S B q N á	ungrammatical
+p N f u à m v G ú N H w u K ǎ d s M J ú M l D	ungrammatical
+q q ò n E f Y ǔ C x s p J i x l c c b N X t Z	ungrammatical
+s ǒ é i J e k V E G F o ó K K m Q n e è ě é M	ungrammatical
+t S q á ǒ ě O w r H v k X R G E U X t V i e à	ungrammatical
+u y j S E g n D à k I b Y F f F D z V Z ǎ W e	ungrammatical
+w M K V ù à é J m ó p ě T j Z X N b u l è V j	ungrammatical
+x c á g B R b ě T k P H p H K H ù f J n l t M	ungrammatical
+y f H X S é m q k S á r g ù é R M h V è B a ě	ungrammatical
+a a a a a ù ù W B v E p ó ě g ě r D m b b b b b	grammatical
+a a a a a ǔ I g E G O F V M ǎ C S y c b b b b b	grammatical
+a a a a a á T w ó L a j t M L i x y N b b b b b	grammatical
+a a a a a à w w G i z d q L ǎ H é Q a b b b b b	grammatical
+a a a a a é ě x D u K u c ú J c J R E b b b b b	grammatical
+a a a a a è M ǒ I a ù ǔ O A à á U G S b b b b b	grammatical
+a a a a a ě m á n á M J w ú s A P o T b b b b b	grammatical
+a a a a a ó z C Q ò R o s t K K B c w b b b b b	grammatical
+a a a a a ǒ M H p K g f W V n x J ó k b b b b b	grammatical
+a a a a a ú X c U W l K B O M R G g ú b b b b b	grammatical
+a a a a a A i e h K o c V K e K o x Y b b b b b	grammatical
+a a a a a C A q i b ǒ x k W k Z L R P b b b b b	grammatical
+a a a a a D T X V p q I l u a C P E á b b b b b	grammatical
+a a a a a E e e ó K F u U à r à ú Y i b b b b b	grammatical
+a a a a a G ó ǎ A N T C é ò K d ó f U b b b b b	grammatical
+a a a a a H E r D ǔ Z g ě u K j v Q i b b b b b	grammatical
+a a a a a I Y O ú u g q N l ó w r g W b b b b b	grammatical
+a a a a a J n r l á ó I k r R A X E h b b b b b	grammatical
+a a a a a L ú q D A W p T A ǔ ǔ H t ó b b b b b	grammatical
+a a a a a M R v ǒ x P ú Z e i G z R ù b b b b b	grammatical
+a a a a a N p j L A g Z V R F u ě O j b b b b b	grammatical
+a a a a a P ǎ k y x ó A ò b k è q ǔ z b b b b b	grammatical
+a a a a a Q F k h K b X G c é ò ǔ a g b b b b b	grammatical
+a a a a a R T S D U O I p Q Y O Z ó l b b b b b	grammatical
+a a a a a S m n à z e z R K T S ù H m b b b b b	grammatical
+a a a a a U ě Y i ò v E é J J t é á N b b b b b	grammatical
+a a a a a V E z Y Z W J n ú W D d E t b b b b b	grammatical
+a a a a a W f v y V ù y ó ě s q è n ú b b b b b	grammatical
+a a a a a Y ǎ p m s K T G W ó y V A Y b b b b b	grammatical
+a a a a a Z J d C g O p é x L h Z b O b b b b b	grammatical
+a a a a a a Y K ǎ D A S C N p o ǒ c z b b b b b	grammatical
+a a a a a b t F ǒ O y t l G ò v à ě Z b b b b b	grammatical
+a a a a a d E O c r a e ǒ A B c v y Y b b b b b	grammatical
+a a a a a e K ò q K p W V G à d u N ù b b b b b	grammatical
+a a a a a f n o B r p F ǒ s C r f r P b b b b b	grammatical
+a a a a a h A i E u S o I ó U y ú e y b b b b b	grammatical
+a a a a a i L d l ǒ W E k á ú I X O j b b b b b	grammatical
+a a a a a j a d l L l I C z W v ú R z b b b b b	grammatical
+a a a a a k q z V r A ǎ ě w Y M u A D b b b b b	grammatical
+a a a a a m ú s ù D f w f y S t n ó M b b b b b	grammatical
+a a a a a n M N Y P J ǎ I T k V r ò V b b b b b	grammatical
+a a a a a o a ǎ C ó ǎ p C p p n Q M U b b b b b	grammatical
+a a a a a p i q P á v h A S J O E b f b b b b b	grammatical
+a a a a a q v J M b R c o C d e ǔ O ò b b b b b	grammatical
+a a a a a s ò ǎ ǔ Y g q k z c M y H a b b b b b	grammatical
+a a a a a t H O w M e e a W ù D Y q M b b b b b	grammatical
+a a a a a u N l N b j x ǔ à ò m o V t b b b b b	grammatical
+a a a a a v t J D i v S U O I w l k m b b b b b	grammatical
+a a a a a x Y m S h D ǎ n ǔ ò O O n è b b b b b	grammatical
+a a a a a y m j b x e f M ǒ X Y B J W b b b b b	grammatical
+ù ù F g u u D ě J a m r F r Q v q E J J v q z è	ungrammatical
+ǔ M ò N H ò é z i m c p ú ó ě G M é F a D x G y	ungrammatical
+á d G d s c N y L c k c ò U f v r ǎ q v ú C ò g	ungrammatical
+à p ù d Q D w ǎ B r X H V R ě H e D e X B á O h	ungrammatical
+é G r e à ò H é m B ǒ G è R S ú O W á F à é X A	ungrammatical
+è Q i P b Y V T Z W h H t l q O ǔ Q p ǔ w F ú V	ungrammatical
+ě m é à k v ǒ r Z h d D I L m H á m f w o ù c à	ungrammatical
+ò ǎ Q à B f N v W f Q b R N w m è h Z b è O X g	ungrammatical
+ǒ U h F g p é x T D l F ú S è ó c Q l K Z M n u	ungrammatical
+ú k u M R P r ě ó M t ǎ N C d k M D f W u ò g S	ungrammatical
+B G Y y é Z y ò S à f e r ǎ d i k L n ó o W Q b	ungrammatical
+C T O ǒ H i V X s c h é é é ú L K N c B X ó r t	ungrammatical
+D o ě U v o N i A ó P f é j h v v é R ó C y á r	ungrammatical
+F F e R d S b p r Y d E d O l N ó i à ú u f è x	ungrammatical
+G e b M d C K Z x R T P E R q ǎ s H y g m y s F	ungrammatical
+H x z D E A è g r d ǔ C á X S j Y i t á I ò z ǒ	ungrammatical
+J B X b c ě w C W è p g ǎ u O D J W V U l N u Z	ungrammatical
+K U ò V g ǎ á ó ò w l D A P M a R n ǒ S E ù i i	ungrammatical
+L b w c I E o V T c H è G i c h W N x d Y c n é	ungrammatical
+M v o á Y h D r J C s Y J a Y c f Q Y Q C g y i	ungrammatical
+N z è t b x y A B P m e ě p ú B X v d v R w S x	ungrammatical
+P ú V R z ò T t W ǎ ǒ P t Y t ó ǒ á R A y u d é	ungrammatical
+Q H ù H B ú o A r S U E R V b a l L t z K S T W	ungrammatical
+R Y u a Y é f o M j S J p f p á Y ǎ X T Q N Z o	ungrammatical
+T à R á s Z M Z A R ù d U B G ú y B m I X c A N	ungrammatical
+U a G B Y n T l l y Z H C L k X T Y Q ò l N n l	ungrammatical
+V s J m x ú l I L S a N p Q C y P q u è D Z V é	ungrammatical
+X ǎ Y ó g k j F c e z M P F u L h O q R o S d t	ungrammatical
+Y è w u C n C S J ǔ t á H A Z H L F C ǒ S v ǔ o	ungrammatical
+Z C s A ú C H E T T n U á C u B à r k á Z U ǒ V	ungrammatical
+a a Q E N m f o ǔ à ǎ P h ǒ x é H i S o r L S N	ungrammatical
+b i K M b Z C S G m W z i P g M j S H o b è á K	ungrammatical
+c o B X f D S Y T u W G L B m P q á M z L I u i	ungrammatical
+e B N x O B Z i t c t w n H v ǒ X ù L ǒ ò M I á	ungrammatical
+f M q Z c K j ǎ x H F W ù é J b e ǎ a a K q c i	ungrammatical
+g e r a t j e a è M ú b D j q w o L W è K ǔ c b	ungrammatical
+h x B I D U p a S á x N L á r ó ú u v G è ú V h	ungrammatical
+j ó R X à e c E b U d ó u k è W o A B q á z ǎ w	ungrammatical
+k f p R M w Y ú ò t o ǎ ú N R E I q i Q é B U è	ungrammatical
+m G ú e q K z ě ě ǔ w ù L T d z P n h G r Q y L	ungrammatical
+n L g r O ě t w P u Y z U f U l ě I ǎ U ǒ á p è	ungrammatical
+o Y q ǎ c I y s ě n Q W i I R j d I F J ǎ à ǒ f	ungrammatical
+p r c i ó y D ò R r a S l M ǎ é f l A R H l l D	ungrammatical
+r ó M N o ó ú x t è l J t k ě O N N ǒ ǔ U Q o M	ungrammatical
+s T M y P Z H y w w A V ǔ ǎ u U é s ò E á ě b s	ungrammatical
+t e à Y e w ǎ X c ě à E s ó E q k y ó f è s J O	ungrammatical
+v ǎ G J B v l T ǎ j d K M l w ó á E ě I c K ú e	ungrammatical
+w K ǔ v A i è g á K S Z c é u n é N k H ú z O O	ungrammatical
+x P n B E S y O d u r h r ù J W k S H B T L q S	ungrammatical
+y b x ó S ǒ e ó K z Q P r B O s i x k H Y t N D	ungrammatical
+a a a a a ù ù u è S m à o p á ó ǒ n T Y b b b b b	grammatical
+a a a a a ǔ B i t m p s z a p v ǎ P O w b b b b b	grammatical
+a a a a a á Q p i v Y é j Y q E T D Z S b b b b b	grammatical
+a a a a a à o l o L s k V G P Z J v B ó b b b b b	grammatical
+a a a a a é ú H L a L c s ǒ K O a T Q á b b b b b	grammatical
+a a a a a è G T X ǒ ú ù A S N C b k m ò b b b b b	grammatical
+a a a a a ě O F q ǎ e p U ò W n ù a h Z b b b b b	grammatical
+a a a a a ó q P Q P y á U ù L ě à l p s b b b b b	grammatical
+a a a a a ǒ ó Q Z w O ǒ c p ù K e J ù q b b b b b	grammatical
+a a a a a ú L g Y b R g H z a k T u r P b b b b b	grammatical
+a a a a a A b c Z h G F I l m g I l V e b b b b b	grammatical
+a a a a a C ú I T A Y c w h D F G V á g b b b b b	grammatical
+a a a a a D T á r t Z N ǎ D u Q j ú M t b b b b b	grammatical
+a a a a a E t D ó J w b m O f f ǒ f ě e b b b b b	grammatical
+a a a a a G H M C é I u T O w Y G è d t b b b b b	grammatical
+a a a a a H X y è q l a ù ò j ò j S G p b b b b b	grammatical
+a a a a a I f ú p a e c K f Z Y B B W j b b b b b	grammatical
+a a a a a J u ǒ a D o N W Z k k l n m á b b b b b	grammatical
+a a a a a L D J G o U C u h I X s q á E b b b b b	grammatical
+a a a a a M Y D b m á T Y M f q G h k I b b b b b	grammatical
+a a a a a N v à n Y y G è i h I p a ú m b b b b b	grammatical
+a a a a a P ú i I X v x S è F w r P E ó b b b b b	grammatical
+a a a a a Q J ó W u x é A U ù N Q P ò F b b b b b	grammatical
+a a a a a R M à y U T á A g p è s C C C b b b b b	grammatical
+a a a a a S d M f q Z n K v ú U é ǎ E à b b b b b	grammatical
+a a a a a U á ě d y b à B m Z y G x U C b b b b b	grammatical
+a a a a a V P ú p Y a X j B j a x L i P b b b b b	grammatical
+a a a a a W b G ò ú Q d é C V D l N H v b b b b b	grammatical
+a a a a a X k c o b A I J H ú G p r T v b b b b b	grammatical
+a a a a a Z A m ě n á b R w L L o ú ó C b b b b b	grammatical
+a a a a a a C C F c r A D ò Z ò m Q U B b b b b b	grammatical
+a a a a a b q R H ò n U M v L O ú b a L b b b b b	grammatical
+a a a a a c w t h e q h ǎ I v è h ù O y b b b b b	grammatical
+a a a a a e ò q t q A ú J I v B ó ù à R b b b b b	grammatical
+a a a a a f X P K m P D G o B R D V c c b b b b b	grammatical
+a a a a a g a j G m s E R N R w á V l Z b b b b b	grammatical
+a a a a a h m G ǒ v h ě j P W U T ò B Y b b b b b	grammatical
+a a a a a j ǎ N ǎ z á Z ó F I W M é P ǔ b b b b b	grammatical
+a a a a a k e b g i N R v y ǔ t C H A c b b b b b	grammatical
+a a a a a m è W H p X b y D y c d P Z W b b b b b	grammatical
+a a a a a n L E Q C ù ǎ q ǎ C V x L q ǎ b b b b b	grammatical
+a a a a a o f d l L x q b h H ó m i ǒ o b b b b b	grammatical
+a a a a a p t á á X T H s ú ù ò p W h G b b b b b	grammatical
+a a a a a r ò E E P ǎ ǒ B è o O z u N r b b b b b	grammatical
+a a a a a s N ó c P N C è q M O t ú w c b b b b b	grammatical
+a a a a a t f ǎ u c O u o S I j ù ǔ ú X b b b b b	grammatical
+a a a a a u m u u n i p G B d d v V S Y b b b b b	grammatical
+a a a a a v s O s Z O Z d ǎ O p D K f X b b b b b	grammatical
+a a a a a x N Y T X h p q Z h h B Y u H b b b b b	grammatical
+a a a a a y n ù Y u M ǔ W k l b c X e Z b b b b b	grammatical
+ù ǔ ě d ò j ǒ F g q i V O s F k R y L d n X n e J	ungrammatical
+ǔ A M V q ǒ D y è A c i ú L C N e ǎ P M d W l D à	ungrammatical
+á U P z j á Y B E q F j x b ú k j S j b c P Q c á	ungrammatical
+à j H k x ù Y H ó A m Y c k l Z H z J W r P a C q	ungrammatical
+é ě G L z i b ó ǎ o c ò n c q ě g á ú o è j c x i	ungrammatical
+è K V z a b r E K o u V O N P m J O w D ǎ p v O A	ungrammatical
+ě W Q s ǔ j Y h ò ù M N z T J ó c F g l P o Q K O	ungrammatical
+ó r E O W ǒ g I ě G M g e l o P á u Q j W è l J y	ungrammatical
+ǒ B l I I f b n Y V M P G T Z e j ù v U ò à s è J	ungrammatical
+ú P D P j u c O c r q Z K r g Q W é Q i ù Z j ù U	ungrammatical
+A f I d V a F á U S P t X j M c à n a è b Y g V m	ungrammatical
+B z ù Z v ù s Y W g w k C Q C l W M q M u è l A t	ungrammatical
+D I n F e v t l T d N A Q q r é i ě Z J r à V y A	ungrammatical
+E N w u i ě v a é O z f S O m é V T l Y x ǎ I H U	ungrammatical
+F f g o J L k á ě Y L y t z F q C ǎ á E z u N ó x	ungrammatical
+G y ǎ F ǎ U n i è h W x s V ǎ L m V á R X w v L T	ungrammatical
+I á ě S p ǒ t à ě j f K j P c h ǔ l O i X m a ǒ j	ungrammatical
+J F G b è Y G f ǎ b C J ǒ á à g ě y ò j x g K S v	ungrammatical
+K W f s F Y r ù X k l R v D o N ǔ ú K i ǒ W H u ò	ungrammatical
+L u f k é D h R j J P E á V K m U u k r v D O H á	ungrammatical
+N P B X A H J u A ú w N l h W t p ǒ f z V j l o D	ungrammatical
+O c N a ǒ E F Y N F r r K m x i ù I L á Q r I ě F	ungrammatical
+P q z r G S e X á m è R c s ó ó ǎ j O t L r a s V	ungrammatical
+R á b e ǒ m ǎ ù v z E ǎ b I m h U R B Z w p L e j	ungrammatical
+S B C e H j é f L s H E ó M Q V Z M l ě J ú g Q O	ungrammatical
+T I s t w S ǔ E p u ú q é N M ù E f H ǔ i l Z E A	ungrammatical
+U x g X y s W I t l w K d á m J P E J o u E l F u	ungrammatical
+W F L v è C ě N a b r ǒ G s à w w q u ǒ L c C p F	ungrammatical
+X L K R b ú H n ǒ c ě è a ǎ X m z b T v ǔ i ǎ m w	ungrammatical
+Y W w I ǔ O z R ě à K X L f S P c ǒ t W ò S ǎ J c	ungrammatical
+Z q s ǔ K e G ǎ O j L v m ǎ D ú C ù T B è g d x f	ungrammatical
+b ù U P B s Y r E é u h ǒ Q o l ó M R w K P m f c	ungrammatical
+c E O r i ě é z ǔ O s ù j h h U g T ě Q B l T q G	ungrammatical
+d a ú n O V B D X v Y b O W L é S ú z p n A G Q n	ungrammatical
+f ù U y E Z W ǒ d G y ò h H W F é O u x r O f é e	ungrammatical
+g U y V q W E l j S d p W S W R S é à z X N ǔ w e	ungrammatical
+h o ó P o k X a á W J J R u C u c ù s n i i M l e	ungrammatical
+i w ú à u ě U à v K O c A c b ó t E a V è d D g F	ungrammatical
+k D M L v m D j ú d W z P m ù W u c e E o b ǒ S Y	ungrammatical
+l v á ǎ ǒ U ǔ a M Z I J Y n N C E è è P W á H j m	ungrammatical
+n F ǒ A D f ǔ g H p i b K j ě g k Y c g L H W F T	ungrammatical
+o W e j o w X t v è d G à m x ǎ L ó V á b X C q è	ungrammatical
+p p P A x h U è M l è u O f ú F S d c p ù q V N a	ungrammatical
+r ú Z S á E ě I U Y ě X ù p m Y j w W á f h o N J	ungrammatical
+s Y X t o f b z F á v k z b x ú n n W J q w á Y H	ungrammatical
+t t ǔ o J N D á O L v á C F O B ù U b g k p O à d	ungrammatical
+v C R A A y l à ó G d é O V C e z ǎ j y A ě T ò Z	ungrammatical
+w P C k T Q O n ù ǎ O D J é h j u C Z k c Q z Y i	ungrammatical
+x d m u J T Y S u e V é g ó Y u N w w I ó S y ě é	ungrammatical
+y t b ú á à Q y R X U é O l C Q G ǎ R ǔ n o ò J Q	ungrammatical
+a a a a a ù ǔ H ǒ D é ù U T e I o n S q k b b b b b	grammatical
+a a a a a ǔ è V O l m N B T D B m b J ǔ q b b b b b	grammatical
+a a a a a á ǒ U G B Y b l y B H l d W v K b b b b b	grammatical
+a a a a a à K A X E C ó l G D v g c R p g b b b b b	grammatical
+a a a a a ǎ N c V p J ǒ R q Y X a Q b z N b b b b b	grammatical
+a a a a a é e ǒ D á R z ù c I w ó Q L ù G b b b b b	grammatical
+a a a a a è w o i è l ě X r F u U I f W g b b b b b	grammatical
+a a a a a ó D B H ǔ ǒ à z w Z n ǔ b ù T S b b b b b	grammatical
+a a a a a ò L l p Q v z R n i M F ě ù F ù b b b b b	grammatical
+a a a a a ǒ P è V ě U G o X ǒ T a ù i J ó b b b b b	grammatical
+a a a a a ú r L l N A e ǎ j p U U s B à e b b b b b	grammatical
+a a a a a B J v N H f ǒ j Q l y ǒ ǎ J L K b b b b b	grammatical
+a a a a a C L o P c M ǎ j i O Y b f W l J b b b b b	grammatical
+a a a a a D o i B a ó é A m a H V é N K Z b b b b b	grammatical
+a a a a a F ě e w o t T t L à j r H l I I b b b b b	grammatical
+a a a a a G T I O X I Q à Z p x T d D ǔ l b b b b b	grammatical
+a a a a a H Y v a S T r Y s a è x B t A r b b b b b	grammatical
+a a a a a I q ě l G q t Y T s K C N x f z b b b b b	grammatical
+a a a a a K ǔ T V v y L K q J l é v i k i b b b b b	grammatical
+a a a a a L F R à ú T V y U U e z ù S Q w b b b b b	grammatical
+a a a a a M V ó z A D Y c n ǎ J G S E t g b b b b b	grammatical
+a a a a a N g w N o ǎ Z Q ù y Z ù O Y ó ǎ b b b b b	grammatical
+a a a a a P à B ó à g j O J M ò E f S X K b b b b b	grammatical
+a a a a a Q H F è q q h P r P z ǒ n ě ú D b b b b b	grammatical
+a a a a a R Z Q H R e Z y ě N ǔ y o y F i b b b b b	grammatical
+a a a a a S v c l ě M T t h c r G w s m K b b b b b	grammatical
+a a a a a U P ú n e s I w K è U f r b u G b b b b b	grammatical
+a a a a a V g i é H b a h ú m p F r h h ǔ b b b b b	grammatical
+a a a a a X à j J a x è n o m p s i l K ǔ b b b b b	grammatical
+a a a a a Y E h H o z t c S Z á q w ǒ è G b b b b b	grammatical
+a a a a a Z b ě A o è R n Q x x f J P à ě b b b b b	grammatical
+a a a a a a w E ó R V L R é D G Y h g I ù b b b b b	grammatical
+a a a a a c ǒ v á j o U é F N S T á e S u b b b b b	grammatical
+a a a a a d i r q ó J ǔ T d p a T k ò x O b b b b b	grammatical
+a a a a a e z g s y C K X ò j o ǔ w t ù ó b b b b b	grammatical
+a a a a a g J w v e F i ǎ t ǒ l ò l y U B b b b b b	grammatical
+a a a a a h l à T X ó q K ù n z d i v c t b b b b b	grammatical
+a a a a a j G ò f m u Q D ǔ x j U é ǔ i m b b b b b	grammatical
+a a a a a k V C ú v u Y y F u T J Z U g D b b b b b	grammatical
+a a a a a l m a Z a f g Q J R Q l Q N ǒ B b b b b b	grammatical
+a a a a a n H l Z ó P g M h H H ù e ǔ ó H b b b b b	grammatical
+a a a a a o S ǒ m é b C q H d z x C Q K W b b b b b	grammatical
+a a a a a p f b z à j F o l J V e x w ó Y b b b b b	grammatical
+a a a a a q p ǒ w W u E Y U b K g V m x U b b b b b	grammatical
+a a a a a s è ǒ d v Y d ò a N M è l Y T j b b b b b	grammatical
+a a a a a t Y S T à f Y h T G o ò X c ǔ M b b b b b	grammatical
+a a a a a u t c U q B S W M ò S B p O V ǔ b b b b b	grammatical
+a a a a a w à E a L D ò ǔ N p Y ǒ ú N v G b b b b b	grammatical
+a a a a a x C v a B F U ò Q h a y ù ǒ D à b b b b b	grammatical
+a a a a a y g B d Z C ú M i ǒ t f ě k ú A b b b b b	grammatical
+ù ǔ L N w m ǎ E x R J m u X é C s ú d g o q E g W á	ungrammatical
+ǔ E W P H F g Q p A à s g o j A f é y I J s A f è S	ungrammatical
+á W u ù á G é D ǎ u ǔ S w ú i L L f d W g q t N V M	ungrammatical
+ǎ á L u g ǎ Y D i c b a t q Z m O r I é X Q I á N ù	ungrammatical
+é B u ǎ b v m O C P a Z Z e y E ǎ W W r I f d D l E	ungrammatical
+è O K x á C K P J ó h M á m M ó P o h o m m l ǒ V v	ungrammatical
+ě f u r X Z u ě h s e T V M g r r D ǒ l I d à g ǎ A	ungrammatical
+ó t i l I T ǔ D ǒ á O X s ǎ H ù s S U T ǔ á r j S f	ungrammatical
+ǒ C z T M r R k h ǎ b o r B ó ě D I U j ù R X D ó ù	ungrammatical
+ú R P M è ó x g ò b o t m f I U k ú z ǔ T a n ǔ l c	ungrammatical
+A X n W é t E ú v t D F q c t C W u X ù ò S q A ù X	ungrammatical
+C ǔ t Y Z x v f G u u k e a n S B r é ù A T z L X ù	ungrammatical
+D M Y A á é ǎ C b f K r W b N A ò i K d p Y ò w H R	ungrammatical
+E k k e z ù ǒ U v ě D ó Y Z t M k A ǎ z i ó M Z a ù	ungrammatical
+G ù J ě ò è ò l ǎ ò A P c i b A ù y r é ǒ H l U d k	ungrammatical
+H A f J k V d r á è U ú L I o d N é f O O w d à X E	ungrammatical
+I R Y D m l ǔ j b U f ǒ t f Q e J e j k x G f F z Q	ungrammatical
+J p i K g ù n Q B h X á O F g Q C V Q P o D L R m X	ungrammatical
+L ò J Z X ò u a k I ǎ D e i ò R y U s X Q y w I z N	ungrammatical
+M P F D ě B M L v G k H X X F p H K z z M Z j R b o	ungrammatical
+N k v K a d y v ě ó M L X w X C T y J r O X f z L w	ungrammatical
+P ó T P N Z O H z M B c j R i T ù Z L K I è x t u ǎ	ungrammatical
+Q Q d é P C w H r A d W A t Z f k q N s x ǎ X i F N	ungrammatical
+R j B A ǎ H T L B c á F m R K p M g P ò L u v è ǒ e	ungrammatical
+S w i I t ǒ P H N H u K c J s ò E x ě b ě q U a p h	ungrammatical
+U ě y Y d D S ó H Q ǔ à w V g ǒ M f q ě l Y W N t X	ungrammatical
+V X o l J k G E Z O u s C N u ǔ e ù r ò d ǔ è F u I	ungrammatical
+W n H P n s M l W ú H W r k V i R I m S c ó ǔ f j N	ungrammatical
+X z m h ǒ S G S G ù i ó e Q C B p T M ù ǔ T I R s h	ungrammatical
+Z B D c ù ó N V Y f á d Q s B Z g O ú N p D X ó è x	ungrammatical
+a Z P f i r x ú C è N H U P n c é J D Y è ò b g C N	ungrammatical
+b v F V X C t O à ó H G A z b w U W V u T y ù z k H	ungrammatical
+d H s è E X p ǒ P h o E ǔ è I T t c Q a B k E ù S O	ungrammatical
+e j n R C ǔ W A ù F á w é Y A R C K O d C l B N v G	ungrammatical
+f m Z E ǎ ǒ ó h Y ù T P g G B F é p à N u ǒ n ù L S	ungrammatical
+h ǔ R J s r ú j e n p h O z K m X O á r o ǔ x é è é	ungrammatical
+i E d ò y i k z X p d U k F E é à ǒ T D N à ǎ o y t	ungrammatical
+j Q è N z Y X H R h C P C v m q P F C J h E G R E f	ungrammatical
+k c N á v u J i I à F I S m ù R v P M ǎ s R q D E d	ungrammatical
+l m H R B V T ó Q á C m O v ó ě á g Y C S g M S ú M	ungrammatical
+n F a á L e l t ǔ E ǔ D f L V ó H T b é P B s R E t	ungrammatical
+o T O à ǔ X t g ǒ B Y ò s e H E t M W ò G à á q B j	ungrammatical
+q ǎ V n ǒ n x C X o X g B ù ù U ǎ H W N c K X Q y p	ungrammatical
+r L A y Z K m o Q h à à A ǎ S ǔ u á L b H à s b H T	ungrammatical
+s e ò N g B W y J r V è ǎ ǒ ù à b à O f a H M I ú á	ungrammatical
+t m w a ě V D V W f O P Q m W V U Z M H k t Y j f F	ungrammatical
+v ó S r ě ǔ J S F e á h w ù ǎ ó k M M I V Q ó B ò q	ungrammatical
+w O h L o A j a X n U r ě w R E é p h D ě á P o á z	ungrammatical
+x S H ù B ě ò O y i S E w M q á Z e f T ě r R M ù q	ungrammatical
+y u A S M u F b ě q ú k V x Y D V I N P ǒ j z L X J	ungrammatical
+a a a a a ù ù Q T r ó ó ú á m w V ù ó T á d b b b b b	grammatical
+a a a a a ǔ O é d o V ó ù r r R y l ó n A t b b b b b	grammatical
+a a a a a á l p ú ó A a x h t b F n d é D w b b b b b	grammatical
+a a a a a ǎ ǎ á o Q B ò D P F j ǎ K e s O C b b b b b	grammatical
+a a a a a é P g ǔ w f m t R c V U O y g ě v b b b b b	grammatical
+a a a a a è s q W z H y D n J ò I Z a i m e b b b b b	grammatical
+a a a a a ó á j ǎ ò E f g X M w ǎ G h L L T b b b b b	grammatical
+a a a a a ò R S ú ò p Z m j T a ò z à c y b b b b b b	grammatical
+a a a a a ǒ o I S J u S è F C E f ú X v k c b b b b b	grammatical
+a a a a a A C E Y à h d U ú w ǔ o G q a ǔ R b b b b b	grammatical
+a a a a a B Y K ǒ g d ò X ó r à c H S o b m b b b b b	grammatical
+a a a a a C m y q W r d P d e M w V i ǒ I ě b b b b b	grammatical
+a a a a a E ò a L y p h i r C ù D ù Y ě C C b b b b b	grammatical
+a a a a a F C è U x w é l M Y P q o ǒ i K Z b b b b b	grammatical
+a a a a a G G d h D K y r N Y r O e w O á A b b b b b	grammatical
+a a a a a H b i ú i ò ǒ o f ǎ F b H H t h a b b b b b	grammatical
+a a a a a J à c J I b H v H y N W ù e Q n g b b b b b	grammatical
+a a a a a K O x e B v ù n J U à à n S ó ǔ z b b b b b	grammatical
+a a a a a L b d è b p k ó t b f f u v ǎ ù r b b b b b	grammatical
+a a a a a N è M n Q à a ò H F ú a f w ù g M b b b b b	grammatical
+a a a a a O R ù C M C F ó F U ǎ m W A T R U b b b b b	grammatical
+a a a a a P m ě Z K E N u M J ù j X T Y ǒ f b b b b b	grammatical
+a a a a a R ù w q S T o è M c B D ě D B h U b b b b b	grammatical
+a a a a a S B k c ǔ u G Y q E J é ǎ r h G f b b b b b	grammatical
+a a a a a T Q U m j g z s l A o g G ò R l l b b b b b	grammatical
+a a a a a U o L K ǎ á f A g m à R d é F f v b b b b b	grammatical
+a a a a a W à O K v é r ù ǎ n P Q S O f M ǔ b b b b b	grammatical
+a a a a a X N C O v W B v n m B l G z r ú x b b b b b	grammatical
+a a a a a Y Z G A Y D C C P K ó w X è ǔ é z b b b b b	grammatical
+a a a a a Z p E d ù x D ó ó J ù S b R O n b b b b b b	grammatical
+a a a a a a n p u G H E I ò A ú ó A Z à y X b b b b b	grammatical
+a a a a a c á O c I I x D B W l x B c A z V b b b b b	grammatical
+a a a a a d N b ě e ó ǎ t y ó R c P s Q l Z b b b b b	grammatical
+a a a a a e T W l Z P l d Q Y è O w ǒ F F V b b b b b	grammatical
+a a a a a f i L l t W è J ù è n s T I f R p b b b b b	grammatical
+a a a a a g i d w x a ú K Z ǒ o G M ǔ ǒ w è b b b b b	grammatical
+a a a a a i á D G ǎ w i B P á Q Q u i w ě e b b b b b	grammatical
+a a a a a j F E u à ǔ P o j O b a L w X J H b b b b b	grammatical
+a a a a a k L X E d b m p è P i d c R u t à b b b b b	grammatical
+a a a a a l c N U S ú e e b á ǎ L I C j C ù b b b b b	grammatical
+a a a a a m n o x H m M M v K j h J H ò w Y b b b b b	grammatical
+a a a a a o á ǒ l X ě w N W t R U y w j e e b b b b b	grammatical
+a a a a a p I R G k ú N L ù z r t K B C v R b b b b b	grammatical
+a a a a a q s c G I C m L o t d R ǒ n U q E b b b b b	grammatical
+a a a a a s R t Y F X L S d P B X V ǔ u z ǔ b b b b b	grammatical
+a a a a a t k E P é c X c I J k q A q ú J W b b b b b	grammatical
+a a a a a u p ú ǎ G S z m Z w m Z I g ò è S b b b b b	grammatical
+a a a a a w ó f l H p t l q W B e v X g r P b b b b b	grammatical
+a a a a a x U ǒ f J I Q A g C Q à T w T N E b b b b b	grammatical
+a a a a a y k R S u à c F P s i C ó G O P r b b b b b	grammatical
+ù ù L F q ǒ j z N p á u y G p B B o i V I ǒ U ǒ ù ǔ é	ungrammatical
+ǔ O v t M k a e ò N i l c c f a o r R ó O K A ú f c R	ungrammatical
+á o V j A r a i Y W ě i x è u ó ǒ z h y A x ò ǒ K j v	ungrammatical
+ǎ ò e u v l j I n y e E M j T p R P P s w B N H U V d	ungrammatical
+é H X ù o è n E p O ě ú ò E K e c y f Y l ǔ E b ǒ r w	ungrammatical
+è h s é k ě ě g à T ó r p h n n ó B e Z é I i o è J E	ungrammatical
+ě r A I L h h C ǎ Y p ě à j K D n é R S C é A p O u z	ungrammatical
+ò A N g e ǔ b ǔ e è I é t g ě D p n I l ó S t ǎ w e N	ungrammatical
+ǒ T X T y q K k u P w á ù u H J t f à Q H é H b t ǒ R	ungrammatical
+ú m X g g E w s K b y K y W ǎ L X O Y E F ú F Z d I x	ungrammatical
+A k g ó c u K w á S é U l á p j p p w g m l W l L o d	ungrammatical
+C á q R H w q L ò O G K N w X F u H N P b x Z I ó M E	ungrammatical
+D ě H u e P F L h é Q k G E y f u i G P ó q A i c U C	ungrammatical
+E d K n b ǔ ǎ c y ǔ R M k ǒ y c S O n Z L q i á M é q	ungrammatical
+F k ǒ D Z C u a G E y o x n F ǎ J e ǔ t K J Y V f x H	ungrammatical
+G w o T d à ǒ L á z ù S x l L h á X a O A K Q d x c x	ungrammatical
+I ǎ g p A P L i M y G m t p à l B h T K j s e ě J j W	ungrammatical
+J I K q r Z E g W m C G ú o ǔ t E T h M M p Q r v A Y	ungrammatical
+K h T ě b S h á t R s I c ú t H C p T ó h é v w G A ù	ungrammatical
+L x l á P D l C o ú ò J v b x D t N G E H E p J p r H	ungrammatical
+N G W x X R i q à W M V j C q h R x U á x W O H N D Y	ungrammatical
+O U Q q H W e ú ò p n f T W n O L M k e y á s K J K Q	ungrammatical
+P n D á n O F E j Q é m u é M f D b à o h w ě C A V F	ungrammatical
+R á ǒ U ù U a W N W Y ǎ f p T R S n ò I Q m ě R ù h S	ungrammatical
+S G X ù k D O w Q y D H á T m o d K p r t n k V L v y	ungrammatical
+T d Q v L ǒ j z C f P o q d S J k J R à c O t X á ú G	ungrammatical
+U v Z n ǎ Y t G X J I T i U o p A V w K y i Y ǒ m á x	ungrammatical
+W ó à s ú c p á q é B b L ú ú T W ó Y ù x ǎ w r K j ě	ungrammatical
+X K V Y t s J ǒ D u e á d x e l ù W ǎ d C A M M Z Y Q	ungrammatical
+Y Y é è f è ě g y H G O o k U g V G Y P N b L P m ǒ Y	ungrammatical
+a à R g ě t Y à g G O N S B b F k h t T c X E g P I s	ungrammatical
+b M v s s V ú ù E ǎ J ǒ w p ò j à y ó A ó H X v Q M c	ungrammatical
+c z O R D L R ó T a A ú J n K ù V á m è k J l O a Z j	ungrammatical
+e J z A ǒ ǒ S P à Z è p q A ǒ P é è V ǒ ú k L U m q é	ungrammatical
+f f ǔ l à m ú é P S ǔ D è R S Z y R Y v P J u b S G L	ungrammatical
+h ò y V n T G á ó f R R D I L I y q A P S E ò V ǎ h h	ungrammatical
+i Z j ǒ ǎ ú R ò h D t T e Y o j C W D S t y W y D ǔ F	ungrammatical
+j x ǒ l a h à n Y k é A k F ě B N W R Z b G k f M h T	ungrammatical
+l D O q ǎ k v l v ó ǔ E x o L C F ú G ǔ k Z x ú R c F	ungrammatical
+m O a a ú E R Y g c B C j Q L ù B W ǎ w ú B W ǎ ǔ K j	ungrammatical
+n g D Y i h s o G ú r ǎ a x G á K f ò t á ò F e b k J	ungrammatical
+o t M H U W ǎ e Z C V A V J z w D W V A I T w I Y c ě	ungrammatical
+q G x G M c ǔ r X e G d d W M w m ù ě p o o e g á v o	ungrammatical
+r b n ó F S M M K ú o O a b c Y n j x l g H E t à F F	ungrammatical
+s a i è o a q H C h n k á Q O r s l c k o è b n j ù P	ungrammatical
+t y W D o H T m b o E o W K à A è m k N o Z J ǔ L O z	ungrammatical
+v K o y y t E o g O b z f M A q o t é ǒ K a ǎ é ú m l	ungrammatical
+w Z é a ǎ m a B f p E g F ǎ X L I é N U T A G R á S V	ungrammatical
+x U a U Y h Y u ě w A è d V t è ò t S x p v ù i e Z U	ungrammatical
+y m F è f J X P F é ě D ǔ S P c K W n ú E a O G ǔ Y g	ungrammatical
+a a a a a ù ù è è v N k b ě A S p V u M a M k b b b b b	grammatical
+a a a a a ǔ J ó t L R r k á O z U f N l p i q b b b b b	grammatical
+a a a a a á Q ó s g o B à V ǒ S p y N d r r G b b b b b	grammatical
+a a a a a à U d ǔ ó x ú r m p ó S A r T F s N b b b b b	grammatical
+a a a a a ǎ v T A P t k N i ǎ d J i R r X T q b b b b b	grammatical
+a a a a a è à z v A e v K w t O á ǒ j O o á g b b b b b	grammatical
+a a a a a ě B D q n U l Q j c ǔ L r à u d R J b b b b b	grammatical
+a a a a a ó d M ǒ i ǔ ó x z ǎ è ú V y ě m C g b b b b b	grammatical
+a a a a a ǒ ǎ Y e b j v ò X X S s V i B n g B b b b b b	grammatical
+a a a a a ú U é q G F S x o A H è n X F I h L b b b b b	grammatical
+a a a a a A r m o K é a b X P o c T L c q D p b b b b b	grammatical
+a a a a a C é v e Y L r A I u s W C a p C ù e b b b b b	grammatical
+a a a a a D N v I W ù M y m é L F J A ǔ g f e b b b b b	grammatical
+a a a a a E q Q k H é O b f ǎ E z r S j R R O b b b b b	grammatical
+a a a a a G à f L P b A x t N k f H S Z N Q p b b b b b	grammatical
+a a a a a H J j ě è ó j T z H G i w h y Z ǎ f b b b b b	grammatical
+a a a a a I T B j Z ǔ y k f m K z R á v u L x b b b b b	grammatical
+a a a a a J p z E ú X i A F k Q O Z P L O x g b b b b b	grammatical
+a a a a a L I T Z y S M v c h ě v F o e A ó G b b b b b	grammatical
+a a a a a M m f m P h M u t b Q X J K b ǎ d J b b b b b	grammatical
+a a a a a O ǎ F z I M è à W u h y Q m J i e p b b b b b	grammatical
+a a a a a P N é c L h K j g x Y ú z a k O l p b b b b b	grammatical
+a a a a a Q a é ú O O p U d t A ù O c U d ó ǒ b b b b b	grammatical
+a a a a a R o B G K D ě L n ǒ l X ó é M m g ě b b b b b	grammatical
+a a a a a T ó m C ǎ B M b K i s ò P S A F K m b b b b b	grammatical
+a a a a a U E J m y z B f p è V H A w K W M L b b b b b	grammatical
+a a a a a V c m k L D j p v á H ú ě w u a Q ù b b b b b	grammatical
+a a a a a W q S v l l m q à v Z M h f j z è M b b b b b	grammatical
+a a a a a Y à i ú g s ó W w m ǔ I ǎ T N P à y b b b b b	grammatical
+a a a a a Z U b X u E ó f ě á è A ó ú P a g j b b b b b	grammatical
+a a a a a a y j t b z g j ò Q i q n a h r ǎ M b b b b b	grammatical
+a a a a a c D Z è b A L ù w s o h v J p r p i b b b b b	grammatical
+a a a a a d M J u E è Y à b h ǎ z ǒ ù M ǎ N N b b b b b	grammatical
+a a a a a e c p H R é m ǎ ò z e M H M b j B r b b b b b	grammatical
+a a a a a f x t Z ù B B p g a ò o à N M b K G b b b b b	grammatical
+a a a a a h à b B ò H S c I E V t ó i C H à I b b b b b	grammatical
+a a a a a i O S Q z u á ě L m k w N ó V v ǔ I b b b b b	grammatical
+a a a a a j a é O k P H b a n s ú H U Y t z ě b b b b b	grammatical
+a a a a a k u J E j W n p K ǒ V V M ò t G à m b b b b b	grammatical
+a a a a a m é I G A ù y à q J e B r Y V C R C b b b b b	grammatical
+a a a a a n D a ù á g A q ó V P I T g q z á A b b b b b	grammatical
+a a a a a o a g m ù Y t j O F S g F i m B B ó b b b b b	grammatical
+a a a a a p l K K o x v C ó E ǔ è x h Y S S g b b b b b	grammatical
+a a a a a r é e H m c b l m p x ó j M á à á ǎ b b b b b	grammatical
+a a a a a s à ǔ ù P o D w e o U k m o q B m H b b b b b	grammatical
+a a a a a t M Z i l Q x é ǔ e f E l ó e ǎ J x b b b b b	grammatical
+a a a a a u c è ú Q à B w d f i Z B d z R à p b b b b b	grammatical
+a a a a a w á Y k B ǎ o U P V ó Q i Q l e O P b b b b b	grammatical
+a a a a a x P A E l f I l h Z E o a T O u s z b b b b b	grammatical
+a a a a a y f s n V r J f N r z N U F j ó ǒ a b b b b b	grammatical
+ù ù R v ù e A a o F é ě k z ǔ f u p W ù d C h A é f g ě	ungrammatical
+ǔ ǒ Y a ú à o D Q s u b C k e B I W X R Y z B c R b ǔ ó	ungrammatical
+á A x R O V f ě V Q G z e q v ǒ x m g à r U x K u l R ó	ungrammatical
+à T E b a r H f C c i C T Y ǎ U Q G C u u k j L l Q V Y	ungrammatical
+é ù W K h ǎ r f L u f S u g a s Z H i M f O f g s F T h	ungrammatical
+è H ú I Z h U f N b è Y z J l D A p à w J c G k c J d ó	ungrammatical
+ě V ò ó D v E N ǔ Y y ǒ p é a è f M e q P M è S q g r M	ungrammatical
+ó n d ú H Z ě R J T m T J b ò w M U T k E b z n à ǒ y M	ungrammatical
+ǒ ó ò à ǒ u M m u ě J ò z é m J p è X á Z w I X w k F s	ungrammatical
+ú g h Q k i y P a n Y n ǒ C N L j v y V T ǎ M ò d D F V	ungrammatical
+A x q ù ù i T T ù Z h è f q ǔ n S ǒ j M V H i L ǒ è è ó	ungrammatical
+C D q y A é R i D Q o ǎ V E a Y B è S c ó P e ǔ d Y ǔ O	ungrammatical
+D S r I l F X S o u u p K ú u E e N H i ò g B g ó ò F f	ungrammatical
+E d ǎ ó q A p T I j á á p u D d ǔ ù e á U G t ǎ L R c ǒ	ungrammatical
+F u U p b o x M h z J U é P f A y ǒ p J U ǒ V w z à W p	ungrammatical
+H ǔ Z z K J M F w ò M N q S R w t y b P W ó D I ú W D ó	ungrammatical
+I D M ò Z r X F á á o U P j F ǒ L U r X W e d w r ě A r	ungrammatical
+J O Z é A q x Z f z á x à t L x X h w q ě ó è ǒ H t r ě	ungrammatical
+K U M u K á O M W k P s D H S A X ǔ ó K A s H ǔ z n e n	ungrammatical
+L g X L o S r O n ò i à ě W k V A N k ǒ Z à á ǎ v y V g	ungrammatical
+M q P ó à O h q R ó ú à o d A á a Z p à Q D W L I D d I	ungrammatical
+O M J h d è h ù C y W i W l O ǎ ě c u ǔ è t ú c h M G C	ungrammatical
+P j g P P Z v w F o V q d C z k v c T G f Y E H à s s h	ungrammatical
+R ó q Y Q m ǔ O q à Y V à p I y M y n D á D h e G A ú ò	ungrammatical
+S I á d L Z h o v y z ǒ é i T ò c x á K r u Y V e G è ǎ	ungrammatical
+T Z x D i g m ě V ù V ǔ á K r P K X R c ó c r J x á ǎ u	ungrammatical
+U f ó V w C h b K p ù y Q h x B à é ó y v o U g D u ú j	ungrammatical
+V l e z q à C ǎ j B f H h h U u m U l Z x u B S ǒ K N ǎ	ungrammatical
+X ǒ j W E á ù v r b i R ǔ N d B è i m è n è s i ó a N ǒ	ungrammatical
+Y Q x y l t i t G s w t x P W ó G ó j c k e f è j X E K	ungrammatical
+Z c f S d F i Z j x y ǒ v u z x U X p Y l M F A á T P ó	ungrammatical
+b ò p I c k E P é x D G ǔ O N M K T E Q w u X B f D k z	ungrammatical
+c O e W i O u e C m F f n k m L o q à A ǔ L R y U K ò K	ungrammatical
+d j Q I j Y v V Q è P ǔ M A O Q á n I G n G c j ǎ é n M	ungrammatical
+e y U ě è P s N T Q T G ú x M n w ú F A L G J B t P Q q	ungrammatical
+g D Z V U P P K o L ǎ h t t E c k H A I m d y Y K b n ǒ	ungrammatical
+h e ǎ S I x ǔ ě u j O ǎ o é Z A E B R M K è ě z K t r m	ungrammatical
+j ǎ O I ó ǒ ǔ á M I e q x j i t é p j u d Y U h l S u A	ungrammatical
+k b B e m y W d e ě l o F S k r s l A ǔ é ě T I i T k K	ungrammatical
+l n j a ǎ U z T à T Q é l h J ò r j ó ě L q h R ǒ P u U	ungrammatical
+m q ǔ b L N ù ú l z O d E p ǔ ú é P r q q A h z l e O C	ungrammatical
+o è G k u y i E r o S R d y v O L ó á l J n J C u Y ú K	ungrammatical
+p A K ǒ j I u Y t t x J p H w x z W s z ǎ d Z n c q b R	ungrammatical
+q V t H B w u H á k r w o C R x ú c r m i ǎ ù á Z O n G	ungrammatical
+r t g k x x U T à O J D I u F è ǎ U P h é j z z L é ǎ D	ungrammatical
+t ě V N N U ě y o a F k J x ù o l N è g c s ǒ Y R x q a	ungrammatical
+u T á f F X w i b U Z D n w i b T r h g ó d I à c y y M	ungrammatical
+v j w ù d B B m C y f y ǔ B h Q C U N E Q ǎ ě Y B n ǎ Q	ungrammatical
+w y t X L g M c B q N r L t Z ù F H á N r ú S ò r i z ǎ	ungrammatical
+y Z A e g y é X R á V a T d é l M m U s P o á o g k p l	ungrammatical
+a a a a a ù ǔ v C q Y l e R m ǔ E r K S ǔ T á N b b b b b	grammatical
+a a a a a ǔ W ě K e M Z l J I B K ǒ P P g ú A G b b b b b	grammatical
+a a a a a á f k ǎ Y A R E u R K a Y R w à r h à b b b b b	grammatical
+a a a a a à o O j J G B D ú è e W s R P s G D f b b b b b	grammatical
+a a a a a ǎ y a D i à t i d ě u u L T h è j f I b b b b b	grammatical
+a a a a a è D g D H h ǎ t R ò i T u n V X I q O b b b b b	grammatical
+a a a a a ě T m U l Z I ò e ǎ X O L ó J ò K v F b b b b b	grammatical
+a a a a a ó n d Z H L W q s r R r ó W F z P R l b b b b b	grammatical
+a a a a a ǒ D ú M e ò ú V j Y A ù q P z y ú e g b b b b b	grammatical
+a a a a a ú R H N ǎ ò f ǎ z X x è d X A U q h p b b b b b	grammatical
+a a a a a A X K u é o C ě X h à Z q k L X ě P ě b b b b b	grammatical
+a a a a a B m C Y j ě S q n p X á X F O H s C u b b b b b	grammatical
+a a a a a D B q e é w b W w w w I ě W D B W x Z b b b b b	grammatical
+a a a a a E U ù b S à X à W ò W v è k E n f è u b b b b b	grammatical
+a a a a a F l è r ò z ǎ j b x Q A W K I A ú a L b b b b b	grammatical
+a a a a a H ǔ M w ě à Q ù J X C S H é S b X N Q b b b b b	grammatical
+a a a a a I K o á r Y T y J L J n ě è C o q G ǔ b b b b b	grammatical
+a a a a a J U ǒ q L e o k ó q J N W t b j ǎ n V b b b b b	grammatical
+a a a a a K o B C G p ó à U ò U U R T c v U p x b b b b b	grammatical
+a a a a a L w ǔ i b ù Z ò ǔ r ǔ J w s N n e J e b b b b b	grammatical
+a a a a a N ǎ u F B à j C I q r i i é E à ǒ U M b b b b b	grammatical
+a a a a a O k ó f O ě q t è Q r ò y J E f h f M b b b b b	grammatical
+a a a a a Q G R Q ǒ A f q c U A i L ù ǒ R q à T b b b b b	grammatical
+a a a a a R a v I x v d e ǎ x à v R ò s á i v d b b b b b	grammatical
+a a a a a S p s H è ó x s p P r o b q M R à W è b b b b b	grammatical
+a a a a a U A I Q b d Q T á ò O s è C w d K F L b b b b b	grammatical
+a a a a a V W O G q k o ù c y V A Y w M á ǒ E W b b b b b	grammatical
+a a a a a W k q H ě ě R M j B v U Q ǎ à à N C G b b b b b	grammatical
+a a a a a X y ǎ ǔ k o G O ò J Y ǒ f x O T t R e b b b b b	grammatical
+a a a a a Z L è c m C B O ó F d A Y e Z à t y F b b b b b	grammatical
+a a a a a a c n ǒ a g o l à V ě B C p x j t ǒ à b b b b b	grammatical
+a a a a a b u X ú ǔ K j j ú L z m b V Q d ú t c b b b b b	grammatical
+a a a a a d ě q i Y K U X ó ú m r ú I z o F G k b b b b b	grammatical
+a a a a a e I z E c a E ǒ ě à M X é é U y c ò X b b b b b	grammatical
+a a a a a f j N u à t H G d g t è E R b ǔ K P F b b b b b	grammatical
+a a a a a g z K è W c D o t i ǔ á e é f F è á k b b b b b	grammatical
+a a a a a i F á D a s é Y ǔ p A M g Y G ǔ M ě c b b b b b	grammatical
+a a a a a j Y a ò k o I c n V a y w U O ǔ g C z b b b b b	grammatical
+a a a a a l à h T N U ú K T Q J X ù T p n I a T b b b b b	grammatical
+a a a a a m ǎ l ó è d p x N e b Q U J p d D x A b b b b b	grammatical
+a a a a a n F a i W H e e b ù à Z j è d o j X Z b b b b b	grammatical
+a a a a a o S P U i j a k x X l Y p ě s P C ǔ I b b b b b	grammatical
+a a a a a p g Z u s o D V a y Z j J u c n a t Y b b b b b	grammatical
+a a a a a q p p D ǒ f b ù ǎ M ǒ f s u D X C W H b b b b b	grammatical
+a a a a a s ù ǎ J j c s q g U h B á W V m ú F z b b b b b	grammatical
+a a a a a t V B R ǔ K v Y k è b Z h t r ě D i w b b b b b	grammatical
+a a a a a u k ò z C U i Z a A P D t J o r D H F b b b b b	grammatical
+a a a a a w é g V R ù S F á s C b S b V E y v v b b b b b	grammatical
+a a a a a x F ù q K A M á F m ě o ú c ò X T j h b b b b b	grammatical
+a a a a a y V n k p y Y g o à L y I è Z F ó á k b b b b b	grammatical
+ù ù a ò D t ú w b b i e ò D U W G L q U ǔ G T ò i M e z Z	ungrammatical
+ǔ ú h O i ǒ ǒ g n é v I J y r é M R ó K ǔ U R p j W E ú d	ungrammatical
+á S ù U I W t B s á K r R à P t Y i f é c l M T e f B O C	ungrammatical
+à h F é K à q R U N g W x o K t ǒ P U M v o Q L j ú ě L g	ungrammatical
+ǎ z S ǒ è K Z m A v G V ǔ j z s l ù b è é L ò y N b b d ǔ	ungrammatical
+è A a n e l l K y I z i è V h D Y G r u v T F I q B y s Y	ungrammatical
+ě N R ǎ P b Q C x ù q I é B à é T j w r m V m V f L á ò O	ungrammatical
+ó c x T C a V C s ě B A N ò o i y U ó x s J a T ò è U m ò	ungrammatical
+ò f ǎ I S n x è ú Q X D r x B ǔ ó ú R c v s p M Z ě ó á o	ungrammatical
+ǒ z Z Z N I q C c U a Y c a b ú W o H e r V V Z A M A x F	ungrammatical
+A M t v c ù d y v è q E f m Y F T m p a á y V á ě f ò ò n	ungrammatical
+B d v X T E ú c U w N o ě S á b V á L f x p ù r T V ǒ A L	ungrammatical
+C s H D G h ǒ r X b è q Z J N ǒ h é é o B q A v t S á f ù	ungrammatical
+E ǒ é é é ò E z X A I l ú k W z d Q n ò h á z u ǎ W U x c	ungrammatical
+F S o j O C c d g M G U U a V ò V j v f p F q è è a s L N	ungrammatical
+G l t ù S S v W c ò J C A j I ǎ M B R ě V ǔ K ǔ ó L a n p	ungrammatical
+I ú z M I W e o m j ǎ ú ě S j ù d z a ú L K O p è W S L g	ungrammatical
+J U c b X d x C f G q U b I v e ě j W j L F y O G f N y p	ungrammatical
+K o i R d T E ě b ǔ H A è n Y ǔ é è D o c j I ǒ ǎ y d ù l	ungrammatical
+L v s M á a D ú Q n D à j j ó ú Q g y S ò E J ǒ U Z G e R	ungrammatical
+N G y W f M x x e V ǒ i C ě H D ú j Q ǔ n g F à E P I I ǔ	ungrammatical
+O P r ǒ X g k P f á G J S K E ò R R F ò s ǎ C k p C ǔ x D	ungrammatical
+P d A m R q x l ǎ L p Z e t ě P V T á x è C u ǔ V à i ú g	ungrammatical
+Q i L d X ǎ L R J A è ú L E C X K T R V J U A ú z Z q C t	ungrammatical
+R y k à u q g n e m C F f y F w z k T L I p Z C n o v t q	ungrammatical
+T ú à à b ǔ ò E C F Z l b z Z è v ó x A u n ó ó D x v U K	ungrammatical
+U N ó á M P J n ǎ g y a p k W I q b a x ǎ f d t t B F ò ǔ	ungrammatical
+V g r B q F g F é X T i c Y y L C ù A á j ú f à B V l j Z	ungrammatical
+W y m M u à m ě t M D I e u t j r è z O Q U E x A d K b ǒ	ungrammatical
+Y L B t D t c Y J S l Q e E w X v H g ó v k c x c G B ù J	ungrammatical
+Z a e W G n q C ó g i ù y ǔ p l ǎ E g ò X T v S X f S J K	ungrammatical
+a g m W H f X R l à m W ǎ c X à è w S h é g F i d s X A ǎ	ungrammatical
+c C a n T n k n á T I n o r g r t P à X b o C E ò p é V g	ungrammatical
+d N n ǔ l E é q D C i k v c j i R o Q a N j f l c D z K u	ungrammatical
+e i m ǎ B W S n é M i c h c n V p è O m W V h j A é D l a	ungrammatical
+g ú N ǒ è V n ù x ò n h m M K L ú k H P e B p M X J E W q	ungrammatical
+h I Y c Y r p v x Q ú w e C j D n h f ǔ ù ǒ X g X B U p a	ungrammatical
+i o b z S q ù j G á t n ò i z h t é p T h L f f g e w B ò	ungrammatical
+k á ó B m s c O g o c l ò J t u é ò è c o B P L y y K m v	ungrammatical
+l L k J v á q K ò ó ě ú M e e E D i ǎ s Q U g m l A à F N	ungrammatical
+m e V M F ǎ Y J ě U c V V J g F A n ú h C A a é d ò u d g	ungrammatical
+n w z ò s ǒ z ó a D I m V R ǒ ě u b X I à y h g H v ě J ú	ungrammatical
+p C t e u W ò r ě G Z ǔ v é G b k G F v ù ǔ Y ǒ F M N B ò	ungrammatical
+q P h á á S c d b L é z h F m V N x M r I X M y ě Z g M u	ungrammatical
+r p x A h r ǒ é E k n t y ù n x L H X s G V W ù q ó z R s	ungrammatical
+t ú Z G ǎ ǎ v é H O f S q i t K c B z b L C o é g V X f U	ungrammatical
+u Y V c f U T r ù b C M Y q q j è f q à U à O X V R j q h	ungrammatical
+v l C T q S B ú N ǒ O ě N u B s R e i D u Y c g á g c b J	ungrammatical
+x J d Z Q k i p E Q Z N N s V C H g q ǎ V B F p á é K y j	ungrammatical
+y U a u q ú ǔ ǎ ó H X j t H U F C a p c H n ǎ B y g O K f	ungrammatical
+a a a a a ù ù á à ǎ ù L d ò ú b b b b b	grammatical
+a a a a a ǔ N Q f ù ò y c C Y b b b b b	grammatical
+a a a a a á i ě J V ò k L S P b b b b b	grammatical
+a a a a a ǎ ù X w z F Z ú X I b b b b b	grammatical
+a a a a a é S è i B ě á s e J b b b b b	grammatical
+a a a a a è g F a z z ǎ Q é k b b b b b	grammatical
+a a a a a ě v K O O V à W w à b b b b b	grammatical
+a a a a a ò ě ě ǎ b m ě q v é b b b b b	grammatical
+a a a a a ǒ R s k j a u b k U b b b b b	grammatical
+a a a a a ú j J c C á l V O j b b b b b	grammatical
+a a a a a A x B e X L W X ó ò b b b b b	grammatical
+a a a a a C A M y ǎ w s B c h b b b b b	grammatical
+a a a a a D E n s C B r ó Z E b b b b b	grammatical
+a a a a a E W L C o s g P p ě b b b b b	grammatical
+a a a a a F g ó B A D ǎ g à é b b b b b	grammatical
+a a a a a G p G w ù c I a J I b b b b b	grammatical
+a a a a a I D S j d Z e b C d b b b b b	grammatical
+a a a a a J Y j p g ǔ J w Q ú b b b b b	grammatical
+a a a a a K w G A c d g p a W b b b b b	grammatical
+a a a a a M L X F M I C ù j Q b b b b b	grammatical
+a a a a a N i p I q t ú ú t m b b b b b	grammatical
+a a a a a P ǎ è c h e ò f á E b b b b b	grammatical
+a a a a a Q I h ě b ě A v L k b b b b b	grammatical
+a a a a a R V E H S W q d é v b b b b b	grammatical
+a a a a a T à f s ǒ Q ù d o J b b b b b	grammatical
+a a a a a U A n j Q y J D U U b b b b b	grammatical
+a a a a a V U C G Z h j ò d Z b b b b b	grammatical
+a a a a a W k ǒ V v P é S t d b b b b b	grammatical
+a a a a a Y ó H b f M z K ǔ s b b b b b	grammatical
+a a a a a Z I J c X K n G à m b b b b b	grammatical
+a a a a a a Z q N k z é i V f b b b b b	grammatical
+a a a a a b r H E E d F x f I b b b b b	grammatical
+a a a a a d C T ǔ C k q P z u b b b b b	grammatical
+a a a a a e U f b s a g I q C b b b b b	grammatical
+a a a a a f m Y j I M i N e f b b b b b	grammatical
+a a a a a g t n x v x P D v S b b b b b	grammatical
+a a a a a i E p W C F N h ě ǒ b b b b b	grammatical
+a a a a a j Q M U z r n h j p b b b b b	grammatical
+a a a a a k j h Q ǒ X e T p m b b b b b	grammatical
+a a a a a m é I ǎ ǒ e H q B C b b b b b	grammatical
+a a a a a n F l U z B u R j n b b b b b	grammatical
+a a a a a o R ú K S ǒ ǔ M A q b b b b b	grammatical
+a a a a a p h é t Z J x B o R b b b b b	grammatical
+a a a a a q y D m è q x b Y A b b b b b	grammatical
+a a a a a s ú U o W á d g u j b b b b b	grammatical
+a a a a a t T j V k ó á A G l b b b b b	grammatical
+a a a a a u q W U z ǒ o T u X b b b b b	grammatical
+a a a a a w à x x y ě h w b l b b b b b	grammatical
+a a a a a x M A ě ǔ T w M G Y b b b b b	grammatical
+a a a a a y g A ǒ z H g L T s b b b b b	grammatical
+ù ù T R U L ě b S ǒ E q n n ǒ ó ǎ z ò e	ungrammatical
+ǔ A E è v á M ǔ ú U X b p ò d z P ú á B	ungrammatical
+á d ǔ y ú e v T V K P D F ǎ á à z ú ǒ T	ungrammatical
+ǎ ě V ǔ f K á s L t N s O e L M m ù p é	ungrammatical
+é ó q k V E Q à v i ǒ m T ú à r ò ǔ J ǎ	ungrammatical
+è V V b F k Y ǒ O T J s j a é o r w ǔ h	ungrammatical
+ě w u Z F ú j é B A S l F d X z h ǔ o ě	ungrammatical
+ò C ě M L C E à n B J I t o n ó Y H y ú	ungrammatical
+ǒ O m J o I R D g i L M p y B p I d e g	ungrammatical
+ú f Z O g h D a O Y f a ù n w ě P L p c	ungrammatical
+B A N f ǔ ó j A w V y è A c G Y V h ǎ ǎ	ungrammatical
+C ě C K U F L q h ǔ Q Q t F T è d l S M	ungrammatical
+D I J ǔ v ǔ O Z g ǎ v R w E y o ó é J o	ungrammatical
+E X à ǔ C o é i t s Y x e T w é X W H T	ungrammatical
+G ě J é c Z I x ǎ h Y r è u à i ù ù W Z	ungrammatical
+H O t Z C y d W é F Q ó q é A t è Z ě G	ungrammatical
+I a J p c à V y S ǒ v à o t z t ú B ó v	ungrammatical
+K ú B B e H X U è i é Z H J ǔ H E F D O	ungrammatical
+L i v n h l K G G l e u A A i Q T á Q K	ungrammatical
+N á B à ǎ a c M u M à H u v H Y ǒ s J X	ungrammatical
+O P T I w s t A w V a V ù Q è y w q à J	ungrammatical
+P j n N l v u p à ǎ g ě z á G V s Y c Q	ungrammatical
+R D O A B ǒ X G S X Y Z K d f l ǎ d A g	ungrammatical
+S M ó E r e c J V M w S k ǒ ò ǒ R l I P	ungrammatical
+T k Y s f p k ó E x I R u t M N B O E H	ungrammatical
+U l I o j è e i ù n d E q H Y P j d P o	ungrammatical
+V v G y L w G A t é à L a Q E i p é D Q	ungrammatical
+X F y P e S a e f o R j d n S H ò ǔ R Z	ungrammatical
+Y O r h b n ǎ m Y è z t B m O ù T ě U f	ungrammatical
+Z c S ě á k S è S c S f M R u l c K B W	ungrammatical
+a t B V s ó q Y d T l q g t M t j ú C a	ungrammatical
+c ǒ á I k B b N f è L h s q b y e P j D	ungrammatical
+d J i P w o D p D j o O n i ó H n T k T	ungrammatical
+e Q M s Q p p D é C b J E G t ù M V u e	ungrammatical
+f h h ù Z é M h X G u f S X S o é Z Q R	ungrammatical
+g s i c N l x S O P á ǔ S ó o U I f I o	ungrammatical
+i ǎ N D é o i G M a A z W ǎ k d q W ú t	ungrammatical
+j U s v á á è w t P l Q j w W ǒ ò o h é	ungrammatical
+k j w M e q r h r á x Q h o G h p D V à	ungrammatical
+l v é ó X A q G H O P g I R p j v S Y p	ungrammatical
+n O ò g v Y u j B H á o d W ǎ O ě ù ó Y	ungrammatical
+p ǎ C g e ú ò K ú X u W O a j z ǒ è W F	ungrammatical
+q O i w K O S s ǒ é ú F j U C z P ě x j	ungrammatical
+r i ǒ b U E X a á G V l b ó h W m A u x	ungrammatical
+s u X ù I q L ó á C H H J t ó p K I q ú	ungrammatical
+t w ǔ e z ě b s i P R i h K m j D ù u ǎ	ungrammatical
+v è u t á w u ò h ú p E c U ě ǔ t p T T	ungrammatical
+w J è é ù ǒ e v ǔ n J c R e m H C q q n	ungrammatical
+x T j ǔ e J R r s ó d o S ǒ I I A D p e	ungrammatical
+y f Z a o V R ǔ j g E T B P k b J g R n	ungrammatical
+a a a a a ù ǔ G ò z G U s v l c b b b b b	grammatical
+a a a a a ǔ C Q a o B Q d è E B b b b b b	grammatical
+a a a a a á O ǔ ù I R U g f P M b b b b b	grammatical
+a a a a a à V C c E O é W n o Q b b b b b	grammatical
+a a a a a ǎ b r w A ǎ U j ǔ a j b b b b b	grammatical
+a a a a a é w S v r Z e c D l l b b b b b	grammatical
+a a a a a ě C ò à y H d F ú r w b b b b b	grammatical
+a a a a a ó H m é c R Y g p v J b b b b b	grammatical
+a a a a a ò S J ǒ a j M d m R I b b b b b	grammatical
+a a a a a ǒ j g N ó ó T K L n v b b b b b	grammatical
+a a a a a ú r A S è L ó s p N Y b b b b b	grammatical
+a a a a a B è d ǎ J ú ǔ ǒ ú T n b b b b b	grammatical
+a a a a a C O w E W p r T b c t b b b b b	grammatical
+a a a a a D s D é é n ú F p j E b b b b b	grammatical
+a a a a a F F è t S u N ó T i b b b b b b	grammatical
+a a a a a G e ǎ R h m P S P R M b b b b b	grammatical
+a a a a a H i z R X F m R e P K b b b b b	grammatical
+a a a a a I s E c M J S l ò C q b b b b b	grammatical
+a a a a a K ú g X A U P j z B A b b b b b	grammatical
+a a a a a L T i u G j y A G s q b b b b b	grammatical
+a a a a a M d k k t R B P ó D i b b b b b	grammatical
+a a a a a N n ǎ j S h Z t ǎ G M b b b b b	grammatical
+a a a a a P B N é Y X y t ǔ T K b b b b b	grammatical
+a a a a a Q i k W ò G o W m S O b b b b b	grammatical
+a a a a a R u è n d V G y L s à b b b b b	grammatical
+a a a a a T B l Y y C E ě ò R t b b b b b	grammatical
+a a a a a U i V I l B P è n S r b b b b b	grammatical
+a a a a a V z ǒ y A M ǒ a X P A b b b b b	grammatical
+a a a a a X A C y k O f S G ǔ L b b b b b	grammatical
+a a a a a Y U U w k M s T C R f b b b b b	grammatical
+a a a a a Z f s ě n é i m s ú Q b b b b b	grammatical
+a a a a a a u ò Y g Q X g s G d b b b b b	grammatical
+a a a a a c C i D y O Q x l h p b b b b b	grammatical
+a a a a a d L D u j o ǔ C D m à b b b b b	grammatical
+a a a a a e e c V U s d f ò U t b b b b b	grammatical
+a a a a a f v P K v n j P S I p b b b b b	grammatical
+a a a a a h K P E t ǎ l ò S L r b b b b b	grammatical
+a a a a a i P è p ò M ù B à G g b b b b b	grammatical
+a a a a a j p n é E I n c O m p b b b b b	grammatical
+a a a a a l à g Q o ó M U A ò w b b b b b	grammatical
+a a a a a m U Q R H U E D t r l b b b b b	grammatical
+a a a a a n s U B P Q p G ǔ F p b b b b b	grammatical
+a a a a a p M W k D H ǒ F C x ù b b b b b	grammatical
+a a a a a q r R I o x Z Z E L E b b b b b	grammatical
+a a a a a r z o a ǎ n X l w Q y b b b b b	grammatical
+a a a a a t M f à f ě b q Z c U b b b b b	grammatical
+a a a a a u h ǒ d k á F o ò ǔ F b b b b b	grammatical
+a a a a a w ǎ R ò I g t à h m i b b b b b	grammatical
+a a a a a x L l i l E G p h j D b b b b b	grammatical
+a a a a a y h S z n x j Z D h m b b b b b	grammatical
+ù ù X ú s Q F O L C G w f T J R L è c N G	ungrammatical
+ǔ K I Z r f U Q f I ě E p n ù F v K E ù ù	ungrammatical
+á i V k m S V t ú ù F ò ǒ c N D V ó U v C	ungrammatical
+à w y H m w f K b w M L è o ǎ z ò L U W i	ungrammatical
+é E à l ǔ l T C c ǎ s d ě P R c N g X J a	ungrammatical
+è k S ǎ b X I n a ǔ o C ǎ v E O y x b m ò	ungrammatical
+ě k O o Q e é ò t á w q w E P x è ò E I b	ungrammatical
+ó y I U p f B H v ó i x w k ó G C V ǎ f I	ungrammatical
+ǒ M O e V k D á à W S B J C m z t o b ú B	ungrammatical
+ú X e ǒ b a W K à X i Z c ǎ ù H L L e è g	ungrammatical
+A r é B f é j Z u K g g h J S H g h A z N	ungrammatical
+C á A t à ě J U P ě b Q y H M f l Z ǔ w y	ungrammatical
+D D m ò p e W Q à j a J u r C d ǔ a V h g	ungrammatical
+E c F ò n V w t s o E n G c x ǒ d ó Y U n	ungrammatical
+G ě a w ǎ t d ǒ C e G e M I A x ó Y F T ú	ungrammatical
+H D i S i ò e Q d I à è v o b s k H c O l	ungrammatical
+I N H P e S C L u v i Y O y ǎ J n N i d b	ungrammatical
+J l o d j b l E G W p P e q O m ǒ q o à ě	ungrammatical
+L è q N ó E ǒ n t ó w W U à à ú H m A R é	ungrammatical
+M T è b i ó t h K g W U d T H l k q G à ù	ungrammatical
+N o D ò G à q ù J ě D d j è ě t i N N à V	ungrammatical
+P A r Q z T á à o n p ú ú Y L d F R n v V	ungrammatical
+Q R g à j A K B V K h t r R p K ù w Y W E	ungrammatical
+R l A ò ò T S D X b u Y E V Q z n q K g S	ungrammatical
+T á p c X C X ǒ W L d O N I T d V ò T y x	ungrammatical
+U R ě t à G ò i z D o l F x K T x u b T C	ungrammatical
+V U M é W Z c ě è U R K i l M G h ǎ J Q e	ungrammatical
+W i h ù g g Q è A g f ǒ P é Z i a B P ú ǔ	ungrammatical
+X u j t X B D W n v H h ǎ m f X F J A X y	ungrammatical
+Z ò r Q Y x o o à F L d w h N è N R S G á	ungrammatical
+a T à F j S a J u s K n u F R ú y ǎ è J d	ungrammatical
+b Z X w C c k m N O C p G l F C q K v Z ǎ	ungrammatical
+c y S C w A y J m r A ò q a Z T N A u P L	ungrammatical
+e D Y ú u V q N x ě a o P á è è y ě W S L	ungrammatical
+f Q t Q u C t H M p Q B ǒ q m e j k ǎ n O	ungrammatical
+g m A ǒ o h p B p O z Z q j Z b ù z E j W	ungrammatical
+i ò X v i ǎ I U M Y ǒ b N b u s W x h ó F	ungrammatical
+j N p g T L ù H m ú k f S l h q ǒ ú é R I	ungrammatical
+k j y p a ò b ó ó i i w H o R è h ó B ù ó	ungrammatical
+m ò x x ě á é I ó l U Z r ú N T W ǒ A ú i	ungrammatical
+n K x é o Z U S q q K q ó W è H b E ú ó à	ungrammatical
+o X x D K S p v e K W I l ǔ P B ú S H g H	ungrammatical
+p o w x T n s s ǒ L v T á é y o g è m P U	ungrammatical
+r ǎ t u G r á W U à K b l n x M á q q h g	ungrammatical
+s U w N d C à O M z ǎ y Y T l m H p j R ǒ	ungrammatical
+t m j m S f M y G v t s ó K G k b i m ó i	ungrammatical
+v ǒ D T p è G m i t I X ǎ v d ó C ě Y m l	ungrammatical
+w T ú z C i X c W f Y T U X l ǎ x r Q A Q	ungrammatical
+x X c H G x G m M L B X v F O F ó z ó L Y	ungrammatical
+y h u è u K x T ù t L M á P A ú j p z G A	ungrammatical
+a a a a a ù ǔ q A B l ù D é d k u b b b b b	grammatical
+a a a a a ǔ N b ǒ k T D Y H m á H b b b b b	grammatical
+a a a a a á Z è B o G D ě x ǎ d ě b b b b b	grammatical
+a a a a a à o T v t P ú U p l o l b b b b b	grammatical
+a a a a a ǎ n u j P n X x T à r A b b b b b	grammatical
+a a a a a è ǔ N o ě z c t G ǒ é f b b b b b	grammatical
+a a a a a ě ǒ é v g e ǒ à à f ù M b b b b b	grammatical
+a a a a a ó H ǔ a l ó V G b D T L b b b b b	grammatical
+a a a a a ò R X è V C d ù W ě m T b b b b b	grammatical
+a a a a a ǒ l i R P v T z c q ě T b b b b b	grammatical
+a a a a a A é O U H E b a ú k o K b b b b b	grammatical
+a a a a a B ò z E K A C b w z G k b b b b b	grammatical
+a a a a a C J n é ó O ú Q O p W ǔ b b b b b	grammatical
+a a a a a D S ó j Z H Y K q O o F b b b b b	grammatical
+a a a a a E U t z S p ò U C D j y b b b b b	grammatical
+a a a a a G à h J t è E l m v j G b b b b b	grammatical
+a a a a a H Q q k q P k j h T S B b b b b b	grammatical
+a a a a a I i ú A c b I L b ò ù ó b b b b b	grammatical
+a a a a a J x s R u c B i R q p C b b b b b	grammatical
+a a a a a L ú i ǒ l t ǔ ě N ú ě m b b b b b	grammatical
+a a a a a M Q z H V P ù m T ǔ B V b b b b b	grammatical
+a a a a a N i R N é S I B d p F ù b b b b b	grammatical
+a a a a a P ó é h K s q ě a a T Z b b b b b	grammatical
+a a a a a Q L A I ò V ò g à ù á p b b b b b	grammatical
+a a a a a R a j i r y M d H W k ó b b b b b	grammatical
+a a a a a S v O p M G f ǒ r b à X b b b b b	grammatical
+a a a a a U ú N S h q ě L A t j F b b b b b	grammatical
+a a a a a V U N ó I Z é M A b t ù b b b b b	grammatical
+a a a a a W w q S q h B O y k ó m b b b b b	grammatical
+a a a a a Y P y p E c O P c ǎ I D b b b b b	grammatical
+a a a a a Z n k ǔ c y V s T à p ǔ b b b b b	grammatical
+a a a a a a y ǒ t z i c g Y q c ó b b b b b	grammatical
+a a a a a c U W q é o á y ù Y K e b b b b b	grammatical
+a a a a a d t I n ǎ Y c F h ú h i b b b b b	grammatical
+a a a a a f D u D ǒ ě J d s G Q U b b b b b	grammatical
+a a a a a g W J ǎ a v t i A M P w b b b b b	grammatical
+a a a a a h a G è P o T U E Q D è b b b b b	grammatical
+a a a a a i u ó ě u v è Z t S ú s b b b b b	grammatical
+a a a a a k ú ò E o o h p M b C m b b b b b	grammatical
+a a a a a l Y f ò g B w I ǔ q è d b b b b b	grammatical
+a a a a a m g X Q m l w L B J w q b b b b b	grammatical
+a a a a a o A S M D k q N V ě k Y b b b b b	grammatical
+a a a a a p S ú Y Y A P ǎ E F H O b b b b b	grammatical
+a a a a a q m b à p Q a B ù o X y b b b b b	grammatical
+a a a a a s ě v d v s v Z P T c à b b b b b	grammatical
+a a a a a t X o ó ó P Y D I w E I b b b b b	grammatical
+a a a a a u u K à P Q è Y n B a e b b b b b	grammatical
+a a a a a w ě X k v w y j c F ǎ L b b b b b	grammatical
+a a a a a x M v é è B f e u v B B b b b b b	grammatical
+a a a a a y Z l H i G k X ǎ d à b b b b b b	grammatical
+ù á A R ú D Y U o N X G w f K p w O y U Z b	ungrammatical
+ǔ D a h ǒ a e n o W k T k S T D d v T è j m	ungrammatical
+á d y L j m t ú E h A W u é v J c n y ǔ s e	ungrammatical
+à t L c o ǔ C g J ú J Q ù u r Y ú K ó ě t é	ungrammatical
+é D M a b x ú l ò D m T G d ǎ U S v J Q T C	ungrammatical
+è S p o J t Z w m e A è d j I q S g W ǒ ú ò	ungrammatical
+ě e X ě O o à d k J U é T n n O T u p u D R	ungrammatical
+ó k H B P h G e l r j á f ú è S ú f é D Q ó	ungrammatical
+ǒ á z Z i B m m V ù y T è ǎ B Y I U è W K H	ungrammatical
+ú d ù A v e à W W o ò k g O Q ù ǎ r X z B è	ungrammatical
+B ù b m K n è D s Y G C s ù ě L y U d i h è	ungrammatical
+C J p i ǎ g I P á h R C ú ǔ U L I w i Y H J	ungrammatical
+D c s X p c ó M Y X G M v c A d L s W Z C q	ungrammatical
+E o W S u g K R L O V ě Y u n ù l m i j ù W	ungrammatical
+F u b S F ǔ N ǎ o m T Z e s T U e A e t C O	ungrammatical
+H F x T ǔ G L E à x A c q ú H c h c ǒ ǒ n r	ungrammatical
+I h I M ò O B F d b N Z ó k D l ó é m g y o	ungrammatical
+J h x M ò l O B S E G M o f g K ě M u x V á	ungrammatical
+L ě R I t B U x ó g è R p s u W f H C ě N z	ungrammatical
+M X c ǎ G ó ǎ ě u v d k j L V J D e t c P K	ungrammatical
+N k p A à w ǒ Z a f h è K ú d G é E è L m s	ungrammatical
+O s è z B k u e k T a x d b w à ù á R z W ǔ	ungrammatical
+Q ù ǎ S v K ù G P Q G é à J T u y ù T e R C	ungrammatical
+R B j c w t a N ó N M ò u I ù G M ě F B ǔ P	ungrammatical
+S Q K B v Z H á W a ǒ R è é i u d i A B N v	ungrammatical
+T e u H W N h R ù N I ù h x S R S d E j è m	ungrammatical
+U z ǎ B x ú E t H d V è á j z V d w q I P n	ungrammatical
+W P G X a G é I ò o m é t ě G A K F d b W D	ungrammatical
+X o A p Q D m u K C F r O z v z i G X ú ǔ ǎ	ungrammatical
+Z A H q R M T D ě C q è k o u i q g ò R à g	ungrammatical
+a O T ǒ ó g e j m F E U K P F é u U g z K x	ungrammatical
+b j R f P F J c G e Y u f f S r e p m N Q P	ungrammatical
+d à j ú E b U V B x Z à I A k k y x X i A q	ungrammatical
+e E q è J k ó ě Z v m A k á p ě ú d L b à è	ungrammatical
+f V H r N w y Q b l N g I q b B E e D q M d	ungrammatical
+g h o Y c K F é u o Z Z p R s M t W K l X G	ungrammatical
+h o I K ó b m i ě m N K ù M a D o G o B g u	ungrammatical
+i t o i é h é I è k N ǔ ě h f q s v R ǎ w ó	ungrammatical
+k P é é H ù R e h ǔ p n ǔ C S k x W M G a v	ungrammatical
+l i à s U A S ǔ ǎ ǒ ù d C N w ù Z e q a q p	ungrammatical
+m n F k è ù a T H ú ǒ V H y H e l M G Z H u	ungrammatical
+o G f L i l ǎ ǔ T F Y f x o ǔ I y O j ó é v	ungrammatical
+p l Q M è H r S r T L à O J O e I f d ó P L	ungrammatical
+q v ǒ x O p ǎ B a A B B R j D ò K x I e ǒ k	ungrammatical
+s ú é i O I X é x d p V g T w o u B C è ò k	ungrammatical
+t K E D f F U G b D a A C ǔ S á j h O f U J	ungrammatical
+u W L I è a l D S ò ù T Q Y I y s E O N e t	ungrammatical
+v r Z n y ě d ě c O l ú s J U r ú á Z M K A	ungrammatical
+x I b n A I ǎ L S w c M s o ú U W h ó x U X	ungrammatical
+y e o R D e N L C h A p t s K p T G z F C ǎ	ungrammatical
+a a a a a ù ǔ H I A F B è U e ě T M b b b b b	grammatical
+a a a a a ǔ T r x ú q e Z á k ǒ ò d b b b b b	grammatical
+a a a a a á t é k T d W Z j ó i x g b b b b b	grammatical
+a a a a a ǎ O l g p h c A t O i ò d b b b b b	grammatical
+a a a a a é r T S z L F V i E v i C b b b b b	grammatical
+a a a a a ě ù V N ò W x U E A ǎ h L b b b b b	grammatical
+a a a a a ó è C W i E v P b A u G K b b b b b	grammatical
+a a a a a ò L m C R U N z R t i Z F b b b b b	grammatical
+a a a a a ǒ a ě x P u X V f d ě E à b b b b b	grammatical
+a a a a a ú u A Y ǎ é è ǎ ù u u á j b b b b b	grammatical
+a a a a a B C O c A F B é F S C n ò b b b b b	grammatical
+a a a a a C R ù n g U f ú i r o j v b b b b b	grammatical
+a a a a a D p ǔ p ó à D G ò x i l N b b b b b	grammatical
+a a a a a F è N M x b P t Y T t j b b b b b b	grammatical
+a a a a a G X G M á á H é u I b J ú b b b b b	grammatical
+a a a a a H W c w ú i v g y U p Q d b b b b b	grammatical
+a a a a a I s C s j h k J V l G O é b b b b b	grammatical
+a a a a a J u j g n m e ò à U U é F b b b b b	grammatical
+a a a a a L B à l O P I á y q B O o b b b b b	grammatical
+a a a a a M J D a ǔ ě w ě Z G v ó V b b b b b	grammatical
+a a a a a N S w x è à d P w P á J S b b b b b	grammatical
+a a a a a O f e o G A ě k l X N h S b b b b b	grammatical
+a a a a a P r O L I b y L n N A k ǔ b b b b b	grammatical
+a a a a a R H e o Z à s à W Y E n X b b b b b	grammatical
+a a a a a S l z ě u s q d K T ó ǔ E b b b b b	grammatical
+a a a a a U ù I Z c z P y j l ó Q X b b b b b	grammatical
+a a a a a V E Q S i U n m E y d V l b b b b b	grammatical
+a a a a a W E B ǔ u n H A ú Q M y u b b b b b	grammatical
+a a a a a X d b ǎ o d Z O ě W o V é b b b b b	grammatical
+a a a a a Y z ǎ V i S K z i K x e a b b b b b	grammatical
+a a a a a a I s D r J é c h g g c è b b b b b	grammatical
+a a a a a b d ě g m i F ǒ ǔ P u b c b b b b b	grammatical
+a a a a a c p B à é b A X y p á b Q b b b b b	grammatical
+a a a a a e ù Q i W è F z k A é ě X b b b b b	grammatical
+a a a a a f è ǒ E X s è ǒ I s b Q X b b b b b	grammatical
+a a a a a g V O g é j b o u é Y W P b b b b b	grammatical
+a a a a a h u è è è n ǒ R F ě U N T b b b b b	grammatical
+a a a a a j ò K ě e O z q C U M f B b b b b b	grammatical
+a a a a a k K m f ó W p G v w b D R b b b b b	grammatical
+a a a a a l c B B U b X G P e C i v b b b b b	grammatical
+a a a a a m Y z ǔ N l v ǎ D D C C i b b b b b	grammatical
+a a a a a n W O é I Q P i x b L T Q b b b b b	grammatical
+a a a a a o o k f K V F ò N W z Z h b b b b b	grammatical
+a a a a a q ó X c c ó m w o M à w m b b b b b	grammatical
+a a a a a r V z k ò ǔ á t L u ě F b b b b b b	grammatical
+a a a a a s l q c N è H x R L ù f k b b b b b	grammatical
+a a a a a u ú i f à I ǔ t x ù K z k b b b b b	grammatical
+a a a a a v g d I F R B L é ǎ à Z u b b b b b	grammatical
+a a a a a w w a à M ǔ H a k p é d N b b b b b	grammatical
+a a a a a y e H I b v u o Q ǎ à e J b b b b b	grammatical
+ù ù ó ú w A ó H O S à p e Z á F e i e y K d A	ungrammatical
+ǔ è L V j Y X ě m K R r á U I e T c ǒ Y á ó J	ungrammatical
+á A B Y C V ǔ s O d E ú b v q K V U F I ǔ d n	ungrammatical
+à L z A f ǔ Z p U F g S N x h r e Z H f ó ò n	ungrammatical
+ǎ i ó z ǎ ó à l k a w G l G ǒ ú h B n s m ǒ m	ungrammatical
+è A m é X f ù è t U T l l r s q p Q k e b S ǔ	ungrammatical
+ě F s b P F Q g m a V S ó p d Z P j S b V y O	ungrammatical
+ó V o O ú a k E L A i S f n ǒ e h H j è è G E	ungrammatical
+ò n q ǎ q è x U o p M h i E y ǔ è è j a n E q	ungrammatical
+ǒ s z U r k p A d r Q V M ú i o ě ǎ l I á z N	ungrammatical
+A ǎ K B Q K K w t a w B F m ě ò ǒ p l f D D S	ungrammatical
+B Z a Q l k l u g T e ú y é z M n c I h l K g	ungrammatical
+C n s X p W ǒ W z G P x r c ù Q F F h F é l U	ungrammatical
+E è o z m S q e ò I Z ǎ j C Y r t X ó l H e ě	ungrammatical
+F Y z H o i C w t à g f b U ó S q G ǒ H j V d	ungrammatical
+G h O S Z b c ǒ V k ǔ V o U Q z S G ě k E Z F	ungrammatical
+I N O n D r è q t V P r o v ù é ò v X l e Z ù	ungrammatical
+J e v é c q M G V J P à M M Y Y V V X ò k ó u	ungrammatical
+L à é y v g ǒ D J á o Z e h y H N u A Q á k Q	ungrammatical
+M C ǎ v á D f F S Y ǔ S a z ǒ B h à ò z Y y V	ungrammatical
+N g k A D V A j V q x w b G J P E s ò Y d t g	ungrammatical
+O t g P U à v j m ǒ V o á L p l r L ù y F L d	ungrammatical
+P z w ě ǔ V á d ù f l q v q g g ě S D ò ǎ a T	ungrammatical
+R H H ě o P é w P u ù S Q Q l T w M u T e i x	ungrammatical
+S c w E f B z ǎ m D E o é m V d K j b é T ò q	ungrammatical
+T v K E e i j b k w ǎ B w L ú K ǎ D j V A O w	ungrammatical
+V C U q ǒ r P i k d à Q Y r è á H N ó H i o J	ungrammatical
+W R X L x ù i r q a ó x e o Q d q n h n b i r	ungrammatical
+X c L m X á A c R A a q k Q e a r ǎ T t y ǎ F	ungrammatical
+Z ò A D i y x Z Y f x Y y z w M E j j X ò à o	ungrammatical
+a g h ó G H n H è j è c s t ù E ò k é l e X Y	ungrammatical
+c ǔ X v f ó n b L I u K q o X Q d v I X w ǎ p	ungrammatical
+d D j p C è S è Z R S u ě é r O j G c S D v N	ungrammatical
+e R ò j ú ò l ò m ǔ k á U ù Z L a Y á Y z V l	ungrammatical
+f o W A W H H B p B á n x G l O è é E T P I ǎ	ungrammatical
+h ǎ T ǒ T h C ǎ ǎ L B i r c M à T e ò e y b á	ungrammatical
+i F J x ǎ F F A v A F e ǒ é q k ǎ N n A ó N D	ungrammatical
+j g z f u M m O z X G á R U L h D T I z G p p	ungrammatical
+l ù D c v y i n Q K l G h n ě O L X R x l á Q	ungrammatical
+m E f K ò a l h y t w w ó E G ù ǔ ò p c i ò L	ungrammatical
+n I G U r F o Y d é R à q z ú A L c C d S á T	ungrammatical
+o a f l Q F é q b w D M H M Z r l X á I B k ǎ	ungrammatical
+p q ǎ b V m L t ǔ u ǒ b j M q c a m Y M ú o ó	ungrammatical
+r ú H z K T T ǒ H w q è F e X P h f l h k u W	ungrammatical
+s W N J O W z ù N Y p I s Z P B q H ó E r A l	ungrammatical
+t z d h O m ǔ ǎ b x M F N V p Y r D c N C E J	ungrammatical
+v M t x e f h p b R I N F n O u L ù p Q k B a	ungrammatical
+w R W ú E f r G R H V a i W H E D l E z g t l	ungrammatical
+x o y B n C P x x H ó W P ǒ E ó q z x Z m H O	ungrammatical
+y w H ò C K C x E t é L k g n Z è I K t Z O O	ungrammatical
+a a a a a ù à á j R o W à ǎ L m K y w b b b b b	grammatical
+a a a a a ǔ E ò ǎ c Q C o M V i p R G b b b b b	grammatical
+a a a a a á S w l b Z ò R u é a ò s J b b b b b	grammatical
+a a a a a à r ǔ ǔ ǒ g z á r J X P T ǔ b b b b b	grammatical
+a a a a a é A w g N g q L D i ú é x C b b b b b	grammatical
+a a a a a è F t D m W ò J ǎ U n ǎ à ù b b b b b	grammatical
+a a a a a ě b è b e L E a q h L c n é b b b b b	grammatical
+a a a a a ó v B p ǎ Z Y è Y x j S Z ú b b b b b	grammatical
+a a a a a ǒ á C C ǔ F m ó N f i v y Z b b b b b	grammatical
+a a a a a ú J s v ǔ O N a y q é C I z b b b b b	grammatical
+a a a a a A P Z R P G x Z j F U é B W b b b b b	grammatical
+a a a a a B m v W H k x V e g v X c ǎ b b b b b	grammatical
+a a a a a D ò B H ǔ E w I ú M k O N C b b b b b	grammatical
+a a a a a E é O P y r R f Y é Q è P ù b b b b b	grammatical
+a a a a a F I ǒ W à Z a E ě X a w o m b b b b b	grammatical
+a a a a a G V ó z N u q q Y m c p d Z b b b b b	grammatical
+a a a a a H m ò U l T g I T m l Y c r b b b b b	grammatical
+a a a a a I y A l D f ó z G U ò I u o b b b b b	grammatical
+a a a a a K J g H ù m M ǎ V z K à H G b b b b b	grammatical
+a a a a a L b Q g t h à Z ǎ D ǒ ǒ ǔ v b b b b b	grammatical
+a a a a a N ò L ú B w l e Y f G j r K b b b b b	grammatical
+a a a a a O P ù Y i t t L f é x D P E b b b b b	grammatical
+a a a a a P r a M ù w C K S t J g b K b b b b b	grammatical
+a a a a a Q v d B u f u V E y K D z M b b b b b	grammatical
+a a a a a S é Z Q u m D L J t O ǎ u ú b b b b b	grammatical
+a a a a a T P Q q I m w p h o r ǒ q U b b b b b	grammatical
+a a a a a U i K v P ǎ k a o I h l Z g b b b b b	grammatical
+a a a a a W C x y y e X ú y Z Q r k r b b b b b	grammatical
+a a a a a X P ǔ m T h v V K q n W Q i b b b b b	grammatical
+a a a a a Y p à b J n r P ú o L j l u b b b b b	grammatical
+a a a a a a ú m N ó F ú u ǎ G ǔ E X S b b b b b	grammatical
+a a a a a b b l ě G U x j j ú p h z I b b b b b	grammatical
+a a a a a c o F w n z á L h x U u s g b b b b b	grammatical
+a a a a a e ú X ú d ó Y U E Y q S y b b b b b b	grammatical
+a a a a a f f Y T J m p I z w é ó u T b b b b b	grammatical
+a a a a a g h w D q B Q z v ó R w N E b b b b b	grammatical
+a a a a a i ǎ ù W L C O P ú e ú d à G b b b b b	grammatical
+a a a a a j Q ě p ǒ á é g m ǎ P J O u b b b b b	grammatical
+a a a a a k l b f x f á á ù u i p b W b b b b b	grammatical
+a a a a a l w B O D Z y d t M E M u J b b b b b	grammatical
+a a a a a n A è r b m X a g S d Y d à b b b b b	grammatical
+a a a a a o O E Z ò i á é d i I Z á r b b b b b	grammatical
+a a a a a p a L ǒ d J U j t s M S X y b b b b b	grammatical
+a a a a a r ú E L c e S y ě c t é l c b b b b b	grammatical
+a a a a a s E J C J n X V i q l A I v b b b b b	grammatical
+a a a a a t U g V j S á E i Z W A I h b b b b b	grammatical
+a a a a a u u w C L n p S v m p P à e b b b b b	grammatical
+a a a a a w é d á F z g F t x f ǒ L ǒ b b b b b	grammatical
+a a a a a x I Q t z R n Z ǎ W X Z G e b b b b b	grammatical
+a a a a a y W à y A z c N j z Y r Z i b b b b b	grammatical
+ù ù d o Z Y Y W Z ò q F e j G r i O B X Z B o n	ungrammatical
+ǔ K a t S X C o M b D k x ǒ j H p Q J d è ú á N	ungrammatical
+á W é q o C H f W h W S c B t z Q á D n ò ú á T	ungrammatical
+à X H U p u N A H z Z á j p l B ǎ Q ǔ v W C M J	ungrammatical
+ǎ j á R M c à ǔ ǒ J è à X w y F g b r ò q á J i	ungrammatical
+è ò f ǒ A L ú q q p è Z A F é S S l Q p C N a H	ungrammatical
+ě Z ó ò V b w d H C f C ǎ O ú B ǎ ù M I r U ò b	ungrammatical
+ó o ǎ N o t é m ú ě a ǔ H a o Z X u M ǔ B K ǒ d	ungrammatical
+ǒ ó N ú h P L V X Y ù a ó S e p i Z g m I k O x	ungrammatical
+ú J i ě ó L D U v q m ǒ O M à l à ě u g V ǎ X c	ungrammatical
+A l J O t ǒ p M G b é á s h à n s B à é a W ò W	ungrammatical
+C à K E O ù C F B B g ǒ p O F s F á é V é d y K	ungrammatical
+D ó è M M w f c n U b t u M g C S è e W A E ù ǎ	ungrammatical
+E S y m v ǒ L è v x ǒ u n x l h p é á Q t S ǔ a	ungrammatical
+F t m n ù ǔ J W á ǎ á ù I p Z Q b Y D u k á C k	ungrammatical
+H ě I D o v K q I à W p R C é è M H w A v f A P	ungrammatical
+I U v u à j ó g y w g s S i s j ǔ e n x I á K k	ungrammatical
+J m J à t ò B g p á i o Y é ǎ D ě T s F D C M à	ungrammatical
+L è H T à ú H u ě L G G O c N q b ǔ R B l i G a	ungrammatical
+M O H V N u F z z ǔ e K W M W ǔ è l d L W v j R	ungrammatical
+N j e ú e K ǒ j R E E h C W N D w ú b g z M ě A	ungrammatical
+P ě t q ǒ o E p z é v a E C f Q ǔ m t h O o p b	ungrammatical
+Q S D è ò r E d B v H x L F y l x M s N q w ò y	ungrammatical
+S ǔ T s T ǔ e r P ǎ D w U B W n h b U S h Y é q	ungrammatical
+T G z a ù F z P h G E E h ú G a N é B Y L G x v	ungrammatical
+U Z T e T O P á l b ú R X d c N E c H C j ò v S	ungrammatical
+V y s q O K K j ǎ A U D N ú d I à J r v Q à V d	ungrammatical
+X M K F v e p O ě s r l ǔ f B M t M r s f W ǎ u	ungrammatical
+Y g K O w q á C M ó ù a p v E m y o ǎ è U Z J U	ungrammatical
+a D M z l b r ó r e v r ǒ g à l ǎ X c ú i ě ò f	ungrammatical
+b Z q d Y è T z l r r ě d ú w y Z V S O e f v u	ungrammatical
+c w c Q H y x d g P T x b a i x Z á e X D w S d	ungrammatical
+e I r è à ù á a ǎ P o V e H ó q ù ǒ I B S W A A	ungrammatical
+f U ó ě S Z X q Z X ó g X é X à e t g n m S F q	ungrammatical
+g f E e n E à v P ò ù q Y v x é E E y G O C g Z	ungrammatical
+h l m j D j U o z T E H C S i t á c u E E è K A	ungrammatical
+i w g k H g g h U R V M X b ò ǒ o h ò z a R L x	ungrammatical
+j z F r m a F H ǔ A z X Z t O x R D r V n w i J	ungrammatical
+l ě t a j l a ú C U l G z N N a M q p Q c h N ù	ungrammatical
+m I g m Z Y x A m s I Q O P X P L L G t é o w c	ungrammatical
+n j A m ǒ h S Z é Q ǔ á R P Q g ò Y u v e s é S	ungrammatical
+p è j B J U á h l i ù a ú g F U X ě m q L M T U	ungrammatical
+q L B A r w n é ó C a F m G t d W Y ò g D P Q P	ungrammatical
+r X ú U J r Q v Q à G J Y s L e T f ó j U e p k	ungrammatical
+s k ú A o y H ú A O ǎ G J C P O Q à x R B e p é	ungrammatical
+t p ò z L M S c m X ú W d J e h N à ǒ ě t t x T	ungrammatical
+v ǎ ú R h z g E O V Y P i Q a ǎ ě k è E f P f H	ungrammatical
+w è P e Q g Z G g b M h W á Q R Q a R s o á R H	ungrammatical
+x J B à z c K Y ú R I i ě M Q m y J á s q e è V	ungrammatical
+y h ě u u X x ǎ d S I W C b U S Q B Z w ò j h J	ungrammatical
+a a a a a ù ù ù ù q m P m G k l c ó s ó b b b b b	grammatical
+a a a a a ǔ Q k à K é p i A S A c W W D b b b b b	grammatical
+a a a a a á k j Q C r á e z L H K N u ó b b b b b	grammatical
+a a a a a à v z k J ě O G M e e V n Z j b b b b b	grammatical
+a a a a a é é N P b L y O Z h L o ǒ è e b b b b b	grammatical
+a a a a a è B u W q M ù b ò S T ú f v x b b b b b	grammatical
+a a a a a ě W s U Z U W K q n v X ǔ W h b b b b b	grammatical
+a a a a a ó w k L k L n J é r w E Q ǔ F b b b b b	grammatical
+a a a a a ǒ M á h I X H w M V t f l m m b b b b b	grammatical
+a a a a a ú t P v A ú I f i k n i z U è b b b b b	grammatical
+a a a a a B H ú o j M é L K j N à u Y i b b b b b	grammatical
+a a a a a C b x r l A T Y J I o C r p i b b b b b	grammatical
+a a a a a D s n k ǎ Y O h p g z z d ǎ N b b b b b	grammatical
+a a a a a F ò M m w o d Z O ǎ k F p N T b b b b b	grammatical
+a a a a a G Z C ǒ C g W v F j Z è N ú K b b b b b	grammatical
+a a a a a H r n g è s ò O a B Z d O i w b b b b b	grammatical
+a a a a a I y B x l s t y q r p v ó e ǔ b b b b b	grammatical
+a a a a a K K s ǒ u S G x r v ǔ è k r Z b b b b b	grammatical
+a a a a a L b r é à L r O b M è E i ǎ ě b b b b b	grammatical
+a a a a a M h y r e b ù K g S r V N h j b b b b b	grammatical
+a a a a a N n Q K W q á P ě e X F x ù D b b b b b	grammatical
+a a a a a P C U z ǎ ǔ T S P g J s W j H b b b b b	grammatical
+a a a a a Q V H J H K R s k F L g O r l b b b b b	grammatical
+a a a a a R V F m á k ǎ ě q é F n N I x b b b b b	grammatical
+a a a a a S e ú D á T R ó T à ó H V F D b b b b b	grammatical
+a a a a a T w Y v J G b d o T q A ú d c b b b b b	grammatical
+a a a a a V ǒ t n X I K o y ù G s R m B b b b b b	grammatical
+a a a a a W T u é P M p E á Y t H E c j b b b b b	grammatical
+a a a a a X p s L è E Y v R H U h B S J b b b b b	grammatical
+a a a a a Z ě c Z L r o z G ú y Z C Z U b b b b b	grammatical
+a a a a a a G I d é B D q M i ǒ P V ó K b b b b b	grammatical
+a a a a a b W I ě h á S N l Q é z q h D b b b b b	grammatical
+a a a a a c r f K à D P M b P r S ǒ D r b b b b b	grammatical
+a a a a a e ú à F F B s k u Q C h z T U b b b b b	grammatical
+a a a a a f Q ù L k X p o S d á p O s W b b b b b	grammatical
+a a a a a g e E N N h ě H g h c K f a é b b b b b	grammatical
+a a a a a h w t l i A á L e D h a J i y b b b b b	grammatical
+a a a a a j D W H t é b ù ú t K ó ǔ G D b b b b b	grammatical
+a a a a a k K V r è ǎ ú B U è k ò o R T b b b b b	grammatical
+a a a a a l Z ǒ è h c n k A ǔ P q ú h d b b b b b	grammatical
+a a a a a n ó P v V o V U ú è K Y Y K z b b b b b	grammatical
+a a a a a o e E è R W o o è K K ò E J B b b b b b	grammatical
+a a a a a p z I k ě M L k ù M M d u O ǎ b b b b b	grammatical
+a a a a a r ò K b r b d z q j ǔ ò A O T b b b b b	grammatical
+a a a a a s g i N C T c V ǎ l G á è n q b b b b b	grammatical
+a a a a a t v q j H W D v F ù m F a T L b b b b b	grammatical
+a a a a a v Q A ǎ J I ě h B d è ù v Z H b b b b b	grammatical
+a a a a a w m é ǔ C o L x G v ě ú i ǎ M b b b b b	grammatical
+a a a a a x d I è ó v y l M O v u K W u b b b b b	grammatical
+a a a a a y m y q H m Q d c J p N l I à b b b b b	grammatical
+ù ù Z R ò G S K ù ò C i t G i u d á l o W T A ě b	ungrammatical
+ǔ U J r e ě J h U c D M O K U k M m g D J U V r L	ungrammatical
+á j Y t é r P B l g v è D v ó M C d d O H L T a p	ungrammatical
+ǎ è q e z M R V o è J a f k ó é P D H é o k r ǎ p	ungrammatical
+é b R J u O b e é K D è i J o à Q i x á á p N E G	ungrammatical
+è l ě n R s s V d é è R Z A l y a W é C n x Z ǒ x	ungrammatical
+ě u à x Y è d W c i j t y V ǎ L n è ó F z x n Z ǒ	ungrammatical
+ò ě R C n U P N G b U g e N g X c d ǔ o h q ě C C	ungrammatical
+ǒ Q B z n à é L B Z S Q v G O c ù g f M C A ó ò b	ungrammatical
+ú l t o á V T é N p Z d S d L R ǎ g b M q ù i K O	ungrammatical
+B ǔ g g G D ú s k ó ú p e b E M S z o à ǔ t O u e	ungrammatical
+C è t x L Q H ǎ é X C q ǎ e r ǒ m ǎ h E è Y á C A	ungrammatical
+D C n V è r k ě b l d ǒ i ù I f H U v C á ǔ ǒ n p	ungrammatical
+E ú A h t a à b O ó x è ò ò ó u g u d Q v z i S U	ungrammatical
+F U y b a q X H i è C i i x K N L ò a D M r p x q	ungrammatical
+G n h r ǔ è j a Y V S k B Q l H n M L v ǒ v C k è	ungrammatical
+I G P h c q i q k d L K b H i s t Y V u v é l W ǎ	ungrammatical
+J M k Z L ó q h ǎ L m v h h à L h è S x H Y T Y é	ungrammatical
+K i d L p f h ú ó j U ǎ K I K I q ó n i M Q M ǒ a	ungrammatical
+L t a r d o I i K r x m v A è X l A Q H l S i h W	ungrammatical
+N ó X b P x b s U a L F C E P Q D m q n U R ǒ f Y	ungrammatical
+O J p s o q M x ǎ o V x é r ó t X z x h a c é ǒ l	ungrammatical
+P b H à c t O m z a O o b i J H v V u ǔ ù Y m Z H	ungrammatical
+Q w k Q ǔ Y K O W k n P o c i K h G p à E v A h i	ungrammatical
+S ò s E o b Q V u Q q l I J V à L U U X W W F l R	ungrammatical
+T a ú F u i T l ǎ h W K C b O D G ǔ Y ě ò H a h y	ungrammatical
+V ò I I r ǒ x á è J U t M d h x w J E b L ú ú V c	ungrammatical
+W N N H F c c t l i w v y u K ǒ h h ǎ è r t X n ó	ungrammatical
+X n P A g á e Q ú N l E D w V d H G p ó H C ǒ z k	ungrammatical
+Z ù P V ù i Y F z á I R w a q Q E H ù u W L d T f	ungrammatical
+a L K m ù W á v ù m k á ò q H g è z h D h ǎ ú K à	ungrammatical
+b L E K P d i e ě U E W Z T è T p K T I u s u G J	ungrammatical
+c h T K x s Z o n B á I V ǎ L F z f L W h y J m d	ungrammatical
+e ǎ T N I W e L ǒ h x ǔ Z U u b k u C ó j a ě p p	ungrammatical
+f H B f N k D w j X ù à L l e M d k è U I m ò s á	ungrammatical
+g b z ò J B C ò F ǒ è T ú a r b m n G F Q E U ó P	ungrammatical
+i ǒ ǔ E O e K o l A K e c L R S C H q k á c t h ǔ	ungrammatical
+j T u D G Y é b W m d N A k u N i á ě K ú v f V w	ungrammatical
+k d b ù ě p C i y C á e ó o y j N ú l G D o o e b	ungrammatical
+l v Q j r j i i l P e a K J c s S y k à X E K p h	ungrammatical
+n A w F D i p ě x ú u R P R b P s ò ù e g D s m G	ungrammatical
+o Q l A F M v V L è U v S I ǎ P p U o O g t J U c	ungrammatical
+p k ó B C J c t ǒ Y u Z l s h J f L é P F ǒ L z M	ungrammatical
+r ú j b b l f y B ò ě ù ù ǒ P y ě o D H T ó é O l	ungrammatical
+s Z F F B X K D o K I g ě q H D b O l I G T g q è	ungrammatical
+t r P p ǔ x ě J j C i R o R V C o ǒ I ú U h j I g	ungrammatical
+v A ǒ u c f z n ú Z K F R x Y K ú à q e I A n A H	ungrammatical
+w L B n F U I V N x d b ù b X E á N ǔ U a ù j ǒ g	ungrammatical
+x b ǔ é R y H ǎ ǎ n I U n x s ǒ Z k z C ě b z m e	ungrammatical
+y l P X a n ǒ D ǎ Q N p X x m k ó h ú B S c d v G	ungrammatical
+a a a a a ù ù ò ú W ǔ ù f l s B k ú h h g b b b b b	grammatical
+a a a a a ǔ P m t P u V á S n Z T F à j l b b b b b	grammatical
+a a a a a á t ù S P ó ú C I k o M d q ě ǎ b b b b b	grammatical
+a a a a a ǎ ò ò b U B Y A Q M p U e M U C b b b b b	grammatical
+a a a a a é Q w F Z ǒ I c C J D à f B p j b b b b b	grammatical
+a a a a a è f K e è k z c Y d P y è M á I b b b b b	grammatical
+a a a a a ó D g h G ǒ D ù H d G r ò K t L b b b b b	grammatical
+a a a a a ò W k B f j H W x R á X J e y Y b b b b b	grammatical
+a a a a a ǒ s E u d ǎ Q j b q Z v Z ó x z b b b b b	grammatical
+a a a a a A ě S ú m U n m O z ù U ǔ ú H x b b b b b	grammatical
+a a a a a B C q e b r c D U m D C K b I k b b b b b	grammatical
+a a a a a C M E i X U R b f E y H G G e ǎ b b b b b	grammatical
+a a a a a D g F x ò L á E à a P g D A W Y b b b b b	grammatical
+a a a a a F é P X p ó è n K I a C A t B E b b b b b	grammatical
+a a a a a G F v o D n r U W E ù l o V R l b b b b b	grammatical
+a a a a a H S t j i R d D e è q x l t N p b b b b b	grammatical
+a a a a a I W y s J Z x i p i Y ǎ o e x ǒ b b b b b	grammatical
+a a a a a J s ú P D O q h u v r ǎ X ú ó r b b b b b	grammatical
+a a a a a L J u a Z D S Q C O B U W ù s k b b b b b	grammatical
+a a a a a M V é ò l U d f r ǒ V u ú j M s b b b b b	grammatical
+a a a a a N e f m ě E K h s Z c S ě E z E b b b b b	grammatical
+a a a a a P ò o N P L R W ǔ P h w I F m B b b b b b	grammatical
+a a a a a Q U b s j s R s g ò C v N z w l b b b b b	grammatical
+a a a a a R c S B ú A x ǎ U D I ǒ W ò ǎ l b b b b b	grammatical
+a a a a a T à ě Q V ó ò ù é t a P A V w h b b b b b	grammatical
+a a a a a U L r p B e L x s ó K D u a ò u b b b b b	grammatical
+a a a a a V k à m l x I e h A A ě è ù j Y b b b b b	grammatical
+a a a a a W y F s ǎ à á E M N K l p z k E b b b b b	grammatical
+a a a a a Y R u x l V F r k d z N è ò é A b b b b b	grammatical
+a a a a a Z R S F c Z p C ó f x ò m y x ù b b b b b	grammatical
+a a a a a a r è ě U s D g m ò ú ǎ g G E P b b b b b	grammatical
+a a a a a c ó p Z z j a M D ě v Z M j H è b b b b b	grammatical
+a a a a a d e Y e t q O A t ó ù v J s ǎ e b b b b b	grammatical
+a a a a a f é u w N s k ò x è ú é ǒ Q K ǒ b b b b b	grammatical
+a a a a a g B p y N f E L g D F k W ò X b b b b b b	grammatical
+a a a a a h P a Q B v b b K p T t U U m B b b b b b	grammatical
+a a a a a i c m x S h ó V t r S G x g w U b b b b b	grammatical
+a a a a a j g S I c Z f a ú j r à Y J T B b b b b b	grammatical
+a a a a a k v ǎ E p I ò i z Q W ú x P b ú b b b b b	grammatical
+a a a a a m á h é N H ǔ u R n f ǎ z b V P b b b b b	grammatical
+a a a a a n ù i n E X R T l j V O B i z h b b b b b	grammatical
+a a a a a o I U b ǎ ǔ u ě ě H J U A q v x b b b b b	grammatical
+a a a a a p g ò a m w W ú ǎ E U ě U ò d r b b b b b	grammatical
+a a a a a q o F S B h F J h J s ǎ e U w q b b b b b	grammatical
+a a a a a s á ǔ p ǒ G à L ù é F f z l R B b b b b b	grammatical
+a a a a a t L ù x K m h ó X f h z M H ǒ j b b b b b	grammatical
+a a a a a u Y á z D r Y L y P H U k Y m k b b b b b	grammatical
+a a a a a v u y x e l O O q á U i W d ù W b b b b b	grammatical
+a a a a a x K A y c é M a c I M i g G E A b b b b b	grammatical
+a a a a a y f n ò P ù L S l é ú r é a Q a b b b b b	grammatical
+ù à á V u r k V J w X q R A v E G y H D f l C c c d	ungrammatical
+ǔ ó v P ǎ á j X S à g M C I c E Q B g H d X n m J V	ungrammatical
+á R j O A q j J L Y q n ǎ E c ù D B ò J à r p ò r b	ungrammatical
+ǎ ó è j W ú C M S à Q Y k n A I K f u o E h ǔ ó Y è	ungrammatical
+é V ǒ è ě K q s y g G C ě h r é B g r y c ò ǔ Q x K	ungrammatical
+ě ò F i Q w ě K r q O c y i U ó J y d S b r ǒ m S r	ungrammatical
+ó V L I k M ǒ l G Y F k Z C è Q M a o W a p ú D S s	ungrammatical
+ò i D l é ǔ G q ǒ G ǎ c v g m ǒ n q G m k K è C S p	ungrammatical
+ǒ v l à ù m I q e w J I S i Q O t m O E ǒ C C H q r	ungrammatical
+A I d i P B B D v V ù l à l è U T O Z B y u j P L Y	ungrammatical
+B X s Y n N é l V ó j á W N F B G ǒ ǔ M m l Q U h L	ungrammatical
+C e ò L s ǎ á I M N R X z è é G e i i z D m E W G a	ungrammatical
+D n è O ú ù n t F h x P à g D e V P F G G é R é R v	ungrammatical
+F é M m z N d i O W à r J Z B S D B p w u B b o h w	ungrammatical
+G V h Y f V O V O X y E U A e d ù d s r j q a l P p	ungrammatical
+H f è s V M N s ó z P F c ú J c G è ù ú ù x P ǒ r o	ungrammatical
+I q ǒ ě E Q q K P U t n L ú m ó U W ó y k G J L u B	ungrammatical
+K ǔ n ě B N A x v f f v U w á C è A O F p M a P L z	ungrammatical
+L A X r E G á Q i G k m Q ǒ l h à V w k á A Y Q ǎ J	ungrammatical
+M T Q V u n h P L à l t G ǔ g G j E I G ò m ǔ P m l	ungrammatical
+N k k D ó r h P ù á g ǔ m n M ù Y m w y w A D m h C	ungrammatical
+O x N x B X z è ó T s K C G W I l è s q T à F M a ú	ungrammatical
+Q é ò j l L ě à q ò M A J m W h I z W c N T ù A ò ě	ungrammatical
+R I w à q s ù h V ǎ F C W o n F b v N N q H N B J k	ungrammatical
+S Q g ǒ N c v B N N Q S ǒ P h q A n w L q ǔ R i ù f	ungrammatical
+T c u p L d D B b p ǎ m c m s k ǔ ù z á ǎ d I è F V	ungrammatical
+U u J u f b H ǎ U R v w a N X R p L n Y m ǎ p Q N N	ungrammatical
+W A Q W l K Y s z b V q T ù C Y I é è N l H ó Z z a	ungrammatical
+X a è ě v j f p ě D n b L i H N ú N I o R é L G x é	ungrammatical
+Y o F K Z T E ù p G s j o l w a ò y ǎ t i y k O k i	ungrammatical
+a è ò S ò ǔ q v U Y H M Y ú z x C P A l c L h d è ò	ungrammatical
+b P G I á L M V x ú Y á G G z ù Y n d N p q H P A Y	ungrammatical
+c g W t L E ù E k D D Q C E S p i ù O á n ò h B g C	ungrammatical
+d n I B U R ú i b ǎ A F V m ú C y à ǒ ó A x N s I h	ungrammatical
+e u V H á B è ó v W p ǎ D v I L u B G Q T o m p X l	ungrammatical
+g F d u l B B i x P s I X A I Y S y J ú d ó w k ǔ ǔ	ungrammatical
+h U k Y N W h V c f G U X O g x s è b L ù á G S U K	ungrammatical
+i f n è ě T T e v á é n m j á z h I R P d é ó ó ǎ r	ungrammatical
+j v v B f i S ǒ i d z x t y o e ò M y X W L Q ǎ Y à	ungrammatical
+l L A c C à f ú e v t D h S P w é ǔ V N G ě ó O X ú	ungrammatical
+m P D B é ǔ ǒ F ó ú à L ǎ b c O b m r G P s a U G G	ungrammatical
+n e v D è k W é ǒ u J V h v p r Q ǒ ě h F t ǎ P o P	ungrammatical
+o x ǎ ù q h a p U t w S d h v f z x p z y n è k g t	ungrammatical
+q L K W F N è N f K Y N n e W L D r G d u v w j q U	ungrammatical
+r r X h F s ò x ú E w n g ǎ o B ú B U s ó t O è p v	ungrammatical
+t B f I P V A S M f m c S T r p D w à M é ó D ǎ d T	ungrammatical
+u n H r u g ǒ D ǒ P h t z Z D y M Q g k q d d F R O	ungrammatical
+w B ě E e Y G R ǒ l ó E w C V e s h v t ǎ h m t c v	ungrammatical
+x J n Y Z d d ó ǔ j h E O ǎ g I M L T ǔ M a G ò L p	ungrammatical
+y X G D W x Z ǎ o x h G q X é r R á é O e V a k ù f	ungrammatical
+a a a a a ù ù I Q k o X ù F Y Y V A C ù h é b b b b b	grammatical
+a a a a a ǔ M V j q C B I R j M Y A A J ù Z b b b b b	grammatical
+a a a a a á l à Q ǒ J J ú o l p ě a Z W A á b b b b b	grammatical
+a a a a a à r v u C B d ú n Q r i W ó o a j b b b b b	grammatical
+a a a a a é á Y Y b é o D o c v t B g á ǎ R b b b b b	grammatical
+a a a a a è T ǔ v B ǒ u k I p p l ó ǒ I y H b b b b b	grammatical
+a a a a a ě d ú L H g D d ò n à j I r ó G x b b b b b	grammatical
+a a a a a ó r x d n a X j k F Z N c K M I O b b b b b	grammatical
+a a a a a ǒ F ó c é N l w m ò ǔ A t U c é F b b b b b	grammatical
+a a a a a ú X M m T a e ǒ a u O i A T U t X b b b b b	grammatical
+a a a a a A r i á r m ǒ Y q ě w j s L ǒ M O b b b b b	grammatical
+a a a a a B u j J á B u V ò ǒ c D à R S F t b b b b b	grammatical
+a a a a a D F P ó z e X G à r l ó q H j S m b b b b b	grammatical
+a a a a a E W K a h c E E N ú Q w c m ò L u b b b b b	grammatical
+a a a a a F v m ò V A x F Q t á b j D K n f b b b b b	grammatical
+a a a a a H ǎ r S á Y K B q ó r Q X u ǔ à d b b b b b	grammatical
+a a a a a I D k K I D D K p F J ò o t V ǒ à b b b b b	grammatical
+a a a a a J R U ǒ d v O ě c O s l b r b ó m b b b b b	grammatical
+a a a a a K o a u o J s T o B C O Z w u J f b b b b b	grammatical
+a a a a a M ò P s C D y b m ò g d k m á x L b b b b b	grammatical
+a a a a a N M j t j T J s P è k R Z S V Z q b b b b b	grammatical
+a a a a a O k V k q a m k Q K s c E t ǎ k m b b b b b	grammatical
+a a a a a P z g s S q d P M u á ò á l z m Z b b b b b	grammatical
+a a a a a Q z B F G u u è d k b n n f t E H b b b b b	grammatical
+a a a a a S é c V A ú M ǔ H z Q y M N N à o b b b b b	grammatical
+a a a a a T G O c è s è c L G C Y o Z ǒ ǒ ǔ b b b b b	grammatical
+a a a a a U a z é z O ǎ k h á s C G g Y E V b b b b b	grammatical
+a a a a a V w z ě ú ò F ǒ L ú C F l c q p g b b b b b	grammatical
+a a a a a X M B e O X P f H M Y O a I ò o é b b b b b	grammatical
+a a a a a Y Z m x ě á è ǎ T s è ù d r ǔ p B b b b b b	grammatical
+a a a a a Z q N o x z Z g z V v H q M Q X x b b b b b	grammatical
+a a a a a b F B E g a c U s w ú è è d b i à b b b b b	grammatical
+a a a a a c U ě E g O é ò e ǒ J w á é y K d b b b b b	grammatical
+a a a a a d u m Q é n ò U m b D e f F m L o b b b b b	grammatical
+a a a a a f K L è ò X ó á I E D y N W ù q b b b b b b	grammatical
+a a a a a g c C Y L è N u ǔ K C ǒ ò p S t i b b b b b	grammatical
+a a a a a h t Q A U è z é è c o x e é v D é b b b b b	grammatical
+a a a a a j D O W a S V C u f P q d W I Z U b b b b b	grammatical
+a a a a a k R a è à F h q T F u L t i z J ǔ b b b b b	grammatical
+a a a a a l Z J v ě a c C Q ǒ à t P w H F r b b b b b	grammatical
+a a a a a m w l F P ǎ t f ǎ i o G t T P ǔ f b b b b b	grammatical
+a a a a a o R ó Z i J V P A D t R s n ú h h b b b b b	grammatical
+a a a a a p n á J ò t U ě y g U A s N w b Q b b b b b	grammatical
+a a a a a r à A M a U P à ó o y j ǎ G C E g b b b b b	grammatical
+a a a a a s P s p U à ò z e B q B ù P k c G b b b b b	grammatical
+a a a a a t r p E x c z f F é h b ǔ u R w Q b b b b b	grammatical
+a a a a a v C Y X ǔ G u C r G I E A y V m q b b b b b	grammatical
+a a a a a w M e M w T a s S l X g L K X h ò b b b b b	grammatical
+a a a a a x a m a ò c á è é è W á H c u Q v b b b b b	grammatical
+a a a a a y r d U Y S H a à e T N ù X f ě Q b b b b b	grammatical
+ù ù o X I p e Y t O q a v v b e i á a P v e ù r v R ǒ	ungrammatical
+ǔ ǒ s P R q n A Y e N a T t ě ě h p d h Q t H j r ǔ u	ungrammatical
+á K c á i à Q à S q e T M è I R g f V à N O O r e w G	ungrammatical
+à a M Y i u ě d o Y R g X q p Z R l y l W V è e G r F	ungrammatical
+ǎ m G ú e O b f N V M K J s O W U Y m è R Z z u ě e Y	ungrammatical
+è é ǔ a g Y ò á T N h u g G U f ú i v v Z z X g ú t a	ungrammatical
+ě R G C M B Q H ǒ j N ǔ Q x ó n B ǔ l C ǒ I z à d s ó	ungrammatical
+ó f M O ǎ ǔ ǎ U S K j k è r R U c N D q q c E l J S o	ungrammatical
+ò s ǎ d s c P è ǎ r S A r K J á R W F T b v ó b b Z ǔ	ungrammatical
+ú X i V p B B B S j ě s G E V P e r G Z E b ǎ k z é ù	ungrammatical
+A o m M W T N r e ě G F F O u s ǒ j E b f e G S x x V	ungrammatical
+C é f C i b ò t y N O w G g C z X i G ò u ǒ V d i d ù	ungrammatical
+D T ǒ ě è l S l W á F q V v x h k j B u ǔ w B m X E K	ungrammatical
+E n C à z A j U w V é E ǎ G R p O à v o A U Q ǔ V D N	ungrammatical
+G è ù Q è ǒ a i p ǎ U N r O c u ù Q Z T h K à Z J Y O	ungrammatical
+H J k é ù m I M ò F ǔ r f I N R O r N D i C B W Y d w	ungrammatical
+I i à U t ǔ g X p y ě B z á ǒ X a k O ǎ k d n C o ù J	ungrammatical
+K á N Q z v O G Y n T e è f n A s y P k I l c m b x ǎ	ungrammatical
+L ǒ m H V à n u f b h E Z T M u ó n X a g W x u U t ú	ungrammatical
+M K M W ǎ g e o H Z w J é U q l k h a ǎ g K z r Y T ǔ	ungrammatical
+N Y S T J M ǔ g Y l h Y N s s ó I g F I q y j g d ǎ ě	ungrammatical
+O c M N j Y á ě ǒ I T G b ǎ c e ò Z w ú J Y J u ú e G	ungrammatical
+P u t o à c k é ě b è t á p ǒ ǒ x u J D P s c E v S P	ungrammatical
+R ò J Q X f t ǎ W q U e w r H ò F c u s R U t ò R m f	ungrammatical
+S F é P a g ó L g l F v P d Y Y q x e V á P K ò Z k ǎ	ungrammatical
+T T Y b n G X Z d ǔ K Y è t o L q c i V D B M N M á u	ungrammatical
+U f L l B P t m s E M ǒ a z I r O ù P v K é s y t I f	ungrammatical
+W á s á p C d ě x a h h q á u c A ǒ ù c R à è o è ò F	ungrammatical
+X O L r o y F á ě I é ó i R á ǎ V o h ě u D x Z P G I	ungrammatical
+Y f I g é A à G r t I d ò c f o y c M r e ú ǒ K t L z	ungrammatical
+a I Y m E é ǔ N d é p T z ǔ Y ǒ é d s D á q ě i T M e	ungrammatical
+b P P i f ǎ è J O ó D B ó x x è ǔ z è N O B H E ó q ě	ungrammatical
+c f y N á ò Z e é n t é D r R ě k w D T t ě u b r u c	ungrammatical
+e F N u j z U W ě g h s e q X E X F M U ǒ Y I è a ǔ m	ungrammatical
+f N E ù D e Q i g K d W h ú à H è a k S w e u S C d k	ungrammatical
+g j Y ò S q Y m n ù w r e d Q X O n j e P O G W d i T	ungrammatical
+h o i t V ó D B Y L m u s w à ù ǒ à ě N o I s E I à H	ungrammatical
+j E m M à N W T è d W D G j T P k Y a r A Q ú D T u u	ungrammatical
+k S Q ù C Z á X S S T o u Q Q q H R D ú A T Z e U h J	ungrammatical
+l j t J l V k X j o f ǒ o q h I W G u t k ǔ ò g k A ǒ	ungrammatical
+n ǒ l I V ǎ ǒ K m Y d k H K B M T ǒ G A G x g H s X O	ungrammatical
+o D R u c S a b d s H y d w r à A X y i d Y s T a n m	ungrammatical
+p T o A s A ǎ P m U ú ě e k à X à u d i e U y L K R q	ungrammatical
+q r Y ǎ è ó J V E G v S y j ě v G i X p á h I W q A Z	ungrammatical
+s A G S ǎ S i K á l u B W e y ù à ě x u h ǔ p I è D ě	ungrammatical
+t X H Z M A ó u á F F y K V ò m L S E I D f L ǒ é O R	ungrammatical
+u o ǎ q P E G U è ě é x ě L O a h K O ú A S v ǔ A R T	ungrammatical
+w C L è i ǎ l b S C x N h ò ú z f z Z Y I G o ú h j v	ungrammatical
+x U N V U ǔ J ě à b o a C b S w N N P ǎ i z à A v m S	ungrammatical
+y d V r t u I F Z ò ó j Z l é ǔ o S ǎ W ě x ú w ǔ ǔ O	ungrammatical
+a a a a a ù ǔ S H N V v z ě V V E u a A x i t b b b b b	grammatical
+a a a a a ǔ P G ò J C T t c J J M i f F H F A b b b b b	grammatical
+a a a a a á h ó M P G b S i ǒ m á C K P b D ǎ b b b b b	grammatical
+a a a a a à s l F C ǎ I K O r N j ú à a k L ò b b b b b	grammatical
+a a a a a é ò ǒ T ǔ u M N D I B I F G é ò U B b b b b b	grammatical
+a a a a a è J h i é q x C é x C a H è Z ó W h b b b b b	grammatical
+a a a a a ě X m Q k e U à u Q b e n E w j ò á b b b b b	grammatical
+a a a a a ó f V g p O à á g E l d j W V E C ě b b b b b	grammatical
+a a a a a ò y E g l q D g b e s B G l ǒ B O K b b b b b	grammatical
+a a a a a ú ú w é f T L m S ǔ u w y u T K ǎ W b b b b b	grammatical
+a a a a a A Q s M E p G y ó z ǔ L ó s r l z p b b b b b	grammatical
+a a a a a B n ǒ à R N à ǔ e D ǎ d T c á ě R ò b b b b b	grammatical
+a a a a a C z d m I ó u r ǒ c ú T O r o ě d u b b b b b	grammatical
+a a a a a E K ó c è o b H è ǒ ù i q m q à u C b b b b b	grammatical
+a a a a a F T j á w K J I D y z Q ò o R á L t b b b b b	grammatical
+a a a a a G r e X p C T x T ò á H é q K Z y B b b b b b	grammatical
+a a a a a I á P M i d V ó x O O ě g h C c h F b b b b b	grammatical
+a a a a a J N m s q C z p l C C G w n I é ě v b b b b b	grammatical
+a a a a a K g k W z ú Y q U ǎ ǒ U R C H P s Y b b b b b	grammatical
+a a a a a L q k K z B ǔ Y i X o O S F G ú ǔ ú b b b b b	grammatical
+a a a a a N P ó c f D ǒ P P o r t g R ǒ Z c Z b b b b b	grammatical
+a a a a a O a è g C M E a à W ǎ i ě C v F d j b b b b b	grammatical
+a a a a a Q ó à b J q F ǔ H y Q é ò T b J Z H b b b b b	grammatical
+a a a a a R F i M n N W è m ǒ ò Z d u f i w ě b b b b b	grammatical
+a a a a a S f q v a ò Y Z á T à q s f t è P á b b b b b	grammatical
+a a a a a T x i O V U l ò H K e b r P F b k u b b b b b	grammatical
+a a a a a V ú v h t N K a ǒ e t à ǔ h I Z j Z b b b b b	grammatical
+a a a a a W X r z L á S i Q ù q I d á ò ò L s b b b b b	grammatical
+a a a a a X i L P H v t n F l ò ǔ ú Q p V B c b b b b b	grammatical
+a a a a a Y g K F O u B a ù k y ǔ l é ě z w F b b b b b	grammatical
+a a a a a Z w Q r E ò B è ù g H M L F i e h k b b b b b	grammatical
+a a a a a b ě p X o l ǒ K v g j r h á A ǎ l u b b b b b	grammatical
+a a a a a c O ò R L R C R V r o x H è é S I ě b b b b b	grammatical
+a a a a a d V ù R b R o ú é ǒ r i v i y G B á b b b b b	grammatical
+a a a a a e o ǒ R z f b f d ó t s Q H a l à j b b b b b	grammatical
+a a a a a g A á K E t C X I á h v q k W k é h b b b b b	grammatical
+a a a a a h V b J x D ó k q q F U H F u P G J b b b b b	grammatical
+a a a a a i x ó k à ǎ Q z L G N H K M z G b Z b b b b b	grammatical
+a a a a a k C k ú B ǎ ó T X Y V ò q ě N x k h b b b b b	grammatical
+a a a a a l k X a H m F i K z W l ǒ J Y v o D b b b b b	grammatical
+a a a a a m x ě e M K O W ǒ o ó s d Q n P k j b b b b b	grammatical
+a a a a a o á Z ù p ǎ y l T C s N M O f H t ù b b b b b	grammatical
+a a a a a p I Q v W A A Q L ǔ H y N O g k m S b b b b b	grammatical
+a a a a a q h s ǔ v i r B B ě E x j w B n O Q b b b b b	grammatical
+a a a a a r w E é k o B o U s Z S T x u P k j b b b b b	grammatical
+a a a a a t J V b h m ǒ G R Z l y L u O Z ǎ U b b b b b	grammatical
+a a a a a u j D A l i x f j P ú ù N ě i è ǔ Z b b b b b	grammatical
+a a a a a w ǔ C A n T f U S F S O á O D ǒ à b b b b b b	grammatical
+a a a a a x O Q f K B ǔ é b s ǔ S D B M i r ò b b b b b	grammatical
+a a a a a y e i y D ǒ ǒ f O G E v k K ó à ó f b b b b b	grammatical
+ù ù e ǔ y s a D F x Q ǒ é Y B g r Y ǔ Z s f o h o S F U	ungrammatical
+ǔ E Q h A ě J F F a ǔ g M E N O L á i ú n z e H b U S j	ungrammatical
+á U s h P C W ǒ D u a u k k B K a L ó p y ě T o ò z h h	ungrammatical
+à i ǒ m p O T r c E D X I E A L g V è e ù u ǔ ú w A n E	ungrammatical
+ǎ p f ě j Z K d k ě á W b Q P U L G j r a a e B N y e F	ungrammatical
+è ú ǔ L y A u X t z f ú F g D M v ǔ L C Q r Q z m ě è N	ungrammatical
+ě Q ú A E I U e i ò ǔ w ù t p I M á Q à Y w K ò ǎ X e u	ungrammatical
+ó g u à n N Z C x ù Z k R Y f Q x ó u U K r ǔ F á b K ò	ungrammatical
+ǒ ǎ D V a é x R ǔ x x z f ǔ M K K q b I b m k B ú P M ě	ungrammatical
+ú è F l F W ú S g P J ó g Y H A u E ù Y A h l u V N m ǒ	ungrammatical
+A a k ě L h W I u M N f l P W G H p V ù n k O g q f á T	ungrammatical
+B q Y Q ǒ ǔ ǎ v y I ò b c i g X é X m r f I l à C Z a ě	ungrammatical
+D P S ó ù V à n M v T L R Y h i t O v O C b A J ǔ U ǎ ě	ungrammatical
+E o á C F D w W z q o u g b u a m ǒ s A p h d è W D ě ò	ungrammatical
+F v V è é P g u ǔ ù x R é V o Q V Q U D L L c ǎ ù u I U	ungrammatical
+H M h f K F t i N ǒ w L Y q L R t K H F c b ǎ k N X P B	ungrammatical
+I c y X s é e I T r M I K h L s U ù c r c G g ú ě t o O	ungrammatical
+J z e ó q x ǎ V ù x t h b D d i l à ò F t M A q O I O U	ungrammatical
+L D M w n C w à Z L p L v u e y ǔ Q ǎ ó y t A C g S P K	ungrammatical
+M j é K Y x ú ú R Y Q v c O U P è h K X T K j c W Q t g	ungrammatical
+N s f T e Z c n l ě N M s S I W B P è V k r i f ǔ é r L	ungrammatical
+P J r o o a V ò f v e ǎ O z j I Z c k Y ù X á n z D U T	ungrammatical
+Q S H U e Q H M n X h ú e y i B H O u c l u à c Y C ě d	ungrammatical
+R c T q K A J ǎ ǎ J G n L v á B F f q ě a à Q ù O h ú v	ungrammatical
+S j v è d ǔ ě j A è l w ó q e R q ò F k c ě w X é p O m	ungrammatical
+U ǔ G i x ù ò l j ò e l O G X g L m I E v P à X Z R o n	ungrammatical
+V ò v P m A ú W I n f l b ù q i ù á x á v q y G N g w n	ungrammatical
+W X j H N D ó r ě E A A Z q D Q à U W j ǒ B d f L X è Q	ungrammatical
+X m E v Z i A N V ú ǒ ǒ U ǎ k s ò A à r c á T Y s X t ǒ	ungrammatical
+Z B i u W Q ú b ó N Q J L ě ǔ u z P o H ó t f L N o à g	ungrammatical
+a d K H è à é ó s Z E m z ǔ r O ǒ n é g ù j k b p W L w	ungrammatical
+b p N Q ǔ ǎ A q ǔ U o k ù G J I w F v ù K ù q S à ǎ O W	ungrammatical
+d è U R x F z C E H x e X K s ǒ G t X K W P é S z G V D	ungrammatical
+e L D M E ò X ù z f C v R b T f I I Q v ó A ò Q o o M V	ungrammatical
+f t f ǔ y a R w e k P o ò O Z k è E G ù H L t K r Y u E	ungrammatical
+h á M V ó è ù é r O ǒ ǎ Z v p Y n W L L i u ě L p p d g	ungrammatical
+i M k à ǎ ó k w à a R ú D D g a b O Y ò è l Q Z F S M ú	ungrammatical
+j o ó é u z ǒ A k ǎ è c j g H p L g U n y ǒ l J F a W N	ungrammatical
+l ǔ F a x o r q i S z B V E t s ě ǔ a P J ó k K A Y h j	ungrammatical
+m A g R j h f ú y q v è è è V Q ó a o S T ó V ǒ P á E l	ungrammatical
+n J A A g R h L s M i r i E N R T a v ǎ é ǎ u H q D o è	ungrammatical
+o R U Q D c V H D è M P M I é ǔ t M Y Z n m G W E Y V Q	ungrammatical
+p S r s ǒ é r D l p q q L a ò V d L ú i y h Y ó V k z ù	ungrammatical
+q Z á d Y V K V Z ò X ù T N D A ó Z h y p L M s x b b d	ungrammatical
+s ù I K B y k f i C n i s ú v ǔ V G k i D E ǔ Z P W n k	ungrammatical
+t S E Y I W ě p X j f é x A ǒ m s j M ò n E H n Q s M è	ungrammatical
+u h B H U Y j h t w Y ù I c u ǒ s N M é g ú è Q M ǒ K M	ungrammatical
+w ò g x R s E W ú s g A G f c g z Q H ú w r F a ó d m ǒ	ungrammatical
+x Q D M H t è R Q H i á e P B t T u m q ě F I a ù J n n	ungrammatical
+y Z q W é D ù a ě Y Z Q W V L x ó f f t w V E l ú O A x	ungrammatical
+a a a a a ù ù T s p Y é C L W è P d h V I u T D b b b b b	grammatical
+a a a a a ǔ M è u O á K ǔ z i t D N A B P W V n b b b b b	grammatical
+a a a a a á S h L é x a B H r I á F c P a C M ó b b b b b	grammatical
+a a a a a à m X b i J f t E ǒ r ù k f s J b ǎ e b b b b b	grammatical
+a a a a a é è Q x ǔ s U K ó s c g I t m h ǒ q é b b b b b	grammatical
+a a a a a è L U S ó G k D u b n ó n x ě a i o ě b b b b b	grammatical
+a a a a a ě r i f ù à q U T E R c f V ù j G p k b b b b b	grammatical
+a a a a a ò D è j b ú B m b ǎ D j y á l ó P E P b b b b b	grammatical
+a a a a a ǒ X T O V O w e E t c ǒ s N c l ǔ à O b b b b b	grammatical
+a a a a a ú j ò ó à V q J ǒ M D ǎ W C é p M à à b b b b b	grammatical
+a a a a a A z K è Y á a G e ú O p Z W J ò v r l b b b b b	grammatical
+a a a a a C G O G Y à E J h E i o K g C R u u r b b b b b	grammatical
+a a a a a D Q w Z r ǔ r D m H P ě é B Y ǔ H R j b b b b b	grammatical
+a a a a a E Y S ó F Q V ú M i a T o m é ǒ X ù Q b b b b b	grammatical
+a a a a a F d k L g B D j a d l b T á d t O Y H b b b b b	grammatical
+a a a a a G t m Z e A b ě ǎ e a V p l C u T r r b b b b b	grammatical
+a a a a a I C ǔ O F f C c R è I z y w k w á V V b b b b b	grammatical
+a a a a a J T N ò F e U G Y D c c ó U W u t ǔ J b b b b b	grammatical
+a a a a a L à y A K Q V y M C B I é q d R è Z T b b b b b	grammatical
+a a a a a M H Q G ó á j à H k h C n m e D G W H b b b b b	grammatical
+a a a a a N T M t N r R c i j p l P W f V l r P b b b b b	grammatical
+a a a a a O d U á ò G E N F P m b t ǔ h r è G è b b b b b	grammatical
+a a a a a Q ù Y L Z X e ú ú k ǔ X V j i d l P F b b b b b	grammatical
+a a a a a R B w p Z G à ù S K I ó f ú Z r ó g A b b b b b	grammatical
+a a a a a S M ú o ò W N N p a ǔ W r D N P B L I b b b b b	grammatical
+a a a a a T n t K B r J p P q ò K M A f I ù ǎ o b b b b b	grammatical
+a a a a a U w X ǔ Q U i j u C V é K l V v h ǔ ò b b b b b	grammatical
+a a a a a W è p è i ú V B P a v S t A C A w T P b b b b b	grammatical
+a a a a a X J w K t ǔ A ǎ d j d u ǔ k l w W ú l b b b b b	grammatical
+a a a a a Y O b J Z h G g I r F e e h ó g è ǒ è b b b b b	grammatical
+a a a a a Z z ǎ f V F f ě F H H I ù E s J ǒ ó M b b b b b	grammatical
+a a a a a b H C ǔ f u K ǒ G Y z C f t é ě j Q z b b b b b	grammatical
+a a a a a c G w l H g A ù N h ó z T c s Z B L v b b b b b	grammatical
+a a a a a d f m f G R B U z p à y j s P Q é s L b b b b b	grammatical
+a a a a a e m ú q L B è T k q r Y E o U h h o ǒ b b b b b	grammatical
+a a a a a g ě t ǒ n w P B M t d ě R E Z c ú i H b b b b b	grammatical
+a a a a a h T B F O u K P ú ě h y r l w Z q I D b b b b b	grammatical
+a a a a a i t f L M t H J i w U ǔ è t Z f Q m f b b b b b	grammatical
+a a a a a k M l H i C k ó G X B h j u x R L h w b b b b b	grammatical
+a a a a a l a Z ě ǔ W é e J t H B I z l N T J Z b b b b b	grammatical
+a a a a a m j b ó x T W p i f ě ú i K e c á C h b b b b b	grammatical
+a a a a a o D N x j A y n d A R ó U R P W è a O b b b b b	grammatical
+a a a a a p W D j D x c à I K u e G q e v w C q b b b b b	grammatical
+a a a a a q l b T j r v F m j B e y M a N C N è b b b b b	grammatical
+a a a a a s ó F T L u c M j y M é t ǒ C o ǎ C m b b b b b	grammatical
+a a a a a t D r j X Z ǔ ǔ A D x ǒ H q é e Y y x b b b b b	grammatical
+a a a a a u W ǒ ǒ Y g m L n z E V ǒ a n u G R r b b b b b	grammatical
+a a a a a v s F ǒ q D H t X X y C Y b ú Y D T i b b b b b	grammatical
+a a a a a x ú a B u o O y ò P ǎ t D V O è a O k b b b b b	grammatical
+a a a a a y U g k F f y x U R y Q c h ě l f V D b b b b b	grammatical
+ù ù Y U O G F l H b ó ě J l ǒ c i l Z A ǎ K D ǔ b c K C ò	ungrammatical
+ǔ M r g z m k m W k G M p S Z e C a q l g p è W j G ǒ g V	ungrammatical
+á a W m à N n K R E v s ǔ ù r g p D R z à ù r y K K I I k	ungrammatical
+à m é g D D e b N j ǒ ù ě x v f e Y c ě B k à ǒ g ó F ě l	ungrammatical
+é C U C z n á ě s b s O R E L y l R F p J P S W A x d k T	ungrammatical
+è P H P Q U L m d i l U j L C n D s ó V e ě K o W E ǔ U k	ungrammatical
+ě K à P ǎ C j ó F ù J r è ú l T d é L ú e ú M p j ò á á p	ungrammatical
+ó d q W y ó a g p i ǔ M W g k Y R M M f J Y m b h ó è P é	ungrammatical
+ò t ǒ j ò F T ù k ǔ T s d d g A J S C c ó k Y é N j s ǒ ě	ungrammatical
+ú à W é F M X r á j ó X z Z t s ú J b c x V U é b k E w b	ungrammatical
+A K S b G x L à h d l k i a n B Y M g i c Y c d j n i D g	ungrammatical
+B Y I I F H v f ó n x ǔ B s A t o a O g à ǒ D L d s P s á	ungrammatical
+C m e u è M Y m u Q P i D V l V Y à G ǔ F K q W ú Z I c e	ungrammatical
+E ǒ c V z l i z P F B C C n G ù A f H M U q n a ě n u c ù	ungrammatical
+F Y p x ò v k w ù v X c P ǒ N ù z E J L b Q c l J F L H O	ungrammatical
+G j g ú L x S y ǒ l Z G V ù I i Z b w à e M P O E A a F B	ungrammatical
+I ǔ X ù k ù ǎ c V I L p t b ǒ è B ǎ B S m D U m J D B d g	ungrammatical
+J D a S l H S V ù ě B ó L z l O ú x ě L o D y g k C á J W	ungrammatical
+K e b D H H r ò W é L v B p ó R i à ǎ j J ǎ é k O c q m O	ungrammatical
+M G f I W I e m ǒ g é C è d I u ě è x N e I v s P X q Y R	ungrammatical
+N Z E j g ǎ j i D f P J O Q J l p x L d o m j w H F y L J	ungrammatical
+O Y q T ě r v j ǔ C y M w ú R Q C T Q T n G R s p S c s S	ungrammatical
+P z é t D è j s u z i R B g a p M x ě y t y E G I H T C l	ungrammatical
+R C w w H ě f á S v o q e ě é ǒ z J d g ò n à c g T X ù v	ungrammatical
+S Z v U I h o V S t r g o ò o A N c P v R X ú è X I J W G	ungrammatical
+T z C u b q f è P ó ò o c ù b l f ě l h a á D z S V W u ǎ	ungrammatical
+V ó I r b F H o X a f Y O K b K E p i M à Y M U ù é j G D	ungrammatical
+W b Z u h g à j e B w d Z B S i b b j D Y z Z r p P y E e	ungrammatical
+X s F C I M k à e ò ě f v J i U V á g b f l Y f h è ù p V	ungrammatical
+Z ǔ ě m x A ù x M ó G s a u J m k E O ǔ n x j C R s ǒ j U	ungrammatical
+a G q é é p t X é N ò ǔ l U H à i k E G w X R Q g J M E Y	ungrammatical
+b X ó E f è o B á G O E x w F M Q K g ó Y A c P I á y ǎ W	ungrammatical
+c i z H r S h y R i p u I J p ò k d b e ù a K ù l w M x m	ungrammatical
+e ě T I E ù ò M ǎ B L e Y D P h g K é Y ò x h P l a P r b	ungrammatical
+f M f f t G g t I y G N J g W P b H C o b y j z D g n d k	ungrammatical
+g f b Q ǎ R y á G x C H w G k è q a m l A j ǔ k T P x s W	ungrammatical
+h y ú P ǒ E D L A B c s G C j ò á K z I K A h á e ú c U u	ungrammatical
+j F o Y Q t E q w Q á ó Z y m G r y ǒ B q o B z I B o M M	ungrammatical
+k X Q t w s q f k T E t r v P Y m à Q C ó x E f f ǎ y Z J	ungrammatical
+l d G U ě v m q l B D z x y X h H B P u ǔ o v A B J g ě H	ungrammatical
+m z ù I ú q m ò ě U m Z x u à o z w i r R F F f x V F F s	ungrammatical
+o I B T U X G S c o è ǒ s s o J M P T b e U T k a L ò U G	ungrammatical
+p Z p h d P I f F e S K ǔ g p F r D I Q ǎ ǒ D m L ǔ h E i	ungrammatical
+q k é b S à D ě d U S á J J ó L T w V T L W U v B A E a r	ungrammatical
+s B a C T ǎ L u E ǔ w y o ú R m k i e ǎ g X g N p R f T C	ungrammatical
+t Y k ě T V o G h ě ú T m V v ǒ I t g O C p u I o x J g K	ungrammatical
+u s M è G ǎ M ú h n D P y g I ǎ ù F Z D S z ó r O n Y y T	ungrammatical
+w á d n F J O w é a o O S w v è ǒ à è d E ù s ǒ o t D S S	ungrammatical
+x H ò G n u v k P ù ú c A ó o j C G t è h ǒ h k J p m ú E	ungrammatical
+y g Y d X ò l ò ǒ g m P u c ù P i R j s ě é V N L R U Z G	ungrammatical
