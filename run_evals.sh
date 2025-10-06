@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-window-per-model launcher for eval_model.py
+# One-window-per-model launcher for eval_model.py  (fixed: include test_file)
 set -euo pipefail
 shopt -s nullglob
 
@@ -7,7 +7,7 @@ shopt -s nullglob
 DATA_DIRECTORY="${DATA_DIRECTORY:-data/converted_mlregtest}"
 OUTPUT_DIR="${OUTPUT_DIR:-output/model_evaluations}"
 EVAL_SCRIPT="${EVAL_SCRIPT:-eval_model.py}"
-PYBIN="${PYBIN:-python}"                   # e.g., python3.13 if you like
+PYBIN="${PYBIN:-python3.13}"
 
 MODEL_CLASSES=(
   "ptsl2"
@@ -26,7 +26,6 @@ LRS=( ${LRS:-0.01} )
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 open_terminal_with_script() {
-  # $1: title ; stdin: commands to run
   local title="$1" tmp
   tmp="$(mktemp -t "run_${title}_XXXX.command")"
   {
@@ -41,8 +40,7 @@ open_terminal_with_script() {
   /usr/bin/open -a Terminal "$tmp"
 }
 
-# Safely printf a single ARG as a shell-escaped token
-q() { printf %q "$1"; }
+q() { printf %q "$1"; }  # shell-escape a single token
 
 mkdir -p "$OUTPUT_DIR"
 
@@ -50,13 +48,13 @@ echo "Scanning datasets under: $DATA_DIRECTORY"
 echo
 
 # ── Discover datasets and pick files (first alphabetically, as before) ─────────
-# Build an array of records: BASENAME|TRAIN|TEST_PAIRED|TEST_UNPAIRED
+# Store records as: BASENAME|TRAIN|TEST_PAIRED|TEST_UNPAIRED
 DATASETS=()
 for DIR in "$DATA_DIRECTORY"/*/; do
   DIR="${DIR%/}"
   BASENAME="$(basename "$DIR")"
-  training="$(find "$DIR" -maxdepth 1 -type f -name '*LearningData*'   | LC_ALL=C sort | sed -n '1p')"
-  testing_paired="$(find "$DIR" -maxdepth 1 -type f -name '*TestingPairs*'  | LC_ALL=C sort | sed -n '1p')"
+  training="$(find "$DIR" -maxdepth 1 -type f -name '*LearningData*'     | LC_ALL=C sort | sed -n '1p')"
+  testing_paired="$(find "$DIR" -maxdepth 1 -type f -name '*TestingPairs*'   | LC_ALL=C sort | sed -n '1p')"
   testing_unpaired="$(find "$DIR" -maxdepth 1 -type f -name '*TestingUnpaired*' | LC_ALL=C sort | sed -n '1p')"
 
   if [[ -z "${training:-}" || -z "${testing_paired:-}" ]]; then
@@ -91,14 +89,17 @@ for model_type in "${MODEL_CLASSES[@]}"; do
             model_string="${model_type}_bs${bs}_ep${ne}_lr${lr}"
             outfile="$OUTPUT_DIR/$BASENAME/$model_type/${model_string}.txt"
 
-            # Build command line (stdout -> file, stderr -> console)
-            printf 'echo "     Running: %s %s %s %s --batch_size %s --num_epochs %s --lr %s --report_every 10 --save_checkpoints --checkpoint_filename %s --checkpoint_folder %s"\n' \
-              "$(q "$PYBIN")" "$(q "$EVAL_SCRIPT")" "$(q "$model_type")" "$(q "$training")" \
+            # ----- PRINT command (for visibility) -----
+            printf 'echo "     Running: %s %s %s %s %s --batch_size %s --num_epochs %s --lr %s --report_every 10 --save_checkpoints --checkpoint_filename %s --checkpoint_folder %s --test_data_paired"\n' \
+              "$(q "$PYBIN")" "$(q "$EVAL_SCRIPT")" "$(q "$model_type")" \
+              "$(q "$training")" "$(q "$testing_paired")" \
               "$bs" "$ne" "$lr" "$(q "$model_string")" "$(q "$OUTPUT_DIR/$BASENAME/$model_type")"
 
-            printf '%s %s %s %s --batch_size %s --num_epochs %s --lr %s --report_every 10 --save_checkpoints --checkpoint_filename %s --checkpoint_folder %s >%s &\n' \
+            # ----- ACTUAL command (stdout -> file, stderr -> console) -----
+            printf '%s %s %s %s %s --batch_size %s --num_epochs %s --lr %s --report_every 10 --save_checkpoints --checkpoint_filename %s --checkpoint_folder %s --test_data_paired >%s &\n' \
               "$(q "$PYBIN")" "$(q "$EVAL_SCRIPT")" "$(q "$model_type")" \
-              "$(q "$training")" "$bs" "$ne" "$lr" \
+              "$(q "$training")" "$(q "$testing_paired")" \
+              "$bs" "$ne" "$lr" \
               "$(q "$model_string")" "$(q "$OUTPUT_DIR/$BASENAME/$model_type")" \
               "$(q "$outfile")"
 
@@ -108,9 +109,8 @@ for model_type in "${MODEL_CLASSES[@]}"; do
       done
       printf 'echo\n'
     done
-    printf 'wait\n'  # wait for all backgrounded jobs in this window
+    printf 'wait\n'
   } | open_terminal_with_script "MODEL_${model_type}"
-  # Small gap so macOS doesn't coalesce launches
   sleep 0.1
 done
 

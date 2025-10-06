@@ -29,7 +29,6 @@ L: Long
 
 k = 2 for 2.1.0
 
-
 * testing pairs, only keep those that have the matching length of grammatical and ungrammatical strings.
 * what's the role of context window---cannot compute a nonlinear function
   * it's not really a thing, you can only look at one thing at a time, so no XOR
@@ -46,3 +45,9 @@ k = 2 for 2.1.0
   * having more parameters make you learn better?
     * two different parameterizations e.g. PFA characterized by one T, vs. PFA characterized by two Ts.
   * Cognition: repeated patterns + dimensionality reduction (Rabuseau)
+
+
+
+chmod +x run_evals.sh
+
+./run_evals.sh
