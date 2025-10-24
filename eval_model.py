@@ -26,7 +26,7 @@ def get_model(model_type: str,
     if state_dim is None:
         state_dim = vocab_size + 1 # for eos
 
-    if model_type == 'sl2': 
+    if model_type == 'sl2':
         model = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
     elif model_type == 'pfsa_sl2':
         # same as SL2, but backed by PFSA instead of SSM; outcomes should be identical
@@ -55,7 +55,7 @@ def get_model(model_type: str,
             init_T=init_temperature,
             semiring=ssm.LogspaceSemiring
         )
-        model = model1 * model2        
+        model = model1 * model2
     elif model_type == 'sl2_plus_pfsa':
         model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
         model2 = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
@@ -70,7 +70,7 @@ def get_model(model_type: str,
         model = model1 * model2
     elif model_type == 'quasi_sp2':
         model = ssm.QuasiSP2.initialize(vocab_size, init_T=init_temperature)
-    elif model_type == 'soft_tsl2': 
+    elif model_type == 'soft_tsl2':
         model = ssm.SoftTSL2.initialize(
             vocab_size,
             init_T=init_temperature,
@@ -82,7 +82,7 @@ def get_model(model_type: str,
             vocab_size,
             init_T=init_temperature,
             init_T_projection=init_temperature,
-        )        
+        )
         model = model1 * model2
     elif model_type == 'sl2_times_ptsl2':
         model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
@@ -119,11 +119,11 @@ def get_model(model_type: str,
             init_T_B=init_temperature,
             init_T_C=init_temperature,
         )
-    elif model_type == 'diag_ssm': 
+    elif model_type == 'diag_ssm':
         model = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
-            B=torch.eye(state_dim, device=DEVICE)[:, 1:],            
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
             init_T_A=init_temperature,
             init_T_C=init_temperature,
         )
@@ -134,15 +134,15 @@ def get_model(model_type: str,
             B=torch.eye(state_dim, device=DEVICE)[:, 1:],
             init_T_A=init_temperature,
             init_T_C=init_temperature,
-        )        
+        )
         model2 = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
-            B=torch.eye(state_dim, device=DEVICE)[:, 1:],            
+            B=torch.eye(state_dim, device=DEVICE)[:, 1:],
             init_T_A=init_temperature,
             init_T_C=init_temperature,
         )
-        model = model1 * model2        
+        model = model1 * model2
     elif model_type == 'sl2_times_diag_ssm':
         model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
         model2 = ssm.SquashedDiagonalSSMPhonotacticsModel.initialize(
@@ -206,7 +206,7 @@ def categorical_eval(test_data, judgments, paired=False):
             result['%s_%s_diff' % (str(values[0]), str(values[1]))] = diffs.mean().item()
             result['%s_%s_diff_t' % (str(values[0]), str(values[1]))] = scipy.stats.ttest_rel(*scores).statistic
         return result
-            
+
     return compute_scores
 
 if __name__ == "__main__":
@@ -245,6 +245,8 @@ if __name__ == "__main__":
     parser.add_argument('--checkpoint_folder', type=str, default='.')
     parser.add_argument('--checkpoint_filename', type=str, default="model",
                         help="Filename prefix for checkpoints.")
+    parser.add_argument('--no_filter_training_grammatical', action='store_true',
+                        help="Do NOT filter training data to only include grammatical examples.")
 
     args = parser.parse_args()
 
@@ -253,7 +255,8 @@ if __name__ == "__main__":
         col_separator=args.col_separator,
         char_separator=args.char_separator,
         header=not args.no_header,
-    ) # TODO: need to filter true?
+        filter_grammatical=not args.no_filter_training_grammatical  # Default to True unless disabled
+    )
     vocab_size = get_vocab_size(train_data)
 
     if args.test_file is None:
@@ -264,7 +267,7 @@ if __name__ == "__main__":
             col_separator=args.col_separator,
             char_separator=args.char_separator,
             phone2ix=phone2ix, # ensure same vocabulary mapping
-            paired=args.test_data_paired, 
+            paired=args.test_data_paired,
         )
         judgments = test_extra[0]
         if args.numerical_eval:
@@ -291,7 +294,7 @@ if __name__ == "__main__":
         if test_eval_fn is not None:
             d |= test_eval_fn(model)
         return d
-        
+
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
     model.phone2ix = phone2ix # just attach the phoneme-to-index mapping to the model
@@ -300,7 +303,7 @@ if __name__ == "__main__":
     else:
         os.makedirs(os.path.join(args.checkpoint_folder, 'checkpoints'), exist_ok=True)
         checkpoint_prefix = "%s/checkpoints/%s" % (args.checkpoint_folder, args.checkpoint_filename)
-    
+
     model.train(
         batches,
         report_every=args.report_every,
