@@ -1,5 +1,8 @@
 import os
+import sys
 import csv
+import math
+import random
 import argparse
 import itertools
 from typing import *
@@ -16,8 +19,22 @@ import ssm
 
 CHECKPOINT_DIR = "checkpoints"
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-
+SHUFFLE_SEED = 0
+DEV_PROPORTION = .1
 INF = float('inf')
+
+def deterministic_shuffle(xs, seed=SHUFFLE_SEED):
+    ys = list(xs)
+    random.seed(SHUFFLE_SEED)
+    random.shuffle(ys)
+    return ys
+
+def train_dev_split(xs, proportion=DEV_PROPORTION):
+    ys = deterministic_shuffle(xs)
+    cutoff = math.floor(len(ys) * proportion)
+    train = ys[:-cutoff]
+    dev = ys[-cutoff:]
+    return train, dev
 
 def get_model(model_type: str,
               vocab_size: int,
@@ -218,6 +235,7 @@ if __name__ == "__main__":
                         help="""Test data, two columns where first is a form
                                 and second is a judgment (TRUE or FALSE, or numerical)""")
     parser.add_argument('--dev_file', type=str, default=None, help="Held out training forms")
+    parser.add_argument('--dev_split', action='store_true', help="Whether to hold out %s of train data randomly as a dev set, if no dev file is specified" % str(DEV_PROPORTION))
     parser.add_argument('--no_header', action='store_true', help="Whether train/dev files have no header")
     parser.add_argument('--test_data_paired', action='store_true',
                         help="Whether the test data is in two-column paired grammatical/ungrammatical format.")
@@ -250,7 +268,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    phone2ix, train_data, train_extra = process_data.process_data(
+    phone2ix, train_data, _ = process_data.process_data(
         args.train_file,
         col_separator=args.col_separator,
         char_separator=args.char_separator,
@@ -275,8 +293,15 @@ if __name__ == "__main__":
         else:
             test_eval_fn = categorical_eval(test_data, judgments, paired=args.test_data_paired)
 
-    if args.dev_file is None:
+    if args.dev_file is None and not args.dev_split:
         dev_eval_fn = None
+    elif args.dev_split:
+        train_data, dev_data = train_dev_split(train_data)
+        dev_eval_fn = dev_eval(dev_data)
+        print(
+            "Split into train set with %d examples and dev set with %d examples" % (len(train_data), len(dev_data)),
+            file=sys.stderr,
+        )
     else:
         _, dev_data, _ = process_data.process_data(
             args.dev_file,
@@ -313,6 +338,7 @@ if __name__ == "__main__":
         convexity_check=args.convexity_check,
         checkpoint_prefix=checkpoint_prefix,
         hyperparams_to_report={
+            'model_type': args.model_type,
             'batch_size': args.batch_size,
             'lr': args.lr,
         }
