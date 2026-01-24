@@ -1,2 +1,7 @@
+# Ignore combined test files
 /output/temp_tests/*
+# Ignore model evaluation checkpoints and individual results text files
 /output/model_evaluations/**/checkpoints/*
+/output/model_evaluations/**/*.txt
+
+__pycache__/*
