@@ -6,7 +6,7 @@ from itertools import product
 PLOT_DIR = 'plots'
 
 def plot_training_metrics(
-    df, model_type, alpha_size, window_size, batch_size, lr, gen_method, id, save_dir=None, figsize=(14, 10)
+    df, model_type, alpha_size, window_size, batch_size, lr, gen_method, id, save_dir=None, figsize=(14, 10), ignore_errors=False
 ):
     """
     Plots training metrics vs step for filtered rows of a dataframe.
@@ -24,8 +24,21 @@ def plot_training_metrics(
     ].sort_values("step")
 
     if filtered_df.empty:
+        if ignore_errors:
+            print("Ignoring error: No matching training run found for params:\n\t" + 
+                  f"model_type={model_type}, alpha_size={alpha_size}, window_size={window_size}, " +  
+                  f"batch_size={batch_size}, lr={lr}, gen_method={gen_method}, id={id}."
+            )
+            return
         raise ValueError("No training run matches the given filter criteria.")
     if len(filtered_df['train_test_class'].unique()) > 1:
+        if ignore_errors:
+            print(
+                "Ignoring error: Multiple matching training runs found for params:\n\t" + 
+                f"model_type={model_type}, alpha_size={alpha_size}, window_size={window_size}, " +  
+                f"batch_size={batch_size}, lr={lr}, gen_method={gen_method}, id={id}."
+            )
+            return
         raise ValueError("Multiple train/test classes match the given filter criteria.")
     train_test_class = filtered_df['train_test_class'].iloc[0]
 
@@ -71,7 +84,7 @@ def plot_training_metrics(
     plt.close()
 
 def driver():
-    alpha_sizes = [4]
+    alpha_sizes = [4, 16]
     window_sizes = [2, 4, 6]
     batch_sizes = [2, 4, 16, 32, 128, 1024]
     lrs = [0.001, 0.01]
@@ -107,7 +120,8 @@ def driver():
             lr=lr,
             gen_method=gen_method,
             id=id,
-            save_dir=plot_dir
+            save_dir=plot_dir,
+            ignore_errors=True
         )
 
 
