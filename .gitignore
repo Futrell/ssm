@@ -4,4 +4,7 @@
 /output/model_evaluations/**/checkpoints/*
 /output/model_evaluations/**/*.txt
 
+# Ignore temporary files
+temp*
+
 __pycache__/*

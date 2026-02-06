@@ -385,7 +385,7 @@ class PhonotacticsModel(torch.nn.Module):
         writer = csv.writer(sys.stdout)
         first_time = True
         for i, (epoch, batch) in enumerate(batches):
-            if i % report_every == 0:
+            if i % report_every == 0 or i == len(batches) - 1:
                 diagnostic = {
                     'step': i,
                     'epoch': epoch,
@@ -403,7 +403,7 @@ class PhonotacticsModel(torch.nn.Module):
             loss.backward()
             opt.step()
             reporting_window.append(loss.detach())
-            if i % report_every == 0:
+            if i % report_every == 0 or i == len(batches) - 1:
                 mean_loss = torch.stack(list(reporting_window)).mean().item()
                 diagnostic['mean_loss'] = mean_loss
                 if convexity_check:
