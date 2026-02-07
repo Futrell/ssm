@@ -4,10 +4,9 @@
 /output/model_evaluations/**/checkpoints/*
 /output/model_evaluations/**/*.txt
 
-# Ignore temporary files
+# Ignore temporary, log, virtual environment files
 temp*
-
-# Ignore virtual environment files
 .venvs/
+logs/
 
 __pycache__/*

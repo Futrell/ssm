@@ -17,11 +17,10 @@ MODEL_CLASSES = [
 ]
 
 # Define hyperparameters for tuning
-# TODO: Revert when sbatch testing is done
 HYPERPARAMETER_GRID = {
-    "batch_size": [1024], #[1, 2, 4, 16, 32],
+    "batch_size": [1, 2, 4, 16, 32],
     "num_epochs": [10],
-    "lr": [0.001]#[0.001, 0.01]
+    "lr": [0.001, 0.01]
 }
 
 DATA_DIRECTORY = "data/converted_mlregtest/"
@@ -134,8 +133,7 @@ if __name__ == "__main__":
                 file_alpha_size, _, file_lang_class, file_window_size, _, ind_data_type, _ = tokens
                 file_index, file_split = ind_data_type.split('_')
 
-                # TODO: Remove 0_ case when sbatch is confirmed to be working
-                if '0_' not in file or file_alpha_size != alpha_size or file_lang_class != args.lang_class or file_window_size != window_size:
+                if file_alpha_size != alpha_size or file_lang_class != args.lang_class or file_window_size != window_size:
                     continue
 
                 grouping_key = '.'.join([file_lang_class, file_alpha_size, file_window_size, file_index])
