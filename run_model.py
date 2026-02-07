@@ -58,9 +58,9 @@ os.makedirs(TEMP_TEST_DIR, exist_ok=True)
 
 # Function to run evaluations for different models and hyperparameters
 def run_evaluations(file_dict, model_types=MODEL_CLASSES):
-    basename = os.path.dirname(file_dict['training']).split('/')[-1]
+    basename = os.path.dirname(file_dict['training'])
     class_type = 'LSA' if 'LSA' in file_dict['testing_paired'] else 'LSR'
-    file_details = file_dict['training'].split('\\')[-1].replace('_Train.txt', '') + '_' + class_type
+    file_details = os.path.splitext(os.path.basename(file_dict['training']))[0].rsplit('_', 1)[0] + '_' + class_type
     # Loop through all model types
     for model_type in model_types:
         print(f"Evaluating model: {model_type}")

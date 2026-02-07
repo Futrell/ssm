@@ -7,4 +7,7 @@
 # Ignore temporary files
 temp*
 
+# Ignore virtual environment files
+.venvs/
+
 __pycache__/*

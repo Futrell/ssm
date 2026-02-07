@@ -1,0 +1,8 @@
+numpy==2.0.2
+pandas==2.3.0
+torch==2.8.0
+tqdm==4.67.1
+scipy==1.13.1
+torch_semiring_einsum==1.2.0
+matplotlib==3.9.4
+matplotlib-inline==0.1.7
