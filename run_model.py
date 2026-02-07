@@ -3,7 +3,6 @@ import subprocess
 from itertools import product
 import argparse
 from collections import defaultdict
-import shutil
 
 # Define available model types
 MODEL_CLASSES = [
@@ -174,5 +173,3 @@ if __name__ == "__main__":
                 'dev': dev_file
             }
             run_evaluations(file_dict, model_types=[args.model_class.lower()])
-
-    shutil.rmtree(TEMP_TEST_DIR)
