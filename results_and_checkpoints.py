@@ -13,7 +13,11 @@ def create_final_results_df_and_checkpoints(models=MODEL_CLASSES, data_class='ml
         dfs = []
         
         for f in glob(model_eval_dir, recursive=True):
-            df = pd.read_csv(f)
+            try:
+                df = pd.read_csv(f)
+            except:
+                print(f"Warning: Could not read {f}. Skipping.")
+                continue
 
             # parent folder name
             folder = os.path.basename(os.path.dirname(f))
