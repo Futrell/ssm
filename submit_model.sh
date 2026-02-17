@@ -24,14 +24,16 @@ python run_model.py $MODEL_TYPE $DATA_CLASS $ALPHA_SIZE $WINDOW_SIZE
 "
 
 PARTITION=standard
-TIME=4-0:00:00
-MEM=32G
+TIME=7-0:00:00
+MEM=4G
 
 sbatch \
   -p "$PARTITION" \
   -J "$JOB_NAME" \
   -t "$TIME" \
   --mem="$MEM" \
+  --cpus-per-task=1 \
+  --ntasks=1 \
   -o logs/$JOB_NAME.%j.out \
   --account="CJMAYER_LAB" \
   --wrap "bash -lc '
