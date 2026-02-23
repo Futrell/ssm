@@ -106,11 +106,11 @@ def run_turkish_evaluations(model_type, use_z_score=False, redo_clean=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run class of phonotactic models on specific natural language datasets")
     parser.add_argument('model_class', type=str, help="Model class to evaluate")
-    parser.add_argument('--dataset', type=str, default='turkish', help="Dataset to use for running model")
+    parser.add_argument('dataset', type=str, help="Dataset to use for running model")
     
     args = parser.parse_args()
 
-    if args.dataset == 'turkish':
+    if args.dataset.lower() == 'turkish':
         run_turkish_evaluations(args.model_class.lower(), use_z_score=False)
         run_turkish_evaluations(args.model_class.lower(), use_z_score=True)
     else:
