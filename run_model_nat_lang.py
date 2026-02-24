@@ -3,7 +3,7 @@ import subprocess
 from itertools import product
 import argparse
 
-from run_model import HYPERPARAMETER_GRID, OUTPUT_DIR
+from run_model import OUTPUT_DIR
 
 TURKISH_DATA_DIRECTORY = os.path.join("data", "turkish")
 ORIG_TRAIN_FILE = os.path.join(TURKISH_DATA_DIRECTORY, "turkish_train.txt")
@@ -13,6 +13,15 @@ CLEAN_TRAIN_FILE = os.path.join(TURKISH_DATA_DIRECTORY, "turkish_train_clean.txt
 CLEAN_DEV_FILE = os.path.join(TURKISH_DATA_DIRECTORY, "turkish_dev_clean.txt")
 CLEAN_TEST_SCORE_FILE = os.path.join(TURKISH_DATA_DIRECTORY, "turkish_test_clean.csv")
 CLEAN_TEST_Z_SCORE_FILE = os.path.join(TURKISH_DATA_DIRECTORY, "turkish_test_z_clean.csv")
+
+# Define hyperparameters for tuning
+# Use smaller batch size than mlregtest training since we have more data (using bs=1 would result in 520k steps
+# and this would take too long)
+HYPERPARAMETER_GRID = {
+    "batch_size": [16, 32, 48, 64, 128],
+    "num_epochs": [10],
+    "lr": [0.001, 0.01]
+}
 
 symbol_mapping = {
     'd͡ʒ': 'dʒ',
