@@ -67,10 +67,64 @@ def create_final_results_df_and_checkpoints(models=MODEL_CLASSES, data_class='ml
         output_path = os.path.join(OUTPUT_DIR, 'data', data_class, model, f'{model}_{data_class}_evals.csv')
         combined.to_csv(output_path, index=False)
 
+def create_results_df_turkish(models=MODEL_CLASSES, data_class='turkish'):
+    for model in models:
+        model_eval_dir = os.path.join(OUTPUT_DIR, 'data', data_class, model, '**', '*.txt')
+
+        dfs = []
+        
+        for f in glob(model_eval_dir, recursive=True):
+            # TODO: Remove this after runs for batch sizes 1,2,4 are complete
+            if '_bs1_' in f or '_bs2_' in f or '_bs4_' in f:
+                continue
+            try:
+                df = pd.read_csv(f)
+            except:
+                print(f"Warning: Could not read {f}. Skipping.")
+                continue
+
+            # parent folder name
+            folder = os.path.basename(os.path.dirname(f))
+            score_type = folder
+
+            # assign columns
+            df = df.assign(
+                score_type=score_type,
+            )
+
+            # enforce column order (metadata first)
+            meta_cols = ['score_type']
+            df = df[meta_cols + [c for c in df.columns if c not in meta_cols]]
+
+            final_step = df.iloc[-1]['step']
+            final_checkpt_orig_file_name = os.path.basename(f).replace('.txt', f'_{final_step}.pt')
+            final_checkpt_orig_path = os.path.join(
+                OUTPUT_DIR, 'data', data_class, model, folder, 'checkpoints', final_checkpt_orig_file_name
+            )
+            final_checkpt_dir = os.path.join(OUTPUT_DIR, 'data', data_class, model, 'final_checkpoints')
+            if not os.path.exists(final_checkpt_dir):
+                os.makedirs(final_checkpt_dir)
+            final_checkpt_new_path = os.path.join(final_checkpt_dir, f'{folder}_final_{final_checkpt_orig_file_name}')
+            shutil.copy(final_checkpt_orig_path, final_checkpt_new_path)
+
+            dfs.append(df)
+
+        combined = pd.concat(dfs, ignore_index=True)
+        output_path = os.path.join(OUTPUT_DIR, 'data', data_class, model, f'{model}_{data_class}_evals.csv')
+        combined.to_csv(output_path, index=False)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Create final results and checkpoints files for phonotactic models")
     parser.add_argument('model_classes', type=str, help="Model classes to create results for, comma-separated")
     parser.add_argument('--data_class', type=str, default='mlregtest', help="Data class to create results for")
     
     args = parser.parse_args()
-    create_final_results_df_and_checkpoints(models=args.model_classes.lower().split(','), data_class=args.data_class.lower())
+    models = args.model_classes.lower().split(',')
+    data_class = args.data_class.lower()
+    if data_class == 'mlregtest':
+        create_final_results_df_and_checkpoints(models=models, data_class=data_class)
+    elif data_class == 'turkish':
+        create_results_df_turkish(models=models, data_class=data_class)
+    else:
+        raise ValueError(f"Unsupported data class: {data_class}")
