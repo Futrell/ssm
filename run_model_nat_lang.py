@@ -2,6 +2,7 @@ import os
 import subprocess
 from itertools import product
 import argparse
+import pandas as pd
 
 from run_model import OUTPUT_DIR
 
@@ -65,8 +66,15 @@ def run_turkish_evaluations(model_type, use_z_score=False, redo_clean=False):
             clean_data_files()
             break
 
-    output_folder = os.path.join(OUTPUT_DIR, TURKISH_DATA_DIRECTORY, model_type, "z_score" if use_z_score else "score")
+    score_type = "z_score" if use_z_score else "score"
+    output_folder = os.path.join(OUTPUT_DIR, TURKISH_DATA_DIRECTORY, model_type, score_type)
     os.makedirs(output_folder, exist_ok=True)
+
+    eval_csv = os.path.join(
+        OUTPUT_DIR, 'data', 'turkish', model_type, f"{model_type}_turkish_evals.csv"
+    )
+    evals_df = pd.read_csv(eval_csv) if os.path.exists(eval_csv) else pd.DataFrame()
+    evals_df = evals_df[evals_df['score_type'] == score_type]
 
     for batch_size, num_epochs, lr in product(
         HYPERPARAMETER_GRID["batch_size"],
@@ -78,9 +86,18 @@ def run_turkish_evaluations(model_type, use_z_score=False, redo_clean=False):
             output_folder,
             f"{model_string}.txt",
         )
-        # Skip if results already exist
-        if os.path.exists(output_file):
+        # Skip if results already exist (either output file exists and is non-empty, or results exist in CSV)
+        if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
+            print(f"Results already exist for {output_file}. Skipping.")
             continue  
+        else:
+            sub_df = evals_df[
+                (evals_df['batch_size'] == batch_size) &
+                (evals_df['lr'] == lr)
+            ]
+            if not sub_df.empty:
+                print(f"Results already exist for {output_file}. Skipping.")
+                continue  
 
         # Run the model evaluation
         command = [

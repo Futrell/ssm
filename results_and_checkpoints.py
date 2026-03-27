@@ -15,8 +15,8 @@ def create_final_results_df_and_checkpoints(models=MODEL_CLASSES, data_class='ml
         for f in glob(model_eval_dir, recursive=True):
             try:
                 df = pd.read_csv(f)
-            except:
-                print(f"Warning: Could not read {f}. Skipping.")
+            except Exception as e:
+                print(f"Warning: Could not read {f} due to {e}. Skipping.")
                 continue
 
             # parent folder name
@@ -65,6 +65,16 @@ def create_final_results_df_and_checkpoints(models=MODEL_CLASSES, data_class='ml
 
         combined = pd.concat(dfs, ignore_index=True)
         output_path = os.path.join(OUTPUT_DIR, 'data', data_class, model, f'{model}_{data_class}_evals.csv')
+
+        # Combined existing CSV with new combined df while overwriting old runs with new runs
+        old_df = pd.read_csv(output_path) if os.path.exists(output_path) else pd.DataFrame()
+        if not old_df.empty:
+            combined = pd.concat(
+                [old_df, combined], ignore_index=True
+            ).drop_duplicates(
+                subset=['train_test_class', 'step', 'epoch', 'model_type','batch_size', 'lr'], keep='last'
+            )
+
         combined.to_csv(output_path, index=False)
 
 def create_results_df_turkish(models=MODEL_CLASSES, data_class='turkish'):
@@ -111,6 +121,16 @@ def create_results_df_turkish(models=MODEL_CLASSES, data_class='turkish'):
 
         combined = pd.concat(dfs, ignore_index=True)
         output_path = os.path.join(OUTPUT_DIR, 'data', data_class, model, f'{model}_{data_class}_evals.csv')
+        
+        # Combined existing CSV with new combined df while overwriting old runs with new runs
+        old_df = pd.read_csv(output_path) if os.path.exists(output_path) else pd.DataFrame()
+        if not old_df.empty:
+            combined = pd.concat(
+                [old_df, combined], ignore_index=True
+            ).drop_duplicates(
+                subset=['score_type', 'step', 'epoch', 'model_type','batch_size', 'lr'], keep='last'
+            )
+
         combined.to_csv(output_path, index=False)
 
 

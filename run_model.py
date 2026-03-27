@@ -3,6 +3,7 @@ import subprocess
 from itertools import product
 import argparse
 from collections import defaultdict
+import pandas as pd
 
 # Define available model types
 MODEL_CLASSES = [
@@ -24,6 +25,8 @@ HYPERPARAMETER_GRID = {
 
 DATA_DIRECTORY = "data/converted_mlregtest/"
 ORIG_DATA_DIRECTORY = os.path.join("data", "mlregtest")
+
+MLREGTEST_DATA_CLASS = 'mlregtest'
 
 def get_directories():
     # Get directories in MLRegTest folder
@@ -63,6 +66,12 @@ def run_evaluations(file_dict, model_types=MODEL_CLASSES):
     for model_type in model_types:
         print(f"Evaluating model: {model_type}")
 
+        eval_csv = os.path.join(
+            OUTPUT_DIR, 'data', MLREGTEST_DATA_CLASS, model_type, f"{model_type}_{MLREGTEST_DATA_CLASS}_evals.csv"
+        )
+        evals_df = pd.read_csv(eval_csv) if os.path.exists(eval_csv) else pd.DataFrame()
+        evals_df = evals_df[evals_df['train_test_class'] == file_details]
+
         # Iterate through combinations of hyperparameters
         for batch_size, num_epochs, lr in product(
             HYPERPARAMETER_GRID["batch_size"],
@@ -77,9 +86,18 @@ def run_evaluations(file_dict, model_types=MODEL_CLASSES):
                 output_folder,
                 f"{model_string}.txt",
             )
-            # Skip if results already exist
-            if os.path.exists(output_file):
+            # Skip if results already exist (either output file exists and is non-empty, or results exist in CSV)
+            if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
+                print(f"Results already exist for {output_file}. Skipping.")
                 continue  
+            else:
+                sub_df = evals_df[
+                    (evals_df['batch_size'] == batch_size) &
+                    (evals_df['lr'] == lr)
+                ]
+                if not sub_df.empty:
+                    print(f"Results already exist for {output_file}. Skipping.")
+                    continue
 
             # Run the model evaluation
             command = [
