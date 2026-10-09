@@ -290,8 +290,6 @@ def test_wfsa():
     assert 371 < fsa.pathsum() < 372
 
 
-# every symbols have two path, one project to the
-
 class SSM(torch.nn.Module):
     def __init__(self, A, B, C, init=None, phi=None, pi=None):
         """
@@ -459,7 +457,7 @@ class MixturePhonotacticsModel(PhonotacticsModel):
             self.logspace_weights = logspace_weights
 
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: bool=False):
-        ys = torch.stack([model.log_likelihood(x) for model in self.models])
+        ys = torch.stack([model.log_likelihood(xs, debug=debug) for model in self.models])
         if self.logspace_weights: 
             weights = self.weights.log_softmax(-1)
         else: 
@@ -598,8 +596,7 @@ class AdjustedNormalized(GloballyNormalized):
         A_normalized = adjustment * A_positive
         final_normalized = adjustment * final_positive
         return self.semiring.from_exp(A_normalized), self.semiring.from_exp(final_normalized)
-    
-        
+
 class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM models don't.
     def log_likelihood(self, xs: Iterable[Sequence[int]], debug: Optional[bool]=False):
         pfsa = self.fsa()
@@ -618,16 +615,8 @@ class LocallyNormalized: # NOTE: PFSA models can have a halting probability, SSM
         # Fisher Information Metric F(A) as a function of probabilities A_ijk = p(s_j, q_k | q_i).
         # Then for underlying parameters \theta, F(\theta) = J F(A) J^T, where J = dA/d\theta.
         pass
-        
 
-
-class LocallyNormalizedWithEOS(LocallyNormalized):
-    def A_and_final_normalized(self):
-        A_positive, _ = self.A_and_final_positive()
-        Z = self.semiring.sum(A_positive, dim=(-1, -2))
-        A_normalized = self.semiring.div(A_positive, Z[:, None, None])
-        return A_normalized, None
-    
+class FSAWithEOS:
     def fsa(self, semiring=None) -> WFSA:
         """ WFSA with an explicit final sink state after eos """
         A_normalized, _ = self.A_and_final_normalized()
@@ -642,7 +631,7 @@ class LocallyNormalizedWithEOS(LocallyNormalized):
         # p(sink, eos | :) = p(eos | :) * 1
         A_delimited = self.semiring.from_exp(torch.zeros(Q+1, S, R+1, device=DEVICE))
         A_delimited[:-1, :, :-1] = A_normalized
-        A_delimited[:, 0, -1] = self.semiring.sum(A_delimited[:, 0, :], -1) # redirect all probability mass into the sink
+        A_delimited[:, 0, -1] = self.semiring.sum(A_delimited[:, 0, :], -1) # redirect all probability mass into the sink -- does this work in the weighted context?
         A_delimited[:, 0, :-1] = self.semiring.zero # after eos, never go into any state except the sink
 
         final = self.semiring.from_exp(torch.zeros(Q+1, device=DEVICE))
@@ -655,6 +644,18 @@ class LocallyNormalizedWithEOS(LocallyNormalized):
             final=final,
             semiring=self.semiring if semiring is None else semiring,
         )
+
+class GloballyNormalizedWithEOS(GloballyNormalized, FSAWithEOS):
+    # not clear if this is right
+    pass
+    
+
+class LocallyNormalizedWithEOS(LocallyNormalized, FSAWithEOS):
+    def A_and_final_normalized(self):
+        A_positive, _ = self.A_and_final_positive()
+        Z = self.semiring.sum(A_positive, dim=(-1, -2))
+        A_normalized = self.semiring.div(A_positive, Z[:, None, None])
+        return A_normalized, None
     
 
 class PFSAPhonotacticsModel(LocallyNormalizedWithEOS, FSAPhonotacticsModel):
@@ -667,13 +668,18 @@ class WFSAPhonotacticsModel(AdjustedNormalized, FSAPhonotacticsModel):
     pass
 
 class pTSL(PFSAPhonotacticsModel):
-    def __init__(self, Eb, pi, final=None, bias=False, semiring=RealSemiring):
+    """ Locally normalized pTSL with a state-independent on-tier total (model 3 of the paper's appendix).
+
+    Symbol 0 is eos, which is always projected: its projection logit is fixed at +inf and is not a parameter.
+    E has shape QS (Q = S+1 states: 0 = start, j+1 = last projected symbol j); pi has shape S-1
+    (projection logits of symbols 1..S-1).
+    """
+    def __init__(self, E, pi, final=None, semiring=RealSemiring):
         super(PhonotacticsModel, self).__init__()
-        self.Eb = Eb # shape QS
-        self.pi = pi # shape S
-        self.bias = bias
+        self.E = E # shape QS
+        self.pi = pi # shape S-1: projection logits of symbols 1..S-1; eos is always projected
         Q, S = self.E.shape
-        assert S == self.pi.shape[-1]
+        assert self.pi.shape[-1] == S - 1, "pi covers symbols 1..S-1 only; eos (symbol 0) is always projected"
 
         self.semiring = semiring
         self.init = self.semiring.from_exp(torch.nn.functional.one_hot(torch.tensor(0), Q)).to(DEVICE)
@@ -683,42 +689,47 @@ class pTSL(PFSAPhonotacticsModel):
         self.T_not_on_tier = self.semiring.from_exp(torch.eye(Q, device=DEVICE))[:, None, :] # shape Q1Q, preserving state
 
     @property
-    def E(self):
-        if self.bias:
-            return self.Eb[:, 0].unsqueeze(-1) + self.Eb[:, 1:]
-        else:
-            return self.Eb
-    
+    def projection_logits(self):
+        """ Projection logits for all S symbols, with eos (symbol 0) fixed at +inf, i.e. always projected. """
+        eos_logit = torch.full_like(self.pi[..., :1], INF)
+        return torch.cat([eos_logit, self.pi], dim=-1)
+
     @classmethod
     def initialize(cls,
                    S,
                    pi=None,
-                   bias=False,
                    learn_final=False,
                    semiring=RealSemiring,
                    requires_grad=True,
                    init_T=DEFAULT_INIT_TEMPERATURE):
         if pi is None:
-            pi = torch.nn.Parameter((1/init_T)*torch.randn(S), requires_grad=requires_grad)
-        E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S+bias), requires_grad=requires_grad)
+            pi = torch.nn.Parameter((1/init_T)*torch.randn(S-1), requires_grad=requires_grad)
+        E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(S+1), requires_grad=requires_grad)
-            model = cls(E, pi, bias=bias, final=final, semiring=semiring)
+            model = cls(E, pi, final=final, semiring=semiring)
         else:
-            model = cls(E, pi, bias=bias, semiring=semiring)
+            model = cls(E, pi, semiring=semiring)
         return model.to(DEVICE)
 
     def A_and_final_positive(self):
-        # In real semiring:
-        # A = proj * self.E.exp()[:, :, None] * self.T_on_tier + (1-proj) * self.T_not_on_tier
-        proj = self.semiring.logistic(self.pi)[None, :, None]
-        not_proj = self.semiring.logistic(-self.pi)[None, :, None]
+        # In real semiring, with proj_j = sigmoid(projection_logits_j):
+        # A_ijk = sum_l(proj_l) * F_ij * T_on_tier_jk + (1-proj_j) * T_not_on_tier_ik,
+        # F_ij = proj_j exp(E_ij) / sum_l proj_l exp(E_il).
+        # A_and_final_normalized then divides every row by its total, S.
+        proj = self.semiring.logistic(self.projection_logits)[None, :, None]
+        not_proj = self.semiring.logistic(-self.projection_logits)[None, :, None]
+        proj_sum = self.semiring.sum(proj, -2, keepdim=True)
         E = self.semiring.from_log(self.E)[:, :, None] 
-        on_tier = self.semiring.mul(E, self.T_on_tier)
-        one = self.semiring.mul(proj, on_tier)
+        on_tier_E = self.semiring.mul(proj, E)
+        on_tier_E_sum = self.semiring.sum(on_tier_E, -2, keepdim=True)
+        on_tier_E_normalized = self.semiring.div(on_tier_E, on_tier_E_sum)
+        on_tier = self.semiring.mul(proj_sum, on_tier_E_normalized)
+        one = self.semiring.mul(on_tier, self.T_on_tier)
         two = self.semiring.mul(not_proj, self.T_not_on_tier)
-        A = self.semiring.add(one, two) 
+        A = self.semiring.add(one, two)
         return A, None
+
 
 class SSMPhonotacticsModel(PhonotacticsModel):
     def __init__(self, A_params, B_params, Cb_params, pi_params=None, init=None, bias=False):

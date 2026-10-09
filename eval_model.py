@@ -50,7 +50,7 @@ def get_model(model_type: str,
         model = ssm.pTSL.initialize(
             vocab_size,
             init_T=init_temperature,
-            pi=torch.full((vocab_size,), INF, device=DEVICE), # force everything projected
+            pi=torch.full((vocab_size-1,), INF, device=DEVICE), # force everything projected (eos always is)
             semiring=ssm.LogspaceSemiring,
         )
     elif model_type == 'sp2':
