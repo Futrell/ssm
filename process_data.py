@@ -1,5 +1,7 @@
+import sys
 import csv
 
+import tqdm
 import torch
 
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -11,7 +13,8 @@ def load_file(filepath, col_separator, char_separator,  header=True, paired=Fals
     with open(filepath, 'rt') as f:
         reader = csv.reader(f, delimiter=col_separator)
         header = next(reader) if header else None
-        for row in reader:
+        print("Loading from %s..." % filepath, file=sys.stderr)
+        for row in tqdm.tqdm(reader):
             if row:
                 if (not filter_grammatical) or (len(row) == 2 and row[1].lower() in GRAMMATICAL_TAGS):
                     if paired:
