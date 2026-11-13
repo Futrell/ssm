@@ -698,12 +698,13 @@ class pTSL(PFSAPhonotacticsModel):
     def initialize(cls,
                    S,
                    pi=None,
+                   pi_offset=0.0,
                    learn_final=False,
                    semiring=RealSemiring,
                    requires_grad=True,
                    init_T=DEFAULT_INIT_TEMPERATURE):
         if pi is None:
-            pi = torch.nn.Parameter((1/init_T)*torch.randn(S-1), requires_grad=requires_grad)
+            pi = torch.nn.Parameter((1/init_T)*torch.randn(S-1) + pi_offset, requires_grad=requires_grad) 
         E = torch.nn.Parameter((1/init_T)*torch.randn(S+1, S), requires_grad=requires_grad)
         if learn_final:
             final = torch.nn.Parameter((1/init_T)*torch.randn(S+1), requires_grad=requires_grad)
@@ -916,13 +917,14 @@ class SoftTierBased(Factor2):
             cls,
             S,
             pi=None,
+            pi_offset=0.0,
             bias=False,
             requires_grad: bool=True,
             init_T=DEFAULT_INIT_TEMPERATURE,
             init_T_projection=DEFAULT_INIT_TEMPERATURE):
         factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
         if pi is None:
-            projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S), requires_grad=requires_grad)
+            projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S) + pi_offset, requires_grad=requires_grad)
         else:
             projection = pi
         return cls.from_factors(factors, projection, bias=bias).to(DEVICE)

@@ -39,6 +39,7 @@ def train_dev_split(xs, proportion=DEV_PROPORTION):
 def get_model(model_type: str,
               vocab_size: int,
               init_temperature: float,
+              pi_offset: float = 0.0,
               state_dim: Optional[int] = None) -> ssm.PhonotacticsModel:
     if state_dim is None:
         state_dim = vocab_size + 1 # for eos
@@ -65,7 +66,7 @@ def get_model(model_type: str,
         )
         model = model1 * model2
     elif model_type == 'ptsl2_times_pfsa':
-        model1 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+        model1 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, pi_offset=pi_offset, semiring=ssm.LogspaceSemiring)
         model2 = ssm.PFSAPhonotacticsModel.initialize(
             state_dim,
             vocab_size,
@@ -78,7 +79,7 @@ def get_model(model_type: str,
         model2 = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
         model = model1 + model2
     elif model_type == 'ptsl2_plus_pfsa':
-        model1 = ssm.pTSL.initialize(vocab_size, semiring=ssm.LogspaceSemiring)
+        model1 = ssm.pTSL.initialize(vocab_size, semiring=ssm.LogspaceSemiring, pi_offset=pi_offset)
         model2 = ssm.PFSAPhonotacticsModel.initialize(state_dim, vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
         model = model1 + model2
     elif model_type == 'sl2_times_sp2':
@@ -92,6 +93,7 @@ def get_model(model_type: str,
             vocab_size,
             init_T=init_temperature,
             init_T_projection=init_temperature,
+            pi_offset=pi_offset,
         )
     elif model_type == 'sl2_times_soft_tsl2':
         model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
@@ -99,6 +101,7 @@ def get_model(model_type: str,
             vocab_size,
             init_T=init_temperature,
             init_T_projection=init_temperature,
+            pi_offset=pi_offset,
         )
         model = model1 * model2
     elif model_type == 'sl2_times_ptsl2':
@@ -106,28 +109,45 @@ def get_model(model_type: str,
         model2 = ssm.pTSL.initialize(
             vocab_size,
             init_T=init_temperature,
+            pi_offset=pi_offset,
             semiring=ssm.LogspaceSemiring,
         )
         model = model1 * model2
+    elif model_type == "sl2_times_sp2_times_ptsl2":
+        model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
+        model2 = ssm.SP2.initialize(vocab_size, init_T=init_temperature)
+        model3 = ssm.pTSL.initialize(
+            vocab_size,
+            init_T=init_temperature,
+            pi_offset=pi_offset,
+            semiring=ssm.LogspaceSemiring,
+        )
+        model = model1 * model2 * model3
     elif model_type == 'sl2_times_mtsl2':
         model1 = ssm.SL2.initialize(vocab_size, init_T=init_temperature)
         model2 = ssm.pTSL.initialize(
             vocab_size,
             init_T=init_temperature,
+            pi_offset=pi_offset,
             semiring=ssm.LogspaceSemiring
         )
         model3 = ssm.pTSL.initialize(
             vocab_size,
             init_T=init_temperature,
+            pi_offset=pi_offset,
             semiring=ssm.LogspaceSemiring
         )
         model = ssm.ProductPhonotacticsModel(model1, model2, model3)
     elif model_type == 'ptsl2':
-        model = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+        model = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, pi_offset=pi_offset, semiring=ssm.LogspaceSemiring)
     elif model_type == 'double_ptsl2':
-        model1 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
-        model2 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, semiring=ssm.LogspaceSemiring)
+        model1 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, pi_offset=0.0, semiring=ssm.LogspaceSemiring)
+        model2 = ssm.pTSL.initialize(vocab_size, init_T=init_temperature, pi_offset=pi_offset, semiring=ssm.LogspaceSemiring)
         model = model1 * model2
+    elif model_type == "double_soft_tsl2":
+        model1 = ssm.SoftTSL2.initialize(vocab_size, init_T=init_temperature, init_T_projection=init_temperature, pi_offset=0.0)
+        model2 = ssm.SoftTSL2.initialize(vocab_size, init_T=init_temperature, init_T_projection=init_temperature, pi_offset=pi_offset)
+        model = model1 * model2        
     elif model_type == 'ssm':
         model = ssm.SSMPhonotacticsModel.initialize(
             state_dim,
@@ -254,12 +274,14 @@ if __name__ == "__main__":
                         help="Whether to compute a convexity metric at each step (slow)")
     parser.add_argument('--init_temperature', type=float, default=100,
                         help="Initialization temperature")
+    parser.add_argument('--pi_offset', type=float, default=0.0,
+                        help="Offset for projection logit initialization")
     parser.add_argument('--report_every', type=int, default=1,
                         help="How often to report training results")
     parser.add_argument('--reporting_window_size', type=int, default=1,
                         help="Window size for averaging for reporting loss")
     parser.add_argument('--save_checkpoints', action='store_true',
-                        help="Whether to save checkpoints.")
+                   help="Whether to save checkpoints.")
     parser.add_argument('--checkpoint_folder', type=str, default='.')
     parser.add_argument('--checkpoint_filename', type=str, default="model",
                         help="Filename prefix for checkpoints.")
@@ -321,7 +343,7 @@ if __name__ == "__main__":
         return d
 
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
-    model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature)
+    model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature, pi_offset=args.pi_offset)
     model.phone2ix = phone2ix # just attach the phoneme-to-index mapping to the model
     if not args.save_checkpoints:
         checkpoint_prefix = None
