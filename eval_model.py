@@ -1,6 +1,8 @@
 import os
+import re
 import sys
 import csv
+import glob
 import math
 import random
 import argparse
@@ -15,6 +17,7 @@ import scipy
 
 import process_data
 import ssm
+import convexity
 
 
 CHECKPOINT_DIR = "checkpoints"
@@ -246,9 +249,105 @@ def categorical_eval(test_data, judgments, paired=False):
 
     return compute_scores
 
+def checkpoint_step(path: str) -> int:
+    """Training step encoded in a checkpoint filename of the form <prefix>_<step>.pt."""
+    match = re.search(r'_(\d+)\.pt$', path)
+    if match is None:
+        raise ValueError("Cannot parse step from checkpoint filename: %s" % path)
+    return int(match.group(1))
+
+REPORTED_HYPERPARAMS = ['model_type', 'batch_size', 'lr']
+
+def filename_hyperparams(path: str) -> Dict:
+    """Fallback for checkpoints saved before models carried a .hyperparams
+    attribute: parse the run scripts' naming scheme,
+    <model_type>_bs<N>[_ep<E>]_lr<lr>_<step>.pt. Returns whatever was found."""
+    name = os.path.basename(path)
+    result = {}
+    model_type = re.match(r'(.+?)_bs\d+_', name)
+    if model_type:
+        result['model_type'] = model_type.group(1)
+    bs = re.search(r'_bs(\d+)(?=_)', name)
+    if bs:
+        result['batch_size'] = int(bs.group(1))
+    lr = re.search(r'_lr([0-9.eE+-]+)_\d+\.pt$', name)
+    if lr:
+        try:
+            result['lr'] = float(lr.group(1))
+        except ValueError:
+            pass
+    return result
+
+def checkpoint_hyperparams(model, path: str, overrides: Optional[Dict]=None) -> Dict:
+    """Hyperparameters to report for a checkpoint. Precedence: explicit
+    overrides > the model's saved .hyperparams > the filename."""
+    saved = getattr(model, 'hyperparams', None) or {}
+    overrides = overrides or {}
+    for k, v in overrides.items():
+        if k in saved and saved[k] != v:
+            print("Warning: %s: --%s=%s overrides saved value %s" % (path, k, v, saved[k]), file=sys.stderr)
+    merged = filename_hyperparams(path) | saved | overrides
+    if 'model_type' not in merged:
+        raise ValueError("%s: cannot determine model_type from checkpoint or filename; pass --model_type" % path)
+    # Same column order as training output.
+    return {k: merged[k] for k in REPORTED_HYPERPARAMS if k in merged}
+
+def evaluate_checkpoints(paths: Iterable[str],
+                         eval_fn: Callable[[torch.nn.Module], Dict],
+                         phone2ix: Dict,
+                         train_data=None,
+                         convexity_check: bool=False,
+                         hyperparams_to_report: Optional[Dict]=None,
+                         outfile=sys.stdout):
+    """Load each saved checkpoint and run eval_fn on it, writing CSV rows
+    in the same format as PhonotacticsModel.train (minus mean_loss, which
+    depended on training batches; train_loss over the full train set is
+    reported instead when train_data is given)."""
+    paths = sorted(paths, key=checkpoint_step)
+    writer = csv.writer(outfile)
+    first_time = True
+    for path in tqdm.tqdm(paths):
+        # Checkpoints are whole pickled models, so weights_only must be False.
+        model = torch.load(path, map_location=DEVICE, weights_only=False)
+        model_phone2ix = getattr(model, 'phone2ix', None)
+        if model_phone2ix is not None and model_phone2ix != phone2ix:
+            raise ValueError("%s: checkpoint vocabulary does not match the training file's" % path)
+        diagnostic = {'step': checkpoint_step(path), 'checkpoint': path}
+        hyperparams = checkpoint_hyperparams(model, path, hyperparams_to_report)
+        with torch.no_grad():
+            diagnostic |= eval_fn(model)
+            if train_data is not None:
+                diagnostic['train_loss'] = -model.log_likelihood(train_data).mean().item()
+        diagnostic |= hyperparams
+        if convexity_check:
+            loss_closure = lambda: -model.log_likelihood(train_data).mean()
+            low, high = convexity.hessian_spectrum(loss_closure, list(model.parameters()))
+            diagnostic['nonconvexity'] = abs(min(0, low)) / abs(high)
+            diagnostic['high_eigval'] = high
+            diagnostic['low_eigval'] = low
+            bigger = max(abs(high), abs(low))
+            smaller = min(abs(high), abs(low))
+            diagnostic['condition_number'] = bigger / smaller
+        if first_time:
+            writer.writerow(list(diagnostic.keys()))
+            first_time = False
+        writer.writerow(list(diagnostic.values()))
+        outfile.flush()
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train a phonotactics model.")
-    parser.add_argument('model_type', type=str, help="Model type, a string")
+    # With --eval_checkpoints, the model type is normally read from the
+    # checkpoint, so it becomes an optional --model_type override instead of
+    # the first positional argument.
+    eval_mode = any(
+        a == '--eval_checkpoints' or a.startswith('--eval_checkpoints=')
+        for a in sys.argv[1:]
+    )
+    parser = argparse.ArgumentParser(description="Train a phonotactics model, or evaluate saved checkpoints.")
+    if eval_mode:
+        parser.add_argument('--model_type', type=str, default=None,
+                            help="Override the model type saved in the checkpoints")
+    else:
+        parser.add_argument('model_type', type=str, help="Model type, a string")
     parser.add_argument('train_file', type=str,
                         help="Training data, consisting only of good forms")
     parser.add_argument('test_file', type=str, default=None,
@@ -265,11 +364,12 @@ if __name__ == "__main__":
                         help="Delimiter for characters")
     parser.add_argument('--col_separator', type=str, default="\t",
                         help="Delimiter for forms vs. judgments in data files")
-    parser.add_argument('--batch_size', type=int, default=1, help="Batch size")
+    parser.add_argument('--batch_size', type=int, default=None,
+                        help="Batch size (default 1; with --eval_checkpoints, overrides the saved value)")
     parser.add_argument('--num_epochs', type=int, default=1,
                         help="Number of iterations through training data")
-    parser.add_argument('--lr', type=float, default=.001,
-                        help="Adam learning rate")
+    parser.add_argument('--lr', type=float, default=None,
+                        help="Adam learning rate (default .001; with --eval_checkpoints, overrides the saved value)")
     parser.add_argument('--convexity_check', action='store_true',
                         help="Whether to compute a convexity metric at each step (slow)")
     parser.add_argument('--init_temperature', type=float, default=100,
@@ -285,6 +385,10 @@ if __name__ == "__main__":
     parser.add_argument('--checkpoint_folder', type=str, default='.')
     parser.add_argument('--checkpoint_filename', type=str, default="model",
                         help="Filename prefix for checkpoints.")
+    parser.add_argument('--eval_checkpoints', type=str, default=None,
+                        help="""Glob pattern of saved checkpoints (quote it!). If given,
+                                skip training and evaluate each checkpoint instead. Usage:
+                                eval_model.py TRAIN_FILE TEST_FILE --eval_checkpoints GLOB""")
     parser.add_argument('--no_filter_training_grammatical', action='store_true',
                         help="Do NOT filter training data to only include grammatical examples.")
 
@@ -342,9 +446,45 @@ if __name__ == "__main__":
             d |= test_eval_fn(model)
         return d
 
+    if args.eval_checkpoints is not None:
+        paths = glob.glob(args.eval_checkpoints)
+        if not paths:
+            sys.exit("No checkpoints match %s" % args.eval_checkpoints)
+        print("Evaluating %d checkpoints" % len(paths), file=sys.stderr)
+        evaluate_checkpoints(
+            paths,
+            eval_fn,
+            phone2ix,
+            train_data=train_data,
+            convexity_check=args.convexity_check,
+            # Only explicitly given values; the rest come from each checkpoint.
+            hyperparams_to_report={
+                k: v for k, v in [
+                    ('model_type', args.model_type),
+                    ('batch_size', args.batch_size),
+                    ('lr', args.lr),
+                ] if v is not None
+            },
+        )
+        sys.exit(0)
+
+    if args.batch_size is None:
+        args.batch_size = 1
+    if args.lr is None:
+        args.lr = .001
+
     batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature, pi_offset=args.pi_offset)
     model.phone2ix = phone2ix # just attach the phoneme-to-index mapping to the model
+    # Also attach the hyperparameters, so checkpoints are self-describing.
+    model.hyperparams = {
+        'model_type': args.model_type,
+        'batch_size': args.batch_size,
+        'lr': args.lr,
+        'num_epochs': args.num_epochs,
+        'init_temperature': args.init_temperature,
+        'pi_offset': args.pi_offset,
+    }
     if not args.save_checkpoints:
         checkpoint_prefix = None
     else:
@@ -359,9 +499,5 @@ if __name__ == "__main__":
         eval_fn=eval_fn,
         convexity_check=args.convexity_check,
         checkpoint_prefix=checkpoint_prefix,
-        hyperparams_to_report={
-            'model_type': args.model_type,
-            'batch_size': args.batch_size,
-            'lr': args.lr,
-        }
+        hyperparams_to_report={k: model.hyperparams[k] for k in REPORTED_HYPERPARAMS},
     )
