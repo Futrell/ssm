@@ -962,6 +962,11 @@ class TierBased(Factor2):
 
 
 class SoftTierBased(Factor2):
+    """
+    Soft tier projection: symbol s is projected with probability sigmoid(logit_s).
+    Symbol 0 is eos, which is always projected: its projection logit is fixed at
+    +inf and is not a parameter, so pi_params covers symbols 1..S-1 only.
+    """
     @classmethod
     def initialize(
             cls,
@@ -974,14 +979,26 @@ class SoftTierBased(Factor2):
             init_T_projection=DEFAULT_INIT_TEMPERATURE):
         factors = torch.nn.Parameter((1/init_T)*torch.randn(S, S+1), requires_grad=requires_grad)
         if pi is None:
-            projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S) + pi_offset, requires_grad=requires_grad)
+            projection = torch.nn.Parameter((1/init_T_projection)*torch.randn(S-1) + pi_offset, requires_grad=requires_grad)
         else:
             projection = pi
+        assert projection.shape[-1] == S - 1, "pi covers symbols 1..S-1 only; eos (symbol 0) is always projected"
         return cls.from_factors(factors, projection, bias=bias).to(DEVICE)
 
     @property
+    def pi_logits(self):
+        """ Projection logits for all S symbols, with eos (symbol 0) fixed at +inf, i.e. always projected. """
+        S = self.C.shape[0]
+        assert self.pi_params.shape[-1] == S - 1, (
+            "pi_params should cover symbols 1..S-1 (eos is always projected); "
+            "checkpoints saved before eos was fixed on the tier are not supported"
+        )
+        eos_logit = torch.full_like(self.pi_params[..., :1], INF)
+        return torch.cat([eos_logit, self.pi_params], dim=-1)
+
+    @property
     def pi(self):
-        return self.pi_params.sigmoid().unsqueeze(-1).expand(*self.C.shape)
+        return self.pi_logits.sigmoid().unsqueeze(-1).expand(*self.C.shape)
 
 
 class ProbabilisticTierBased(SoftTierBased):
