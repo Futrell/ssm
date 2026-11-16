@@ -24,7 +24,7 @@ for model_type in $MODEL_CLASSES; do
 	mkdir -p "$checkpoint_dir/checkpoints"
 	outfile="output/model_evaluations/${the_basename}/${model_type}/${model_string}.csv"
 	echo "Running ${model_type} on ${the_basename}"
-	python eval_model.py $model_type $training_file $test_file --batch_size $BATCH_SIZE --num_epochs $NUM_EPOCHS --lr $LR --no_header --dev_split --save_checkpoints --checkpoint_folder $checkpoint_dir --checkpoint_filename $model_string > $outfile
+	python eval_model.py $model_type $training_file $test_file --batch_size $BATCH_SIZE --num_epochs $NUM_EPOCHS --lr $LR --no_header --test_no_header --dev_split --save_checkpoints --checkpoint_folder $checkpoint_dir --checkpoint_filename $model_string > $outfile
     done
 done
 
