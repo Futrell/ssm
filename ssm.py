@@ -355,6 +355,46 @@ class SSM(torch.nn.Module):
 
 # Classes for trainable phonotactics models
 
+PARAM_DELTA_NORMS = ('rms', 'relative')
+
+def param_snapshot(model: torch.nn.Module) -> Dict[str, torch.Tensor]:
+    """Detached copies of a model's parameters, keyed by name."""
+    return {name: p.detach().clone() for name, p in model.named_parameters()}
+
+def compute_param_deltas(prev: Optional[Dict[str, torch.Tensor]],
+                         cur: Dict[str, torch.Tensor],
+                         norm: Optional[str]=None) -> Dict[str, Optional[float]]:
+    """One number per parameter: the L2 distance between its previous and
+    current values, as columns delta_<name>. With norm='rms', also
+    delta_rms_<name> = L2 / sqrt(numel); with norm='relative', also
+    delta_rel_<name> = L2 / ||prev||. Entries that are infinite in either
+    snapshot are ignored. With no previous snapshot, all values are None
+    (so the columns still exist, written as empty CSV cells)."""
+    if norm is not None and norm not in PARAM_DELTA_NORMS:
+        raise ValueError("Unknown norm %s; expected one of %s" % (norm, PARAM_DELTA_NORMS))
+    if prev is not None and (prev.keys() != cur.keys() or any(
+            prev[k].shape != cur[k].shape for k in cur)):
+        raise ValueError("Parameter names or shapes differ between snapshots")
+    result = {}
+    for name, value in cur.items():
+        delta = scaled = None
+        if prev is not None:
+            mask = torch.isfinite(prev[name]) & torch.isfinite(value)
+            diff = (value - prev[name])[mask]
+            delta = diff.norm().item()
+            if norm == 'rms':
+                n = mask.sum().item()
+                scaled = delta / n ** .5 if n else None
+            elif norm == 'relative':
+                prev_norm = prev[name][mask].norm().item()
+                scaled = delta / prev_norm if prev_norm else None
+        result['delta_%s' % name] = delta
+        if norm == 'rms':
+            result['delta_rms_%s' % name] = scaled
+        elif norm == 'relative':
+            result['delta_rel_%s' % name] = scaled
+    return result
+
 class PhonotacticsModel(torch.nn.Module):
     def __add__(self, other):
         weights = torch.nn.Parameter(1/DEFAULT_INIT_TEMPERATURE * torch.randn(2))
@@ -376,12 +416,15 @@ class PhonotacticsModel(torch.nn.Module):
               checkpoint_prefix: Optional[str]=None,
               eval_fn: Optional[Callable[[torch.nn.Module], Any]]=None,
               hyperparams_to_report: Optional[Dict]=None,
+              param_deltas: bool=False,
+              param_delta_norm: Optional[str]=None,
               **kwds):
         opt = torch.optim.Adam(params=self.parameters(), **kwds)            
         reporting_window = deque(maxlen=reporting_window_size)
         diagnostics = []
         writer = csv.writer(sys.stdout)
         first_time = True
+        prev_params = prev_step = None
         for i, (epoch, batch) in enumerate(batches):
             if i % report_every == 0 or i == len(batches) - 1:
                 diagnostic = {
@@ -390,6 +433,13 @@ class PhonotacticsModel(torch.nn.Module):
                 }
                 with torch.no_grad():
                     diagnostic |= eval_fn(self)
+                if param_deltas:
+                    # Snapshot at the same point a checkpoint is saved, so these
+                    # match deltas computed later from the checkpoints.
+                    cur_params = param_snapshot(self)
+                    diagnostic['steps_since_prev'] = None if prev_step is None else i - prev_step
+                    diagnostic |= compute_param_deltas(prev_params, cur_params, norm=param_delta_norm)
+                    prev_params, prev_step = cur_params, i
                 if hyperparams_to_report:
                     diagnostic |= hyperparams_to_report
                 if checkpoint_prefix is not None:

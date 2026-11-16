@@ -298,14 +298,18 @@ def evaluate_checkpoints(paths: Iterable[str],
                          train_data=None,
                          convexity_check: bool=False,
                          hyperparams_to_report: Optional[Dict]=None,
+                         param_deltas: bool=False,
+                         param_delta_norm: Optional[str]=None,
                          outfile=sys.stdout):
     """Load each saved checkpoint and run eval_fn on it, writing CSV rows
     in the same format as PhonotacticsModel.train (minus mean_loss, which
     depended on training batches; train_loss over the full train set is
-    reported instead when train_data is given)."""
+    reported instead when train_data is given). With param_deltas, also
+    reports how far each parameter moved since the previous checkpoint."""
     paths = sorted(paths, key=checkpoint_step)
     writer = csv.writer(outfile)
     first_time = True
+    prev_params = prev_step = None
     for path in tqdm.tqdm(paths):
         # Checkpoints are whole pickled models, so weights_only must be False.
         model = torch.load(path, map_location=DEVICE, weights_only=False)
@@ -318,6 +322,12 @@ def evaluate_checkpoints(paths: Iterable[str],
             diagnostic |= eval_fn(model)
             if train_data is not None:
                 diagnostic['train_loss'] = -model.log_likelihood(train_data).mean().item()
+        if param_deltas:
+            step = checkpoint_step(path)
+            cur_params = ssm.param_snapshot(model)
+            diagnostic['steps_since_prev'] = None if prev_step is None else step - prev_step
+            diagnostic |= ssm.compute_param_deltas(prev_params, cur_params, norm=param_delta_norm)
+            prev_params, prev_step = cur_params, step
         diagnostic |= hyperparams
         if convexity_check:
             loss_closure = lambda: -model.log_likelihood(train_data).mean()
@@ -389,10 +399,19 @@ if __name__ == "__main__":
                         help="""Glob pattern of saved checkpoints (quote it!). If given,
                                 skip training and evaluate each checkpoint instead. Usage:
                                 eval_model.py TRAIN_FILE TEST_FILE --eval_checkpoints GLOB""")
+    parser.add_argument('--param_deltas', action='store_true',
+                        help="""Report, for each parameter, the L2 distance from its value at
+                                the previous report step (or previous checkpoint, with
+                                --eval_checkpoints), as columns delta_<name>""")
+    parser.add_argument('--param_delta_norm', choices=ssm.PARAM_DELTA_NORMS, default=None,
+                        help="""Also report normalized deltas: rms = L2/sqrt(numel),
+                                relative = L2/||previous value||""")
     parser.add_argument('--no_filter_training_grammatical', action='store_true',
                         help="Do NOT filter training data to only include grammatical examples.")
 
     args = parser.parse_args()
+    if args.param_delta_norm is not None and not args.param_deltas:
+        parser.error("--param_delta_norm requires --param_deltas")
 
     phone2ix, train_data, _ = process_data.process_data(
         args.train_file,
@@ -457,6 +476,8 @@ if __name__ == "__main__":
             phone2ix,
             train_data=train_data,
             convexity_check=args.convexity_check,
+            param_deltas=args.param_deltas,
+            param_delta_norm=args.param_delta_norm,
             # Only explicitly given values; the rest come from each checkpoint.
             hyperparams_to_report={
                 k: v for k, v in [
@@ -500,4 +521,6 @@ if __name__ == "__main__":
         convexity_check=args.convexity_check,
         checkpoint_prefix=checkpoint_prefix,
         hyperparams_to_report={k: model.hyperparams[k] for k in REPORTED_HYPERPARAMS},
+        param_deltas=args.param_deltas,
+        param_delta_norm=args.param_delta_norm,
     )
