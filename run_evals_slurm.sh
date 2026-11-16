@@ -3,7 +3,7 @@ set -euo pipefail
 
 # --- EDIT THESE IF YOUR CLUSTER REQUIRES THEM ---
 PARTITION=""         # e.g., "short"
-ACCOUNT=""           # e.g., "myacct"
+ACCOUNT="rfutrell"           # e.g., "myacct"
 TIME="24:00:00"     # ~5-30 min of training per run at bs16 on a laptop CPU; generous margin
 MEM="8G"
 CPUS="2"
@@ -13,7 +13,7 @@ GPUS=0               # set to 1 if you want a GPU
 # --- HOW TO GET PYTHON + DEPENDENCIES IN THE JOB ---
 # Option A: conda env (recommended) — name it to your env that has:
 #   torch numpy scipy tqdm torch_semiring_einsum
-ENV_CMD='source ~/miniconda3/etc/profile.d/conda.sh && conda activate myenv'
+ENV_CMD='source ~/miniconda3/etc/profile.d/conda.sh && conda activate torch2'
 
 # Option B: module load (uncomment & adjust, then comment the conda line)
 # ENV_CMD='module load python/3.10 pytorch/2.3 && python -c "import torch"'
@@ -45,6 +45,7 @@ MODEL_CLASSES=(
   "sl2_times_sp2"
   "sl2_times_pfsa"
   "sl2_times_ptsl2"
+  "sl2_times_sp2_times_ptsl2"
 )
 
 mkdir -p "output/model_evaluations/${LANG_NAME}" logs
