@@ -406,6 +406,9 @@ if __name__ == "__main__":
     parser.add_argument('--dev_file', type=str, default=None, help="Held out training forms")
     parser.add_argument('--dev_split', action='store_true', help="Whether to hold out %s of train data randomly as a dev set, if no dev file is specified" % str(DEV_PROPORTION))
     parser.add_argument('--no_header', action='store_true', help="Whether train/dev files have no header")
+    parser.add_argument('--test_no_header', action='store_true',
+                        help="""Whether the test file has no header. Without this flag the
+                                first line of the test file is treated as a header.""")
     parser.add_argument('--test_data_paired', action='store_true',
                         help="Whether the test data is in two-column paired grammatical/ungrammatical format.")
     parser.add_argument('--numerical_eval', action='store_true',
@@ -452,6 +455,8 @@ if __name__ == "__main__":
                         help="Do NOT filter training data to only include grammatical examples.")
 
     args = parser.parse_args()
+    if args.test_no_header and args.test_data_paired:
+        parser.error("--test_data_paired needs the test file's header: it names the two columns")
     if args.param_delta_norm is not None and not args.param_deltas:
         parser.error("--param_delta_norm requires --param_deltas")
 
@@ -473,15 +478,19 @@ if __name__ == "__main__":
             char_separator=args.char_separator,
             phone2ix=phone2ix, # ensure same vocabulary mapping
             paired=args.test_data_paired,
+            header=not args.test_no_header,
         )
         if args.test_data_paired:
             # Each row is a pair of forms; labels come from the header.
             test_eval_fn = categorical_eval(test_data, test_extra[0], paired=True)
         else:
             # Every column after the form is a label column, evaluated by type.
-            with open(args.test_file, newline='') as f:
-                header = next(csv.reader(f, delimiter=args.col_separator))
-            names = header[1:1 + len(test_extra)]
+            if args.test_no_header:
+                names = ['label%d' % (i + 1) for i in range(len(test_extra))]
+            else:
+                with open(args.test_file, newline='') as f:
+                    header = next(csv.reader(f, delimiter=args.col_separator))
+                names = header[1:1 + len(test_extra)]
             test_eval_fn = label_column_evals(test_data, test_extra, names, numeric_first=args.numerical_eval)
 
     if args.dev_file is None and not args.dev_split:
