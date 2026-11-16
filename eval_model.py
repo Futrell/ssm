@@ -220,6 +220,36 @@ def numerical_eval(test_data, judgments):
         }
     return compute_correlations
 
+def is_numeric_column(values) -> bool:
+    """Numeric if every value parses as a number and there are more than two
+    distinct values; a two-valued column (e.g. 0/1) is treated as categories."""
+    try:
+        floats = [float(v) for v in values]
+    except ValueError:
+        return False
+    return len(set(floats)) > 2
+
+def label_column_evals(test_data, columns, names, numeric_first=False):
+    """Evaluation for every label column of a test file: correlations for a
+    numeric column, per-category scores (plus a diff and t-statistic when
+    there are two categories) otherwise. The first column's metrics keep
+    their plain names (spearman, TRUE_scores, ...) for compatibility with
+    existing outputs; later columns are prefixed with their header name."""
+    evals = []
+    for i, (column, name) in enumerate(zip(columns, names)):
+        numeric = (numeric_first and i == 0) or is_numeric_column(column)
+        fn = numerical_eval(test_data, column) if numeric else categorical_eval(test_data, column)
+        prefix = '' if i == 0 else name + '_'
+        print("Test column %s: %s evaluation" % (name, 'numerical' if numeric else 'categorical'), file=sys.stderr)
+        evals.append((prefix, fn))
+
+    def compute(model):
+        result = {}
+        for prefix, fn in evals:
+            result |= {prefix + k: v for k, v in fn(model).items()}
+        return result
+    return compute
+
 def dev_eval(dev_data):
     def do_dev_eval(model):
         result = {}
@@ -232,6 +262,10 @@ def categorical_eval(test_data, judgments, paired=False):
     for form, value in zip(test_data, judgments):
         categorized_data[value].append(form)
     values = list(categorized_data.keys())
+    if not paired:
+        # Paired data keeps the file's column order; otherwise sort so the
+        # sign of the diff doesn't depend on which row happens to come first.
+        values = sorted(values)
 
     def compute_scores(model):
         result = {}
@@ -241,10 +275,16 @@ def categorical_eval(test_data, judgments, paired=False):
         ]
         for value, score in zip(values, scores):
             result['%s_scores' % value] = score.mean().item()
-        if len(scores) == 2 and paired:
-            diffs = scores[0] - scores[1]
-            result['%s_%s_diff' % (str(values[0]), str(values[1]))] = diffs.mean().item()
-            result['%s_%s_diff_t' % (str(values[0]), str(values[1]))] = scipy.stats.ttest_rel(*scores).statistic
+        if len(scores) == 2:
+            label = '%s_%s' % (str(values[0]), str(values[1]))
+            if paired:
+                # Same items in both categories: mean pairwise diff, paired t-test.
+                result[label + '_diff'] = (scores[0] - scores[1]).mean().item()
+                result[label + '_diff_t'] = scipy.stats.ttest_rel(*scores).statistic
+            else:
+                # Different items: diff of means, Welch's unequal-variance t-test.
+                result[label + '_diff'] = (scores[0].mean() - scores[1].mean()).item()
+                result[label + '_diff_t'] = scipy.stats.ttest_ind(*scores, equal_var=False).statistic
         return result
 
     return compute_scores
@@ -369,7 +409,9 @@ if __name__ == "__main__":
     parser.add_argument('--test_data_paired', action='store_true',
                         help="Whether the test data is in two-column paired grammatical/ungrammatical format.")
     parser.add_argument('--numerical_eval', action='store_true',
-                        help="Whether test judgments are numerical, rather than categorical.")
+                        help="""Force numerical evaluation of the first test label column.
+                                Normally unnecessary: each label column is evaluated as
+                                numerical or categorical based on its values.""")
     parser.add_argument('--char_separator', type=str, default=" ",
                         help="Delimiter for characters")
     parser.add_argument('--col_separator', type=str, default="\t",
@@ -432,11 +474,15 @@ if __name__ == "__main__":
             phone2ix=phone2ix, # ensure same vocabulary mapping
             paired=args.test_data_paired,
         )
-        judgments = test_extra[0]
-        if args.numerical_eval:
-            test_eval_fn = numerical_eval(test_data, judgments)
+        if args.test_data_paired:
+            # Each row is a pair of forms; labels come from the header.
+            test_eval_fn = categorical_eval(test_data, test_extra[0], paired=True)
         else:
-            test_eval_fn = categorical_eval(test_data, judgments, paired=args.test_data_paired)
+            # Every column after the form is a label column, evaluated by type.
+            with open(args.test_file, newline='') as f:
+                header = next(csv.reader(f, delimiter=args.col_separator))
+            names = header[1:1 + len(test_extra)]
+            test_eval_fn = label_column_evals(test_data, test_extra, names, numeric_first=args.numerical_eval)
 
     if args.dev_file is None and not args.dev_split:
         dev_eval_fn = None
