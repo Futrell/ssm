@@ -2,7 +2,7 @@
 """Concatenate eval_model.py result CSVs into one CSV, written to stdout.
 
 Every *.csv under DIR (searched recursively) is read and stacked; columns are
-the union across files, blank where a file lacks one. Three columns are added
+the union across files, NA where a file lacks one. Three columns are added
 from each file's path, which is expected to follow the launchers' layout
 <lang>/<model>/<model>_bs<N>_lr<lr>.csv:
 
@@ -22,7 +22,7 @@ import pandas as pd
 
 def read_results(path: Path, root: Path) -> pd.DataFrame | None:
     try:
-        df = pd.read_csv(path, dtype=str, keep_default_na=False, on_bad_lines="warn")
+        df = pd.read_csv(path, dtype=str, on_bad_lines="warn")
     except pd.errors.EmptyDataError:
         print(f"Skipping empty file {path}", file=sys.stderr)
         return None
@@ -49,7 +49,7 @@ def main() -> None:
         sys.exit(f"No result CSVs found under {args.dir}")
 
     combined = pd.concat(frames, ignore_index=True, sort=False)
-    combined.to_csv(sys.stdout, index=False)
+    combined.to_csv(sys.stdout, index=False, na_rep="NA")
     print(f"Aggregated {len(frames)} files, {len(combined)} rows", file=sys.stderr)
 
 
