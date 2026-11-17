@@ -14,6 +14,7 @@ Example:
     python aggregate_output.py output/model_evaluations > aggregated_results.csv
 """
 import argparse
+import signal
 import sys
 from pathlib import Path
 
@@ -36,6 +37,7 @@ def read_results(path: Path, root: Path) -> pd.DataFrame | None:
 
 
 def main() -> None:
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)  # exit quietly when piped into head etc.
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("dir", type=Path, help="Directory to search for result CSVs")
     args = parser.parse_args()
