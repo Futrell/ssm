@@ -35,8 +35,8 @@ TEST_FILE="data/quechua/quechua_test.txt"
 # One job per (model, batch size, learning rate) combination
 BATCH_SIZES=(1 2 4 8)
 LRS=(.001 .01)
-NUM_EPOCHS=10       # 1,975 training forms: ~5,400 steps at bs4, ~680 at bs32
-REPORT_EVERY=50     # eval + checkpoint every N steps: ~110 per run at bs4, ~14 at bs32
+NUM_EPOCHS=10       # 1,975 training forms: ~4,940 steps at bs4, ~620 at bs32
+REPORT_EVERY=50     # eval + checkpoint every N steps: ~99 per run at bs4, ~12 at bs32
 MODEL_CLASSES=(
   "sl2"
   "sp2"

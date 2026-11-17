@@ -422,7 +422,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', type=int, default=None,
                         help="Batch size (default 1; with --eval_checkpoints, overrides the saved value)")
     parser.add_argument('--num_epochs', type=int, default=1,
-                        help="Number of iterations through training data")
+                        help="Number of passes through the training data")
     parser.add_argument('--lr', type=float, default=None,
                         help="Adam learning rate (default .001; with --eval_checkpoints, overrides the saved value)")
     parser.add_argument('--convexity_check', action='store_true',
@@ -549,7 +549,7 @@ if __name__ == "__main__":
     if args.lr is None:
         args.lr = .001
 
-    batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs + 1)))
+    batches = tqdm.tqdm(list(ssm.minibatches(train_data, args.batch_size, args.num_epochs)))
     model = get_model(args.model_type, vocab_size, init_temperature=args.init_temperature, pi_offset=args.pi_offset)
     model.phone2ix = phone2ix # just attach the phoneme-to-index mapping to the model
     # Also attach the hyperparameters, so checkpoints are self-describing.
