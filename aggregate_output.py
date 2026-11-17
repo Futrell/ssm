@@ -1,99 +1,60 @@
 #!/usr/bin/env python3
-import os
-import re
-import csv
+"""Concatenate eval_model.py result CSVs into one CSV.
 
-ROOT_DIR = "output/model_evaluations"
+Every *.csv under DIR (searched recursively) is read and stacked; columns are
+the union across files, blank where a file lacks one. Three columns are added
+from each file's path, which is expected to follow the launchers' layout
+<lang>/<model>/<model>_bs<N>_lr<lr>.csv:
 
-# Matches: {model}_bs{batch}_ep{epoch}_lr{lr}.txt
-FILENAME_RE = re.compile(
-    r"^(?P<model>.+)_bs(?P<batch>\d+)_ep(?P<epoch>\d+)_lr(?P<lr>[0-9.]+)\.txt$"
-)
+    lang    name of the file's grandparent directory
+    model   name of the file's parent directory
+    source  path of the file relative to DIR
 
-def find_files(root):
-    """Yield (lang, model_dir, file_path, meta) for each matching file."""
-    for lang in os.listdir(root):
-        lang_path = os.path.join(root, lang)
-        if not os.path.isdir(lang_path):
-            continue
-        for model_dir in os.listdir(lang_path):
-            model_path = os.path.join(lang_path, model_dir)
-            if not os.path.isdir(model_path):
-                continue
-            for fname in os.listdir(model_path):
-                m = FILENAME_RE.match(fname)
-                if not m:
-                    continue
-                fpath = os.path.join(model_path, fname)
-                meta = m.groupdict()
-                yield lang, model_dir, fpath, {
-                    "lang": lang,
-                    "model": meta["model"],
-                    "batch": int(meta["batch"]),
-                    #"epoch": int(meta["epoch"]),
-                    "lr": float(meta["lr"]),
-                }
+Example:
+    python aggregate_output.py output/model_evaluations -o aggregated_results.csv
+"""
+import argparse
+import sys
+from pathlib import Path
 
-def sniff_dialect(path):
-    """Sniff CSV dialect; fall back to comma."""
-    with open(path, "r", newline="") as f:
-        sample = f.read(4096)
+import pandas as pd
+
+
+def read_results(path: Path, root: Path) -> pd.DataFrame | None:
     try:
-        return csv.Sniffer().sniff(sample)
-    except csv.Error:
-        # Try tab as a common alternative
-        class _TSV(csv.Dialect):
-            delimiter = "\t"
-            quotechar = '"'
-            doublequote = True
-            lineterminator = "\n"
-            quoting = csv.QUOTE_MINIMAL
-            escapechar = None
-            skipinitialspace = False
-        # crude heuristic: if there are lots of tabs, use TSV; else comma
-        if sample.count("\t") > sample.count(","):
-            return _TSV()
-        return csv.get_dialect("excel")
+        df = pd.read_csv(path, dtype=str, keep_default_na=False, on_bad_lines="warn")
+    except pd.errors.EmptyDataError:
+        print(f"Skipping empty file {path}", file=sys.stderr)
+        return None
+    if "source" in df.columns:
+        print(f"Skipping {path}: it is already an aggregate", file=sys.stderr)
+        return None
+    df.insert(0, "lang", path.parent.parent.name)
+    df.insert(1, "model", path.parent.name)
+    df.insert(2, "source", str(path.relative_to(root)))
+    return df
 
-def collect_all_headers(files, new_cols):
-    """One pass to compute union of headers across files + new metadata cols."""
-    headers = set(new_cols)
-    for _, _, fpath, _meta in files:
-        dialect = sniff_dialect(fpath)
-        with open(fpath, "r", newline="") as f:
-            reader = csv.DictReader(f, dialect=dialect)
-            if reader.fieldnames:
-                headers.update(reader.fieldnames)
-    # Put metadata columns first, then the rest in stable order
-    remaining = [h for h in sorted(headers) if h not in new_cols]
-    return new_cols + remaining
 
-def main():
-    files = list(find_files(ROOT_DIR))
-    if not files:
-        print("No matching files found.")
-        return
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("dir", type=Path, help="Directory to search for result CSVs")
+    parser.add_argument("-o", "--output", type=Path, default=None,
+                        help="Output CSV (default: stdout)")
+    args = parser.parse_args()
 
-    meta_cols = ["lang", "model", "batch", "lr"]
-    out_headers = collect_all_headers(files, meta_cols)
+    if not args.dir.is_dir():
+        parser.error(f"{args.dir} is not a directory")
 
-    out_path = "aggregated_results.csv"
-    with open(out_path, "w", newline="") as out_f:
-        writer = csv.DictWriter(out_f, fieldnames=out_headers)
-        writer.writeheader()
+    out = args.output.resolve() if args.output else None
+    paths = sorted(p for p in args.dir.rglob("*.csv") if p.resolve() != out)
+    frames = [df for p in paths if (df := read_results(p, args.dir)) is not None]
+    if not frames:
+        sys.exit(f"No result CSVs found under {args.dir}")
 
-        for lang, model_dir, fpath, meta in files:
-            dialect = sniff_dialect(fpath)
-            with open(fpath, "r", newline="") as in_f:
-                reader = csv.DictReader(in_f, dialect=dialect)
-                for row in reader:
-                    # Merge row with metadata; fill missing keys with ""
-                    merged = {k: "" for k in out_headers}
-                    merged.update(row if row is not None else {})
-                    merged.update(meta)
-                    writer.writerow(merged)
+    combined = pd.concat(frames, ignore_index=True, sort=False)
+    combined.to_csv(args.output if args.output else sys.stdout, index=False)
+    print(f"Aggregated {len(frames)} files, {len(combined)} rows", file=sys.stderr)
 
-    print(f"Wrote {out_path} with {len(files)} source files.")
 
 if __name__ == "__main__":
     main()
