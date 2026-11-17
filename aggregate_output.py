@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Concatenate eval_model.py result CSVs into one CSV.
+"""Concatenate eval_model.py result CSVs into one CSV, written to stdout.
 
 Every *.csv under DIR (searched recursively) is read and stacked; columns are
 the union across files, blank where a file lacks one. Three columns are added
@@ -11,7 +11,7 @@ from each file's path, which is expected to follow the launchers' layout
     source  path of the file relative to DIR
 
 Example:
-    python aggregate_output.py output/model_evaluations -o aggregated_results.csv
+    python aggregate_output.py output/model_evaluations > aggregated_results.csv
 """
 import argparse
 import sys
@@ -38,21 +38,18 @@ def read_results(path: Path, root: Path) -> pd.DataFrame | None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("dir", type=Path, help="Directory to search for result CSVs")
-    parser.add_argument("-o", "--output", type=Path, default=None,
-                        help="Output CSV (default: stdout)")
     args = parser.parse_args()
 
     if not args.dir.is_dir():
         parser.error(f"{args.dir} is not a directory")
 
-    out = args.output.resolve() if args.output else None
-    paths = sorted(p for p in args.dir.rglob("*.csv") if p.resolve() != out)
+    paths = sorted(args.dir.rglob("*.csv"))
     frames = [df for p in paths if (df := read_results(p, args.dir)) is not None]
     if not frames:
         sys.exit(f"No result CSVs found under {args.dir}")
 
     combined = pd.concat(frames, ignore_index=True, sort=False)
-    combined.to_csv(args.output if args.output else sys.stdout, index=False)
+    combined.to_csv(sys.stdout, index=False)
     print(f"Aggregated {len(frames)} files, {len(combined)} rows", file=sys.stderr)
 
 
